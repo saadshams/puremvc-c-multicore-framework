@@ -62,5 +62,7 @@ Mediator *NewMediator(char *mediatorName, void *viewComponent) {
 }
 
 void DeleteMediator(Mediator *self) {
+    DeleteNotifier(self->notifier);
+    free(self->mediatorName);
     free(self);
 }

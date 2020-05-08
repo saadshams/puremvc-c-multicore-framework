@@ -42,7 +42,7 @@ Proxy *NewProxy(const char *proxyName, void *data) {
 }
 
 void DeleteProxy(Proxy *self) {
+    DeleteNotifier(self->notifier);
     free(self->proxyName);
     free(self);
-    self = NULL;
 }

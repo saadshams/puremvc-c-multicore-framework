@@ -25,9 +25,9 @@ static char *getType(const Notification *self) {
 
 void InitNotification(Notification *self, const char *name, void *body, char *type) {
     if (self) {
-        self->name = name != NULL ? strdup(name) : NULL;
-        self->type = type != NULL ? strdup(type) : NULL;
+        self->name = strdup(name);
         self->body = body;
+        self->type = type != NULL ? strdup(type) : NULL;
         self->getName = getName;
         self->setBody = setBody;
         self->getBody = getBody;
@@ -43,5 +43,7 @@ Notification *NewNotification(const char *name, void *body, char *type) {
 }
 
 void DeleteNotification(Notification *self) {
+    free(self->name);
+    if (self->type) free(self->type);
     free(self);
 }

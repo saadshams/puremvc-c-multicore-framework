@@ -4,9 +4,9 @@
 #include <string.h>
 #include <assert.h>
 
-static pthread_mutex_t model_mutex = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t model_mutex = PTHREAD_MUTEX_INITIALIZER;
 
-static pthread_rwlock_t modelMap_mutex = PTHREAD_MUTEX_INITIALIZER;
+pthread_rwlock_t modelMap_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 typedef struct ModelMap ModelMap;
 

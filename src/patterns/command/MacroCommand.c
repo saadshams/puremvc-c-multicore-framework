@@ -64,5 +64,6 @@ MacroCommand *NewMacroCommand() {
 }
 
 void DeleteMacroCommand(MacroCommand *self) {
+    DeleteNotifier(self->notifier);
     free(self);
 }

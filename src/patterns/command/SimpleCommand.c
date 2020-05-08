@@ -8,8 +8,8 @@ static void execute(const SimpleCommand *self, Notification *notification) {
 
 void InitSimpleCommand(SimpleCommand *self) {
     if (self) {
-        self->execute = execute;
         self->notifier = NewNotifier();
+        self->execute = execute;
     }
 }
 
@@ -20,5 +20,6 @@ SimpleCommand *NewSimpleCommand() {
 }
 
 void DeleteSimpleCommand(SimpleCommand *self) {
+    DeleteNotifier(self->notifier);
     free(self);
 }

@@ -29,5 +29,6 @@ Notifier *NewNotifier() {
 }
 
 void DeleteNotifier(Notifier *self) {
+    free(self->multitonKey);
     free(self);
 }
