@@ -1,0 +1,72 @@
+cmake_minimum_required(VERSION 3.9)
+project(PureMVC)
+
+set(CMAKE_C_STANDARD 99)
+
+set(SOURCES src/core/Model.c src/core/Controller.c src/core/View.c)
+list(APPEND SOURCES src/patterns/command/MacroCommand.c src/patterns/command/SimpleCommand.c)
+list(APPEND SOURCES src/patterns/facade/Facade.c src/patterns/facade/Notifier.c)
+list(APPEND SOURCES src/patterns/mediator/Mediator.c)
+list(APPEND SOURCES src/patterns/observer/Notification.c src/patterns/observer/Observer.c)
+list(APPEND SOURCES src/patterns/proxy/Proxy.c)
+add_library(PureMVC ${SOURCES})
+target_include_directories(PureMVC PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
+
+set(TestController test/core/ControllerTest.c)
+list(APPEND TestController test/core/ControllerTestCommand.c)
+list(APPEND TestController test/core/ControllerTestCommand2.c)
+list(APPEND TestController test/core/ControllerTestVO.c)
+add_executable(TestController ${TestController})
+target_link_libraries(TestController PureMVC)
+
+set(TestModel test/core/ModelTest.c)
+list(APPEND TestModel test/core/ModelTestProxy.c)
+add_executable(TestModel ${TestModel})
+target_link_libraries(TestModel PureMVC)
+
+set(TestView test/core/ViewTest.c)
+list(APPEND TestView test/core/ViewTestMediator.c)
+list(APPEND TestView test/core/ViewTestMediator2.c)
+list(APPEND TestView test/core/ViewTestMediator3.c)
+list(APPEND TestView test/core/ViewTestMediator4.c)
+list(APPEND TestView test/core/ViewTestMediator5.c)
+list(APPEND TestView test/core/ViewTestMediator6.c)
+list(APPEND TestView test/core/ViewTestNote.c)
+add_executable(TestView ${TestView})
+target_link_libraries(TestView PureMVC)
+
+set(TestMacroCommand test/patterns/command/MacroCommandTest.c)
+list(APPEND TestMacroCommand test/patterns/command/MacroCommandTestCommand.c)
+list(APPEND TestMacroCommand test/patterns/command/MacroCommandTestSub1Command.c)
+list(APPEND TestMacroCommand test/patterns/command/MacroCommandTestSub2Command.c)
+list(APPEND TestMacroCommand test/patterns/command/MacroCommandTestVO.c)
+add_executable(TestMacroCommand ${TestMacroCommand})
+target_link_libraries(TestMacroCommand PureMVC)
+
+set(TestSimpleCommand test/patterns/command/SimpleCommandTest.c)
+list(APPEND TestSimpleCommand test/patterns/command/SimpleCommandTestCommand.c)
+list(APPEND TestSimpleCommand test/patterns/command/SimpleCommandTest.c)
+list(APPEND TestSimpleCommand test/patterns/command/SimpleCommandTestVO.c)
+add_executable(TestSimpleCommand ${TestSimpleCommand})
+target_link_libraries(TestSimpleCommand PureMVC)
+
+set(TestFacade test/patterns/facade/FacadeTest.c)
+list(APPEND TestFacade test/patterns/facade/FacadeTestCommand.c)
+list(APPEND TestFacade test/patterns/facade/FacadeTestVO.c)
+add_executable(TestFacade ${TestFacade})
+target_link_libraries(TestFacade PureMVC)
+
+add_executable(TestNotifier test/patterns/facade/NotifierTest.c)
+target_link_libraries(TestNotifier PureMVC)
+
+add_executable(TestMediator test/patterns/mediator/MediatorTest.c)
+target_link_libraries(TestMediator PureMVC)
+
+add_executable(TestNotification test/patterns/observer/NotificationTest.c)
+target_link_libraries(TestNotification PureMVC)
+
+add_executable(TestObserver test/patterns/observer/ObserverTest.c)
+target_link_libraries(TestObserver PureMVC)
+
+add_executable(TestProxy test/patterns/proxy/ProxyTest.c)
+target_link_libraries(TestProxy PureMVC)

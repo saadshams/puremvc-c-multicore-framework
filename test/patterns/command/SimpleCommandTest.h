@@ -1,0 +1,6 @@
+#ifndef PUREMVC_SIMPLECOMMANDTEST_H
+#define PUREMVC_SIMPLECOMMANDTEST_H
+
+void testSimpleCommandExecute();
+
+#endif //PUREMVC_SIMPLECOMMANDTEST_H

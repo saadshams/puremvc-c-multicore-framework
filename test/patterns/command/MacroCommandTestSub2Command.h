@@ -1,0 +1,8 @@
+#ifndef PUREMVC_MACROCOMMANDTESTSUB2COMMAND_H
+#define PUREMVC_MACROCOMMANDTESTSUB2COMMAND_H
+
+#include "interfaces/SimpleCommand.h"
+
+SimpleCommand *MacroCommandTestSub2CommandNew();
+
+#endif //PUREMVC_MACROCOMMANDTESTSUB2COMMAND_H
