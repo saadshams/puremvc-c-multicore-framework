@@ -21,6 +21,7 @@ struct Array {
 
 void testNameAccessor() {
     Proxy *proxy = NewProxy("TestProxy", NULL);
+    proxy->notifier->initializeNotifier(proxy->notifier, "test");
     assert(proxy != NULL);
     assert(proxy->notifier != NULL);
     assert(strcmp(proxy->getProxyName(proxy), "TestProxy") == 0);
@@ -29,6 +30,7 @@ void testNameAccessor() {
 
 void testDataAccessors() {
     Proxy *proxy = NewProxy("colors", NULL);
+    proxy->notifier->initializeNotifier(proxy->notifier, "test");
     assert(proxy != NULL);
     proxy->setData(proxy, &(Array) {3, (void **) (char *[]) {"red", "green", "blue"}});
 
@@ -43,6 +45,7 @@ void testDataAccessors() {
 
 void testConstructor() {
     Proxy *proxy = NewProxy("colors", &(Array) {3, (void **) (char *[]) {"red", "green", "blue"}});
+    proxy->notifier->initializeNotifier(proxy->notifier, "test");
     Array *data = proxy->getData(proxy);
 
     assert(proxy != NULL);

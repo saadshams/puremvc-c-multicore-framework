@@ -27,20 +27,22 @@ void testRegisterAndExecuteCommand() {
     Controller *controller = getControllerInstance("ControllerTestKey2", NewController);
     controller->registerCommand(controller, "ControllerTest1", (SimpleCommand *(*)()) NewControllerTestCommand);
 
-    ControllerTestVO *vo = ControllerTestVONew(12);
+    ControllerTestVO *vo = NewControllerTestVO(12);
     Notification *notification = NewNotification("ControllerTest1", vo, NULL);
     controller->executeCommand(controller, notification);
 
     assert(vo->result == 24);
 
     controller->removeCommand(controller, "ControllerTest1");
+    DeleteControllerTestVO(vo);
+    DeleteNotification(notification);
 }
 
 void testRegisterAndRemoveCommand() {
     Controller *controller = getControllerInstance("ControllerTestKey3", NewController);
     controller->registerCommand(controller, "ControllerRemoveTest", (SimpleCommand *(*)()) NewControllerTestCommand);
 
-    ControllerTestVO *vo = ControllerTestVONew(12);
+    ControllerTestVO *vo = NewControllerTestVO(12);
     Notification *notification = NewNotification("ControllerRemoveTest", vo, NULL);
     controller->executeCommand(controller, notification);
     assert(vo->result == 24);
@@ -50,6 +52,8 @@ void testRegisterAndRemoveCommand() {
     controller->executeCommand(controller, notification);
 
     assert(vo->result == 0);
+    DeleteNotification(notification);
+    DeleteControllerTestVO(vo);
 }
 
 void testHasCommand() {
@@ -93,7 +97,7 @@ void testReregisterAndExecuteCommand() {
     controller->registerCommand(controller, "ControllerTest3", (SimpleCommand *(*)()) NewControllerTestCommand);
     controller->registerCommand(controller, "ControllerTest3", (SimpleCommand *(*)()) NewControllerTestCommand2);
 
-    ControllerTestVO *vo = ControllerTestVONew(12);
+    ControllerTestVO *vo = NewControllerTestVO(12);
     Notification *notification = NewNotification("ControllerTest3", vo, NULL);
     controller->executeCommand(controller, notification);
     assert(vo->result == 24);
@@ -106,10 +110,8 @@ void testReregisterAndExecuteCommand() {
     controller->removeCommand(controller, "ControllerTest3");
     controller->registerCommand(controller, "ControllerTest3", (SimpleCommand *(*)()) NewControllerTestCommand2);
 
-    vo = ControllerTestVONew(12);
+    vo = NewControllerTestVO(12);
     notification = NewNotification("ControllerTest3", vo, NULL);
-
-    // view tests
 
     vo->release(vo);
     DeleteNotification(notification);
@@ -121,12 +123,14 @@ void testRegisterAndUpdateCommand() {
     controller->registerCommand(controller, "ControllerTest2", (SimpleCommand *(*)()) NewControllerTestCommand);
     controller->registerCommand(controller, "ControllerTest2", (SimpleCommand *(*)()) NewControllerTestCommand2);
 
-    ControllerTestVO *vo = ControllerTestVONew(12);
+    ControllerTestVO *vo = NewControllerTestVO(12);
     vo->result = 10;
     Notification *notification = NewNotification("ControllerTest2", vo, NULL);
     controller->executeCommand(controller, notification);
     assert(vo->result == 34);
 
     controller->removeCommand(controller, "ControllerTest2");
+    DeleteNotification(notification);
+    DeleteControllerTestVO(vo);
 }
 

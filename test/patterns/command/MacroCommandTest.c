@@ -7,7 +7,7 @@
 #include <stdio.h>
 
 int main() {
-    testMacroCommandExecute();
+//    testMacroCommandExecute();
     testMacroCommandExecute2();
     puts("MacroCommandTest: Success");
     return 0;
@@ -26,6 +26,7 @@ void testMacroCommandExecute() {
 
     MacroCommandTestVODelete(vo);
     DeleteNotification(notification);
+    DeleteMacroCommand(command);
 }
 
 void testMacroCommandExecute2() {
@@ -42,4 +43,5 @@ void testMacroCommandExecute2() {
 
     MacroCommandTestVODelete(vo);
     DeleteNotification(notification);
+    DeleteMacroCommand(command);
 }

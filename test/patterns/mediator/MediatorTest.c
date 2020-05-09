@@ -1,7 +1,9 @@
 #include "MediatorTest.h"
 #include "interfaces/Mediator.h"
+#include "interfaces/Notifier.h"
 #include <assert.h>
 #include <string.h>
+#include <stdlib.h>
 #include <stdio.h>
 
 int main() {
@@ -14,6 +16,7 @@ int main() {
 
 void testNameAccessor() {
     Mediator *mediator = NewMediator(NULL, NULL);
+    mediator->notifier->initializeNotifier(mediator->notifier, "test");
     assert(strcmp(mediator->getMediatorName(mediator), MEDIATOR_NAME) == 0);
     DeleteMediator(mediator);
 }
@@ -21,6 +24,7 @@ void testNameAccessor() {
 void testViewAccessor() {
     struct Object {} object;
     Mediator *mediator = NewMediator(MEDIATOR_NAME, &object);
+    mediator->notifier->initializeNotifier(mediator->notifier, "test");
     assert(mediator->getViewComponent(mediator) == &object);
     DeleteMediator(mediator);
 }
@@ -28,6 +32,7 @@ void testViewAccessor() {
 void testListNotificationInterests() {
     struct Object {} object;
     Mediator *mediator = NewMediator(MEDIATOR_NAME, &object);
+    mediator->notifier->initializeNotifier(mediator->notifier, "test");
     char **interests = mediator->listNotificationInterests(mediator);
 
     int i = 0;
@@ -36,4 +41,6 @@ void testListNotificationInterests() {
         interests++;
     }
     assert(i == 0);
+    free(interests);
+    DeleteMediator(mediator);
 }

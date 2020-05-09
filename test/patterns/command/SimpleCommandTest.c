@@ -1,6 +1,7 @@
 #include "SimpleCommandTest.h"
 #include "SimpleCommandTestVO.h"
 #include "interfaces/Notification.h"
+#include "interfaces/Notifier.h"
 #include "SimpleCommandTestCommand.h"
 #include <assert.h>
 #include <stdio.h>
@@ -16,6 +17,7 @@ void testSimpleCommandExecute() {
     Notification *note = NewNotification("SimpleCommandTestNote", vo, NULL);
 
     SimpleCommand *command = NewSimpleCommandTestCommand();
+    command->notifier->initializeNotifier(command->notifier, "test");
     command->execute(command, note);
     assert(vo->result == 10);
 

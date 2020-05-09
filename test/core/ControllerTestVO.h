@@ -9,6 +9,8 @@ struct ControllerTestVO {
     void (*release)(ControllerTestVO *self);
 };
 
-ControllerTestVO *ControllerTestVONew(int input);
+ControllerTestVO *NewControllerTestVO(int input);
+
+void DeleteControllerTestVO(ControllerTestVO *self);
 
 #endif //PUREMVC_CONTROLLERTESTVO_H
