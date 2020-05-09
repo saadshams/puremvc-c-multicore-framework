@@ -10,6 +10,8 @@ list(APPEND SOURCES src/patterns/mediator/Mediator.c)
 list(APPEND SOURCES src/patterns/observer/Notification.c src/patterns/observer/Observer.c)
 list(APPEND SOURCES src/patterns/proxy/Proxy.c)
 add_library(PureMVC ${SOURCES})
+find_package(Threads)
+target_link_libraries(PureMVC ${CMAKE_THREAD_LIBS_INIT})
 target_include_directories(PureMVC PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 set(TestController test/core/ControllerTest.c)
