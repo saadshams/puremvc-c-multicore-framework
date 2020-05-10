@@ -5,11 +5,13 @@
 #include <stdlib.h>
 #include <string.h>
 
-static pthread_mutex_t view_mutex = PTHREAD_MUTEX_INITIALIZER;
+static pthread_mutex_t view_mutex;
 
 static pthread_rwlock_t mediatorMap_mutex;
 
 static pthread_rwlock_t observerMap_mutex;
+
+// ViewMap
 
 static ViewMap *instanceMap;
 
@@ -22,32 +24,40 @@ static ViewMap *NewViewMap(char *key, View *view) {
 }
 
 static void AddViewMap(char *key, View *view) {
-    ViewMap **previous = &instanceMap;
-    while (*previous)
-        previous = &(*previous)->next;
-
-    *previous = NewViewMap(key, view);
+    ViewMap **viewMap = &instanceMap;
+    while (*viewMap)
+        viewMap = &(*viewMap)->next;
+    *viewMap = NewViewMap(key, view);
 }
 
 static View *GetViewMap(char *key) {
-    ViewMap *cursor = instanceMap;
-    while (cursor && strcmp(cursor->name, key) != 0)
-        cursor = cursor->next;
-    return cursor == NULL ? NULL : cursor->view;
+    ViewMap *viewMap = instanceMap;
+    while (viewMap && strcmp(viewMap->name, key) != 0)
+        viewMap = viewMap->next;
+    return viewMap == NULL ? NULL : viewMap->view;
+}
+
+static void DeleteViewMap(ViewMap *self) {
+    free(self->view->multitonKey);
+    free(self->view);
+    free(self->name);
+    free(self);
 }
 
 static void RemoveViewMap(char *key) {
-    ViewMap **cursor = &instanceMap;
-    while (*cursor) {
-        if (strcmp((*cursor)->name, key) == 0) {
-            *cursor = (*cursor)->next;
-            free((*cursor)->view);
-            free((*cursor));
+    ViewMap **viewMap = &instanceMap;
+    while (*viewMap) {
+        if (strcmp((*viewMap)->name, key) == 0) {
+            ViewMap *node = *viewMap;
+            *viewMap = (*viewMap)->next;
+            DeleteViewMap(node);
             break;
         }
-        cursor = &(*cursor)->next;
+        viewMap = &(*viewMap)->next;
     }
 }
+
+// MediatorMap
 
 static MediatorMap *NewMediatorMap(Mediator *mediator) {
     MediatorMap *self = malloc(sizeof(MediatorMap));
@@ -59,8 +69,12 @@ static MediatorMap *NewMediatorMap(Mediator *mediator) {
 
 static void DeleteMediatorMap(MediatorMap *self) {
     free(self->name);
+    self->mediator = NULL;
+    self->next = NULL;
     free(self);
 }
+
+// ObserverNode
 
 static ObserverNode *NewObserverNode(Observer *observer) {
     ObserverNode *self = malloc(sizeof(ObserverNode));
@@ -70,7 +84,7 @@ static ObserverNode *NewObserverNode(Observer *observer) {
 }
 
 static void DeleteObserverNode(ObserverNode *self) {
-    free(self->observer);
+    DeleteObserver(self->observer);
     free(self);
 }
 
@@ -82,6 +96,8 @@ static int CountObservers(ObserverNode *self) {
     }
     return count;
 }
+
+// ObserverMap
 
 static ObserverMap *ObserverMapNew(const char *notificationName, Observer *observer) {
     ObserverMap *self = malloc(sizeof(ObserverMap));
@@ -96,8 +112,9 @@ static void DeleteObserverMap(ObserverMap *self) {
     self->name = NULL;
     self->observers = NULL;
     free(self);
-    self = NULL;
 }
+
+// View
 
 static void initializeView(View *self) {
 
@@ -196,7 +213,6 @@ static void registerObserver(View *self, const char *notificationName, Observer 
                 observers = &(*observers)->next;
 
             *observers = NewObserverNode(observer);
-
             return;
         }
         observerMap = &(*observerMap)->next;

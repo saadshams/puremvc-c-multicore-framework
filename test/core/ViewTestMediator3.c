@@ -2,10 +2,17 @@
 #include "ViewTest.h"
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 static char **listNotificationInterests(const Mediator *self) {
     char **list = (char *[]){NOTE3, NULL};
-    char **interests = malloc(sizeof(char*) * 2);
+    char **cursor = list;
+    int size = 0;
+    while (*cursor) {
+        size++;
+        cursor++;
+    }
+    char **interests = malloc(sizeof(char*) * (size + 1));
     int i = 0;
     while(*list) {
         interests[i] = malloc(sizeof(char) * (strlen(*list) + 1));
@@ -18,7 +25,7 @@ static char **listNotificationInterests(const Mediator *self) {
 
 static void handleNotification(const Mediator *self, Notification *notification) {
     ViewTest *viewTest = self->getViewComponent(self);
-    viewTest->lastNotification = notification->getName(notification);
+    viewTest->lastNotification = strdup(notification->name);
 }
 
 ViewTestMediator3* NewViewTestMediator3(void *viewComponent) {

@@ -21,6 +21,7 @@ void testGetInstance() {
     Controller *controller = getControllerInstance("ControllerTestKey1", NewController);
     assert(controller != NULL);
     assert(controller == getControllerInstance("ControllerTestKey1", NewController));
+    DeleteController("ControllerTestKey1");
 }
 
 void testRegisterAndExecuteCommand() {
@@ -36,6 +37,7 @@ void testRegisterAndExecuteCommand() {
     controller->removeCommand(controller, "ControllerTest1");
     DeleteControllerTestVO(vo);
     DeleteNotification(notification);
+    DeleteController("ControllerTestKey2");
 }
 
 void testRegisterAndRemoveCommand() {
@@ -54,6 +56,7 @@ void testRegisterAndRemoveCommand() {
     assert(vo->result == 0);
     DeleteNotification(notification);
     DeleteControllerTestVO(vo);
+    DeleteController("ControllerTestKey3");
 }
 
 void testHasCommand() {
@@ -90,6 +93,8 @@ void testHasCommand() {
     assert(controller->hasCommand(controller, "Test1") == false); // head
     assert(controller->hasCommand(controller, "Test3") == false); // mid
     assert(controller->hasCommand(controller, "Test2") == false); // mid
+
+    DeleteController("ControllerTestKey4");
 }
 
 void testReregisterAndExecuteCommand() {
@@ -115,6 +120,7 @@ void testReregisterAndExecuteCommand() {
 
     vo->release(vo);
     DeleteNotification(notification);
+    DeleteController("ControllerTestKey5");
 }
 
 void testRegisterAndUpdateCommand() {
@@ -132,5 +138,6 @@ void testRegisterAndUpdateCommand() {
     controller->removeCommand(controller, "ControllerTest2");
     DeleteNotification(notification);
     DeleteControllerTestVO(vo);
+    DeleteController("ControllerTestKey3_2");
 }
 

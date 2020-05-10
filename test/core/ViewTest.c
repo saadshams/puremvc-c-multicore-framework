@@ -1,5 +1,6 @@
 #include "ViewTest.h"
 #include "interfaces/View.h"
+#include "interfaces/Facade.h"
 #include <assert.h>
 #include <string.h>
 #include <stdio.h>
@@ -29,16 +30,18 @@ void viewTestMethod2(void *context, Notification *notification) {
 }
 
 int main() {
-    testGetInstance();
-    testRegisterAndNotifyObserver();
-    testRegisterAndRetrieveMediator();
-    testHasMediator();
-    testRegisterAndRemoveMediator();
-    testOnRegisterAndOnRemove();
-    testSuccessiveRegisterAndRemoveMediator();
-    testRemoveMediatorAndSubsequentNotify();
-    testRemoveOneOfTwoMediatorsAndSubsequentNotify();
-    testMediatorReregistration();
+//    testGetInstance();
+//    testRegisterAndNotifyObserver();
+
+//    testRegisterAndRetrieveMediator(); // ok
+//    testHasMediator();
+//    testRegisterAndRemoveMediator();
+//    testOnRegisterAndOnRemove();
+//    testSuccessiveRegisterAndRemoveMediator();
+
+//    testRemoveMediatorAndSubsequentNotify();
+//    testRemoveOneOfTwoMediatorsAndSubsequentNotify();
+//    testMediatorReregistration();
     testModifyObserverListDuringNotification();
     puts("ViewTest: Success");
     return 0;
@@ -48,19 +51,21 @@ void testGetInstance() {
     View *view = getViewInstance("ViewTestKey1", NewView);
     assert(view != NULL);
     assert(view == getViewInstance("ViewTestKey1", NewView));
+    DeleteView("ViewTestKey1");
 }
 
 void testRegisterAndNotifyObserver() {
+    ViewComponent viewComponent = {};
     View *view = getViewInstance("ViewTestKey2", NewView);
 
-    Observer *observer1 = NewObserver(viewTestMethod, NULL);
+    Observer *observer1 = NewObserver(viewTestMethod, &viewComponent);
     view->registerObserver(view, "ViewTestNote1", observer1);
 
     Notification *note1 = NewNotification("ViewTestNote1", &(ViewTestVar) {10}, NULL);
     view->notifyObservers(view, note1);
     assert(viewTestVar1->value == 10);
 
-    Observer *observer2 = NewObserver(viewTestMethod2, NULL);
+    Observer *observer2 = NewObserver(viewTestMethod2, &viewComponent);
     view->registerObserver(view, "ViewTestNote2", observer2);
     Notification *note2 = NewNotification("ViewTestNote2", &(ViewTestVar) {20}, NULL);
     view->notifyObservers(view, note2);
@@ -68,18 +73,19 @@ void testRegisterAndNotifyObserver() {
 
     // remove second observer
     viewTestVar2->value = 0;
-    view->removeObserver(view, "ViewTestNote2", viewTestMethod2);
+    view->removeObserver(view, "ViewTestNote2", &viewComponent);
     view->notifyObservers(view, note2);
     assert(viewTestVar2->value == 0);
 
     // remove first observer
     viewTestVar1->value = 0;
-    view->removeObserver(view, "ViewTestNote1", viewTestMethod);
+    view->removeObserver(view, "ViewTestNote1", &viewComponent);
     view->notifyObservers(view, note1);
     assert(viewTestVar1->value == 0);
 
     DeleteNotification(note1);
     DeleteNotification(note2);
+    DeleteView("ViewTestKey2");
 }
 
 void testRegisterAndRetrieveMediator() {
@@ -97,6 +103,7 @@ void testRegisterAndRetrieveMediator() {
     // clean up
     view->removeMediator(view, "testing");
     DeleteMediator(mediator);
+    DeleteView("ViewTestKey3");
 }
 
 void testHasMediator() {
@@ -111,6 +118,7 @@ void testHasMediator() {
     view->removeMediator(view, "hasMediatorTest");
     assert(view->hasMediator(view, "hasMediatorTest") == false);
     DeleteMediator(mediator);
+    DeleteView("ViewTestKey4");
 }
 
 void testOnRegisterAndOnRemove() {
@@ -127,6 +135,7 @@ void testOnRegisterAndOnRemove() {
 
     // clean up
     DeleteMediator(mediator);
+    DeleteView("ViewTestKey5");
 }
 
 void testRegisterAndRemoveMediator() {
@@ -142,6 +151,7 @@ void testRegisterAndRemoveMediator() {
     assert(view->retrieveMediator(view, "testing") == NULL);
 
     DeleteMediator(mediator);
+    DeleteView("ViewTestKey6");
 }
 
 void testSuccessiveRegisterAndRemoveMediator() {
@@ -171,13 +181,14 @@ void testSuccessiveRegisterAndRemoveMediator() {
 
     DeleteMediator(mediator);
     DeleteMediator(mediator2);
+    DeleteView("ViewTestKey7");
 }
 
 void testRemoveMediatorAndSubsequentNotify() {
     View *view = getViewInstance("ViewTestKey8", NewView);
 
     ViewTest viewTest = {};
-    Mediator *mediator = (Mediator *) ViewTestMediator2New(&viewTest);
+    Mediator *mediator = (Mediator *) NewViewTestMediator2(&viewTest);
     view->registerMediator(view, mediator);
 
     Notification *notification1 = NewNotification(NOTE1, NULL, NULL);
@@ -205,13 +216,14 @@ void testRemoveMediatorAndSubsequentNotify() {
     DeleteNotification(notification1);
     DeleteNotification(notification2);
     DeleteMediator(mediator);
+    DeleteView("ViewTestKey8");
 }
 
 void testRemoveOneOfTwoMediatorsAndSubsequentNotify() {
     View *view = getViewInstance("ViewTestKey9", NewView);
     ViewTest viewTest = {};
 
-    Mediator *mediator2 = (Mediator *)ViewTestMediator2New(&viewTest);
+    Mediator *mediator2 = (Mediator *) NewViewTestMediator2(&viewTest);
     view->registerMediator(view, mediator2);
 
     Mediator *mediator3 = (Mediator *)NewViewTestMediator3(&viewTest);
@@ -230,7 +242,8 @@ void testRemoveOneOfTwoMediatorsAndSubsequentNotify() {
     Notification *notification3 = NewNotification(NOTE3, NULL, NULL);
     view->notifyObservers(view, notification3);
     assert(strcmp(viewTest.lastNotification, NOTE3) == 0);
-    // free(viewTest.lastNotification);
+    free(viewTest.lastNotification);
+    viewTest.lastNotification = "";
 
     view->removeMediator(view, ViewTestMediator2_NAME);
     assert(view->retrieveMediator(view, ViewTestMediator2_NAME) == NULL);
@@ -245,11 +258,17 @@ void testRemoveOneOfTwoMediatorsAndSubsequentNotify() {
     view->notifyObservers(view, notification3);
     assert(strcmp(viewTest.lastNotification, NOTE3) == 0);
 
+    free(viewTest.lastNotification);
+
+    view->removeMediator(view, ViewTestMediator3_NAME);
+
     DeleteMediator(mediator2);
     DeleteMediator(mediator3);
+
     DeleteNotification(notification1);
     DeleteNotification(notification2);
     DeleteNotification(notification3);
+    DeleteView("ViewTestKey9");
 }
 
 void testMediatorReregistration() {
@@ -280,6 +299,7 @@ void testMediatorReregistration() {
     assert(viewTest.counter == 0);
 
     DeleteNotification(notification);
+    DeleteView("ViewTestKey10");
 }
 
 void testModifyObserverListDuringNotification() {
@@ -306,4 +326,5 @@ void testModifyObserverListDuringNotification() {
     assert(viewTest.counter == 0);
 
     DeleteNotification(notification);
+    RemoveFacadeCore("ViewTestKey11");
 }

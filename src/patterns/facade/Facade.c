@@ -3,7 +3,9 @@
 #include <pthread.h>
 #include <string.h>
 
-static pthread_mutex_t facade_mutex = PTHREAD_MUTEX_INITIALIZER;
+static pthread_mutex_t facade_mutex;
+
+// FacadeMap
 
 typedef struct FacadeMap FacadeMap;
 
@@ -37,18 +39,27 @@ static Facade *GetFacadeMap(char *key) {
     return cursor == NULL ? NULL : cursor->facade;
 }
 
+static void DeleteFacadeMap(FacadeMap *self) {
+    free(self->facade->multitonKey);
+    free(self->facade);
+    free(self->name);
+    free(self);
+}
+
 static void RemoveFacadeMap(char *key) {
     FacadeMap **cursor = &instanceMap;
     while (*cursor) {
         if (strcmp((*cursor)->name, key) == 0) {
+            FacadeMap *node = *cursor;
             *cursor = (*cursor)->next;
-            free((*cursor)->facade);
-            free(*cursor);
+            DeleteFacadeMap(node);
             break;
         }
         cursor = &(*cursor)->next;
     }
 }
+
+// Facade
 
 static void initializeFacade(Facade *self) {
     self->initializeModel(self);
@@ -163,18 +174,21 @@ Facade *NewFacade(char *key) {
     return self;
 }
 
-bool HasCore(char *key) {
+bool HasFacadeCore(char *key) {
     return GetFacadeMap(key) != NULL;
 }
 
-void RemoveCore(char *key) {
-    RemoveFacadeMap(key);
-}
-
-void DeleteFacade(char *key) {
+static void DeleteFacade(char *key) {
     pthread_mutex_lock(&facade_mutex);
     RemoveFacadeMap(key);
     pthread_mutex_unlock(&facade_mutex);
+}
+
+void RemoveFacadeCore(char *key) {
+    DeleteModel(key);
+    DeleteView(key);
+    DeleteController(key);
+    DeleteFacade(key);
 }
 
 Facade *getFacadeInstance(char *key, Facade *(*factory)(char *)) {

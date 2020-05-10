@@ -36,11 +36,9 @@ void InitFacade(Facade *self);
 
 Facade *NewFacade();
 
-bool HasCore(char *key);
+bool HasFacadeCore(char *key);
 
-void RemoveCore(char *key);
-
-void DeleteFacade(char *key);
+void RemoveFacadeCore(char *key);
 
 Facade *getFacadeInstance(char *key, Facade *(*factory)(char *));
 

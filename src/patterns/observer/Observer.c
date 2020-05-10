@@ -45,5 +45,7 @@ Observer *NewObserver(void (*notifyMethod)(void *context, Notification *notifica
 }
 
 void DeleteObserver(Observer *self) {
+    self->notify = NULL;
+    self->context = NULL;
     free(self);
 }

@@ -4,9 +4,11 @@
 #include <string.h>
 #include <assert.h>
 
-pthread_mutex_t model_mutex;
+static pthread_mutex_t model_mutex;
 
-pthread_rwlock_t modelMap_mutex;
+static pthread_rwlock_t modelMap_mutex;
+
+// ModelMap
 
 typedef struct ModelMap ModelMap;
 
@@ -18,19 +20,26 @@ struct ModelMap {
 
 static ModelMap *instanceMap;
 
-static Model *GetModelMap(char *key) {
-    ModelMap *cursor = instanceMap;
-    while (cursor && strcmp(cursor->name, key) != 0)
-        cursor = cursor->next;
-    return cursor == NULL ? NULL : cursor->model;
-}
-
 static ModelMap *NewModelMap(char *key, Model *model) {
     ModelMap *self = malloc(sizeof(ModelMap));
     self->name = strdup(key);
     self->model = model;
     self->next = NULL;
     return self;
+}
+
+static void AddModelMap(char *key, Model *model) {
+    ModelMap **modelMap = &instanceMap;
+    while (*modelMap)
+        modelMap = &(*modelMap)->next;
+    *modelMap = NewModelMap(key, model);
+}
+
+static Model *GetModelMap(char *key) {
+    ModelMap *modelMap = instanceMap;
+    while (modelMap && strcmp(modelMap->name, key) != 0)
+        modelMap = modelMap->next;
+    return modelMap == NULL ? NULL : modelMap->model;
 }
 
 static void DeleteModelMap(ModelMap *self) {
@@ -40,25 +49,20 @@ static void DeleteModelMap(ModelMap *self) {
     free(self);
 }
 
-static void AddModelMap(char *key, Model *model) {
-    ModelMap **cursor = &instanceMap;
-    while (*cursor)
-        cursor = &(*cursor)->next;
-    *cursor = NewModelMap(key, model);
-}
-
 static void RemoveModelMap(char *key) {
-    ModelMap **cursor = &instanceMap;
-    while (*cursor) {
-        if (strcmp((*cursor)->name, key) == 0) {
-            ModelMap *node = *cursor;
-            *cursor = (*cursor)->next;
+    ModelMap **modelMap = &instanceMap;
+    while (*modelMap) {
+        if (strcmp((*modelMap)->name, key) == 0) {
+            ModelMap *node = *modelMap;
+            *modelMap = (*modelMap)->next;
             DeleteModelMap(node);
             break;
         }
-        cursor = &(*cursor)->next;
+        modelMap = &(*modelMap)->next;
     }
 }
+
+// ProxyMap
 
 static ProxyMap *NewProxyNode(Proxy *proxy) {
     ProxyMap *self = malloc(sizeof(ProxyMap));
@@ -70,8 +74,12 @@ static ProxyMap *NewProxyNode(Proxy *proxy) {
 
 static void DeleteProxyNode(ProxyMap *self) {
     free(self->name);
+    self->proxy = NULL;
+    self->next = NULL;
     free(self);
 }
+
+// Model
 
 static void initializeModel(Model *self) {
 

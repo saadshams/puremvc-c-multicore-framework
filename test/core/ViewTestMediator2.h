@@ -9,6 +9,6 @@ typedef struct {
 
 static char *ViewTestMediator2_NAME = "ViewTestMediator2";
 
-ViewTestMediator2* ViewTestMediator2New(void *viewComponent);
+ViewTestMediator2* NewViewTestMediator2(void *viewComponent);
 
 #endif //PUREMVC_VIEWTESTMEDIATOR2_H

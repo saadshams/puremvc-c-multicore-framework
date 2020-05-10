@@ -24,6 +24,7 @@ int main() {
 void testGetInstance() {
     Facade *facade = getFacadeInstance("FacadeTestKey1", NewFacade);
     assert(facade != NULL);
+    RemoveFacadeCore("FacadeTestKey1");
 }
 
 void testRegisterCommandAndSendNotification() {
@@ -34,6 +35,8 @@ void testRegisterCommandAndSendNotification() {
     facade->sendNotification(facade, "FacadeTestNote", &vo, NULL);
 
     assert(vo.result == 64);
+    facade->removeCommand(facade, "FacadeTestNote");
+    RemoveFacadeCore("FacadeTestKey2");
 }
 
 void testRegisterAndRemoveCommandAndSendNotification() {
@@ -45,6 +48,7 @@ void testRegisterAndRemoveCommandAndSendNotification() {
     facade->sendNotification(facade, "FacadeTestNote", &vo, NULL);
 
     assert(vo.result != 64);
+    RemoveFacadeCore("FacadeTestKey3");
 }
 
 void testRegisterAndRetrieveProxy() {
@@ -62,7 +66,8 @@ void testRegisterAndRetrieveProxy() {
     assert(strcmp(data[1], "green") == 0);
     assert(strcmp(data[2], "blue") == 0);
 
-    DeleteProxy(proxy);
+    DeleteProxy(facade->removeProxy(facade, "colors"));
+    RemoveFacadeCore("FacadeTestKey4");
 }
 
 void testRegisterAndRemoveProxy() {
@@ -78,6 +83,7 @@ void testRegisterAndRemoveProxy() {
     assert(facade->retrieveProxy(facade, "sizes") == NULL);
 
     DeleteProxy(removedProxy);
+    RemoveFacadeCore("FacadeTestKey5");
 }
 
 void testRegisterRetrieveAndRemoveMediator() {
@@ -92,6 +98,7 @@ void testRegisterRetrieveAndRemoveMediator() {
     assert(strcmp(removedMediator->getMediatorName(removedMediator), MEDIATOR_NAME) == 0);
     assert(facade->retrieveMediator(facade, MEDIATOR_NAME) == NULL);
     DeleteMediator(removedMediator);
+    RemoveFacadeCore("FacadeTestKey6");
 }
 
 void testHasProxy() {
@@ -103,6 +110,7 @@ void testHasProxy() {
     DeleteProxy(facade->removeProxy(facade, "hasProxyTest"));
 
     assert(facade->hasProxy(facade, "hasProxyTest") == false);
+    RemoveFacadeCore("FacadeTestKey7");
 }
 
 void testHasMediator() {
@@ -115,6 +123,7 @@ void testHasMediator() {
     DeleteMediator(facade->removeMediator(facade, "facadeHasMediatorTest"));
 
     assert(facade->hasMediator(facade, "facadeHasMediatorTest") == false);
+    RemoveFacadeCore("FacadeTestKey8");
 }
 
 void testHasCommand() {
@@ -126,8 +135,18 @@ void testHasCommand() {
     facade->removeCommand(facade, "facadeHasCommandTest");
 
     assert(facade->hasCommand(facade, "facadeHasCommandTest") == false);
+    RemoveFacadeCore("FacadeTestKey10");
 }
 
 void testHasCoreAndRemoveCore() {
+    assert(HasFacadeCore("FacadeTestKey11") == false);
+
+    Facade *facade = getFacadeInstance("FacadeTestKey11", NewFacade);
+
+    assert(HasFacadeCore("FacadeTestKey11") == true);
+
+    RemoveFacadeCore("FacadeTestKey11");
+
+    assert(HasFacadeCore("FacadeTestKey11") == false);
 
 }

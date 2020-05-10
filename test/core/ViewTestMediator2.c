@@ -2,6 +2,7 @@
 #include "ViewTest.h"
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 static char **listNotificationInterests(const Mediator *self) {
     char **list = (char *[]){NOTE1, NOTE2, NULL};
@@ -28,7 +29,7 @@ static void handleNotification(const Mediator *self, Notification *notification)
     viewTest->lastNotification = strdup(notification->name);
 }
 
-ViewTestMediator2 *ViewTestMediator2New(void *viewComponent) {
+ViewTestMediator2 *NewViewTestMediator2(void *viewComponent) {
     ViewTestMediator2 *self = malloc(sizeof(ViewTestMediator2));
     InitMediator(&self->mediator, ViewTestMediator2_NAME, viewComponent);
     self->mediator.listNotificationInterests = listNotificationInterests;

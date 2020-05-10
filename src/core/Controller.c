@@ -10,6 +10,8 @@ static pthread_mutex_t controller_mutex;
 
 static pthread_rwlock_t commandMap_mutex;
 
+// ControllerMap
+
 typedef struct ControllerMap ControllerMap;
 
 struct ControllerMap {
@@ -29,32 +31,40 @@ static ControllerMap *NewControllerMap(char *key, Controller *controller) {
 }
 
 static void AddControllerMap(char *key, Controller *controller) {
-    ControllerMap **cursor = &instanceMap;
-    while (*cursor)
-        cursor = &(*cursor)->next;
-
-    *cursor = NewControllerMap(key, controller);
+    ControllerMap **controllerMap = &instanceMap;
+    while (*controllerMap)
+        controllerMap = &(*controllerMap)->next;
+    *controllerMap = NewControllerMap(key, controller);
 }
 
 static Controller *GetControllerMap(char *key) {
-    ControllerMap *cursor = instanceMap;
-    while (cursor && strcmp(cursor->name, key) != 0)
-        cursor = cursor->next;
-    return cursor == NULL ? NULL : cursor->controller;
+    ControllerMap *controllerMap = instanceMap;
+    while (controllerMap && strcmp(controllerMap->name, key) != 0)
+        controllerMap = controllerMap->next;
+    return controllerMap == NULL ? NULL : controllerMap->controller;
+}
+
+static void DeleteControllerMap(ControllerMap *self) {
+    free(self->controller->multitonKey);
+    free(self->controller);
+    free(self->name);
+    free(self);
 }
 
 static void RemoveControllerMap(char *key) {
-    ControllerMap **cursor = &instanceMap;
-    while (*cursor) {
-        if (strcmp((*cursor)->name, key) == 0) {
-            *cursor = (*cursor)->next;
-            free((*cursor)->controller);
-            free(*cursor);
+    ControllerMap **controllerMap = &instanceMap;
+    while (*controllerMap) {
+        if (strcmp((*controllerMap)->name, key) == 0) {
+            ControllerMap *node = *controllerMap;
+            *controllerMap = (*controllerMap)->next;
+            DeleteControllerMap(node);
             break;
         }
-        cursor = &(*cursor)->next;
+        controllerMap = &(*controllerMap)->next;
     }
 }
+
+// CommandMap
 
 static CommandMap *NewCommandMap(const char *notificationName, SimpleCommand *(*factory)()) {
     CommandMap *self = malloc(sizeof(CommandMap));
@@ -70,6 +80,8 @@ static void DeleteCommandMap(CommandMap *self) {
     self->next = NULL;
     free(self);
 }
+
+// Controller
 
 static void initializeController(Controller *self) {
     self->view = getViewInstance(self->multitonKey, NewView);
@@ -128,6 +140,7 @@ static void removeCommand(Controller *self, const char *notificationName) {
         if (strcmp((*cursor)->name, notificationName) == 0) {
             CommandMap *commandMap = (*cursor);
             *cursor = (*cursor)->next;
+            self->view->removeObserver(self->view, notificationName, self);
             DeleteCommandMap(commandMap);
             break;
         }
