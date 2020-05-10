@@ -6,9 +6,9 @@
 #include <assert.h>
 #include <string.h>
 
-static pthread_mutex_t controller_mutex = PTHREAD_MUTEX_INITIALIZER;
+static pthread_mutex_t controller_mutex;
 
-static pthread_rwlock_t commandMap_mutex = PTHREAD_MUTEX_INITIALIZER;
+static pthread_rwlock_t commandMap_mutex;
 
 typedef struct ControllerMap ControllerMap;
 

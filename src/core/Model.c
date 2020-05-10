@@ -4,9 +4,9 @@
 #include <string.h>
 #include <assert.h>
 
-pthread_mutex_t model_mutex = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t model_mutex;
 
-pthread_rwlock_t modelMap_mutex = PTHREAD_MUTEX_INITIALIZER;
+pthread_rwlock_t modelMap_mutex;
 
 typedef struct ModelMap ModelMap;
 
@@ -18,12 +18,26 @@ struct ModelMap {
 
 static ModelMap *instanceMap;
 
+static Model *GetModelMap(char *key) {
+    ModelMap *cursor = instanceMap;
+    while (cursor && strcmp(cursor->name, key) != 0)
+        cursor = cursor->next;
+    return cursor == NULL ? NULL : cursor->model;
+}
+
 static ModelMap *NewModelMap(char *key, Model *model) {
     ModelMap *self = malloc(sizeof(ModelMap));
     self->name = strdup(key);
     self->model = model;
     self->next = NULL;
     return self;
+}
+
+static void DeleteModelMap(ModelMap *self) {
+    free(self->model->multitonKey);
+    free(self->model);
+    free(self->name);
+    free(self);
 }
 
 static void AddModelMap(char *key, Model *model) {
@@ -33,20 +47,13 @@ static void AddModelMap(char *key, Model *model) {
     *cursor = NewModelMap(key, model);
 }
 
-static Model *GetModelMap(char *key) {
-    ModelMap *cursor = instanceMap;
-    while (cursor && strcmp(cursor->name, key) != 0)
-        cursor = cursor->next;
-    return cursor == NULL ? NULL : cursor->model;
-}
-
 static void RemoveModelMap(char *key) {
     ModelMap **cursor = &instanceMap;
     while (*cursor) {
         if (strcmp((*cursor)->name, key) == 0) {
+            ModelMap *node = *cursor;
             *cursor = (*cursor)->next;
-            free((*cursor)->model);
-            free((*cursor));
+            DeleteModelMap(node);
             break;
         }
         cursor = &(*cursor)->next;
@@ -63,8 +70,6 @@ static ProxyMap *NewProxyNode(Proxy *proxy) {
 
 static void DeleteProxyNode(ProxyMap *self) {
     free(self->name);
-    self->proxy = NULL;
-    self->next = NULL;
     free(self);
 }
 
@@ -78,10 +83,8 @@ static void registerProxy(Model *self, Proxy *proxy) {
 
     while (*cursor) {
         if (strcmp((*cursor)->name, proxy->getProxyName(proxy)) == 0) {
-            ProxyMap *node = NewProxyNode(proxy);
-            node->next = (*cursor)->next;
-            DeleteProxyNode((*cursor));
-            *cursor = node;
+            DeleteProxy((*cursor)->proxy);
+            (*cursor)->proxy = proxy;
             return;
         }
         cursor = &(*cursor)->next;
@@ -115,8 +118,10 @@ static Proxy *removeProxy(Model *self, const char *proxyName) {
     ProxyMap **cursor = &self->proxyMap;
     while (*cursor) {
         if (strcmp((*cursor)->name, proxyName) == 0) {
-            Proxy *proxy = (*cursor)->proxy;
+            ProxyMap *node = *cursor;
+            Proxy *proxy = node->proxy;
             *cursor = (*cursor)->next;
+            DeleteProxyNode(node);
             proxy->onRemove(proxy);
             return proxy;
         }

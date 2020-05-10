@@ -7,7 +7,7 @@
 #include <stdio.h>
 
 int main() {
-//    testMacroCommandExecute();
+    testMacroCommandExecute();
     testMacroCommandExecute2();
     puts("MacroCommandTest: Success");
     return 0;

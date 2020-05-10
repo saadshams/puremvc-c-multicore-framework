@@ -20,7 +20,8 @@ static char **listNotificationInterests(const Mediator *self) {
 
 static void handleNotification(const Mediator *self, Notification *notification) {
     Facade *facade = self->notifier->getFacade(self->notifier);
-    facade->removeMediator(facade, self->mediatorName);
+    Mediator *mediator = facade->removeMediator(facade, self->mediatorName);
+    DeleteMediator(mediator);
 }
 
 static void onRemove(Mediator *self) {

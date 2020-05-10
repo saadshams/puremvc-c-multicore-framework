@@ -3,6 +3,7 @@
 #include <assert.h>
 #include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "ViewTestMediator.h"
 #include "ViewTestMediator2.h"
 #include "ViewTestMediator3.h"
@@ -76,6 +77,9 @@ void testRegisterAndNotifyObserver() {
     view->removeObserver(view, "ViewTestNote1", viewTestMethod);
     view->notifyObservers(view, note1);
     assert(viewTestVar1->value == 0);
+
+    DeleteNotification(note1);
+    DeleteNotification(note2);
 }
 
 void testRegisterAndRetrieveMediator() {
@@ -106,6 +110,7 @@ void testHasMediator() {
 
     view->removeMediator(view, "hasMediatorTest");
     assert(view->hasMediator(view, "hasMediatorTest") == false);
+    DeleteMediator(mediator);
 }
 
 void testOnRegisterAndOnRemove() {
@@ -178,10 +183,12 @@ void testRemoveMediatorAndSubsequentNotify() {
     Notification *notification1 = NewNotification(NOTE1, NULL, NULL);
     view->notifyObservers(view, notification1);
     assert(strcmp(viewTest.lastNotification, NOTE1) == 0);
+    free(viewTest.lastNotification);
 
     Notification *notification2 = NewNotification(NOTE2, NULL, NULL);
     view->notifyObservers(view, notification2);
     assert(strcmp(viewTest.lastNotification, NOTE2) == 0);
+    free(viewTest.lastNotification);
 
     view->removeMediator(view, ViewTestMediator2_NAME);
 
@@ -213,14 +220,17 @@ void testRemoveOneOfTwoMediatorsAndSubsequentNotify() {
     Notification *notification1 = NewNotification(NOTE1, NULL, NULL);
     view->notifyObservers(view, notification1);
     assert(strcmp(viewTest.lastNotification, NOTE1) == 0);
+    free(viewTest.lastNotification);
 
     Notification *notification2 = NewNotification(NOTE2, NULL, NULL);
     view->notifyObservers(view, notification2);
     assert(strcmp(viewTest.lastNotification, NOTE2) == 0);
+    free(viewTest.lastNotification);
 
     Notification *notification3 = NewNotification(NOTE3, NULL, NULL);
     view->notifyObservers(view, notification3);
     assert(strcmp(viewTest.lastNotification, NOTE3) == 0);
+    // free(viewTest.lastNotification);
 
     view->removeMediator(view, ViewTestMediator2_NAME);
     assert(view->retrieveMediator(view, ViewTestMediator2_NAME) == NULL);
@@ -286,11 +296,14 @@ void testModifyObserverListDuringNotification() {
     view->registerMediator(view, (Mediator *) NewViewTestMediator6("ViewTestMediator6/7", &viewTest));
     view->registerMediator(view, (Mediator *) NewViewTestMediator6("ViewTestMediator6/8", &viewTest));
 
-    view->notifyObservers(view, NewNotification(NOTE6, NULL, NULL));
+    Notification *notification = NewNotification(NOTE6, NULL, NULL);
+    view->notifyObservers(view, notification);
 
     assert(viewTest.counter == 8);
 
     viewTest.counter = 0;
-    view->notifyObservers(view, NewNotification(NOTE6, NULL, NULL));
+    view->notifyObservers(view, notification);
     assert(viewTest.counter == 0);
+
+    DeleteNotification(notification);
 }

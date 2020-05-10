@@ -7,9 +7,9 @@
 
 static pthread_mutex_t view_mutex = PTHREAD_MUTEX_INITIALIZER;
 
-static pthread_rwlock_t mediatorMap_mutex = PTHREAD_MUTEX_INITIALIZER;
+static pthread_rwlock_t mediatorMap_mutex;
 
-static pthread_rwlock_t observerMap_mutex = PTHREAD_MUTEX_INITIALIZER;
+static pthread_rwlock_t observerMap_mutex;
 
 static ViewMap *instanceMap;
 
@@ -74,6 +74,15 @@ static void DeleteObserverNode(ObserverNode *self) {
     free(self);
 }
 
+static int CountObservers(ObserverNode *self) {
+    int count = 0;
+    while (self) {
+        count++;
+        self = self->next;
+    }
+    return count;
+}
+
 static ObserverMap *ObserverMapNew(const char *notificationName, Observer *observer) {
     ObserverMap *self = malloc(sizeof(ObserverMap));
     self->name = strdup(notificationName);
@@ -84,7 +93,10 @@ static ObserverMap *ObserverMapNew(const char *notificationName, Observer *obser
 
 static void DeleteObserverMap(ObserverMap *self) {
     free(self->name);
+    self->name = NULL;
+    self->observers = NULL;
     free(self);
+    self = NULL;
 }
 
 static void initializeView(View *self) {
@@ -93,23 +105,29 @@ static void initializeView(View *self) {
 
 static void registerMediator(View *self, Mediator *mediator) {
     pthread_rwlock_wrlock(&mediatorMap_mutex);
-    MediatorMap **cursor = &self->mediatorMap;
+    MediatorMap **mediatorMap = &self->mediatorMap;
 
-    while (*cursor) {
-        if (strcmp((*cursor)->name, mediator->getMediatorName(mediator)) == 0)
+    while (*mediatorMap) {
+        if (strcmp((*mediatorMap)->name, mediator->getMediatorName(mediator)) == 0)
             return; // do not allow re-registration (you must to removeMediator first)
-        cursor = &(*cursor)->next;
+        mediatorMap = &(*mediatorMap)->next;
     }
 
     mediator->notifier->initializeNotifier(mediator->notifier, self->multitonKey);
-    *cursor = NewMediatorMap(mediator);
+    *mediatorMap = NewMediatorMap(mediator);
 
-    char **interests = mediator->listNotificationInterests(mediator);
+    char **list = mediator->listNotificationInterests(mediator);
+    char **interests = list;
+
     while(*interests) {
         Observer *observer = NewObserver((void (*)(void *, Notification *)) mediator->handleNotification, mediator);
         self->registerObserver(self, *interests, observer);
         interests++;
     }
+
+    for (interests = list; *interests; interests++)
+        free(*interests);
+    free(list);
 
     mediator->onRegister(mediator);
     pthread_rwlock_unlock(&mediatorMap_mutex);
@@ -117,41 +135,51 @@ static void registerMediator(View *self, Mediator *mediator) {
 
 static Mediator *retrieveMediator(View *self, const char *mediatorName) {
     pthread_rwlock_rdlock(&mediatorMap_mutex);
-    MediatorMap *cursor = self->mediatorMap;
-    while(cursor && strcmp(cursor->name, mediatorName) != 0)
-        cursor = cursor->next;
+    MediatorMap *mediatorMap = self->mediatorMap;
+    while(mediatorMap && strcmp(mediatorMap->name, mediatorName) != 0)
+        mediatorMap = mediatorMap->next;
     pthread_rwlock_unlock(&mediatorMap_mutex);
-    return cursor == NULL ? NULL : cursor->mediator;
+    return mediatorMap == NULL ? NULL : mediatorMap->mediator;
 }
 
 static bool hasMediator(View *self, const char *mediatorName) {
     pthread_rwlock_rdlock(&mediatorMap_mutex);
-    MediatorMap *cursor = self->mediatorMap;
-    while(cursor && strcmp(cursor->name, mediatorName) != 0)
-        cursor = cursor->next;
+    MediatorMap *mediatorMap = self->mediatorMap;
+    while(mediatorMap && strcmp(mediatorMap->name, mediatorName) != 0)
+        mediatorMap = mediatorMap->next;
     pthread_rwlock_unlock(&mediatorMap_mutex);
-    return cursor != NULL;
+    return mediatorMap != NULL;
 }
 
 static Mediator *removeMediator(View *self, const char *mediatorName) {
     pthread_rwlock_wrlock(&mediatorMap_mutex);
-    MediatorMap **cursor = &self->mediatorMap;
+    MediatorMap **mediatorMap = &self->mediatorMap;
 
-    while (*cursor) {
-        if (strcmp((*cursor)->name, mediatorName) == 0) {
-            Mediator *mediator = (*cursor)->mediator;
-            char **interests = mediator->listNotificationInterests(mediator);
+    while (*mediatorMap) {
+        if (strcmp((*mediatorMap)->name, mediatorName) == 0) {
+            Mediator *mediator = (*mediatorMap)->mediator;
+
+            char **list = mediator->listNotificationInterests(mediator);
+            char **interests = list;
+
             while(*interests) {
                 self->removeObserver(self, *interests, mediator);
                 interests++;
             }
-            *cursor = (*cursor)->next; // remove the mediator from the map
+
+            for (interests = list; *interests; interests++)
+                free(*interests);
+            free(list);
+
+            MediatorMap *node = *mediatorMap;
+            *mediatorMap = (*mediatorMap)->next; // remove the mediator from the map
+            DeleteMediatorMap(node);
 
             // alert the mediator that it has been removed
             mediator->onRemove(mediator);
             return mediator;
         }
-        cursor = &(*cursor)->next;
+        mediatorMap = &(*mediatorMap)->next;
     }
     pthread_rwlock_unlock(&mediatorMap_mutex);
     return NULL;
@@ -159,21 +187,23 @@ static Mediator *removeMediator(View *self, const char *mediatorName) {
 
 static void registerObserver(View *self, const char *notificationName, Observer *observer) {
     pthread_rwlock_wrlock(&observerMap_mutex);
-    ObserverMap **pointer = &self->observerMap;
+    ObserverMap **observerMap = &self->observerMap;
 
-    while (*pointer) {
-        if (strcmp((*pointer)->name, notificationName) == 0) {
-            ObserverNode **cursor = &(*pointer)->observers;
-            while (*cursor)
-                cursor = &(*cursor)->next;
+    while (*observerMap) {
+        if (strcmp((*observerMap)->name, notificationName) == 0) {
+            ObserverNode **observers = &(*observerMap)->observers;
+            while (*observers)
+                observers = &(*observers)->next;
 
-            *cursor = NewObserverNode(observer);
+            *observers = NewObserverNode(observer);
+
             return;
         }
-        pointer = &(*pointer)->next;
+        observerMap = &(*observerMap)->next;
     }
 
-    *pointer = ObserverMapNew(notificationName, observer);
+    *observerMap = ObserverMapNew(notificationName, observer);
+
     pthread_rwlock_unlock(&observerMap_mutex);
 }
 
@@ -191,7 +221,8 @@ static void notifyObservers(View *self, Notification *notification) {
             ObserverNode *observers = NULL;
             ObserverNode **previous = &observers;
             while (cursor) {
-                *previous = NewObserverNode(NewObserver(cursor->observer->notify, cursor->observer->context));
+                Observer *observer = NewObserver(cursor->observer->notify, cursor->observer->context);
+                *previous = NewObserverNode(observer);
                 previous = &(*previous)->next;
                 cursor = cursor->next;
             }
@@ -213,26 +244,31 @@ static void notifyObservers(View *self, Notification *notification) {
 
 static void removeObserver(View *self, const char *notificationName, void *notifyContext) {
     pthread_rwlock_wrlock(&observerMap_mutex);
-    ObserverMap *pointer = self->observerMap;
+    ObserverMap **observerMap = &self->observerMap;
 
-    while (pointer) {
-        if (strcmp(pointer->name, notificationName) == 0) {
-            ObserverNode **cursor = &pointer->observers;
-            while (*cursor) {
-                Observer *observer = (*cursor)->observer;
+    while (*observerMap) {
+        if (strcmp((*observerMap)->name, notificationName) == 0) {
+            ObserverNode **observers = &(*observerMap)->observers;
+            while (*observers) {
+                Observer *observer = (*observers)->observer;
                 if (observer->compareNotifyContext(observer, notifyContext)) {
-                    DeleteObserverNode(*cursor);
-                    *cursor = (*cursor)->next;
-                    if (self->observerMap->observers == NULL) { // if empty
-                        DeleteObserverMap(self->observerMap);
-                        self->observerMap = NULL;
+
+                    ObserverNode *node = *observers;
+                    *observers = (*observers)->next; // delete observer
+                    DeleteObserverNode(node);
+
+                    if (CountObservers(*observers) == 0) {  // if empty
+                        ObserverMap *map = *observerMap;
+                        *observerMap = (*observerMap)->next;
+                        DeleteObserverMap(map);
                     }
+
                     return;
                 }
-                cursor = &(*cursor)->next;
+                observers = &(*observers)->next;
             }
         }
-        pointer = pointer->next;
+        observerMap = &(*observerMap)->next;
     }
     pthread_rwlock_unlock(&observerMap_mutex);
 }

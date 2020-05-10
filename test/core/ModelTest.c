@@ -27,6 +27,7 @@ void testGetInstance() {
     Model *model = getModelInstance("ModelTestKey1", NewModel);
     assert(model != NULL);
     assert(model == getModelInstance("ModelTestKey1", NewModel));
+    DeleteModel(model->multitonKey);
 }
 
 void testRegisterAndRetrieveProxy() {
@@ -43,6 +44,7 @@ void testRegisterAndRetrieveProxy() {
 
     Proxy *removedProxy = model->removeProxy(model, "colors");
     assert(strcmp(removedProxy->proxyName, "colors") == 0);
+    DeleteProxy(removedProxy);
 
     assert(model->retrieveProxy(model, "colors") == NULL);
 }
@@ -54,11 +56,21 @@ void testRegisterAndRemoveProxy() {
     model->registerProxy(model, NewProxy("stooges", &(Array) {3, (char *[]) {"moe", "larry", "curly"}}));
     model->registerProxy(model, NewProxy("sizes", &(Array) {3, (char *[]) {"7", "13", "21"}}));
 
+    Proxy *temp;
+
     // removal order FIFO
-    assert(strcmp(model->removeProxy(model, "colors")->proxyName, "colors") == 0);
-    assert(strcmp(model->removeProxy(model, "aces")->proxyName, "aces") == 0);
-    assert(strcmp(model->removeProxy(model, "stooges")->proxyName, "stooges") == 0);
-    assert(strcmp(model->removeProxy(model, "sizes")->proxyName, "sizes") == 0);
+    temp = model->removeProxy(model, "colors");
+    assert(strcmp(temp->proxyName, "colors") == 0);
+    DeleteProxy(temp);
+    temp = model->removeProxy(model, "aces");
+    assert(strcmp(temp->proxyName, "aces") == 0);
+    DeleteProxy(temp);
+    temp = model->removeProxy(model, "stooges");
+    assert(strcmp(temp->proxyName, "stooges") == 0);
+    DeleteProxy(temp);
+    temp = model->removeProxy(model, "sizes");
+    assert(strcmp(temp->proxyName, "sizes") == 0);
+    DeleteProxy(temp);
 
     assert(model->retrieveProxy(model, "colors") == NULL);
     assert(model->retrieveProxy(model, "aces") == NULL);
@@ -71,10 +83,21 @@ void testRegisterAndRemoveProxy() {
     model->registerProxy(model, NewProxy("stooges", &(Array) {3, (char *[]) {"moe", "larry", "curly"}}));
     model->registerProxy(model, NewProxy("sizes", &(Array) {3, (char *[]) {"7", "13", "21"}}));
 
-    assert(strcmp(model->removeProxy(model, "stooges")->proxyName, "stooges") == 0);
-    assert(strcmp(model->removeProxy(model, "aces")->proxyName, "aces") == 0);
-    assert(strcmp(model->removeProxy(model, "sizes")->proxyName, "sizes") == 0);
-    assert(strcmp(model->removeProxy(model, "colors")->proxyName, "colors") == 0);
+    temp = model->removeProxy(model, "stooges");
+    assert(strcmp(temp->proxyName, "stooges") == 0);
+    DeleteProxy(temp);
+
+    temp = model->removeProxy(model, "aces");
+    assert(strcmp(temp->proxyName, "aces") == 0);
+    DeleteProxy(temp);
+
+    temp = model->removeProxy(model, "sizes");
+    assert(strcmp(temp->proxyName, "sizes") == 0);
+    DeleteProxy(temp);
+
+    temp = model->removeProxy(model, "colors");
+    assert(strcmp(temp->proxyName, "colors") == 0);
+    DeleteProxy(temp);
 
     assert(model->retrieveProxy(model, "colors") == NULL);
     assert(model->retrieveProxy(model, "aces") == NULL);
@@ -88,10 +111,18 @@ void testRegisterAndRemoveProxy() {
     model->registerProxy(model, NewProxy("sizes", &(Array) {3, (char *[]) {"7", "13", "21"}}));
 
     assert(model->removeProxy(model, "unknown") == NULL);
-    assert(strcmp(model->removeProxy(model, "stooges")->proxyName, "stooges") == 0);
-    assert(strcmp(model->removeProxy(model, "colors")->proxyName, "colors") == 0);
-    assert(strcmp(model->removeProxy(model, "aces")->proxyName, "aces") == 0);
-    assert(strcmp(model->removeProxy(model, "sizes")->proxyName, "sizes") == 0);
+    temp = model->removeProxy(model, "stooges");
+    assert(strcmp(temp->proxyName, "stooges") == 0);
+    DeleteProxy(temp);
+    temp = model->removeProxy(model, "colors");
+    assert(strcmp(temp->proxyName, "colors") == 0);
+    DeleteProxy(temp);
+    temp = model->removeProxy(model, "aces");
+    assert(strcmp(temp->proxyName, "aces") == 0);
+    DeleteProxy(temp);
+    temp = model->removeProxy(model, "sizes");
+    assert(strcmp(temp->proxyName, "sizes") == 0);
+    DeleteProxy(temp);
     assert(model->removeProxy(model, "unknown") == NULL);
 
     assert(model->retrieveProxy(model, "unknown") == NULL);
@@ -115,7 +146,9 @@ void testReRegisterAndRetrieveProxy() {
     assert(strcmp(data->values[0], "yellow") == 0);
     assert(strcmp(data->values[1], "orange") == 0);
 
-    assert(strcmp(model->removeProxy(model, "colors")->proxyName, "colors") == 0);
+    Proxy *temp = model->removeProxy(model, "colors");
+    assert(strcmp(temp->proxyName, "colors") == 0);
+    DeleteProxy(temp);
     assert(model->retrieveProxy(model, "colors") == NULL);
 }
 
@@ -140,10 +173,18 @@ void testHasProxy() {
     assert(model->hasProxy(model, "colors") == true);
     assert(model->hasProxy(model, "sizes") == true);
 
-    assert(strcmp(model->removeProxy(model, "stooges")->proxyName, "stooges") == 0);
-    assert(strcmp(model->removeProxy(model, "colors")->proxyName, "colors") == 0);
-    assert(strcmp(model->removeProxy(model, "aces")->proxyName, "aces") == 0);
-    assert(strcmp(model->removeProxy(model, "sizes")->proxyName, "sizes") == 0);
+    Proxy *temp = model->removeProxy(model, "stooges");
+    assert(strcmp(temp->proxyName, "stooges") == 0);
+    DeleteProxy(temp);
+    temp = model->removeProxy(model, "colors");
+    assert(strcmp(temp->proxyName, "colors") == 0);
+    DeleteProxy(temp);
+    temp = model->removeProxy(model, "aces");
+    assert(strcmp(temp->proxyName, "aces") == 0);
+    DeleteProxy(temp);
+    temp = model->removeProxy(model, "sizes");
+    assert(strcmp(temp->proxyName, "sizes") == 0);
+    DeleteProxy(temp);
 
     assert(model->retrieveProxy(model, "colors") == NULL);
     assert(model->retrieveProxy(model, "aces") == NULL);
@@ -163,7 +204,8 @@ void testOnRegisterAndOnRemove() {
     model->removeProxy(model, "ModelTestProxy");
 
     data = ON_REMOVE_CALLED;
-    assert(modelTestProxy->proxy.data == data);
+    assert(strcmp(modelTestProxy->proxy.data, data) == 0);
+    DeleteProxy((Proxy *) modelTestProxy);
 }
 
 void testRemoveModel() {

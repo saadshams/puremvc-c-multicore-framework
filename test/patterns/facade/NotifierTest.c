@@ -15,6 +15,7 @@ void testInstance() {
     notifier->initializeNotifier(notifier, "Test1");
     assert(notifier != NULL);
     assert(notifier->getFacade(notifier) != NULL);
+    DeleteNotifier(notifier);
 }
 
 typedef struct {
@@ -43,4 +44,5 @@ void testRegisterCommandAndSendNotification() {
     notifier->sendNotification(notifier, "TestNote", &temp, NULL);
 
     assert(temp.result == 16);
+    DeleteNotifier(notifier);
 }

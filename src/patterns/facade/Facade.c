@@ -116,7 +116,9 @@ static bool hasMediator(Facade *self, const char *mediatorName) {
 }
 
 static void sendNotification(Facade *self, const char *notificationName, void *body, char *type) {
-    self->notifyObservers(self, NewNotification(notificationName, body, type));
+    Notification *notification = NewNotification(notificationName, body, type);
+    self->notifyObservers(self, notification);
+    DeleteNotification(notification);
 }
 
 static void notifyObservers(Facade *self, Notification *notification) {
@@ -129,6 +131,9 @@ static void initializeNotifier(Facade *self, char *key) {
 
 void InitFacade(Facade *self) {
     if (self) {
+        self->controller = NULL;
+        self->model = NULL;
+        self->view = NULL;
         self->initializeFacade = initializeFacade;
         self->initializeController = initializeController;
         self->initializeModel = initializeModel;

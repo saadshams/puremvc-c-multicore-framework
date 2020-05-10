@@ -16,6 +16,7 @@ static void initializeNotifier(Notifier *self, char *key) {
 
 void InitNotifier(Notifier *self) {
     if (self != NULL) {
+        self->multitonKey = NULL;
         self->getFacade = getFacade;
         self->initializeNotifier  = initializeNotifier;
         self->sendNotification = sendNotification;
@@ -29,6 +30,6 @@ Notifier *NewNotifier() {
 }
 
 void DeleteNotifier(Notifier *self) {
-    free(self->multitonKey);
+    if (self->multitonKey) free(self->multitonKey);
     free(self);
 }

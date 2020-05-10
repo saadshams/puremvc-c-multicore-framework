@@ -91,6 +91,7 @@ void testRegisterRetrieveAndRemoveMediator() {
 
     assert(strcmp(removedMediator->getMediatorName(removedMediator), MEDIATOR_NAME) == 0);
     assert(facade->retrieveMediator(facade, MEDIATOR_NAME) == NULL);
+    DeleteMediator(removedMediator);
 }
 
 void testHasProxy() {

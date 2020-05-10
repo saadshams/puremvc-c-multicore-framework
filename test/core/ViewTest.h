@@ -6,14 +6,14 @@
 typedef struct ViewTest ViewTest;
 
 struct ViewTest {
-    const char *lastNotification;
+    char *lastNotification;
     bool onRegisterCalled;
     bool onRemoveCalled;
     int counter;
 };
 
-static char *NOTE1 = "Notification11";
-static char *NOTE2 = "Notification21";
+static char *NOTE1 = "Notification1";
+static char *NOTE2 = "Notification2";
 static char *NOTE3 = "Notification3";
 static char *NOTE4 = "Notification4";
 static char *NOTE5 = "Notification5";

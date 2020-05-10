@@ -5,7 +5,14 @@
 
 static char **listNotificationInterests(const Mediator *self) {
     char **list = (char *[]){NOTE1, NOTE2, NULL};
-    char **interests = malloc(sizeof(char*) * 3);
+
+    char **cursor = list;
+    int size = 0;
+    while (*cursor) {
+        size++;
+        cursor++;
+    }
+    char **interests = malloc(sizeof(char*) * (size + 1));
     int i = 0;
     while(*list) {
         interests[i] = malloc(sizeof(char) * (strlen(*list) + 1));
@@ -18,7 +25,7 @@ static char **listNotificationInterests(const Mediator *self) {
 
 static void handleNotification(const Mediator *self, Notification *notification) {
     ViewTest *viewTest = self->getViewComponent(self);
-    viewTest->lastNotification = notification->name;
+    viewTest->lastNotification = strdup(notification->name);
 }
 
 ViewTestMediator2 *ViewTestMediator2New(void *viewComponent) {
