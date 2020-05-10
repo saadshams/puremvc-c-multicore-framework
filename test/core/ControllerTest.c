@@ -108,8 +108,8 @@ void testReregisterAndExecuteCommand() {
     assert(vo->result == 24);
 
     controller->removeCommand(controller, "ControllerTest3");
+    DeleteControllerTestVO(vo);
     DeleteNotification(notification);
-    vo->release(vo);
 
     controller->registerCommand(controller, "ControllerTest3", (SimpleCommand *(*)()) NewControllerTestCommand);
     controller->removeCommand(controller, "ControllerTest3");
@@ -118,7 +118,8 @@ void testReregisterAndExecuteCommand() {
     vo = NewControllerTestVO(12);
     notification = NewNotification("ControllerTest3", vo, NULL);
 
-    vo->release(vo);
+    controller->removeCommand(controller, "ControllerTest3");
+    DeleteControllerTestVO(vo);
     DeleteNotification(notification);
     DeleteController("ControllerTestKey5");
 }

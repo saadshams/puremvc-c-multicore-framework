@@ -6,7 +6,6 @@ typedef struct ControllerTestVO ControllerTestVO;
 struct ControllerTestVO {
     int input;
     int result;
-    void (*release)(ControllerTestVO *self);
 };
 
 ControllerTestVO *NewControllerTestVO(int input);
