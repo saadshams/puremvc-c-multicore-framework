@@ -8,7 +8,7 @@
 typedef struct MediatorMap MediatorMap;
 
 struct MediatorMap {
-    char *name;
+    const char *name;
     Mediator *mediator;
     MediatorMap *next;
 };
@@ -18,7 +18,7 @@ typedef struct ObserverMap ObserverMap;
 typedef struct ObserverNode ObserverNode;
 
 struct ObserverMap {
-    char *name;
+    const char *name;
     ObserverNode *observers;
     ObserverMap *next;
 };
@@ -39,7 +39,7 @@ struct ViewMap {
 };
 
 struct View {
-    char *multitonKey;
+    const char *multitonKey;
     MediatorMap *mediatorMap;
     ObserverMap *observerMap;
     void (*initializeView)(View *self);

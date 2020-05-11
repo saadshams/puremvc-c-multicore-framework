@@ -11,12 +11,13 @@ static SubCommandNode *NewSubCommandNode(SimpleCommand *(*factory)()) {
     return self;
 
     exception:
-    fprintf(stderr, "SubCommand allocation failed.\n");
-    return NULL;
+        fprintf(stderr, "SubCommand allocation failed.\n");
+        return NULL;
 }
 
 static void DeleteSubCommand(SubCommandNode *self) {
     free(self);
+    self = NULL;
 }
 
 static void initializeMacroCommand(MacroCommand *self) {

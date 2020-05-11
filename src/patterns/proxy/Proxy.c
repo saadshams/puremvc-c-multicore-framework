@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 
-static char *getProxyName(const Proxy *self) {
+static const char *getProxyName(const Proxy *self) {
     return self->proxyName;
 }
 
@@ -25,7 +25,7 @@ static void onRemove(Proxy *self) {
 
 void InitProxy(Proxy *self, const char *proxyName, void *data) {
     self->notifier = NewNotifier();
-    self->proxyName = strdup(proxyName != NULL ? proxyName : PROXY_NAME);
+    self->proxyName = proxyName != NULL ? proxyName : PROXY_NAME;
     self->data = data != NULL ? data : NULL;
     self->getProxyName = getProxyName;
     self->setData = setData;
@@ -47,7 +47,6 @@ Proxy *NewProxy(const char *proxyName, void *data) {
 
 void DeleteProxy(Proxy *self) {
     DeleteNotifier(self->notifier);
-    free(self->proxyName);
     free(self);
     self = NULL;
 }

@@ -19,9 +19,9 @@ void testNameAccessors() {
 }
 
 void testBodyAccessors() {
-    typedef struct {int value} Test;
-    Test test = {5};
-
+    struct {
+        int value;
+    } test = {5};
     Notification *notification = NewNotification("TestNote", NULL, NULL);
     notification->setBody(notification, &test);
     assert(notification->getBody(notification) == &test);

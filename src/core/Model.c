@@ -49,7 +49,6 @@ static Model *GetModelMap(const char *key) {
 }
 
 static void DeleteModelMap(ModelMap *self) {
-    free(self->model->multitonKey);
     free(self->model);
     free(self);
     self = NULL;
@@ -72,16 +71,13 @@ static void RemoveModelMap(const char *key) {
 
 static ProxyMap *NewProxyNode(Proxy *proxy) {
     ProxyMap *self = malloc(sizeof(ProxyMap));
-    self->name = strdup(proxy->getProxyName(proxy));
+    self->name = proxy->getProxyName(proxy);
     self->proxy = proxy;
     self->next = NULL;
     return self;
 }
 
 static void DeleteProxyNode(ProxyMap *self) {
-    free(self->name);
-    self->proxy = NULL;
-    self->next = NULL;
     free(self);
     self = NULL;
 }
@@ -160,7 +156,7 @@ Model *NewModel(const char *key) {
     Model *self = malloc(sizeof(Model));
     if (self == NULL) goto exception;
     InitModel(self);
-    self->multitonKey = strdup(key);
+    self->multitonKey = key;
     return self;
 
     exception:

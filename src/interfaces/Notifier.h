@@ -6,9 +6,9 @@
 typedef struct Notifier Notifier;
 
 struct Notifier {
-    char *multitonKey;
+    const char *multitonKey;
     Facade *(*getFacade)(Notifier *self);
-    void (*initializeNotifier)(Notifier *self, char *key);
+    void (*initializeNotifier)(Notifier *self, const char *key);
     void (*sendNotification)(Notifier *self, const char *notificationName, void *body, char *type);
 };
 

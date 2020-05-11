@@ -51,7 +51,6 @@ static Controller *GetControllerMap(const char *key) {
 }
 
 static void DeleteControllerMap(ControllerMap *self) {
-    free(self->controller->multitonKey);
     free(self->controller);
     free(self);
     self = NULL;
@@ -74,16 +73,13 @@ static void RemoveControllerMap(const char *key) {
 
 static CommandMap *NewCommandMap(const char *notificationName, SimpleCommand *(*factory)()) {
     CommandMap *self = malloc(sizeof(CommandMap));
-    self->name = strdup(notificationName);
+    self->name = notificationName;
     self->factory = factory;
     self->next = NULL;
     return self;
 }
 
 static void DeleteCommandMap(CommandMap *self) {
-    free(self->name);
-    self->factory = NULL;
-    self->next = NULL;
     free(self);
     self = NULL;
 }
@@ -170,7 +166,7 @@ Controller *NewController(const char *key) {
     Controller *self = malloc(sizeof(Controller));
     if (self == NULL) goto exception;
     InitController(self);
-    self->multitonKey = strdup(key);
+    self->multitonKey = key;
     return self;
 
     exception:

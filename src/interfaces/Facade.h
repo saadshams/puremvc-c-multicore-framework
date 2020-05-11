@@ -8,7 +8,7 @@
 typedef struct Facade Facade;
 
 struct Facade {
-    char *multitonKey;
+    const char *multitonKey;
     Controller *controller;
     Model *model;
     View *view;
@@ -29,12 +29,12 @@ struct Facade {
     bool (*hasMediator)(Facade *self, const char *mediatorName);
     void (*sendNotification)(Facade *self, const char *notificationName, void *body, char *type);
     void (*notifyObservers)(Facade *self, Notification *notification);
-    void (*initializeNotifier)(Facade *self, char *key);
+    void (*initializeNotifier)(Facade *self, const char *key);
 };
 
 void InitFacade(Facade *self);
 
-Facade *NewFacade();
+Facade *NewFacade(const char *key);
 
 bool HasFacadeCore(const char *key);
 

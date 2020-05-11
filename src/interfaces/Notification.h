@@ -4,14 +4,14 @@
 typedef struct Notification Notification;
 
 struct Notification {
-    char *name;
+    const char *name;
     void *body;
     char *type;
     const char *(*getName)(const Notification *self);
     void *(*getBody)(const Notification *self);
     void (*setBody)(Notification *self, void *body);
     char *(*getType)(const Notification *self);
-    void (*setType)(Notification *self, const char *type);
+    void (*setType)(Notification *self, char *type);
 };
 
 void InitNotification(Notification *self, const char *name, void *body, char *type);

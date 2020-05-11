@@ -44,7 +44,6 @@ static View *GetViewMap(const char *key) {
 }
 
 static void DeleteViewMap(ViewMap *self) {
-    free(self->view->multitonKey);
     free(self->view);
     free(self);
     self = NULL;
@@ -67,16 +66,13 @@ static void RemoveViewMap(const char *key) {
 
 static MediatorMap *NewMediatorMap(Mediator *mediator) {
     MediatorMap *self = malloc(sizeof(MediatorMap));
-    self->name = strdup(mediator->getMediatorName(mediator));
+    self->name = mediator->getMediatorName(mediator);
     self->mediator = mediator;
     self->next = NULL;
     return self;
 }
 
 static void DeleteMediatorMap(MediatorMap *self) {
-    free(self->name);
-    self->mediator = NULL;
-    self->next = NULL;
     free(self);
     self = NULL;
 }
@@ -109,17 +105,15 @@ static int CountObservers(ObserverNode *self) {
 
 static ObserverMap *ObserverMapNew(const char *notificationName, Observer *observer) {
     ObserverMap *self = malloc(sizeof(ObserverMap));
-    self->name = strdup(notificationName);
+    self->name = notificationName;
     self->observers = NewObserverNode(observer);
     self->next = NULL;
     return self;
 }
 
 static void DeleteObserverMap(ObserverMap *self) {
-    free(self->name);
-    self->name = NULL;
-    self->observers = NULL;
     free(self);
+    self = NULL;
 }
 
 // View
@@ -303,7 +297,7 @@ View *NewView(const char *key) {
     View *self = malloc(sizeof(View));
     if (self == NULL) goto exception;
     InitView(self);
-    self->multitonKey = strdup(key);
+    self->multitonKey = key;
     return self;
 
     exception:

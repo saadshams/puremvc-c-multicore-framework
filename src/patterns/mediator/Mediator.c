@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-static char *getMediatorName(const Mediator *self) {
+static const char *getMediatorName(const Mediator *self) {
     return self->mediatorName;
 }
 
@@ -33,9 +33,9 @@ static void onRemove(Mediator *self) {
 
 }
 
-void InitMediator(Mediator *self, char *mediatorName, void *viewComponent) {
+void InitMediator(Mediator *self, const char *mediatorName, void *viewComponent) {
     self->notifier = NewNotifier();
-    self->mediatorName = strdup(mediatorName != NULL ? mediatorName : MEDIATOR_NAME);
+    self->mediatorName = mediatorName != NULL ? mediatorName : MEDIATOR_NAME;
     self->viewComponent = viewComponent;
     self->getMediatorName = getMediatorName;
     self->setViewComponent = setViewComponent;
@@ -46,7 +46,7 @@ void InitMediator(Mediator *self, char *mediatorName, void *viewComponent) {
     self->onRemove = onRemove;
 }
 
-Mediator *NewMediator(char *mediatorName, void *viewComponent) {
+Mediator *NewMediator(const char *mediatorName, void *viewComponent) {
     Mediator *self = malloc(sizeof(Mediator));
     if (self == NULL) goto exception;
     InitMediator(self, mediatorName, viewComponent);
@@ -59,7 +59,6 @@ Mediator *NewMediator(char *mediatorName, void *viewComponent) {
 
 void DeleteMediator(Mediator *self) {
     DeleteNotifier(self->notifier);
-    free(self->mediatorName);
     free(self);
     self = NULL;
 }

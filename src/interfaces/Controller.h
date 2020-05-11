@@ -8,7 +8,7 @@
 typedef struct CommandMap CommandMap;
 
 struct CommandMap {
-    char *name;
+    const char *name;
     SimpleCommand *(*factory)();
     CommandMap *next;
 };
@@ -16,7 +16,7 @@ struct CommandMap {
 typedef struct Controller Controller;
 
 struct Controller {
-    char *multitonKey;
+    const char *multitonKey;
     View *view;
     CommandMap *commandMap;
     void (*initializeController)(Controller *self);

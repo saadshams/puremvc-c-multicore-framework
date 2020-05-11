@@ -7,7 +7,7 @@
 typedef struct ProxyMap ProxyMap;
 
 struct ProxyMap {
-    char *name;
+    const char *name;
     Proxy *proxy;
     ProxyMap *next;
 };
@@ -15,7 +15,7 @@ struct ProxyMap {
 typedef struct Model Model;
 
 struct Model {
-    char *multitonKey;
+    const char *multitonKey;
     ProxyMap *proxyMap;
     void (*initializeModel)(Model *self);
     void (*registerProxy)(Model *self, Proxy *proxy);

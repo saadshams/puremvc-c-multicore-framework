@@ -27,8 +27,8 @@ static FacadeMap *NewFacadeMap(const char *key, Facade *facade) {
     return self;
 
     exception:
-    fprintf(stderr, "FacadeMap allocation failed.\n");
-    return NULL;
+        fprintf(stderr, "FacadeMap allocation failed.\n");
+        return NULL;
 }
 
 static void AddFacadeMap(const char *key, Facade *facade) {
@@ -46,7 +46,6 @@ static Facade *GetFacadeMap(const char *key) {
 }
 
 static void DeleteFacadeMap(FacadeMap *self) {
-    free(self->facade->multitonKey);
     free(self->facade);
     free(self);
     self = NULL;
@@ -142,7 +141,7 @@ static void notifyObservers(Facade *self, Notification *notification) {
     self->view->notifyObservers(self->view, notification);
 }
 
-static void initializeNotifier(Facade *self, char *key) {
+static void initializeNotifier(Facade *self, const char *key) {
     self->multitonKey = key;
 }
 
@@ -170,12 +169,12 @@ void InitFacade(Facade *self) {
     self->initializeNotifier = initializeNotifier;
 }
 
-Facade *NewFacade(char *key) {
+Facade *NewFacade(const char *key) {
     assert(GetFacadeMap(key) == NULL);
     Facade *self = malloc(sizeof(Facade));
     if (self == NULL) goto exception;
     InitFacade(self);
-    self->multitonKey = strdup(key);
+    self->multitonKey = key;
     return self;
 
     exception:

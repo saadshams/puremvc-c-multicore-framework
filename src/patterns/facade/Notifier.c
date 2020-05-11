@@ -11,8 +11,8 @@ static void sendNotification(Notifier *self, const char *notificationName, void 
     facade->sendNotification(facade, notificationName, body, type);
 }
 
-static void initializeNotifier(Notifier *self, char *key) {
-    self->multitonKey = strdup(key);
+static void initializeNotifier(Notifier *self, const char *key) {
+    self->multitonKey = key;
 }
 
 void InitNotifier(Notifier *self) {
@@ -34,7 +34,6 @@ Notifier *NewNotifier() {
 }
 
 void DeleteNotifier(Notifier *self) {
-    if (self->multitonKey) free(self->multitonKey);
     free(self);
     self = NULL;
 }

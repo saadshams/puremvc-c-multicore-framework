@@ -9,9 +9,9 @@ typedef struct Mediator Mediator;
 
 struct Mediator {
     struct Notifier *notifier;
-    char *mediatorName;
+    const char *mediatorName;
     void *viewComponent;
-    char *(*getMediatorName)(const Mediator *self);
+    const char *(*getMediatorName)(const Mediator *self);
     void (*setViewComponent)(Mediator *self, void *viewComponent);
     void *(*getViewComponent)(const Mediator *self);
     const char * const *(*listNotificationInterests)(const Mediator *self);
@@ -22,9 +22,9 @@ struct Mediator {
 
 static char *MEDIATOR_NAME = "Mediator";
 
-void InitMediator(Mediator *self, char *mediatorName, void *viewComponent);
+void InitMediator(Mediator *self, const char *mediatorName, void *viewComponent);
 
-Mediator *NewMediator(char *mediatorName, void *viewComponent);
+Mediator *NewMediator(const char *mediatorName, void *viewComponent);
 
 void DeleteMediator(Mediator *self);
 
