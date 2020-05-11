@@ -14,7 +14,7 @@ struct Mediator {
     char *(*getMediatorName)(const Mediator *self);
     void (*setViewComponent)(Mediator *self, void *viewComponent);
     void *(*getViewComponent)(const Mediator *self);
-    char **(*listNotificationInterests)(const Mediator *self);
+    const char * const *(*listNotificationInterests)(const Mediator *self);
     void (*handleNotification)(const Mediator *self, Notification *notification);
     void (*onRegister)(Mediator *self);
     void (*onRemove)(Mediator *self);

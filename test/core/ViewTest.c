@@ -30,18 +30,16 @@ void viewTestMethod2(void *context, Notification *notification) {
 }
 
 int main() {
-//    testGetInstance();
-//    testRegisterAndNotifyObserver();
-
-//    testRegisterAndRetrieveMediator(); // ok
-//    testHasMediator();
-//    testRegisterAndRemoveMediator();
-//    testOnRegisterAndOnRemove();
-//    testSuccessiveRegisterAndRemoveMediator();
-
-//    testRemoveMediatorAndSubsequentNotify();
-//    testRemoveOneOfTwoMediatorsAndSubsequentNotify();
-//    testMediatorReregistration();
+    testGetInstance();
+    testRegisterAndNotifyObserver();
+    testRegisterAndRetrieveMediator();
+    testHasMediator();
+    testRegisterAndRemoveMediator();
+    testOnRegisterAndOnRemove();
+    testSuccessiveRegisterAndRemoveMediator();
+    testRemoveMediatorAndSubsequentNotify();
+    testRemoveOneOfTwoMediatorsAndSubsequentNotify();
+    testMediatorReregistration();
     testModifyObserverListDuringNotification();
     puts("ViewTest: Success");
     return 0;

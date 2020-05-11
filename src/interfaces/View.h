@@ -33,7 +33,7 @@ typedef struct View View;
 typedef struct ViewMap ViewMap;
 
 struct ViewMap {
-    char *name;
+    const char *name;
     View *view;
     ViewMap *next;
 };
@@ -54,10 +54,10 @@ struct View {
 
 void InitView(View *self);
 
-View *NewView(char *key);
+View *NewView(const char *key);
 
-void DeleteView(char *key);
+void DeleteView(const char *key);
 
-View *getViewInstance(char *key, View *(factory)(char *));
+View *getViewInstance(const char *key, View *(factory)(const char *));
 
 #endif //PUREMVC_VIEW_H

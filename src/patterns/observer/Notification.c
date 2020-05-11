@@ -42,8 +42,8 @@ Notification *NewNotification(const char *name, void *body, char *type) {
     return self;
 
     exception:
-    fprintf(stderr, "Notification allocation failed.\n");
-    return NULL;
+        fprintf(stderr, "Notification allocation failed.\n");
+        return NULL;
 }
 
 void DeleteNotification(Notification *self) {

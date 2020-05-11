@@ -16,27 +16,27 @@ static pthread_rwlock_t observerMap_mutex;
 
 static ViewMap *instanceMap;
 
-static ViewMap *NewViewMap(char *key, View *view) {
+static ViewMap *NewViewMap(const char *key, View *view) {
     ViewMap *self = malloc(sizeof(ViewMap));
     if (self == NULL) goto exception;
-    self->name = strdup(key);
+    self->name = key;
     self->view = view;
     self->next = NULL;
     return self;
 
     exception:
-    fprintf(stderr, "ViewMap allocation failed.\n");
-    return NULL;
+        fprintf(stderr, "ViewMap allocation failed.\n");
+        return NULL;
 }
 
-static void AddViewMap(char *key, View *view) {
+static void AddViewMap(const char *key, View *view) {
     ViewMap **viewMap = &instanceMap;
     while (*viewMap)
         viewMap = &(*viewMap)->next;
     *viewMap = NewViewMap(key, view);
 }
 
-static View *GetViewMap(char *key) {
+static View *GetViewMap(const char *key) {
     ViewMap *viewMap = instanceMap;
     while (viewMap && strcmp(viewMap->name, key) != 0)
         viewMap = viewMap->next;
@@ -46,12 +46,11 @@ static View *GetViewMap(char *key) {
 static void DeleteViewMap(ViewMap *self) {
     free(self->view->multitonKey);
     free(self->view);
-    free(self->name);
     free(self);
     self = NULL;
 }
 
-static void RemoveViewMap(char *key) {
+static void RemoveViewMap(const char *key) {
     ViewMap **viewMap = &instanceMap;
     while (*viewMap) {
         if (strcmp((*viewMap)->name, key) == 0) {
@@ -142,18 +141,12 @@ static void registerMediator(View *self, Mediator *mediator) {
     mediator->notifier->initializeNotifier(mediator->notifier, self->multitonKey);
     *mediatorMap = NewMediatorMap(mediator);
 
-    char **list = mediator->listNotificationInterests(mediator);
-    char **interests = list;
-
+    const char * const *interests = mediator->listNotificationInterests(mediator);
     while(*interests) {
         Observer *observer = NewObserver((void (*)(void *, Notification *)) mediator->handleNotification, mediator);
         self->registerObserver(self, *interests, observer);
         interests++;
     }
-
-    for (interests = list; *interests; interests++)
-        free(*interests);
-    free(list);
 
     mediator->onRegister(mediator);
     pthread_rwlock_unlock(&mediatorMap_mutex);
@@ -185,17 +178,11 @@ static Mediator *removeMediator(View *self, const char *mediatorName) {
         if (strcmp((*mediatorMap)->name, mediatorName) == 0) {
             Mediator *mediator = (*mediatorMap)->mediator;
 
-            char **list = mediator->listNotificationInterests(mediator);
-            char **interests = list;
-
+            const char * const *interests = mediator->listNotificationInterests(mediator);
             while(*interests) {
                 self->removeObserver(self, *interests, mediator);
                 interests++;
             }
-
-            for (interests = list; *interests; interests++)
-                free(*interests);
-            free(list);
 
             MediatorMap *node = *mediatorMap;
             *mediatorMap = (*mediatorMap)->next; // remove the mediator from the map
@@ -311,7 +298,7 @@ void InitView(View *self) {
     self->removeMediator = removeMediator;
 }
 
-View *NewView(char *key) {
+View *NewView(const char *key) {
     assert(GetViewMap(key) == NULL);
     View *self = malloc(sizeof(View));
     if (self == NULL) goto exception;
@@ -320,17 +307,17 @@ View *NewView(char *key) {
     return self;
 
     exception:
-    fprintf(stderr, "View allocation failed.\n");
-    return NULL;
+        fprintf(stderr, "View allocation failed.\n");
+        return NULL;
 }
 
-void DeleteView(char *key) {
+void DeleteView(const char *key) {
     pthread_mutex_lock(&view_mutex);
     RemoveViewMap(key);
     pthread_mutex_unlock(&view_mutex);
 }
 
-View *getViewInstance(char *key, View *(*factory)(char *)) {
+View *getViewInstance(const char *key, View *(*factory)(const char *)) {
     pthread_mutex_lock(&view_mutex);
     View *instance = GetViewMap(key);
     if (instance == NULL) {

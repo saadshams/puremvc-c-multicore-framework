@@ -3,22 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-static char **listNotificationInterests(const Mediator *self) {
-    char **list = (char *[]){NOTE5, NULL};
-    char **cursor = list;
-    int size = 0;
-    while (*cursor) {
-        size++;
-        cursor++;
-    }
-    char **interests = malloc(sizeof(char*) * size + 1);
-    int i = 0;
-    while(*list) {
-        interests[i] = malloc(sizeof(char) * (strlen(*list) + 1));
-        strcpy(interests[i++], *list);
-        list++;
-    }
-    interests[i] = NULL;
+static const char * const *listNotificationInterests(const Mediator *self) {
+    static const char * const interests[] = {NOTE5, NULL};
     return interests;
 }
 

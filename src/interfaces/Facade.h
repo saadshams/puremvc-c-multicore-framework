@@ -36,10 +36,10 @@ void InitFacade(Facade *self);
 
 Facade *NewFacade();
 
-bool HasFacadeCore(char *key);
+bool HasFacadeCore(const char *key);
 
-void RemoveFacadeCore(char *key);
+void RemoveFacadeCore(const char *key);
 
-Facade *getFacadeInstance(char *key, Facade *(*factory)(char *));
+Facade *getFacadeInstance(const char *key, Facade *(*factory)(const char *));
 
 #endif //PUREMVC_FACADE_H

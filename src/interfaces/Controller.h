@@ -28,10 +28,10 @@ struct Controller {
 
 void InitController(Controller *self);
 
-Controller *NewController(char *key);
+Controller *NewController(const char *key);
 
-void DeleteController(char *key);
+void DeleteController(const char *key);
 
-Controller *getControllerInstance(char *key, Controller *(*factory)(char *));
+Controller *getControllerInstance(const char *key, Controller *(*factory)(const char *));
 
 #endif //PUREMVC_CONTROLLER_H

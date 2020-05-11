@@ -69,8 +69,8 @@ MacroCommand *NewMacroCommand() {
     return self;
 
     exception:
-    fprintf(stderr, "MacroCommand allocation failed.\n");
-    return NULL;
+        fprintf(stderr, "MacroCommand allocation failed.\n");
+        return NULL;
 }
 
 void DeleteMacroCommand(MacroCommand *self) {

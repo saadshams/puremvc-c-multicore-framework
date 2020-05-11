@@ -11,17 +11,17 @@ static pthread_mutex_t facade_mutex;
 typedef struct FacadeMap FacadeMap;
 
 struct FacadeMap {
-    char *name;
+    const char *name;
     Facade *facade;
     FacadeMap *next;
 };
 
 static FacadeMap *instanceMap;
 
-static FacadeMap *NewFacadeMap(char *key, Facade *facade) {
+static FacadeMap *NewFacadeMap(const char *key, Facade *facade) {
     FacadeMap *self = malloc(sizeof(FacadeMap));
     if (self == NULL) goto exception;
-    self->name = strdup(key);
+    self->name = key;
     self->facade = facade;
     self->next = NULL;
     return self;
@@ -31,14 +31,14 @@ static FacadeMap *NewFacadeMap(char *key, Facade *facade) {
     return NULL;
 }
 
-static void AddFacadeMap(char *key, Facade *facade) {
+static void AddFacadeMap(const char *key, Facade *facade) {
     FacadeMap **cursor = &instanceMap;
     while (*cursor)
         cursor = &(*cursor)->next;
     *cursor = NewFacadeMap(key, facade);
 }
 
-static Facade *GetFacadeMap(char *key) {
+static Facade *GetFacadeMap(const char *key) {
     FacadeMap *cursor = instanceMap;
     while (cursor && strcmp(cursor->name, key) != 0)
         cursor = cursor->next;
@@ -48,12 +48,11 @@ static Facade *GetFacadeMap(char *key) {
 static void DeleteFacadeMap(FacadeMap *self) {
     free(self->facade->multitonKey);
     free(self->facade);
-    free(self->name);
     free(self);
     self = NULL;
 }
 
-static void RemoveFacadeMap(char *key) {
+static void RemoveFacadeMap(const char *key) {
     FacadeMap **cursor = &instanceMap;
     while (*cursor) {
         if (strcmp((*cursor)->name, key) == 0) {
@@ -180,28 +179,28 @@ Facade *NewFacade(char *key) {
     return self;
 
     exception:
-    fprintf(stderr, "Facade allocation failed.\n");
-    return NULL;
+        fprintf(stderr, "Facade allocation failed.\n");
+        return NULL;
 }
 
-bool HasFacadeCore(char *key) {
+bool HasFacadeCore(const char *key) {
     return GetFacadeMap(key) != NULL;
 }
 
-static void DeleteFacade(char *key) {
+static void DeleteFacade(const char *key) {
     pthread_mutex_lock(&facade_mutex);
     RemoveFacadeMap(key);
     pthread_mutex_unlock(&facade_mutex);
 }
 
-void RemoveFacadeCore(char *key) {
+void RemoveFacadeCore(const char *key) {
     DeleteModel(key);
     DeleteView(key);
     DeleteController(key);
     DeleteFacade(key);
 }
 
-Facade *getFacadeInstance(char *key, Facade *(*factory)(char *)) {
+Facade *getFacadeInstance(const char *key, Facade *(*factory)(const char *)) {
     pthread_mutex_lock(&facade_mutex);
     Facade *instance = GetFacadeMap(key);
     if (instance == NULL) {

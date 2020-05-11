@@ -14,34 +14,34 @@ static pthread_rwlock_t modelMap_mutex;
 typedef struct ModelMap ModelMap;
 
 struct ModelMap {
-    char *name;
+    const char *name;
     Model *model;
     ModelMap *next;
 };
 
 static ModelMap *instanceMap;
 
-static ModelMap *NewModelMap(char *key, Model *model) {
+static ModelMap *NewModelMap(const char *key, Model *model) {
     ModelMap *self = malloc(sizeof(ModelMap));
     if (self == NULL) goto exception;
-    self->name = strdup(key);
+    self->name = key;
     self->model = model;
     self->next = NULL;
     return self;
 
     exception:
-    fprintf(stderr, "ModelMap allocation failed.\n");
-    return NULL;
+        fprintf(stderr, "ModelMap allocation failed.\n");
+        return NULL;
 }
 
-static void AddModelMap(char *key, Model *model) {
+static void AddModelMap(const char *key, Model *model) {
     ModelMap **modelMap = &instanceMap;
     while (*modelMap)
         modelMap = &(*modelMap)->next;
     *modelMap = NewModelMap(key, model);
 }
 
-static Model *GetModelMap(char *key) {
+static Model *GetModelMap(const char *key) {
     ModelMap *modelMap = instanceMap;
     while (modelMap && strcmp(modelMap->name, key) != 0)
         modelMap = modelMap->next;
@@ -51,12 +51,11 @@ static Model *GetModelMap(char *key) {
 static void DeleteModelMap(ModelMap *self) {
     free(self->model->multitonKey);
     free(self->model);
-    free(self->name);
     free(self);
     self = NULL;
 }
 
-static void RemoveModelMap(char *key) {
+static void RemoveModelMap(const char *key) {
     ModelMap **modelMap = &instanceMap;
     while (*modelMap) {
         if (strcmp((*modelMap)->name, key) == 0) {
@@ -156,7 +155,7 @@ void InitModel(Model *self) {
     self->removeProxy = removeProxy;
 }
 
-Model *NewModel(char *key) {
+Model *NewModel(const char *key) {
     assert(GetModelMap(key) == NULL);
     Model *self = malloc(sizeof(Model));
     if (self == NULL) goto exception;
@@ -165,17 +164,17 @@ Model *NewModel(char *key) {
     return self;
 
     exception:
-    fprintf(stderr, "Model allocation failed.\n");
-    return NULL;
+        fprintf(stderr, "Model allocation failed.\n");
+        return NULL;
 }
 
-void DeleteModel(char *key) {
+void DeleteModel(const char *key) {
     pthread_mutex_lock(&model_mutex);
     RemoveModelMap(key);
     pthread_mutex_unlock(&model_mutex);
 }
 
-Model *getModelInstance(char *key, Model *(*factory)(char *)) {
+Model *getModelInstance(const char *key, Model *(*factory)(const char *)) {
     pthread_mutex_lock(&model_mutex);
     Model *instance = GetModelMap(key);
     if (instance == NULL) {

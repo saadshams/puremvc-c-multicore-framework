@@ -29,8 +29,8 @@ Notifier *NewNotifier() {
     return self;
 
     exception:
-    fprintf(stderr, "Notifier allocation failed.\n");
-    return NULL;
+        fprintf(stderr, "Notifier allocation failed.\n");
+        return NULL;
 }
 
 void DeleteNotifier(Notifier *self) {

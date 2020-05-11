@@ -16,29 +16,9 @@ static void *getViewComponent(const Mediator *self) {
     return self->viewComponent;
 }
 
-static char **listNotificationInterests(const Mediator *self) {
-    char **list = (char *[]) {"ABC", NULL};
-
-    int size = 0;
-    for (char **cursor = list; *cursor; cursor++) {
-        size++;
-    }
-
-    char **interests = malloc(sizeof(char *) * size + 1);
-    if (interests == NULL) goto exception;
-
-    for (int i = 0; *list; list++, i++) {
-        interests[i] = malloc(sizeof(char) * (strlen(*list) + 1));
-        if (interests[i] == NULL) goto exception;
-        strcpy(interests[i], *list);
-    }
-
-    interests[size] = NULL;
+static const char * const *listNotificationInterests(const Mediator *self) {
+    static const char * const interests[] = {NULL};
     return interests;
-
-    exception:
-        fprintf(stderr, "Mediator's interests allocation failed.\n");
-        return NULL;
 }
 
 static void handleNotification(const Mediator *self, Notification *notification) {
@@ -73,8 +53,8 @@ Mediator *NewMediator(char *mediatorName, void *viewComponent) {
     return self;
 
     exception:
-    fprintf(stderr, "Mediator allocation failed.\n");
-    return NULL;
+        fprintf(stderr, "Mediator allocation failed.\n");
+        return NULL;
 }
 
 void DeleteMediator(Mediator *self) {

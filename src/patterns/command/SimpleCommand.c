@@ -19,8 +19,8 @@ SimpleCommand *NewSimpleCommand() {
     return self;
 
     exception:
-    fprintf(stderr, "SimpleCommand allocation failed.\n");
-    return NULL;
+        fprintf(stderr, "SimpleCommand allocation failed.\n");
+        return NULL;
 }
 
 void DeleteSimpleCommand(SimpleCommand *self) {

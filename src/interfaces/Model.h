@@ -26,10 +26,10 @@ struct Model {
 
 void InitModel(Model *self);
 
-Model *NewModel(char *key);
+Model *NewModel(const char *key);
 
-void DeleteModel(char *key);
+void DeleteModel(const char *key);
 
-Model *getModelInstance(char *key, Model *(factory)(char *));
+Model *getModelInstance(const char *key, Model *(factory)(const char *));
 
 #endif //PUREMVC_MODEL_H

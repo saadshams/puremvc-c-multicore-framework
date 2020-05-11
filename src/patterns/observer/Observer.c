@@ -44,8 +44,8 @@ Observer *NewObserver(void (*notifyMethod)(void *context, Notification *notifica
     return self;
 
     exception:
-    fprintf(stderr, "Observer allocation failed.\n");
-    return NULL;
+        fprintf(stderr, "Observer allocation failed.\n");
+        return NULL;
 }
 
 void DeleteObserver(Observer *self) {

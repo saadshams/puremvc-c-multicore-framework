@@ -41,8 +41,8 @@ Proxy *NewProxy(const char *proxyName, void *data) {
     return self;
 
     exception:
-    fprintf(stderr, "Proxy allocation failed.\n");
-    return NULL;
+        fprintf(stderr, "Proxy allocation failed.\n");
+        return NULL;
 }
 
 void DeleteProxy(Proxy *self) {

@@ -33,14 +33,12 @@ void testListNotificationInterests() {
     struct Object {} object;
     Mediator *mediator = NewMediator(MEDIATOR_NAME, &object);
     mediator->notifier->initializeNotifier(mediator->notifier, "test");
-    char **interests = mediator->listNotificationInterests(mediator);
+    const char * const *interests = mediator->listNotificationInterests(mediator);
 
     int i = 0;
-    for (char **cursor = interests; *cursor; cursor++) {
-        puts(*cursor);
+    for (const char * const *cursor = interests; *cursor != NULL; cursor++) {
         i++;
     }
-    assert(i == 1);
-    free(interests);
+    assert(i == 0);
     DeleteMediator(mediator);
 }

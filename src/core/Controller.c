@@ -16,34 +16,34 @@ static pthread_rwlock_t commandMap_mutex;
 typedef struct ControllerMap ControllerMap;
 
 struct ControllerMap {
-    char *name;
+    const char *name;
     Controller *controller;
     ControllerMap *next;
 };
 
 static ControllerMap *instanceMap;
 
-static ControllerMap *NewControllerMap(char *key, Controller *controller) {
+static ControllerMap *NewControllerMap(const char *key, Controller *controller) {
     ControllerMap *self = malloc(sizeof(ControllerMap));
     if (self == NULL) goto exception;
-    self->name = strdup(key);
+    self->name = key;
     self->controller = controller;
     self->next = NULL;
     return self;
 
     exception:
-    fprintf(stderr, "ControllerMap allocation failed.\n");
-    return NULL;
+        fprintf(stderr, "ControllerMap allocation failed.\n");
+        return NULL;
 }
 
-static void AddControllerMap(char *key, Controller *controller) {
+static void AddControllerMap(const char *key, Controller *controller) {
     ControllerMap **controllerMap = &instanceMap;
     while (*controllerMap)
         controllerMap = &(*controllerMap)->next;
     *controllerMap = NewControllerMap(key, controller);
 }
 
-static Controller *GetControllerMap(char *key) {
+static Controller *GetControllerMap(const char *key) {
     ControllerMap *controllerMap = instanceMap;
     while (controllerMap && strcmp(controllerMap->name, key) != 0)
         controllerMap = controllerMap->next;
@@ -53,12 +53,11 @@ static Controller *GetControllerMap(char *key) {
 static void DeleteControllerMap(ControllerMap *self) {
     free(self->controller->multitonKey);
     free(self->controller);
-    free(self->name);
     free(self);
     self = NULL;
 }
 
-static void RemoveControllerMap(char *key) {
+static void RemoveControllerMap(const char *key) {
     ControllerMap **controllerMap = &instanceMap;
     while (*controllerMap) {
         if (strcmp((*controllerMap)->name, key) == 0) {
@@ -166,7 +165,7 @@ void InitController(Controller *self) {
     self->removeCommand = removeCommand;
 }
 
-Controller *NewController(char *key) {
+Controller *NewController(const char *key) {
     assert(GetControllerMap(key) == NULL);
     Controller *self = malloc(sizeof(Controller));
     if (self == NULL) goto exception;
@@ -175,17 +174,17 @@ Controller *NewController(char *key) {
     return self;
 
     exception:
-    fprintf(stderr, "Controller allocation failed.\n");
-    return NULL;
+        fprintf(stderr, "Controller allocation failed.\n");
+        return NULL;
 }
 
-void DeleteController(char *key) {
+void DeleteController(const char *key) {
     pthread_mutex_lock(&controller_mutex);
     RemoveControllerMap(key);
     pthread_mutex_unlock(&controller_mutex);
 }
 
-Controller *getControllerInstance(char *key, Controller *(*factory)(char *)) {
+Controller *getControllerInstance(const char *key, Controller *(*factory)(const char *)) {
     pthread_mutex_lock(&controller_mutex);
     Controller *instance = GetControllerMap(key);
     if (instance == NULL) {
