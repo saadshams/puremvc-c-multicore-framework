@@ -1,7 +1,8 @@
-#include "interfaces/View.h"
 #include "interfaces/Notifier.h"
-#include <pthread.h>
+#include "interfaces/View.h"
 #include <assert.h>
+#include <pthread.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -17,10 +18,15 @@ static ViewMap *instanceMap;
 
 static ViewMap *NewViewMap(char *key, View *view) {
     ViewMap *self = malloc(sizeof(ViewMap));
+    if (self == NULL) goto exception;
     self->name = strdup(key);
     self->view = view;
     self->next = NULL;
     return self;
+
+    exception:
+    fprintf(stderr, "ViewMap allocation failed.\n");
+    return NULL;
 }
 
 static void AddViewMap(char *key, View *view) {
@@ -42,6 +48,7 @@ static void DeleteViewMap(ViewMap *self) {
     free(self->view);
     free(self->name);
     free(self);
+    self = NULL;
 }
 
 static void RemoveViewMap(char *key) {
@@ -72,6 +79,7 @@ static void DeleteMediatorMap(MediatorMap *self) {
     self->mediator = NULL;
     self->next = NULL;
     free(self);
+    self = NULL;
 }
 
 // ObserverNode
@@ -86,6 +94,7 @@ static ObserverNode *NewObserverNode(Observer *observer) {
 static void DeleteObserverNode(ObserverNode *self) {
     DeleteObserver(self->observer);
     free(self);
+    self = NULL;
 }
 
 static int CountObservers(ObserverNode *self) {
@@ -290,26 +299,29 @@ static void removeObserver(View *self, const char *notificationName, void *notif
 }
 
 void InitView(View *self) {
-    if (self) {
-        self->mediatorMap = NULL;
-        self->observerMap = NULL;
-        self->initializeView = initializeView;
-        self->registerObserver = registerObserver;
-        self->notifyObservers = notifyObservers;
-        self->removeObserver = removeObserver;
-        self->registerMediator = registerMediator;
-        self->retrieveMediator = retrieveMediator;
-        self->hasMediator = hasMediator;
-        self->removeMediator = removeMediator;
-    }
+    self->mediatorMap = NULL;
+    self->observerMap = NULL;
+    self->initializeView = initializeView;
+    self->registerObserver = registerObserver;
+    self->notifyObservers = notifyObservers;
+    self->removeObserver = removeObserver;
+    self->registerMediator = registerMediator;
+    self->retrieveMediator = retrieveMediator;
+    self->hasMediator = hasMediator;
+    self->removeMediator = removeMediator;
 }
 
 View *NewView(char *key) {
     assert(GetViewMap(key) == NULL);
     View *self = malloc(sizeof(View));
+    if (self == NULL) goto exception;
     InitView(self);
     self->multitonKey = strdup(key);
     return self;
+
+    exception:
+    fprintf(stderr, "View allocation failed.\n");
+    return NULL;
 }
 
 void DeleteView(char *key) {

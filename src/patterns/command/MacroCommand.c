@@ -5,9 +5,14 @@
 
 static SubCommandNode *NewSubCommandNode(SimpleCommand *(*factory)()) {
     SubCommandNode *self = malloc(sizeof(SubCommandNode));
+    if (self == NULL) goto exception;
     self->factory = factory;
     self->next = NULL;
     return self;
+
+    exception:
+    fprintf(stderr, "SubCommand allocation failed.\n");
+    return NULL;
 }
 
 static void DeleteSubCommand(SubCommandNode *self) {
@@ -59,11 +64,17 @@ void InitMacroCommand(MacroCommand *self) {
 
 MacroCommand *NewMacroCommand() {
     MacroCommand *self = malloc(sizeof(MacroCommand));
+    if (self == NULL) goto exception;
     InitMacroCommand(self);
     return self;
+
+    exception:
+    fprintf(stderr, "MacroCommand allocation failed.\n");
+    return NULL;
 }
 
 void DeleteMacroCommand(MacroCommand *self) {
     DeleteNotifier(self->notifier);
     free(self);
+    self = NULL;
 }

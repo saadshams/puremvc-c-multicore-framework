@@ -1,8 +1,9 @@
 #include "interfaces/Model.h"
 #include "interfaces/Notifier.h"
-#include <pthread.h>
-#include <string.h>
 #include <assert.h>
+#include <pthread.h>
+#include <stdio.h>
+#include <string.h>
 
 static pthread_mutex_t model_mutex;
 
@@ -22,10 +23,15 @@ static ModelMap *instanceMap;
 
 static ModelMap *NewModelMap(char *key, Model *model) {
     ModelMap *self = malloc(sizeof(ModelMap));
+    if (self == NULL) goto exception;
     self->name = strdup(key);
     self->model = model;
     self->next = NULL;
     return self;
+
+    exception:
+    fprintf(stderr, "ModelMap allocation failed.\n");
+    return NULL;
 }
 
 static void AddModelMap(char *key, Model *model) {
@@ -47,6 +53,7 @@ static void DeleteModelMap(ModelMap *self) {
     free(self->model);
     free(self->name);
     free(self);
+    self = NULL;
 }
 
 static void RemoveModelMap(char *key) {
@@ -77,6 +84,7 @@ static void DeleteProxyNode(ProxyMap *self) {
     self->proxy = NULL;
     self->next = NULL;
     free(self);
+    self = NULL;
 }
 
 // Model
@@ -140,22 +148,25 @@ static Proxy *removeProxy(Model *self, const char *proxyName) {
 }
 
 void InitModel(Model *self) {
-    if (self) {
-        self->proxyMap = NULL;
-        self->initializeModel = initializeModel;
-        self->registerProxy = registerProxy;
-        self->retrieveProxy = retrieveProxy;
-        self->hasProxy = hasProxy;
-        self->removeProxy = removeProxy;
-    }
+    self->proxyMap = NULL;
+    self->initializeModel = initializeModel;
+    self->registerProxy = registerProxy;
+    self->retrieveProxy = retrieveProxy;
+    self->hasProxy = hasProxy;
+    self->removeProxy = removeProxy;
 }
 
 Model *NewModel(char *key) {
     assert(GetModelMap(key) == NULL);
     Model *self = malloc(sizeof(Model));
+    if (self == NULL) goto exception;
     InitModel(self);
     self->multitonKey = strdup(key);
     return self;
+
+    exception:
+    fprintf(stderr, "Model allocation failed.\n");
+    return NULL;
 }
 
 void DeleteModel(char *key) {

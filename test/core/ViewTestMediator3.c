@@ -12,7 +12,7 @@ static char **listNotificationInterests(const Mediator *self) {
         size++;
         cursor++;
     }
-    char **interests = malloc(sizeof(char*) * (size + 1));
+    char **interests = malloc(sizeof(char*) * size + 1);
     int i = 0;
     while(*list) {
         interests[i] = malloc(sizeof(char) * (strlen(*list) + 1));

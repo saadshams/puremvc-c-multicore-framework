@@ -1,9 +1,10 @@
 #include "interfaces/Controller.h"
 #include "interfaces/Notifier.h"
 #include "interfaces/View.h"
-#include <stdlib.h>
-#include <pthread.h>
 #include <assert.h>
+#include <pthread.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 static pthread_mutex_t controller_mutex;
@@ -24,10 +25,15 @@ static ControllerMap *instanceMap;
 
 static ControllerMap *NewControllerMap(char *key, Controller *controller) {
     ControllerMap *self = malloc(sizeof(ControllerMap));
+    if (self == NULL) goto exception;
     self->name = strdup(key);
     self->controller = controller;
     self->next = NULL;
     return self;
+
+    exception:
+    fprintf(stderr, "ControllerMap allocation failed.\n");
+    return NULL;
 }
 
 static void AddControllerMap(char *key, Controller *controller) {
@@ -49,6 +55,7 @@ static void DeleteControllerMap(ControllerMap *self) {
     free(self->controller);
     free(self->name);
     free(self);
+    self = NULL;
 }
 
 static void RemoveControllerMap(char *key) {
@@ -79,6 +86,7 @@ static void DeleteCommandMap(CommandMap *self) {
     self->factory = NULL;
     self->next = NULL;
     free(self);
+    self = NULL;
 }
 
 // Controller
@@ -150,22 +158,25 @@ static void removeCommand(Controller *self, const char *notificationName) {
 }
 
 void InitController(Controller *self) {
-    if (self) {
-        self->commandMap = NULL;
-        self->initializeController = initializeController;
-        self->executeCommand = executeCommand;
-        self->registerCommand = registerCommand;
-        self->hasCommand = hasCommand;
-        self->removeCommand = removeCommand;
-    }
+    self->commandMap = NULL;
+    self->initializeController = initializeController;
+    self->executeCommand = executeCommand;
+    self->registerCommand = registerCommand;
+    self->hasCommand = hasCommand;
+    self->removeCommand = removeCommand;
 }
 
 Controller *NewController(char *key) {
     assert(GetControllerMap(key) == NULL);
     Controller *self = malloc(sizeof(Controller));
+    if (self == NULL) goto exception;
     InitController(self);
     self->multitonKey = strdup(key);
     return self;
+
+    exception:
+    fprintf(stderr, "Controller allocation failed.\n");
+    return NULL;
 }
 
 void DeleteController(char *key) {

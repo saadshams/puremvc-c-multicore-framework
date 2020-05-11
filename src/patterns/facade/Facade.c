@@ -1,6 +1,7 @@
 #include "interfaces/Facade.h"
 #include <assert.h>
 #include <pthread.h>
+#include <stdio.h>
 #include <string.h>
 
 static pthread_mutex_t facade_mutex;
@@ -19,10 +20,15 @@ static FacadeMap *instanceMap;
 
 static FacadeMap *NewFacadeMap(char *key, Facade *facade) {
     FacadeMap *self = malloc(sizeof(FacadeMap));
+    if (self == NULL) goto exception;
     self->name = strdup(key);
     self->facade = facade;
     self->next = NULL;
     return self;
+
+    exception:
+    fprintf(stderr, "FacadeMap allocation failed.\n");
+    return NULL;
 }
 
 static void AddFacadeMap(char *key, Facade *facade) {
@@ -44,6 +50,7 @@ static void DeleteFacadeMap(FacadeMap *self) {
     free(self->facade);
     free(self->name);
     free(self);
+    self = NULL;
 }
 
 static void RemoveFacadeMap(char *key) {
@@ -141,37 +148,40 @@ static void initializeNotifier(Facade *self, char *key) {
 }
 
 void InitFacade(Facade *self) {
-    if (self) {
-        self->controller = NULL;
-        self->model = NULL;
-        self->view = NULL;
-        self->initializeFacade = initializeFacade;
-        self->initializeController = initializeController;
-        self->initializeModel = initializeModel;
-        self->initializeView = initializeView;
-        self->registerCommand = registerCommand;
-        self->removeCommand = removeCommand;
-        self->hasCommand = hasCommand;
-        self->registerProxy = registerProxy;
-        self->retrieveProxy = retrieveProxy;
-        self->removeProxy = removeProxy;
-        self->hasProxy = hasProxy;
-        self->registerMediator = registerMediator;
-        self->retrieveMediator = retrieveMediator;
-        self->removeMediator = removeMediator;
-        self->hasMediator = hasMediator;
-        self->sendNotification = sendNotification;
-        self->notifyObservers = notifyObservers;
-        self->initializeNotifier = initializeNotifier;
-    }
+    self->controller = NULL;
+    self->model = NULL;
+    self->view = NULL;
+    self->initializeFacade = initializeFacade;
+    self->initializeController = initializeController;
+    self->initializeModel = initializeModel;
+    self->initializeView = initializeView;
+    self->registerCommand = registerCommand;
+    self->removeCommand = removeCommand;
+    self->hasCommand = hasCommand;
+    self->registerProxy = registerProxy;
+    self->retrieveProxy = retrieveProxy;
+    self->removeProxy = removeProxy;
+    self->hasProxy = hasProxy;
+    self->registerMediator = registerMediator;
+    self->retrieveMediator = retrieveMediator;
+    self->removeMediator = removeMediator;
+    self->hasMediator = hasMediator;
+    self->sendNotification = sendNotification;
+    self->notifyObservers = notifyObservers;
+    self->initializeNotifier = initializeNotifier;
 }
 
 Facade *NewFacade(char *key) {
     assert(GetFacadeMap(key) == NULL);
     Facade *self = malloc(sizeof(Facade));
+    if (self == NULL) goto exception;
     InitFacade(self);
     self->multitonKey = strdup(key);
     return self;
+
+    exception:
+    fprintf(stderr, "Facade allocation failed.\n");
+    return NULL;
 }
 
 bool HasFacadeCore(char *key) {

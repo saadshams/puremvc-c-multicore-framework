@@ -1,5 +1,6 @@
 #include "interfaces/Mediator.h"
 #include "interfaces/Notifier.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -16,22 +17,28 @@ static void *getViewComponent(const Mediator *self) {
 }
 
 static char **listNotificationInterests(const Mediator *self) {
-    char **list = (char *[]){NULL};
-    char **cursor = list;
+    char **list = (char *[]) {"ABC", NULL};
+
     int size = 0;
-    while (*cursor) {
+    for (char **cursor = list; *cursor; cursor++) {
         size++;
-        cursor++;
     }
-    char **interests = malloc(sizeof(char*) * (size + 1));
-    int i = 0;
-    while(*list) {
+
+    char **interests = malloc(sizeof(char *) * size + 1);
+    if (interests == NULL) goto exception;
+
+    for (int i = 0; *list; list++, i++) {
         interests[i] = malloc(sizeof(char) * (strlen(*list) + 1));
-        strcpy(interests[i++], *list);
-        list++;
+        if (interests[i] == NULL) goto exception;
+        strcpy(interests[i], *list);
     }
-    interests[i] = NULL;
+
+    interests[size] = NULL;
     return interests;
+
+    exception:
+        fprintf(stderr, "Mediator's interests allocation failed.\n");
+        return NULL;
 }
 
 static void handleNotification(const Mediator *self, Notification *notification) {
@@ -47,28 +54,32 @@ static void onRemove(Mediator *self) {
 }
 
 void InitMediator(Mediator *self, char *mediatorName, void *viewComponent) {
-    if (self) {
-        self->notifier = NewNotifier();
-        self->mediatorName = strdup(mediatorName != NULL ? mediatorName : MEDIATOR_NAME);
-        self->viewComponent = viewComponent;
-        self->getMediatorName = getMediatorName;
-        self->setViewComponent = setViewComponent;
-        self->getViewComponent = getViewComponent;
-        self->listNotificationInterests = listNotificationInterests;
-        self->handleNotification = handleNotification;
-        self->onRegister = onRegister;
-        self->onRemove = onRemove;
-    }
+    self->notifier = NewNotifier();
+    self->mediatorName = strdup(mediatorName != NULL ? mediatorName : MEDIATOR_NAME);
+    self->viewComponent = viewComponent;
+    self->getMediatorName = getMediatorName;
+    self->setViewComponent = setViewComponent;
+    self->getViewComponent = getViewComponent;
+    self->listNotificationInterests = listNotificationInterests;
+    self->handleNotification = handleNotification;
+    self->onRegister = onRegister;
+    self->onRemove = onRemove;
 }
 
 Mediator *NewMediator(char *mediatorName, void *viewComponent) {
     Mediator *self = malloc(sizeof(Mediator));
+    if (self == NULL) goto exception;
     InitMediator(self, mediatorName, viewComponent);
     return self;
+
+    exception:
+    fprintf(stderr, "Mediator allocation failed.\n");
+    return NULL;
 }
 
 void DeleteMediator(Mediator *self) {
     DeleteNotifier(self->notifier);
     free(self->mediatorName);
     free(self);
+    self = NULL;
 }

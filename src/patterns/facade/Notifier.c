@@ -1,4 +1,5 @@
 #include "interfaces/Notifier.h"
+#include <stdio.h>
 #include <string.h>
 
 Facade *getFacade(Notifier *self) {
@@ -15,21 +16,25 @@ static void initializeNotifier(Notifier *self, char *key) {
 }
 
 void InitNotifier(Notifier *self) {
-    if (self != NULL) {
-        self->multitonKey = NULL;
-        self->getFacade = getFacade;
-        self->initializeNotifier  = initializeNotifier;
-        self->sendNotification = sendNotification;
-    }
+    self->multitonKey = NULL;
+    self->getFacade = getFacade;
+    self->initializeNotifier  = initializeNotifier;
+    self->sendNotification = sendNotification;
 }
 
 Notifier *NewNotifier() {
     Notifier *self = malloc(sizeof(Notifier));
+    if (self == NULL) goto exception;
     InitNotifier(self);
     return self;
+
+    exception:
+    fprintf(stderr, "Notifier allocation failed.\n");
+    return NULL;
 }
 
 void DeleteNotifier(Notifier *self) {
     if (self->multitonKey) free(self->multitonKey);
     free(self);
+    self = NULL;
 }

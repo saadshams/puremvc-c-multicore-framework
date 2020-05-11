@@ -36,11 +36,11 @@ void testListNotificationInterests() {
     char **interests = mediator->listNotificationInterests(mediator);
 
     int i = 0;
-    while (*interests) {
+    for (char **cursor = interests; *cursor; cursor++) {
+        puts(*cursor);
         i++;
-        interests++;
     }
-    assert(i == 0);
+    assert(i == 1);
     free(interests);
     DeleteMediator(mediator);
 }
