@@ -14,6 +14,14 @@ static pthread_rwlock_t observerMap_mutex;
 
 // ViewMap
 
+typedef struct ViewMap ViewMap;
+
+struct ViewMap {
+    const char *name;
+    View *view;
+    ViewMap *next;
+};
+
 static ViewMap *instanceMap;
 
 static ViewMap *NewViewMap(const char *key, View *view) {
