@@ -106,7 +106,7 @@ static void registerProxy(Model *self, Proxy *proxy) {
     pthread_rwlock_unlock(&modelMap_mutex);
 }
 
-static Proxy *retrieveProxy(const Model *self, const char *proxyName) {
+static Proxy *retrieveProxy(Model *self, const char *proxyName) {
     pthread_rwlock_rdlock(&modelMap_mutex);
     ProxyMap *cursor = self->proxyMap;
     while (cursor && strcmp(cursor->name, proxyName) != 0)
@@ -115,7 +115,7 @@ static Proxy *retrieveProxy(const Model *self, const char *proxyName) {
     return cursor == NULL ? NULL : cursor->proxy;
 }
 
-static bool hasProxy(const Model *self, const char *proxyName) {
+static bool hasProxy(Model *self, const char *proxyName) {
     pthread_rwlock_rdlock(&modelMap_mutex);
     ProxyMap *cursor = self->proxyMap;
     while (cursor && strcmp(cursor->name, proxyName) != 0)
