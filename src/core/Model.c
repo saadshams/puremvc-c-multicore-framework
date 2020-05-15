@@ -153,10 +153,12 @@ void InitModel(Model *self) {
 
 Model *NewModel(const char *key) {
     assert(GetModelMap(key) == NULL);
+
     Model *self = malloc(sizeof(Model));
     if (self == NULL) goto exception;
     InitModel(self);
     self->multitonKey = key;
+    AddModelMap(key, self);
     return self;
 
     exception:
@@ -175,7 +177,6 @@ Model *getModelInstance(const char *key, Model *(*factory)(const char *)) {
     Model *instance = GetModelMap(key);
     if (instance == NULL) {
         instance = factory(key);
-        AddModelMap(key, instance);
         instance->initializeModel(instance);
     }
     pthread_mutex_unlock(&model_mutex);

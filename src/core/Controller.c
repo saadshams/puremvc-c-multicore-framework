@@ -163,10 +163,12 @@ void InitController(Controller *self) {
 
 Controller *NewController(const char *key) {
     assert(GetControllerMap(key) == NULL);
+
     Controller *self = malloc(sizeof(Controller));
     if (self == NULL) goto exception;
     InitController(self);
     self->multitonKey = key;
+    AddControllerMap(key, self);
     return self;
 
     exception:
@@ -185,7 +187,6 @@ Controller *getControllerInstance(const char *key, Controller *(*factory)(const 
     Controller *instance = GetControllerMap(key);
     if (instance == NULL) {
         instance = factory(key);
-        AddControllerMap(key, instance);
         instance->initializeController(instance);
     }
     pthread_mutex_unlock(&controller_mutex);

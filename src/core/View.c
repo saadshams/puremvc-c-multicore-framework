@@ -302,10 +302,12 @@ void InitView(View *self) {
 
 View *NewView(const char *key) {
     assert(GetViewMap(key) == NULL);
+
     View *self = malloc(sizeof(View));
     if (self == NULL) goto exception;
     InitView(self);
     self->multitonKey = key;
+    AddViewMap(key, self);
     return self;
 
     exception:
@@ -324,7 +326,6 @@ View *getViewInstance(const char *key, View *(*factory)(const char *)) {
     View *instance = GetViewMap(key);
     if (instance == NULL) {
         instance = factory(key);
-        AddViewMap(key, instance);
         instance->initializeView(instance);
     }
     pthread_mutex_unlock(&view_mutex);
