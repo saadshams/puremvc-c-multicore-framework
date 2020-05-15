@@ -8,40 +8,55 @@
 
 int main() {
     testMacroCommandExecute();
-    testMacroCommandExecute2();
     puts("MacroCommandTest: Success");
     return 0;
 }
 
+/**
+ * Tests operation of a <code>MacroCommand</code>.
+ *
+ * <P>This test creates a new <code>Notification</code>, adding a
+ * <code>MacroCommandTestVO</code> as the body.
+ * It then creates a <code>MacroCommandTestCommand</code> and invokes
+ * its <code>execute</code> method, passing in the
+ * <code>Notification</code>.<P>
+ *
+ * <P>The <code>MacroCommandTestCommand</code> has defined an
+ * <code>initializeMacroCommand</code> method, which is
+ * called automatically by its constructor. In this method
+ * the <code>MacroCommandTestCommand</code> adds 2 SubCommands
+ * to itself, <code>MacroCommandTestSub1Command</code> and
+ * <code>MacroCommandTestSub2Command</code>.
+ *
+ * <P>The <code>MacroCommandTestVO</code> has 2 result properties,
+ * one is set by <code>MacroCommandTestSub1Command</code> by
+ * multiplying the input property by 2, and the other is set
+ * by <code>MacroCommandTestSub2Command</code> by multiplying
+ * the input property by itself.
+ *
+ * <P>Success is determined by evaluating the 2 result properties
+ * on the <code>MacroCommandTestVO</code> that was passed to
+ * the <code>MacroCommandTestCommand</code> on the Notification
+ * body.</P>
+ */
 void testMacroCommandExecute() {
-    MacroCommandTestVO *vo = MacroCommandTestVONew(5);
-    Notification *notification = NewNotification("MacroCommandTest", vo, NULL);
+    // Create the VO
+    MacroCommandTestVO vo = {5, 0, 0};
 
-    MacroCommand *command = MacroCommandTestCommandNew();
-    command->notifier->initializeNotifier(command->notifier, "test");
-    command->execute(command, notification);
+    // Create the Notification (note)
+    Notification *notification = NewNotification("MacroCommandTest", &vo, NULL);
 
-    assert(vo->result1 == 10);
-    assert(vo->result2 == 25);
-
-    MacroCommandTestVODelete(vo);
-    DeleteNotification(notification);
-    DeleteMacroCommand(command);
-}
-
-void testMacroCommandExecute2() {
-    MacroCommandTestVO *vo = MacroCommandTestVONew(5);
-    Notification *notification = NewNotification("MacroCommandTest", vo, NULL);
-
-    MacroCommand *command = MacroCommandTestCommandNew2();
+    // Create the SimpleCommand
+    MacroCommand *command = NewMacroCommandTestCommand();
     command->notifier->initializeNotifier(command->notifier, "test");
 
+    // Execute the SimpleCommand
     command->execute(command, notification);
 
-    assert(vo->result1 == 10);
-    assert(vo->result2 == 25);
+    // test assertions
+    assert(vo.result1 == 10);
+    assert(vo.result2 == 25);
 
-    MacroCommandTestVODelete(vo);
     DeleteNotification(notification);
     DeleteMacroCommand(command);
 }

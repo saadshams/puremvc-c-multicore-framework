@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static void execute(const SimpleCommand *self, Notification *notification) {
+static void execute(SimpleCommand *self, Notification *notification) {
 
 }
 

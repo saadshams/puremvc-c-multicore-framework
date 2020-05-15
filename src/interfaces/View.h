@@ -13,9 +13,14 @@ struct MediatorMap {
     MediatorMap *next;
 };
 
-typedef struct ObserverMap ObserverMap;
-
 typedef struct ObserverNode ObserverNode;
+
+struct ObserverNode {
+    Observer *observer;
+    ObserverNode *next;
+};
+
+typedef struct ObserverMap ObserverMap;
 
 struct ObserverMap {
     const char *name;
@@ -23,20 +28,7 @@ struct ObserverMap {
     ObserverMap *next;
 };
 
-struct ObserverNode {
-    Observer *observer;
-    ObserverNode *next;
-};
-
 typedef struct View View;
-
-typedef struct ViewMap ViewMap;
-
-struct ViewMap {
-    const char *name;
-    View *view;
-    ViewMap *next;
-};
 
 struct View {
     const char *multitonKey;

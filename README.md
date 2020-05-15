@@ -6,8 +6,9 @@ PureMVC is a lightweight framework for creating applications based upon the clas
 
 ## Platforms / Technologies
 * [C](https://en.wikipedia.org/wiki/C_(programming_language))
-* [WebAssembly](https://en.wikipedia.org/wiki/WebAssembly)
+* [Arduino](https://en.wikipedia.org/wiki/Arduino)
 * [Internet of things](https://en.wikipedia.org/wiki/Internet_of_things)
+* [WebAssembly](https://en.wikipedia.org/wiki/WebAssembly)
 
 ## Status
 Production - [Version 1.0](https://github.com/PureMVC/puremvc-c-standard-framework/blob/master/VERSION)

@@ -3,12 +3,12 @@
 
 #include "interfaces/SimpleCommand.h"
 
-typedef struct ControllerTestCommand ControllerTestCommand;
-
-struct ControllerTestCommand {
-    SimpleCommand simpleCommand;
-};
-
-ControllerTestCommand *NewControllerTestCommand();
+/**
+ * A SimpleCommand struct used by ControllerTest.
+ *
+ * @see ControllerTest ControllerTest
+ * @see ControllerTestVO ControllerTestVO
+ */
+SimpleCommand *NewControllerTestCommand();
 
 #endif //PUREMVC_CONTROLLERTESTCOMMAND_H

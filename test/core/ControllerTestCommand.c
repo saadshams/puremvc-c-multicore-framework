@@ -1,15 +1,20 @@
 #include "ControllerTestCommand.h"
 #include "ControllerTestVO.h"
-#include <stdlib.h>
 
-static void execute(const SimpleCommand *self, Notification *notification) {
+/**
+ * Fabricate a result by multiplying the input by 2
+ *
+ * @param notification the note carrying the ControllerTestVO
+ */
+static void execute(SimpleCommand *self, Notification *notification) {
     ControllerTestVO *vo = (ControllerTestVO *)notification->getBody(notification);
+
+    // Fabricate a result
     vo->result = 2 * vo->input;
 }
 
-ControllerTestCommand *NewControllerTestCommand() {
-    ControllerTestCommand *self = malloc(sizeof(ControllerTestCommand));
-    InitSimpleCommand(&self->simpleCommand);
-    self->simpleCommand.execute = execute;
+SimpleCommand *NewControllerTestCommand() {
+    SimpleCommand *self = NewSimpleCommand();
+    self->execute = execute;
     return self;
 }

@@ -2,8 +2,15 @@
 #include "FacadeTestVO.h"
 #include <stdlib.h>
 
-void execute(const SimpleCommand *self, Notification *notification) {
+/**
+ * Fabricate a result by multiplying the input by 2
+ *
+ * @param notification the Notification carrying the FacadeTestVO
+ */
+void execute(SimpleCommand *self, Notification *notification) {
     FacadeTestVO *vo = notification->getBody(notification);
+
+    // Fabricate a result
     vo->result = 2 * vo->input;
 }
 

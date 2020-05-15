@@ -1,16 +1,27 @@
 #include "ControllerTestCommand2.h"
 #include "ControllerTestVO.h"
-#include <stdlib.h>
 
-static void execute(const ControllerTestCommand2 *self, Notification *notification) {
+/**
+ * Fabricate a result by multiplying the input by 2 and adding to the existing result
+ *
+ * <P>This tests accumulation effect that would show if the command were executed more than once.</P>
+ *
+ * @param self the simple command
+ * @param notification the note carrying the ControllerTestVO
+ */
+static void execute(SimpleCommand *self, Notification *notification) {
     ControllerTestVO *vo = notification->getBody(notification);
 
+    // Fabricate a result
     vo->result = vo->result + (2 * vo->input);
 }
 
-ControllerTestCommand2 *NewControllerTestCommand2() {
-    ControllerTestCommand2 *self = malloc(sizeof(ControllerTestCommand2));
-    InitSimpleCommand(&self->simpleCommand);
-    self->simpleCommand.execute = (void (*)(const SimpleCommand *, Notification *)) execute;
+/**
+ * Constructor
+ * @return
+ */
+SimpleCommand *NewControllerTestCommand2() {
+    SimpleCommand *self = NewSimpleCommand();
+    self->execute = execute;
     return self;
 }

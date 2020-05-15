@@ -11,9 +11,9 @@ struct Proxy {
     struct Notifier *notifier;
     const char *proxyName;
     void *data;
-    const char *(*getProxyName)(const Proxy *self);
+    const char *(*getProxyName)(Proxy *self);
     void (*setData)(Proxy *self, void *data);
-    void *(*getData)(const Proxy *self);
+    void *(*getData)(Proxy *self);
     void (*onRegister)(Proxy *self);
     void (*onRemove)(Proxy *self);
 };

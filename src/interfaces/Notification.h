@@ -7,10 +7,10 @@ struct Notification {
     const char *name;
     void *body;
     char *type;
-    const char *(*getName)(const Notification *self);
-    void *(*getBody)(const Notification *self);
+    const char *(*getName)(Notification *self);
+    void *(*getBody)(Notification *self);
     void (*setBody)(Notification *self, void *body);
-    char *(*getType)(const Notification *self);
+    char *(*getType)(Notification *self);
     void (*setType)(Notification *self, char *type);
 };
 

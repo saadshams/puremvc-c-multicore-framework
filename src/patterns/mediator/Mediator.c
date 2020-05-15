@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-static const char *getMediatorName(const Mediator *self) {
+static const char *getMediatorName(Mediator *self) {
     return self->mediatorName;
 }
 
@@ -12,16 +12,16 @@ static void setViewComponent(Mediator *self, void *viewComponent) {
     self->viewComponent = viewComponent;
 }
 
-static void *getViewComponent(const Mediator *self) {
+static void *getViewComponent(Mediator *self) {
     return self->viewComponent;
 }
 
-static const char * const *listNotificationInterests(const Mediator *self) {
+static const char * const *listNotificationInterests(Mediator *self) {
     static const char * const interests[] = {NULL};
     return interests;
 }
 
-static void handleNotification(const Mediator *self, Notification *notification) {
+static void handleNotification(Mediator *self, Notification *notification) {
 
 }
 

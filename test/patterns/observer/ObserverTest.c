@@ -3,6 +3,18 @@
 #include <assert.h>
 #include <stdio.h>
 
+/**
+ * Tests PureMVC Observer class.
+ *
+ * <P>Since the Observer encapsulates the interested object's
+ * callback information, there are no getters, only setters.
+ * It is, in effect write-only memory.</P>
+ *
+ * <P>Therefore, the only way to test it is to set the
+ * notification method and context and call the notifyObserver
+ * method.</P>
+ *
+ */
 int main() {
     testObserverAccessors();
     testObserverConstructor();
@@ -11,51 +23,75 @@ int main() {
     return 0;
 }
 
-typedef struct ObserverTestVar {
-    int value;
-} ObserverTestVar;
-
+/**
+ * A test variable that proves the notify method was
+ * executed with 'handleNotification' as its execution context
+ */
 ObserverTestVar observerTestVar = {0};
 
+/**
+ * A function that is used as the observer notification
+ * method.
+ */
+static void handleNotification(void *context, Notification *notification) {
+    observerTestVar = *(ObserverTestVar *) notification->getBody(notification);
+}
+
+/**
+ * Tests observer class when initialized by accessor methods.
+ */
 void testObserverAccessors() {
+    // Create observer with null args, then
+    // use accessors to set notification method and context
+    struct Object {} object;
     Observer *observer = NewObserver(NULL, NULL);
+    observer->setNotifyMethod(observer, handleNotification);
+    observer->setNotifyContext(observer, &object);
 
-    observer->setNotifyMethod(observer, observerTestMethod);
-    observer->setNotifyContext(observer, &observerTestVar);
-
-    ObserverTestVar temp = {10};
-    Notification *notification = NewNotification("ObserverTestNote", &temp, NULL);
+    // create a test event, setting a payload value and notify
+    // the observer with it. since the observer is this class
+    // and the notification method is observerTestMethod,
+    // successful notification will result in our local
+    // observerTestVar being set to the value we pass in
+    // on the note body.
+    Notification *notification = NewNotification("ObserverTestNote", &(ObserverTestVar){10}, NULL);
     observer->notifyObserver(observer, notification);
 
+    // test assertions
     assert(observerTestVar.value == 10);
 
     DeleteNotification(notification);
     DeleteObserver(observer);
 }
 
+/**
+ * Tests the Constructor method of the Observer class
+ */
 void testObserverConstructor() {
-    ObserverTestVar temp = {5};
-    Observer *observer = NewObserver(observerTestMethod, &temp);
-    Notification *notification = NewNotification("ObserverTestNote", &temp, NULL);
+    // Create observer
+    struct Object {} object;
+    Observer *observer = NewObserver(handleNotification, &object);
+    Notification *notification = NewNotification("ObserverTestNote", &(ObserverTestVar){5}, NULL);
     observer->notifyObserver(observer, notification);
 
+    // test assertions
     assert(observerTestVar.value == 5);
 
     DeleteNotification(notification);
     DeleteObserver(observer);
 }
 
+/**
+ * Tests the compareNotifyContext method of the Observer class
+ */
 void testCompareNotifyContext() {
-    ObserverTestVar observerTestVar = {};
-    Observer *observer = NewObserver(observerTestMethod, &observerTestVar);
+    // Create observer passing in notification method and context
+    struct Object {} object, negTestObj;
+    Observer *observer = NewObserver(handleNotification, &object);
 
-    void *negTestObj = (void *)8;
-    assert(observer->compareNotifyContext(observer, negTestObj) == false);
-    assert(observer->compareNotifyContext(observer, &observerTestVar) == true);
+    // test assertions
+    assert(observer->compareNotifyContext(observer, &negTestObj) == false);
+    assert(observer->compareNotifyContext(observer, &object) == true);
 
     DeleteObserver(observer);
-}
-
-static void observerTestMethod(void *context, Notification *notification) {
-    observerTestVar = *(ObserverTestVar *) notification->getBody(notification);
 }

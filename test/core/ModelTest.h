@@ -4,7 +4,6 @@
 void testGetInstance();
 void testRegisterAndRetrieveProxy();
 void testRegisterAndRemoveProxy();
-void testReRegisterAndRetrieveProxy();
 void testHasProxy();
 void testOnRegisterAndOnRemove();
 void testRemoveModel();

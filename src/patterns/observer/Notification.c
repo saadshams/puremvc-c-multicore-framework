@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-static const char *getName(const Notification *self) {
+static const char *getName(Notification *self) {
     return self->name;
 }
 
@@ -11,7 +11,7 @@ static void setBody(Notification *self, void *body) {
     self->body = body;
 }
 
-static void *getBody(const Notification *self) {
+static void *getBody(Notification *self) {
     return self->body;
 }
 
@@ -19,7 +19,7 @@ static void setType(Notification *self, char *type) {
     self->type = type;
 }
 
-static char *getType(const Notification *self) {
+static char *getType(Notification *self) {
     return self->type;
 }
 

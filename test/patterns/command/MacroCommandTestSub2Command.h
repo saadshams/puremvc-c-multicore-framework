@@ -3,6 +3,6 @@
 
 #include "interfaces/SimpleCommand.h"
 
-SimpleCommand *MacroCommandTestSub2CommandNew();
+SimpleCommand *NewMacroCommandTestSub2Command();
 
 #endif //PUREMVC_MACROCOMMANDTESTSUB2COMMAND_H

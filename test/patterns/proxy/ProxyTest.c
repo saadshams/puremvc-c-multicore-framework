@@ -5,6 +5,12 @@
 #include <stdio.h>
 #include <string.h>
 
+/**
+ * Test the PureMVC Proxy class.
+ *
+ * @see org.puremvc.c.multicore.interfaces.Proxy Proxy
+ * @see Proxy Proxy
+ */
 int main() {
     testNameAccessor();
     testDataAccessors();
@@ -13,73 +19,58 @@ int main() {
     return 0;
 }
 
-typedef struct Array Array;
-struct Array {
-    int length;
-    void **values;
-};
-
+/**
+ * Tests getting the name using Proxy class accessor method. Setting can only be done in constructor.
+ */
 void testNameAccessor() {
     Proxy *proxy = NewProxy("TestProxy", NULL);
     proxy->notifier->initializeNotifier(proxy->notifier, "test");
+
+    // test assertions
     assert(proxy != NULL);
     assert(proxy->notifier != NULL);
     assert(strcmp(proxy->getProxyName(proxy), "TestProxy") == 0);
     DeleteProxy(proxy);
 }
 
+/**
+ * Tests setting and getting the data using Proxy class accessor methods.
+ */
 void testDataAccessors() {
+    // Create a new Proxy and use accessors to set the data
     Proxy *proxy = NewProxy("colors", NULL);
     proxy->notifier->initializeNotifier(proxy->notifier, "test");
     assert(proxy != NULL);
-    proxy->setData(proxy, &(Array) {3, (void **) (char *[]) {"red", "green", "blue"}});
+    proxy->setData(proxy, (const char *[]) {"red", "green", "blue", NULL});
 
-    Array *data = proxy->getData(proxy);
-    assert(data->length == 3);
-    assert(strcmp(data->values[0], "red") == 0);
-    assert(strcmp(data->values[1], "green") == 0);
-    assert(strcmp(data->values[2], "blue") == 0);
+    const char **data = proxy->getData(proxy);
+
+    // test assertions
+    assert(strcmp(*data, "red") == 0);
+    assert(strcmp(*(data + 1), "green") == 0);
+    assert(strcmp(*(data + 2), "blue") == 0);
+    assert(*(data + 3) == NULL);
 
     DeleteProxy(proxy);
 }
 
+/**
+ * Tests setting the name and body using the Notification class Constructor.
+ */
 void testConstructor() {
-    Proxy *proxy = NewProxy("colors", &(Array) {3, (void **) (char *[]) {"red", "green", "blue"}});
+    // Create a new Proxy using the Constructor to set the name and data
+    Proxy *proxy = NewProxy("colors", (char *[]) {"red", "green", "blue", NULL});
     proxy->notifier->initializeNotifier(proxy->notifier, "test");
-    Array *data = proxy->getData(proxy);
+    const char **data = proxy->getData(proxy);
 
+    // test assertions
     assert(proxy != NULL);
     assert(strcmp(proxy->getProxyName(proxy), "colors") == 0);
 
-    assert(data->length == 3);
-    assert(strcmp(data->values[0], "red") == 0);
-    assert(strcmp(data->values[1], "green") == 0);
-    assert(strcmp(data->values[2], "blue") == 0);
+    assert(strcmp(*data, "red") == 0);
+    assert(strcmp(*(data + 1), "green") == 0);
+    assert(strcmp(*(data + 2), "blue") == 0);
+    assert(*(data + 3) == NULL);
 
     DeleteProxy(proxy);
-}
-
-#include <stdlib.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <unistd.h>
-
-// https://jameshfisher.com/2016/12/20/http-hello-world/
-// https://rosettacode.org/wiki/Hello_world/Web_server#C
-int service() {
-    int server_fd = socket(AF_INET, SOCK_STREAM, 0);
-    struct sockaddr_in server;
-    server.sin_family = AF_INET;
-    server.sin_port = htons(8080);
-    server.sin_addr.s_addr = htonl(INADDR_ANY);
-    bind(server_fd, (struct sockaddr *) &server, sizeof(server));
-    listen(server_fd, 128);
-    for (;;) {
-        int client_fd = accept(server_fd, NULL, NULL);
-        char response[] = "HTTP/1.1 200 OK\r\nContent-Length: 13\r\nConnection: close\r\n\r\nHello, world!";
-        for (int sent = 0;
-             sent < sizeof(response); sent += send(client_fd, response + sent, sizeof(response) - sent, 0));
-        close(client_fd);
-    }
-    return 0;
 }

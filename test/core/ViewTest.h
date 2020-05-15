@@ -6,7 +6,7 @@
 typedef struct ViewTest ViewTest;
 
 struct ViewTest {
-    char *lastNotification;
+    const char *lastNotification;
     bool onRegisterCalled;
     bool onRemoveCalled;
     int counter;
@@ -30,5 +30,6 @@ void testRemoveMediatorAndSubsequentNotify();
 void testRemoveOneOfTwoMediatorsAndSubsequentNotify();
 void testMediatorReregistration();
 void testModifyObserverListDuringNotification();
+void testRemoveView();
 
 #endif //PUREMVC_VIEWTEST_H

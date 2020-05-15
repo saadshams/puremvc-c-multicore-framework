@@ -19,8 +19,8 @@ struct Model {
     ProxyMap *proxyMap;
     void (*initializeModel)(Model *self);
     void (*registerProxy)(Model *self, Proxy *proxy);
-    Proxy *(*retrieveProxy)(const Model *self, const char *proxyName);
-    bool (*hasProxy)(const Model *self, const char *proxyName);
+    Proxy *(*retrieveProxy)(Model *self, const char *proxyName);
+    bool (*hasProxy)(Model *self, const char *proxyName);
     Proxy *(*removeProxy)(Model *self, const char *proxyName);
 };
 

@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static void *getNotifyContext(const Observer *self) {
+static void *getNotifyContext(Observer *self) {
     return self->context;
 }
 
@@ -10,7 +10,7 @@ static void setNotifyContext(Observer *self, void *notifyContext) {
     self->context = notifyContext;
 }
 
-static void (*getNotifyMethod(const Observer *self))(void *context, Notification *notification) {
+static void (*getNotifyMethod(Observer *self))(void *context, Notification *notification) {
     return self->notify;
 }
 
@@ -18,11 +18,11 @@ static void setNotifyMethod(Observer *self, void (*notifyMethod)(void *context, 
     self->notify = notifyMethod;
 }
 
-static void notifyObserver(const Observer *self, Notification *notification) {
+static void notifyObserver(Observer *self, Notification *notification) {
     self->notify(self->context, notification);
 }
 
-static bool compareNotifyContext(const Observer *self, const void *context) {
+static bool compareNotifyContext(Observer *self, const void *context) {
     return self->context == context;
 }
 

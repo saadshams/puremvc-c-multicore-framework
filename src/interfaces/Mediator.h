@@ -11,16 +11,16 @@ struct Mediator {
     struct Notifier *notifier;
     const char *mediatorName;
     void *viewComponent;
-    const char *(*getMediatorName)(const Mediator *self);
+    const char *(*getMediatorName)(Mediator *self);
     void (*setViewComponent)(Mediator *self, void *viewComponent);
-    void *(*getViewComponent)(const Mediator *self);
-    const char * const *(*listNotificationInterests)(const Mediator *self);
-    void (*handleNotification)(const Mediator *self, Notification *notification);
+    void *(*getViewComponent)(Mediator *self);
+    const char * const *(*listNotificationInterests)(Mediator *self);
+    void (*handleNotification)(Mediator *self, Notification *notification);
     void (*onRegister)(Mediator *self);
     void (*onRemove)(Mediator *self);
 };
 
-static char *MEDIATOR_NAME = "Mediator";
+#define MEDIATOR_NAME "Mediator"
 
 void InitMediator(Mediator *self, const char *mediatorName, void *viewComponent);
 

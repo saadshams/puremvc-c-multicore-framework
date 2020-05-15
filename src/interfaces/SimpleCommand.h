@@ -9,7 +9,7 @@ typedef struct SimpleCommand SimpleCommand;
 
 struct SimpleCommand {
     struct Notifier *notifier;
-    void (*execute)(const SimpleCommand *self, Notification *notification);
+    void (*execute)(SimpleCommand *self, Notification *notification);
 };
 
 void InitSimpleCommand(SimpleCommand *self);

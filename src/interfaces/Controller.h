@@ -22,7 +22,7 @@ struct Controller {
     void (*initializeController)(Controller *self);
     void (*executeCommand)(Controller *self, Notification *notification);
     void (*registerCommand)(Controller *self, const char *notificationName, SimpleCommand *(*factory)());
-    bool (*hasCommand)(Controller *self,  const char *notificationName);
+    bool (*hasCommand)(Controller *self, const char *notificationName);
     void (*removeCommand)(Controller *self, const char *notificationName);
 };
 

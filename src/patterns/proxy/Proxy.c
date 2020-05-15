@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 
-static const char *getProxyName(const Proxy *self) {
+static const char *getProxyName(Proxy *self) {
     return self->proxyName;
 }
 
@@ -11,7 +11,7 @@ static void setData(Proxy *self, void *data) {
     self->data = data;
 }
 
-static void *getData(const Proxy *self) {
+static void *getData(Proxy *self) {
     return self->data;
 }
 

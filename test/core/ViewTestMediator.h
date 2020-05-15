@@ -3,11 +3,19 @@
 
 #include "interfaces/Mediator.h"
 
-static char *ViewTestMediator_NAME = "ViewTestMediator";
-
+/**
+ * A Mediator struct used by ViewTest.
+ *
+ * @see ViewTest ViewTest
+ */
 typedef struct {
     Mediator mediator;
 } ViewTestMediator;
+
+/**
+ * The Mediator name
+ */
+#define ViewTestMediator_NAME "ViewTestMediator"
 
 ViewTestMediator *NewViewTestMediator(void *viewComponent);
 

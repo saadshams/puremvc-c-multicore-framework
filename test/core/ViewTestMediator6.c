@@ -3,14 +3,13 @@
 #include "interfaces/Notifier.h"
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
 
-static const char * const *listNotificationInterests(const Mediator *self) {
+static const char * const *listNotificationInterests(Mediator *self) {
     static const char * const interests[] = {NOTE6, NULL};
     return interests;
 }
 
-static void handleNotification(const Mediator *self, Notification *notification) {
+static void handleNotification(Mediator *self, Notification *notification) {
     Facade *facade = self->notifier->getFacade(self->notifier);
     Mediator *mediator = facade->removeMediator(facade, self->mediatorName);
     DeleteMediator(mediator);

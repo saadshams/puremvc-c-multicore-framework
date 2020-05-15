@@ -9,15 +9,12 @@ typedef struct Observer Observer;
 struct Observer {
     void *context;
     void (*notify)(void *context, Notification *notification);
-
-    void *(*getNotifyContext)(const Observer *self);
+    void *(*getNotifyContext)(Observer *self);
     void (*setNotifyContext)(Observer *self, void *notifyContext);
-
-    void (*(*getNotifyMethod)(const Observer *self))(void *context, Notification *notification);
+    void (*(*getNotifyMethod)(Observer *self))(void *context, Notification *notification);
     void (*setNotifyMethod)(Observer *self, void (*notifyMethod)(void *context, Notification *notification));
-
-    void (*notifyObserver)(const Observer *self, Notification *notification);
-    bool (*compareNotifyContext)(const Observer *self, const void *context);
+    void (*notifyObserver)(Observer *self, Notification *notification);
+    bool (*compareNotifyContext)(Observer *self, const void *context);
 };
 
 void InitObserver(Observer *self, void (*notifyMethod)(void *context, Notification *notification), void *notifyContext);

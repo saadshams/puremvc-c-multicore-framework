@@ -3,6 +3,10 @@
 
 #include "interfaces/Notification.h"
 
+typedef struct {
+    int value;
+} ObserverTestVar;
+
 void testObserverAccessors();
 
 void testObserverConstructor();
@@ -10,7 +14,5 @@ void testObserverConstructor();
 void testCompareNotifyContext();
 
 void testCompareNotifyContext();
-
-static void observerTestMethod(void *context, Notification *notification);
 
 #endif //PUREMVC_OBSERVERTEST_H

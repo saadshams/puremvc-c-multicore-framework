@@ -3,6 +3,12 @@
 
 #include "interfaces/SimpleCommand.h"
 
+/**
+ * A SimpleCommand substruct used by FacadeTest.
+ *
+ * @see FacadeTest FacadeTest
+ * @see FacadeTestVO FacadeTestVO
+ */
 typedef struct {
     SimpleCommand simpleCommand;
 } FacadeTestCommand;

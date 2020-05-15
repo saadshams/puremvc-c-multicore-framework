@@ -3,12 +3,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-static const char * const *listNotificationInterests(const Mediator *self) {
+static const char * const *listNotificationInterests(Mediator *self) {
     static const char * const interests[] = {NOTE5, NULL};
     return interests;
 }
 
-static void handleNotification(const Mediator *self, Notification *notification) {
+static void handleNotification(Mediator *self, Notification *notification) {
     ViewTest *viewTest = self->getViewComponent(self);
    viewTest->counter++;
 }
