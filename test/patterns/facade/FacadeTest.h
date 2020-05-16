@@ -11,5 +11,6 @@ void testHasProxy();
 void testHasMediator();
 void testHasCommand();
 void testHasCoreAndRemoveCore();
+void testGetInstancesThreaded();
 
 #endif //PUREMVC_FACADETEST_H

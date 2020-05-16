@@ -2,6 +2,7 @@
 #include "interfaces/Facade.h"
 #include "FacadeTestCommand.h"
 #include "FacadeTestVO.h"
+#include <pthread.h>
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
@@ -23,6 +24,7 @@ int main() {
     testHasMediator();
     testHasCommand();
     testHasCoreAndRemoveCore();
+    testGetInstancesThreaded();
     puts("TestFacade: Success");
     return 0;
 }
@@ -247,4 +249,39 @@ void testHasCoreAndRemoveCore() {
 
     // assert that the Facade.hasCore method returns false now that the core has been removed.
     assert(HasFacadeCore("FacadeTestKey11") == false);
+}
+
+Facade *facade;
+
+void *getFacadeInstances(void *arg) {
+    assert(facade == getFacadeInstance("FacadeTestKey11", NewFacade));
+    assert(HasFacadeCore("FacadeTestKey11") == true);
+    return NULL;
+}
+
+/**
+ * Tests getInstance in a multithreaded environment
+ */
+void testGetInstancesThreaded() {
+    facade = getFacadeInstance("FacadeTestKey11", NewFacade);
+
+    int total = 100;
+    pthread_t *thread_group = malloc(sizeof(pthread_t) * total);
+
+    // start all threads to begin work
+    for (int i=0; i<total; i++) {
+        int error = pthread_create(&thread_group[i], NULL, getFacadeInstances, NULL);
+        if (error != 0)
+            printf("\nThread can't be created : [%s]", strerror(error));
+    }
+
+    // wait for all threads to finish
+    for (int i=0; i<total; i++) {
+        pthread_join(thread_group[i], NULL);
+    }
+
+    free(thread_group);
+
+    // cleanup
+    RemoveFacadeCore("FacadeTestKey11");
 }

@@ -7,8 +7,8 @@
  * its 2 SubCommands.
  */
 static void initializeMacroCommand(MacroCommand *self) {
-    self->addSubCommand(self, (SimpleCommand *(*)()) NewMacroCommandTestSub1Command);
-    self->addSubCommand(self, (SimpleCommand *(*)()) NewMacroCommandTestSub2Command);
+    self->addSubCommand(self, NewMacroCommandTestSub1Command);
+    self->addSubCommand(self, NewMacroCommandTestSub2Command);
 }
 
 /**

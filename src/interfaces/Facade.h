@@ -5,6 +5,14 @@
 #include "Model.h"
 #include "View.h"
 
+/**
+ * A base Multiton <code>IFacade</code> implementation.
+ *
+ * @see org.puremvc.c.multicore.core.Model Model
+ * @see org.puremvc.c.multicore.core.View View
+ * @see org.puremvc.c.multicore.core.Controller Controller
+ */
+
 typedef struct Facade Facade;
 
 struct Facade {
@@ -32,14 +40,42 @@ struct Facade {
     void (*initializeNotifier)(Facade *self, const char *key);
 };
 
+/**
+ * Initializer
+ *
+ * @param self
+ */
 void InitFacade(Facade *self);
 
+/**
+ * Constructor
+ *
+ * @param key
+ */
 Facade *NewFacade(const char *key);
 
+/**
+ * Check if a Core is registered or not
+ *
+ * @param key
+ * @return bool
+ */
 bool HasFacadeCore(const char *key);
 
+/**
+ * Remove a Core.
+ *
+ * @param key
+ */
 void RemoveFacadeCore(const char *key);
 
+/**
+ * Facade Multiton Factory method
+ *
+ * @param key
+ * @param factory
+ * @return facade
+ */
 Facade *getFacadeInstance(const char *key, Facade *(*factory)(const char *));
 
 #endif //PUREMVC_FACADE_H
