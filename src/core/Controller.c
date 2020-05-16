@@ -7,8 +7,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-static pthread_mutex_t controller_mutex;
-
 static pthread_rwlock_t commandMap_mutex;
 
 // ControllerMap
@@ -161,6 +159,8 @@ void InitController(Controller *self) {
     self->removeCommand = removeCommand;
 }
 
+static pthread_rwlock_t controller_mutex;
+
 Controller *NewController(const char *key) {
     assert(GetControllerMap(key) == NULL);
 
@@ -177,18 +177,18 @@ Controller *NewController(const char *key) {
 }
 
 void DeleteController(const char *key) {
-    pthread_mutex_lock(&controller_mutex);
+    pthread_rwlock_wrlock(&controller_mutex);
     RemoveControllerMap(key);
-    pthread_mutex_unlock(&controller_mutex);
+    pthread_rwlock_unlock(&controller_mutex);
 }
 
 Controller *getControllerInstance(const char *key, Controller *(*factory)(const char *)) {
-    pthread_mutex_lock(&controller_mutex);
+    pthread_rwlock_wrlock(&controller_mutex);
     Controller *instance = GetControllerMap(key);
     if (instance == NULL) {
         instance = factory(key);
         instance->initializeController(instance);
     }
-    pthread_mutex_unlock(&controller_mutex);
+    pthread_rwlock_unlock(&controller_mutex);
     return instance;
 }

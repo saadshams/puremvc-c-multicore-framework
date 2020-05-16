@@ -6,8 +6,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-static pthread_mutex_t view_mutex;
-
 static pthread_rwlock_t mediatorMap_mutex;
 
 static pthread_rwlock_t observerMap_mutex;
@@ -315,19 +313,21 @@ View *NewView(const char *key) {
         return NULL;
 }
 
+static pthread_rwlock_t view_mutex;
+
 void DeleteView(const char *key) {
-    pthread_mutex_lock(&view_mutex);
+    pthread_rwlock_wrlock(&view_mutex);
     RemoveViewMap(key);
-    pthread_mutex_unlock(&view_mutex);
+    pthread_rwlock_unlock(&view_mutex);
 }
 
 View *getViewInstance(const char *key, View *(*factory)(const char *)) {
-    pthread_mutex_lock(&view_mutex);
+    pthread_rwlock_wrlock(&view_mutex);
     View *instance = GetViewMap(key);
     if (instance == NULL) {
         instance = factory(key);
         instance->initializeView(instance);
     }
-    pthread_mutex_unlock(&view_mutex);
+    pthread_rwlock_unlock(&view_mutex);
     return instance;
 }

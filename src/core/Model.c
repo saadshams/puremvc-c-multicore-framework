@@ -5,8 +5,6 @@
 #include <stdio.h>
 #include <string.h>
 
-static pthread_mutex_t model_mutex;
-
 static pthread_rwlock_t modelMap_mutex;
 
 // ModelMap
@@ -166,19 +164,21 @@ Model *NewModel(const char *key) {
         return NULL;
 }
 
+static pthread_rwlock_t model_mutex;
+
 void DeleteModel(const char *key) {
-    pthread_mutex_lock(&model_mutex);
+    pthread_rwlock_wrlock(&model_mutex);
     RemoveModelMap(key);
-    pthread_mutex_unlock(&model_mutex);
+    pthread_rwlock_unlock(&model_mutex);
 }
 
 Model *getModelInstance(const char *key, Model *(*factory)(const char *)) {
-    pthread_mutex_lock(&model_mutex);
+    pthread_rwlock_wrlock(&model_mutex);
     Model *instance = GetModelMap(key);
     if (instance == NULL) {
         instance = factory(key);
         instance->initializeModel(instance);
     }
-    pthread_mutex_unlock(&model_mutex);
+    pthread_rwlock_unlock(&model_mutex);
     return instance;
 }
