@@ -3,28 +3,6 @@
 
 #include "Notification.h"
 
-struct Notifier;
-
-/**
- * <P>A base <code>Mediator</code> implementation.</P>
- *
- * @see org.puremvc.c.multicore.core.View View
- */
-typedef struct Mediator Mediator;
-
-struct Mediator {
-    struct Notifier *notifier;
-    const char *mediatorName;
-    void *viewComponent;
-    const char *(*getMediatorName)(Mediator *self);
-    void (*setViewComponent)(Mediator *self, void *viewComponent);
-    void *(*getViewComponent)(Mediator *self);
-    const char * const *(*listNotificationInterests)(Mediator *self);
-    void (*handleNotification)(Mediator *self, Notification *notification);
-    void (*onRegister)(Mediator *self);
-    void (*onRemove)(Mediator *self);
-};
-
 /**
  * <P>The name of the <code>Mediator</code>.</P>
  *
@@ -34,28 +12,64 @@ struct Mediator {
  */
 #define MEDIATOR_NAME "Mediator"
 
+typedef struct Mediator Mediator;
+
+struct Notifier;
+
 /**
- * Initializer
+ * <P>A base <code>Mediator</code> implementation.</P>
  *
- * @param mediator
- * @param mediatorName
- * @param viewComponent
+ * @see View
  */
+struct Mediator {
+
+    struct Notifier *notifier;
+
+    const char *mediatorName;
+
+    void *viewComponent;
+
+    /** Get mediator name */
+    const char *(*getMediatorName)(Mediator *self);
+
+    /** Set the view component */
+    void (*setViewComponent)(Mediator *self, void *viewComponent);
+
+    /** Get the view component */
+    void *(*getViewComponent)(Mediator *self);
+
+    /**
+     * <P>List the <code>Notification</code> names this
+     * <code>Mediator</code> is interested in being notified of.</P>
+     *
+     * @param self Mediator
+     * @return Array the list of <code>Notification</code> names
+     */
+    const char * const *(*listNotificationInterests)(Mediator *self);
+
+    /**
+     * <P>Handle <code>Notification</code>s.</P>
+     *
+     * <P>Typically this will be handled in a switch statement,
+     * with one 'case' entry per <code>Notification</code>
+     * the <code>Mediator</code> is interested in.</P>
+     */
+    void (*handleNotification)(Mediator *self, Notification *notification);
+
+    /** <P>Called by the View when the Mediator is registered</P> */
+    void (*onRegister)(Mediator *self);
+
+    /** <P>Called by the View when the Mediator is removed</P> */
+    void (*onRemove)(Mediator *self);
+};
+
+/** Initializer */
 void InitMediator(Mediator *mediator, const char *mediatorName, void *viewComponent);
 
-/**
- * Constructor
- *
- * @param mediatorName
- * @param viewComponent
- */
+/** Constructor */
 Mediator *NewMediator(const char *mediatorName, void *viewComponent);
 
-/**
- * Destructor
- *
- * @param mediator
- */
+/** Destructor */
 void DeleteMediator(Mediator *mediator);
 
 #endif //PUREMVC_MEDIATOR_H

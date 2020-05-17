@@ -130,7 +130,7 @@ static void DeleteCommandMap(CommandMap *self) {
  * and override the <code>initializeController</code> method in the
  * following way:</P>
  *
- * <code>// ensure that the Controller is talking to my IView implementation
+ * <code>// ensure that the Controller is talking to my View implementation
  * static void initializeController()
  * {
  *     view = getViewInstance(self->multitonKey, NewMyView);
@@ -142,11 +142,11 @@ static void initializeController(Controller *self) {
 }
 
 /**
- * <P>If an <code>ICommand</code> has previously been registered
- * to handle a the given <code>INotification</code>, then it is executed.</P>
+ * <P>If an <code>Command</code> has previously been registered
+ * to handle a the given <code>Notification</code>, then it is executed.</P>
  *
  * @param self
- * @param notification an <code>INotification</code>
+ * @param notification an <code>Notification</code>
  */
 static void executeCommand(Controller *self, Notification *notification) {
     pthread_rwlock_rdlock(&commandMap_mutex);
@@ -164,19 +164,19 @@ static void executeCommand(Controller *self, Notification *notification) {
 }
 
 /**
- * <P>Register a particular <code>ICommand</code> class as the handler
- * for a particular <code>INotification</code>.</P>
+ * <P>Register a particular <code>Command</code> class as the handler
+ * for a particular <code>Notification</code>.</P>
  *
- * <P>If an <code>ICommand</code> has already been registered to
- * handle <code>INotification</code>s with this name, it is no longer
- * used, the new <code>ICommand</code> is used instead.</P>
+ * <P>If an <code>Command</code> has already been registered to
+ * handle <code>Notification</code>s with this name, it is no longer
+ * used, the new <code>Command</code> is used instead.</P>
  *
- * <P>The Observer for the new ICommand is only created if this the
- * first time an ICommand has been registered for this Notification name.</P>
+ * <P>The Observer for the new Command is only created if this the
+ * first time an Command has been registered for this Notification name.</P>
  *
  * @param self
- * @param notificationName the name of the <code>INotification</code>
- * @param factory a reference to <code>ICommand</code> factory
+ * @param notificationName the name of the <code>Notification</code>
+ * @param factory a reference to <code>Command</code> factory
  */
 static void registerCommand(Controller *self, const char *notificationName, SimpleCommand *(factory)()) {
     pthread_rwlock_wrlock(&commandMap_mutex);
@@ -216,10 +216,10 @@ static bool hasCommand(Controller *self, const char *notificationName) {
 }
 
 /**
- * <P>Remove a previously registered <code>ICommand</code> to <code>INotification</code> mapping.</P>
+ * <P>Remove a previously registered <code>Command</code> to <code>Notification</code> mapping.</P>
  *
  * @param self
- * @param notificationName the name of the <code>INotification</code> to remove the <code>ICommand</code> mapping for
+ * @param notificationName the name of the <code>Notification</code> to remove the <code>Command</code> mapping for
  */
 static void removeCommand(Controller *self, const char *notificationName) {
     pthread_rwlock_wrlock(&commandMap_mutex);
@@ -258,7 +258,7 @@ static pthread_rwlock_t controller_mutex;
 /**
  * Constructor
  *
- * <P>This <code>IController</code> implementation is a Multiton,
+ * <P>This <code>Controller</code> implementation is a Multiton,
  * so you should not call the constructor
  * directly, but instead call the static Factory method,
  * passing the unique key and a supplier for this instance
@@ -298,7 +298,7 @@ void RemoveController(const char *key) {
  * <P><code>Controller</code> Multiton Factory method.</P>
  *
  * @param key multitonKey
- * @param factory factory that returns <code>IController</code>
+ * @param factory factory that returns <code>Controller</code>
  * @return the Multiton instance of <code>Controller</code>
  */
 Controller *getControllerInstance(const char *key, Controller *(*factory)(const char *)) {

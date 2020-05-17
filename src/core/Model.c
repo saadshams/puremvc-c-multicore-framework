@@ -26,13 +26,7 @@ struct ModelMap {
 // The Multiton Model instanceMap.
 static ModelMap *instanceMap;
 
-/**
- * Construct a new instanceMap node
- *
- * @param key
- * @param model
- * @return
- */
+// Construct a new instanceMap node
 static ModelMap *NewModelMap(const char *key, Model *model) {
     ModelMap *modelMap = malloc(sizeof(ModelMap));
     if (modelMap == NULL) goto exception;
@@ -46,12 +40,7 @@ static ModelMap *NewModelMap(const char *key, Model *model) {
         return NULL;
 }
 
-/**
- * Retrieve a Node from instanceMap LinkedList
- *
- * @param key
- * @return
- */
+// Retrieve a Node from instanceMap LinkedList
 static Model *GetModelMap(const char *key) {
     ModelMap *modelMap = instanceMap;
     while (modelMap && strcmp(modelMap->name, key) != 0)
@@ -59,12 +48,7 @@ static Model *GetModelMap(const char *key) {
     return modelMap == NULL ? NULL : modelMap->model;
 }
 
-/**
- * Add a Node to the instanceMap LinkedList
- *
- * @param key
- * @param model
- */
+// Add a Node to the instanceMap LinkedList
 static void AddModelMap(const char *key, Model *model) {
     ModelMap **modelMap = &instanceMap;
     while (*modelMap)
@@ -72,11 +56,7 @@ static void AddModelMap(const char *key, Model *model) {
     *modelMap = NewModelMap(key, model);
 }
 
-/**
- * Remove a node from instanceMap LinkedList
- *
- * @param key
- */
+// Remove a node from instanceMap LinkedList
 static void RemoveModelMap(const char *key) {
     ModelMap **modelMap = &instanceMap;
     while (*modelMap) {
@@ -92,12 +72,7 @@ static void RemoveModelMap(const char *key) {
     }
 }
 
-/**
- * Construct a new proxyMap node
- *
- * @param proxy
- * @return
- */
+// Construct a new proxyMap node
 static ProxyMap *NewProxyNode(Proxy *proxy) {
     ProxyMap *proxyMap = malloc(sizeof(ProxyMap));
     proxyMap->name = proxy->getProxyName(proxy);
@@ -106,11 +81,7 @@ static ProxyMap *NewProxyNode(Proxy *proxy) {
     return proxyMap;
 }
 
-/**
- * Release the memory for a proxyMap node
- *
- * @param proxyMap
- */
+// Release the memory for a proxyMap node
 static void DeleteProxyNode(ProxyMap *proxyMap) {
     free(proxyMap);
     proxyMap = NULL;
@@ -129,9 +100,9 @@ static void initializeModel(Model *self) {
 }
 
 /**
- * <P>Register an <code>IProxy</code> with the <code>Model</code>.</P>
+ * <P>Register an <code>Proxy</code> with the <code>Model</code>.</P>
  *
- * @param proxy an <code>IProxy</code> to be held by the <code>Model</code>.
+ * @param proxy an <code>Proxy</code> to be held by the <code>Model</code>.
  */
 static void registerProxy(Model *self, Proxy *proxy) {
     pthread_rwlock_wrlock(&modelMap_mutex);
@@ -152,10 +123,10 @@ static void registerProxy(Model *self, Proxy *proxy) {
 }
 
 /**
- * <P>Retrieve an <code>IProxy</code> from the <code>Model</code>.</P>
+ * <P>Retrieve an <code>Proxy</code> from the <code>Model</code>.</P>
  *
  * @param proxyName proxy name
- * @return the <code>IProxy</code> instance previously registered with the given <code>proxyName</code>.
+ * @return the <code>Proxy</code> instance previously registered with the given <code>proxyName</code>.
  */
 static Proxy *retrieveProxy(Model *self, const char *proxyName) {
     pthread_rwlock_rdlock(&modelMap_mutex);
@@ -182,10 +153,10 @@ static bool hasProxy(Model *self, const char *proxyName) {
 }
 
 /**
- * <P>Remove an <code>IProxy</code> from the <code>Model</code>.</P>
+ * <P>Remove an <code>Proxy</code> from the <code>Model</code>.</P>
  *
- * @param proxyName name of the <code>IProxy</code> instance to be removed.
- * @return the <code>IProxy</code> that was removed from the <code>Model</code>
+ * @param proxyName name of the <code>Proxy</code> instance to be removed.
+ * @return the <code>Proxy</code> that was removed from the <code>Model</code>
  */
 static Proxy *removeProxy(Model *self, const char *proxyName) {
     pthread_rwlock_wrlock(&modelMap_mutex);
@@ -205,11 +176,7 @@ static Proxy *removeProxy(Model *self, const char *proxyName) {
     return NULL;
 }
 
-/**
- * Initializer
- *
- * @param model
- */
+/** Initializer */
 void InitModel(Model *model) {
     model->proxyMap = NULL;
     model->initializeModel = initializeModel;
@@ -219,12 +186,7 @@ void InitModel(Model *model) {
     model->removeProxy = removeProxy;
 }
 
-/**
- * Constructor
- *
- * @param key
- * @return Model*
- */
+/** Constructor */
 Model *NewModel(const char *key) {
     assert(GetModelMap(key) == NULL);
 
@@ -243,11 +205,7 @@ Model *NewModel(const char *key) {
 // mutex for model instanceMap
 static pthread_rwlock_t model_mutex;
 
-/**
- * Destructor
- *
- * @param key
- */
+/** Destructor */
 void RemoveModel(const char *key) {
     pthread_rwlock_wrlock(&model_mutex);
     RemoveModelMap(key);
@@ -258,7 +216,7 @@ void RemoveModel(const char *key) {
  * <P><code>Model</code> Multiton Factory method.</P>
  *
  * @param key multitonKey
- * @param factory factory that returns <code>IModel</code>
+ * @param factory factory that returns <code>Model</code>
  * @return the Multiton instance of <code>Model</code>
  */
 Model *getModelInstance(const char *key, Model *(*factory)(const char *)) {

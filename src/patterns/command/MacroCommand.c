@@ -3,11 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/**
- * Construct a SubCommand Node for the SubCommands LinkedList
- *
- * @param factory
- */
+// Construct a SubCommand Node for the SubCommands LinkedList
 static SubCommandNode *NewSubCommandNode(SimpleCommand *(*factory)()) {
     SubCommandNode *self = malloc(sizeof(SubCommandNode));
     if (self == NULL) goto exception;
@@ -20,50 +16,16 @@ static SubCommandNode *NewSubCommandNode(SimpleCommand *(*factory)()) {
         return NULL;
 }
 
-/**
- * Destruct the SubCommand Node
- * @param subCommandNode
- */
+// Destruct the SubCommand Node
 static void DeleteSubCommand(SubCommandNode *subCommandNode) {
     free(subCommandNode);
     subCommandNode = NULL;
 }
 
-/**
- * <P>Initialize the <code>MacroCommand</code>.</P>
- *
- * <P>In your subclass, override this method to
- * initialize the <code>MacroCommand</code>'s <i>SubCommand</i>
- * list with <code>ICommand</code> class references like
- * this:</P>
- *
- * <code>
- * static void initializeMacroCommand(MacroCommand *self) {
- * {
- *      self->addSubCommand(self, NewFirstCommand);
- *      self->addSubCommand(self, NewSecondCommand);
- *      self->addSubCommand(self, NewThirdCommand);
- * }
- * </code>
- *
- * <P>Note that <i>SubCommand</i>s may be any <code>ICommand</code> implementor,
- * <code>MacroCommand</code>s or <code>SimpleCommands</code> are both acceptable.</P>
- *
- * @param self
- */
 static void initializeMacroCommand(MacroCommand *self) {
 
 }
 
-/**
- * <P>Add a <i>SubCommand</i>.</P>
- *
- * <P>The <i>SubCommands</i> will be called in First In/First Out (FIFO)
- * order.</P>
- *
- * @param self
- * @param factory a reference to the factory of the <code>ICommand</code>.
- */
 static void addSubCommand(MacroCommand *self, SimpleCommand *(*factory)()) {
     SubCommandNode **cursor = &self->SubCommands;
     while (*cursor)
@@ -72,15 +34,6 @@ static void addSubCommand(MacroCommand *self, SimpleCommand *(*factory)()) {
     *cursor = NewSubCommandNode(factory);
 }
 
-/**
- * <P>Execute this <code>MacroCommand</code>'s <i>SubCommands</i>.</P>
- *
- * <P>The <i>SubCommands</i> will be called in First In/First Out (FIFO)
- * order.</P>
- *
- * @param self
- * @param notification the <code>INotification</code> object to be passsed to each <i>SubCommand</i>.
- */
 static void execute(MacroCommand *self, Notification *notification) {
     self->initializeMacroCommand(self);
     SubCommandNode *cursor = self->SubCommands;
@@ -103,22 +56,6 @@ static void execute(MacroCommand *self, Notification *notification) {
     self->SubCommands = NULL;
 }
 
-/**
- * Initializer
- *
- * @param macroCommand
- */
-void InitMacroCommand(MacroCommand *macroCommand) {
-    macroCommand->notifier = NewNotifier();
-    macroCommand->SubCommands = NULL;
-    macroCommand->initializeMacroCommand = initializeMacroCommand;
-    macroCommand->addSubCommand = addSubCommand;
-    macroCommand->execute = execute;
-}
-
-/**
- * Constructor
- */
 MacroCommand *NewMacroCommand() {
     MacroCommand *macroCommand = malloc(sizeof(MacroCommand));
     if (macroCommand == NULL) goto exception;
@@ -130,11 +67,14 @@ MacroCommand *NewMacroCommand() {
         return NULL;
 }
 
-/**
- * Destructor
- *
- * @param macroCommand
- */
+void InitMacroCommand(MacroCommand *macroCommand) {
+    macroCommand->notifier = NewNotifier();
+    macroCommand->SubCommands = NULL;
+    macroCommand->initializeMacroCommand = initializeMacroCommand;
+    macroCommand->addSubCommand = addSubCommand;
+    macroCommand->execute = execute;
+}
+
 void DeleteMacroCommand(MacroCommand *macroCommand) {
     DeleteNotifier(macroCommand->notifier);
     free(macroCommand);

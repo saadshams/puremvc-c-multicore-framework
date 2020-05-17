@@ -6,25 +6,25 @@
 #include <stdbool.h>
 
 /**
- * <P>A Multiton <code>IController</code> implementation.</P>
+ * <P>A Multiton <code>Controller</code> implementation.</P>
  *
  * <P>In PureMVC, the <code>Controller</code> class follows the
  * 'Command and Controller' strategy, and assumes these
  * responsibilities:</P>
  *
  * <UL>
- * <LI> Remembering which <code>ICommand</code>
- * are intended to handle which <code>INotifications</code>.</LI>
- * <LI> Registering itself as an <code>IObserver</code> with
- * the <code>View</code> for each <code>INotification</code>
- * that it has an <code>ICommand</code> mapping for.</LI>
- * <LI> Creating a new instance of the proper <code>ICommand</code>
- * to handle a given <code>INotification</code> when notified by the <code>View</code>.</LI>
- * <LI> Calling the <code>ICommand</code>'s <code>execute</code>
- * method, passing in the <code>INotification</code>.</LI>
+ * <LI> Remembering which <code>Command</code>
+ * are intended to handle which <code>Notifications</code>.</LI>
+ * <LI> Registering itself as an <code>Observer</code> with
+ * the <code>View</code> for each <code>Notification</code>
+ * that it has an <code>Command</code> mapping for.</LI>
+ * <LI> Creating a new instance of the proper <code>Command</code>
+ * to handle a given <code>Notification</code> when notified by the <code>View</code>.</LI>
+ * <LI> Calling the <code>Command</code>'s <code>execute</code>
+ * method, passing in the <code>Notification</code>.</LI>
  * </UL>
  *
- * <P>Your application must register <code>ICommands</code> with the
+ * <P>Your application must register <code>Commands</code> with the
  * Controller.</P>
  *
  * <P>The simplest way is to subclass <code>Facade</code>,
@@ -32,10 +32,10 @@
  * registrations.</P>
  *
  * @see View View
- * @see org.puremvc.c.multicore.patterns.observer.Observer Observer
- * @see org.puremvc.c.multicore.patterns.observer.Notification Notification
- * @see org.puremvc.c.multicore.patterns.command.SimpleCommand SimpleCommand
- * @see org.puremvc.c.multicore.patterns.command.MacroCommand MacroCommand
+ * @see Observer
+ * @see Notification
+ * @see SimpleCommand
+ * @see MacroCommand
  */
 typedef struct CommandMap CommandMap;
 

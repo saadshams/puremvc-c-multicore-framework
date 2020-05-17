@@ -2,7 +2,7 @@
 #define PUREMVC_NOTIFICATION_H
 
 /**
- * <P>A base <code>INotification</code> implementation.</P>
+ * <P>A base <code>Notification</code> implementation.</P>
  *
  * <P>PureMVC does not rely upon underlying event models such
  * as the one provided with Flash, and ActionScript 3 does
@@ -13,12 +13,12 @@
  * application and the actors of the MVC triad.</P>
  *
  * <P>Notifications are not meant to be a replacement for Events
- * in Flex/Flash/Apollo. Generally, <code>IMediator</code> implementors
+ * in Flex/Flash/Apollo. Generally, <code>Mediator</code> implementors
  * place event listeners on their view components, which they
  * then handle in the usual way. This may lead to the broadcast of <code>Notification</code>s to
- * trigger <code>ICommand</code>s or to communicate with other <code>IMediators</code>. <code>IProxy</code> and <code>ICommand</code>
- * instances communicate with each other and <code>IMediator</code>s
- * by broadcasting <code>INotification</code>s.</P>
+ * trigger <code>Command</code>s or to communicate with other <code>Mediators</code>. <code>Proxy</code> and <code>Command</code>
+ * instances communicate with each other and <code>Mediator</code>s
+ * by broadcasting <code>Notification</code>s.</P>
  *
  * <P>A key difference between Flash <code>Event</code>s and PureMVC
  * <code>Notification</code>s is that <code>Event</code>s follow the
@@ -34,40 +34,58 @@
 typedef struct Notification Notification;
 
 struct Notification {
+
     const char *name;
+
     void *body;
+
     char *type;
+
+    /**
+     * Get the name of the <code>Notification</code> instance.
+     *
+     * @return the name of the <code>Notification</code> instance.
+     */
     const char *(*getName)(Notification *self);
+
+    /**
+     * Get the body of the <code>Notification</code> instance.
+     *
+     * @return the body object.
+     */
     void *(*getBody)(Notification *self);
+
+    /**
+     * Set the body of the <code>Notification</code> instance.
+     */
     void (*setBody)(Notification *self, void *body);
+
+    /**
+     * Get the type of the <code>Notification</code> instance.
+     *
+     * @return the type
+     */
     char *(*getType)(Notification *self);
+
+    /**
+     * Set the type of the <code>Notification</code> instance.
+     */
     void (*setType)(Notification *self, char *type);
 };
 
 /**
- * Initializer
+ * Constructor.
  *
- * @param notification
- * @param name
- * @param body
- * @param type
- */
-void InitNotification(Notification *notification, const char *name, void *body, char *type);
-
-/**
- * Constructor
- *
- * @param name
- * @param body
- * @param type
+ * @param name name of the <code>Notification</code> instance. (required)
+ * @param body the <code>Notification</code> body. (optional)
+ * @param type the type of the <code>Notification</code> (optional)
  */
 Notification *NewNotification(const char *name, void *body, char *type);
 
-/**
- * Destructor
- *
- * @param notification
- */
+/** Initializer */
+void InitNotification(Notification *notification, const char *name, void *body, char *type);
+
+/** Destructor */
 void DeleteNotification(Notification *notification);
 
 #endif //PUREMVC_NOTIFICATION_H

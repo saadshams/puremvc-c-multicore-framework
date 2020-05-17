@@ -4,12 +4,12 @@
 #include "Facade.h"
 
 /**
- * <P>A Base <code>INotifier</code> implementation.</P>
+ * <P>A Base <code>Notifier</code> implementation.</P>
  *
  * <P><code>MacroCommand, Command, Mediator</code> and <code>Proxy</code>
  * all have a need to send <code>Notifications</code>.</P>
  *
- * <P>The <code>INotifier</code> interface provides a common method called
+ * <P>The <code>Notifier</code> interface provides a common method called
  * <code>sendNotification</code> that relieves implementation code of
  * the necessity to actually construct <code>Notifications</code>.</P>
  *
@@ -29,24 +29,58 @@
  *   * on a Mediator is registered with the View
  *   * on a Proxy is registered with the Model.</P>
  *
- * @see org.puremvc.c.multicore.patterns.proxy.Proxy Proxy
- * @see org.puremvc.c.multicore.patterns.facade.Facade Facade
- * @see org.puremvc.c.multicore.patterns.mediator.Mediator Mediator
- * @see org.puremvc.c.multicore.patterns.command.MacroCommand MacroCommand
- * @see org.puremvc.c.multicore.patterns.command.SimpleCommand SimpleCommand
+ * @see Proxy
+ * @see Facade
+ * @see Mediator
+ * @see MacroCommand
+ * @see SimpleCommand
  */
 typedef struct Notifier Notifier;
 
 struct Notifier {
+
+    // The Multiton Key for this app
     const char *multitonKey;
+
+    /** Return the Multiton Facade instance */
     Facade *(*getFacade)(Notifier *self);
+
+    /**
+     * Initialize this INotifier instance.
+     * <P>
+     * This is how a Notifier gets its multitonKey.
+     * Calls to sendNotification or to access the
+     * facade will fail until after this method
+     * has been called.</P>
+     *
+     * <P>
+     * Mediators, Commands or Proxies may override
+     * this method in order to send notifications
+     * or access the Multiton Facade instance as
+     * soon as possible. They CANNOT access the facade
+     * in their constructors, since this method will not
+     * yet have been called.</P>
+     *
+     * @param key the multitonKey for this INotifier to use
+     */
     void (*initializeNotifier)(Notifier *self, const char *key);
+
+    /**
+     * Create and send an <code>INotification</code>.
+     *
+     * <P>
+     * Keeps us from having to construct new INotification
+     * instances in our implementation code.
+     *
+     * @param self Notifier
+     * @param notificationName the name of the notification to send
+     * @param body the body of the notification (optional)
+     * @param type the type of the notification (optional)
+     */
     void (*sendNotification)(Notifier *self, const char *notificationName, void *body, char *type);
 };
 
-/**
- * Constructor
- */
+/** Constructor */
 Notifier *NewNotifier();
 
 /**

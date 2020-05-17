@@ -6,9 +6,9 @@
 /** The name of the <code>Proxy</code>.*/
 #define PROXY_NAME "Proxy"
 
-struct Notifier;
-
 typedef struct Proxy Proxy;
+
+struct Notifier;
 
 /**
  * <P>A base <code>Proxy*</code> implementation.</P>
@@ -29,7 +29,9 @@ typedef struct Proxy Proxy;
  * @see Model
  */
 struct Proxy {
+
     struct Notifier *notifier;
+
     const char *proxyName;
 
     void *data;

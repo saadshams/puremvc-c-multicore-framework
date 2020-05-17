@@ -193,12 +193,12 @@ static void initializeView(View *self) {
 }
 
 /**
- * <P>Register an <code>IObserver</code> to be notified
- * of <code>INotifications</code> with a given name.</P>
+ * <P>Register an <code>Observer</code> to be notified
+ * of <code>Notifications</code> with a given name.</P>
  *
  * @param View*
- * @param notificationName the name of the <code>INotifications</code> to notify this <code>IObserver</code> of
- * @param observer the <code>IObserver</code> to register
+ * @param notificationName the name of the <code>Notifications</code> to notify this <code>Observer</code> of
+ * @param observer the <code>Observer</code> to register
  */
 static void registerObserver(View *self, const char *notificationName, Observer *observer) {
     pthread_rwlock_wrlock(&observerMap_mutex);
@@ -222,14 +222,14 @@ static void registerObserver(View *self, const char *notificationName, Observer 
 }
 
 /**
- * <P>Notify the <code>IObservers</code> for a particular <code>INotification</code>.</P>
+ * <P>Notify the <code>Observers</code> for a particular <code>Notification</code>.</P>
  *
- * <P>All previously attached <code>IObservers</code> for this <code>INotification</code>'s
- * list are notified and are passed a reference to the <code>INotification</code> in
+ * <P>All previously attached <code>Observers</code> for this <code>Notification</code>'s
+ * list are notified and are passed a reference to the <code>Notification</code> in
  * the order in which they were registered.</P>
  *
  * @param self
- * @param notification the <code>INotification</code> to notify <code>IObservers</code> of.
+ * @param notification the <code>Notification</code> to notify <code>Observers</code> of.
  */
 static void notifyObservers(View *self, Notification *notification) {
     pthread_rwlock_rdlock(&observerMap_mutex);
@@ -305,20 +305,20 @@ static void removeObserver(View *self, const char *notificationName, void *notif
 }
 
 /**
- * <P>Register an <code>IMediator</code> instance with the <code>View</code>.</P>
+ * <P>Register an <code>Mediator</code> instance with the <code>View</code>.</P>
  *
- * <P>Registers the <code>IMediator</code> so that it can be retrieved by name,
- * and further interrogates the <code>IMediator</code> for its
- * <code>INotification</code> interests.</P>
+ * <P>Registers the <code>Mediator</code> so that it can be retrieved by name,
+ * and further interrogates the <code>Mediator</code> for its
+ * <code>Notification</code> interests.</P>
  *
- * <P>If the <code>IMediator</code> returns any <code>INotification</code>
+ * <P>If the <code>Mediator</code> returns any <code>Notification</code>
  * names to be notified about, an <code>Observer</code> is created encapsulating
- * the <code>IMediator</code> instance's <code>handleNotification</code> method
- * and registering it as an <code>Observer</code> for all <code>INotifications</code> the
- * <code>IMediator</code> is interested in.</P>
+ * the <code>Mediator</code> instance's <code>handleNotification</code> method
+ * and registering it as an <code>Observer</code> for all <code>Notifications</code> the
+ * <code>Mediator</code> is interested in.</P>
  *
  * @param self
- * @param mediator a reference to the <code>IMediator</code> instance
+ * @param mediator a reference to the <code>Mediator</code> instance
  */
 static void registerMediator(View *self, Mediator *mediator) {
     pthread_rwlock_wrlock(&mediatorMap_mutex);
@@ -345,11 +345,11 @@ static void registerMediator(View *self, Mediator *mediator) {
 }
 
 /**
- * <P>Retrieve an <code>IMediator</code> from the <code>View</code>.</P>
+ * <P>Retrieve an <code>Mediator</code> from the <code>View</code>.</P>
  *
  * @param self
- * @param mediatorName the name of the <code>IMediator</code> instance to retrieve.
- * @return the <code>IMediator</code> instance previously registered with the given <code>mediatorName</code>.
+ * @param mediatorName the name of the <code>Mediator</code> instance to retrieve.
+ * @return the <code>Mediator</code> instance previously registered with the given <code>mediatorName</code>.
  */
 static Mediator *retrieveMediator(View *self, const char *mediatorName) {
     pthread_rwlock_rdlock(&mediatorMap_mutex);
@@ -377,11 +377,11 @@ static bool hasMediator(View *self, const char *mediatorName) {
 }
 
 /**
- * <P>Remove an <code>IMediator</code> from the <code>View</code>.</P>
+ * <P>Remove an <code>Mediator</code> from the <code>View</code>.</P>
  *
  * @param self
- * @param mediatorName name of the <code>IMediator</code> instance to be removed.
- * @return the <code>IMediator</code> that was removed from the <code>View</code>
+ * @param mediatorName name of the <code>Mediator</code> instance to be removed.
+ * @return the <code>Mediator</code> that was removed from the <code>View</code>
  */
 static Mediator *removeMediator(View *self, const char *mediatorName) {
     pthread_rwlock_wrlock(&mediatorMap_mutex);
@@ -432,7 +432,7 @@ void InitView(View *view) {
 /**
  * <P>Constructor.</P>
  *
- * <P>This <code>IView</code> implementation is a Multiton,
+ * <P>This <code>View</code> implementation is a Multiton,
  * so you should not call the constructor
  * directly, but instead call the static Multiton
  * Factory method <code>View.getInstance( multitonKey )</code></P>
@@ -457,9 +457,9 @@ View *NewView(const char *key) {
 }
 
 /**
- * <P>Remove an IView instance</P>
+ * <P>Remove an View instance</P>
  *
- * @param key of IView instance to remove
+ * @param key of View instance to remove
  */
 void RemoveView(const char *key) {
     pthread_rwlock_wrlock(&view_mutex);
