@@ -3,10 +3,15 @@
 
 #include <stdlib.h>
 
+/** The name of the <code>Proxy</code>.*/
+#define PROXY_NAME "Proxy"
+
 struct Notifier;
 
+typedef struct Proxy Proxy;
+
 /**
- * <P>A base <code>IProxy</code> implementation.</P>
+ * <P>A base <code>Proxy*</code> implementation.</P>
  *
  * <P>In PureMVC, <code>Proxy</code> classes are used to manage parts of the
  * application's data model.</P>
@@ -21,48 +26,37 @@ struct Notifier;
  * <code>Proxy</code> and listening for a <code>Notification</code> to be sent
  * when the <code>Proxy</code> has retrieved the data from the service.</P>
  *
- * @see org.puremvc.c.multicore.core.Model Model
+ * @see Model
  */
-typedef struct Proxy Proxy;
-
 struct Proxy {
     struct Notifier *notifier;
     const char *proxyName;
+
     void *data;
+
+    /** Get the proxy name */
     const char *(*getProxyName)(Proxy *self);
+
+    /** Set the data object */
     void (*setData)(Proxy *self, void *data);
+
+    /** Get the data object */
     void *(*getData)(Proxy *self);
+
+    /** Called by the Model when the Proxy is registered */
     void (*onRegister)(Proxy *self);
+
+    /** Called by the Model when the Proxy is removed */
     void (*onRemove)(Proxy *self);
 };
 
-/**
- * <P>The name of the <code>Proxy</code>.</P>
- */
-#define PROXY_NAME "Proxy"
-
-/**
- * Constructor
- *
- * @param proxyName
- * @param data
- */
+/** Constructor */
 Proxy *NewProxy(const char *proxyName, void *data);
 
-/**
- * Initializer
- *
- * @param proxy
- * @param proxyName
- * @param data
- */
+/** Initializer */
 void InitProxy(Proxy *proxy, const char *proxyName, void *data);
 
-/**
- * Destructor
- *
- * @param proxy
- */
+/** Destructor */
 void DeleteProxy(Proxy *proxy);
 
 #endif //PUREMVC_PROXY_H

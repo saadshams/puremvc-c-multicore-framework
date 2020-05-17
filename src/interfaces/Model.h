@@ -29,11 +29,7 @@
  */
 typedef struct ProxyMap ProxyMap;
 
-struct ProxyMap {
-    const char *name;
-    Proxy *proxy;
-    ProxyMap *next;
-};
+
 
 typedef struct Model Model;
 

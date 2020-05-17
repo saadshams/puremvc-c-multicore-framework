@@ -8,6 +8,12 @@
 // mutex for modelMap
 static pthread_rwlock_t modelMap_mutex;
 
+struct ProxyMap {
+    const char *name;
+    Proxy *proxy;
+    ProxyMap *next;
+};
+
 // ModelMap LinkedList
 typedef struct ModelMap ModelMap;
 
