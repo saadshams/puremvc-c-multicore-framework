@@ -74,21 +74,21 @@ static void onRemove(Mediator *self) {
 /**
  * Initializer
  *
- * @param self
+ * @param mediator
  * @param mediatorName
  * @param viewComponent
  */
-void InitMediator(Mediator *self, const char *mediatorName, void *viewComponent) {
-    self->notifier = NewNotifier();
-    self->mediatorName = mediatorName != NULL ? mediatorName : MEDIATOR_NAME;
-    self->viewComponent = viewComponent;
-    self->getMediatorName = getMediatorName;
-    self->setViewComponent = setViewComponent;
-    self->getViewComponent = getViewComponent;
-    self->listNotificationInterests = listNotificationInterests;
-    self->handleNotification = handleNotification;
-    self->onRegister = onRegister;
-    self->onRemove = onRemove;
+void InitMediator(Mediator *mediator, const char *mediatorName, void *viewComponent) {
+    mediator->notifier = NewNotifier();
+    mediator->mediatorName = mediatorName != NULL ? mediatorName : MEDIATOR_NAME;
+    mediator->viewComponent = viewComponent;
+    mediator->getMediatorName = getMediatorName;
+    mediator->setViewComponent = setViewComponent;
+    mediator->getViewComponent = getViewComponent;
+    mediator->listNotificationInterests = listNotificationInterests;
+    mediator->handleNotification = handleNotification;
+    mediator->onRegister = onRegister;
+    mediator->onRemove = onRemove;
 }
 
 /**
@@ -98,10 +98,10 @@ void InitMediator(Mediator *self, const char *mediatorName, void *viewComponent)
  * @param viewComponent
  */
 Mediator *NewMediator(const char *mediatorName, void *viewComponent) {
-    Mediator *self = malloc(sizeof(Mediator));
-    if (self == NULL) goto exception;
-    InitMediator(self, mediatorName, viewComponent);
-    return self;
+    Mediator *mediator = malloc(sizeof(Mediator));
+    if (mediator == NULL) goto exception;
+    InitMediator(mediator, mediatorName, viewComponent);
+    return mediator;
 
     exception:
         fprintf(stderr, "Mediator allocation failed.\n");
@@ -111,10 +111,10 @@ Mediator *NewMediator(const char *mediatorName, void *viewComponent) {
 /**
  * Destructor
  *
- * @param self
+ * @param mediator
  */
-void DeleteMediator(Mediator *self) {
-    DeleteNotifier(self->notifier);
-    free(self);
-    self = NULL;
+void DeleteMediator(Mediator *mediator) {
+    DeleteNotifier(mediator->notifier);
+    free(mediator);
+    mediator = NULL;
 }

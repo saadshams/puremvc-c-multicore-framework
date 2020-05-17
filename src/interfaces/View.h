@@ -5,6 +5,25 @@
 #include "Observer.h"
 #include <stdbool.h>
 
+/**
+ * <P>A Multiton <code>IView</code> implementation.</P>
+ *
+ * <P>In PureMVC, the <code>View</code> class assumes these responsibilities:</P>
+ *
+ * <UL>
+ * <LI>Maintain a cache of <code>IMediator</code> instances.</LI>
+ * <LI>Provide methods for registering, retrieving, and removing <code>IMediators</code>.</LI>
+ * <LI>Notifiying <code>IMediators</code> when they are registered or removed.</LI>
+ * <LI>Managing the observer lists for each <code>INotification</code> in the application.</LI>
+ * <LI>Providing a method for attaching <code>IObservers</code> to an <code>INotification</code>'s observer list.</LI>
+ * <LI>Providing a method for broadcasting an <code>INotification</code>.</LI>
+ * <LI>Notifying the <code>IObservers</code> of a given <code>INotification</code> when it broadcast.</LI>
+ * </UL>
+ *
+ * @see org.puremvc.c.multicore.patterns.mediator.Mediator Mediator
+ * @see org.puremvc.c.multicore.patterns.observer.Observer Observer
+ * @see org.puremvc.c.multicore.patterns.observer.Notification Notification
+ */
 typedef struct MediatorMap MediatorMap;
 
 struct MediatorMap {
@@ -44,12 +63,12 @@ struct View {
     Mediator *(*removeMediator)(View *self, const char *mediatorName);
 };
 
-void InitView(View *self);
+View *getViewInstance(const char *key, View *(factory)(const char *));
 
 View *NewView(const char *key);
 
-void DeleteView(const char *key);
+void InitView(View *view);
 
-View *getViewInstance(const char *key, View *(factory)(const char *));
+void RemoveView(const char *key);
 
 #endif //PUREMVC_VIEW_H

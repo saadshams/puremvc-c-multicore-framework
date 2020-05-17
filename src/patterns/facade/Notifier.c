@@ -52,23 +52,23 @@ static void initializeNotifier(Notifier *self, const char *key) {
 /**
  * Initializer
  *
- * @param self
+ * @param notifier
  */
-void InitNotifier(Notifier *self) {
-    self->multitonKey = NULL;
-    self->getFacade = getFacade;
-    self->initializeNotifier  = initializeNotifier;
-    self->sendNotification = sendNotification;
+void InitNotifier(Notifier *notifier) {
+    notifier->multitonKey = NULL;
+    notifier->getFacade = getFacade;
+    notifier->initializeNotifier  = initializeNotifier;
+    notifier->sendNotification = sendNotification;
 }
 
 /**
  * Constructor
  */
 Notifier *NewNotifier() {
-    Notifier *self = malloc(sizeof(Notifier));
-    if (self == NULL) goto exception;
-    InitNotifier(self);
-    return self;
+    Notifier *notifier = malloc(sizeof(Notifier));
+    if (notifier == NULL) goto exception;
+    InitNotifier(notifier);
+    return notifier;
 
     exception:
         fprintf(stderr, "Notifier allocation failed.\n");
@@ -78,9 +78,9 @@ Notifier *NewNotifier() {
 /**
  * Destructor
  *
- * @param self
+ * @param notifier
  */
-void DeleteNotifier(Notifier *self) {
-    free(self);
-    self = NULL;
+void DeleteNotifier(Notifier *notifier) {
+    free(notifier);
+    notifier = NULL;
 }

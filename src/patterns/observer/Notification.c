@@ -54,20 +54,20 @@ static char *getType(Notification *self) {
 /**
  * Initializer
  *
- * @param self
+ * @param notification
  * @param name
  * @param body
  * @param type
  */
-void InitNotification(Notification *self, const char *name, void *body, char *type) {
-    self->name = name;
-    self->body = body;
-    self->type = type != NULL ? type : NULL;
-    self->getName = getName;
-    self->setBody = setBody;
-    self->getBody = getBody;
-    self->setType = setType;
-    self->getType = getType;
+void InitNotification(Notification *notification, const char *name, void *body, char *type) {
+    notification->name = name;
+    notification->body = body;
+    notification->type = type != NULL ? type : NULL;
+    notification->getName = getName;
+    notification->setBody = setBody;
+    notification->getBody = getBody;
+    notification->setType = setType;
+    notification->getType = getType;
 }
 
 /**
@@ -78,10 +78,10 @@ void InitNotification(Notification *self, const char *name, void *body, char *ty
  * @param type
  */
 Notification *NewNotification(const char *name, void *body, char *type) {
-    Notification *self = malloc(sizeof(Notification));
-    if (self == NULL) goto exception;
-    InitNotification(self, name, body, type);
-    return self;
+    Notification *notification = malloc(sizeof(Notification));
+    if (notification == NULL) goto exception;
+    InitNotification(notification, name, body, type);
+    return notification;
 
     exception:
         fprintf(stderr, "Notification allocation failed.\n");
@@ -91,9 +91,9 @@ Notification *NewNotification(const char *name, void *body, char *type) {
 /**
  * Destructor
  *
- * @param self
+ * @param notification
  */
-void DeleteNotification(Notification *self) {
-    free(self);
-    self = NULL;
+void DeleteNotification(Notification *notification) {
+    free(notification);
+    notification = NULL;
 }

@@ -28,7 +28,7 @@ void testGetInstance() {
     // test assertions
     assert(controller != NULL);
     assert(controller == getControllerInstance("ControllerTestKey1", NewController));
-    DeleteController("ControllerTestKey1");
+    RemoveController("ControllerTestKey1");
     controller = NULL;
 }
 
@@ -64,7 +64,7 @@ void testRegisterAndExecuteCommand() {
 
     controller->removeCommand(controller, "ControllerTest1");
     DeleteNotification(notification);
-    DeleteController("ControllerTestKey2");
+    RemoveController("ControllerTestKey2");
     controller = NULL;
 }
 
@@ -105,7 +105,7 @@ void testRegisterAndRemoveCommand() {
     // test assertions
     assert(vo.result == 0);
     DeleteNotification(notification);
-    DeleteController("ControllerTestKey3");
+    RemoveController("ControllerTestKey3");
     controller = NULL;
 }
 
@@ -126,7 +126,7 @@ void testHasCommand() {
     // test that hasCommand returns false for hasCommandTest notifications
     assert(controller->hasCommand(controller, "hasCommandTest") == false);
 
-    DeleteController("ControllerTestKey4");
+    RemoveController("ControllerTestKey4");
     controller = NULL;
 }
 
@@ -170,8 +170,8 @@ void testReregisterAndExecuteCommand() {
 
     controller->removeCommand(controller, "ControllerTest2");
     DeleteNotification(notification);
-    DeleteController("ControllerTestKey5");
-    DeleteView("ControllerTestKey5");
+    RemoveController("ControllerTestKey5");
+    RemoveView("ControllerTestKey5");
     controller = NULL;
 }
 
@@ -196,7 +196,7 @@ void testRegisterAndUpdateCommand() {
 
     controller->removeCommand(controller, "ControllerTest2");
     DeleteNotification(notification);
-    DeleteController("ControllerTestKey3_2");
+    RemoveController("ControllerTestKey3_2");
     controller = NULL;
 }
 
@@ -205,11 +205,11 @@ void testRemoveController() {
     getControllerInstance("ControllerTestKey4", NewController);
 
     // remove the controller
-    DeleteController("ControllerTestKey4");
+    RemoveController("ControllerTestKey4");
 
     // re-create the controller without throwing an exception
     NewController("ControllerTestKey4");
 
     // cleanup
-    DeleteController("ControllerTestKey4");
+    RemoveController("ControllerTestKey4");
 }

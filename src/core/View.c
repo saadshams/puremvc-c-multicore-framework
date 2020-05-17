@@ -6,12 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-static pthread_rwlock_t mediatorMap_mutex;
-
-static pthread_rwlock_t observerMap_mutex;
-
-// ViewMap
-
+// ViewMap LinkedList
 typedef struct ViewMap ViewMap;
 
 struct ViewMap {
@@ -20,28 +15,38 @@ struct ViewMap {
     ViewMap *next;
 };
 
+// The Multiton View instanceMap.
 static ViewMap *instanceMap;
 
+// mutex for instanceMap
+static pthread_rwlock_t view_mutex;
+
+/**
+ * Constructor
+ *
+ * @param key
+ * @param view
+ * @return ViewMap*
+ */
 static ViewMap *NewViewMap(const char *key, View *view) {
-    ViewMap *self = malloc(sizeof(ViewMap));
-    if (self == NULL) goto exception;
-    self->name = key;
-    self->view = view;
-    self->next = NULL;
-    return self;
+    ViewMap *viewMap = malloc(sizeof(ViewMap));
+    if (viewMap == NULL) goto exception;
+    viewMap->name = key;
+    viewMap->view = view;
+    viewMap->next = NULL;
+    return viewMap;
 
     exception:
         fprintf(stderr, "ViewMap allocation failed.\n");
         return NULL;
 }
 
-static void AddViewMap(const char *key, View *view) {
-    ViewMap **viewMap = &instanceMap;
-    while (*viewMap)
-        viewMap = &(*viewMap)->next;
-    *viewMap = NewViewMap(key, view);
-}
-
+/**
+ * Retrieve a Node from instanceMap LinkedList
+ *
+ * @param key
+ * @return View*
+ */
 static View *GetViewMap(const char *key) {
     ViewMap *viewMap = instanceMap;
     while (viewMap && strcmp(viewMap->name, key) != 0)
@@ -49,42 +54,72 @@ static View *GetViewMap(const char *key) {
     return viewMap == NULL ? NULL : viewMap->view;
 }
 
-static void DeleteViewMap(ViewMap *self) {
-    free(self->view);
-    free(self);
-    self = NULL;
+/**
+ * Add ViewMap
+ *
+ * @param key
+ * @param view
+ */
+static void AddViewMap(const char *key, View *view) {
+    ViewMap **viewMap = &instanceMap;
+    while (*viewMap)
+        viewMap = &(*viewMap)->next;
+    *viewMap = NewViewMap(key, view);
 }
 
+/**
+ * Remove a node from instanceMap LinkedList
+ *
+ * @param key
+ */
 static void RemoveViewMap(const char *key) {
     ViewMap **viewMap = &instanceMap;
     while (*viewMap) {
         if (strcmp((*viewMap)->name, key) == 0) {
             ViewMap *node = *viewMap;
             *viewMap = (*viewMap)->next;
-            DeleteViewMap(node);
+            free(node->view);
+            free(node);
+            node = NULL;
             break;
         }
         viewMap = &(*viewMap)->next;
     }
 }
 
-// MediatorMap
+// mutex for mediatorMap
+static pthread_rwlock_t mediatorMap_mutex;
 
+/**
+ * Construct a new mediatorMap node
+ *
+ * @param mediator
+ * @return
+ */
 static MediatorMap *NewMediatorMap(Mediator *mediator) {
-    MediatorMap *self = malloc(sizeof(MediatorMap));
-    self->name = mediator->getMediatorName(mediator);
-    self->mediator = mediator;
-    self->next = NULL;
-    return self;
+    MediatorMap *mediatorMap = malloc(sizeof(MediatorMap));
+    mediatorMap->name = mediator->getMediatorName(mediator);
+    mediatorMap->mediator = mediator;
+    mediatorMap->next = NULL;
+    return mediatorMap;
 }
 
-static void DeleteMediatorMap(MediatorMap *self) {
-    free(self);
-    self = NULL;
+/**
+ * Remove a node from mediatorMap LinkedList
+ *
+ * @param mediatorMap
+ */
+static void DeleteMediatorMap(MediatorMap *mediatorMap) {
+    free(mediatorMap);
+    mediatorMap = NULL;
 }
 
-// ObserverNode
-
+/**
+ * Construct a new ObserverNode
+ *
+ * @param observer
+ * @return
+ */
 static ObserverNode *NewObserverNode(Observer *observer) {
     ObserverNode *self = malloc(sizeof(ObserverNode));
     self->observer = observer;
@@ -92,23 +127,42 @@ static ObserverNode *NewObserverNode(Observer *observer) {
     return self;
 }
 
-static void DeleteObserverNode(ObserverNode *self) {
-    DeleteObserver(self->observer);
-    free(self);
-    self = NULL;
+/**
+ * Delete ObserverNode
+ *
+ * @param observerNode
+ */
+static void DeleteObserverNode(ObserverNode *observerNode) {
+    DeleteObserver(observerNode->observer);
+    free(observerNode);
+    observerNode = NULL;
 }
 
-static int CountObservers(ObserverNode *self) {
+/**
+ * Count the observers in an ObserverNode
+ *
+ * @param observerNode
+ * @return
+ */
+static int CountObservers(ObserverNode *observerNode) {
     int count = 0;
-    while (self) {
+    while (observerNode) {
         count++;
-        self = self->next;
+        observerNode = observerNode->next;
     }
     return count;
 }
 
-// ObserverMap
+// mutex for observerMap
+static pthread_rwlock_t observerMap_mutex;
 
+/**
+ * Construct a new ObserverMap
+ *
+ * @param notificationName
+ * @param observer
+ * @return
+ */
 static ObserverMap *ObserverMapNew(const char *notificationName, Observer *observer) {
     ObserverMap *self = malloc(sizeof(ObserverMap));
     self->name = notificationName;
@@ -117,87 +171,35 @@ static ObserverMap *ObserverMapNew(const char *notificationName, Observer *obser
     return self;
 }
 
-static void DeleteObserverMap(ObserverMap *self) {
-    free(self);
-    self = NULL;
+/**
+ *
+ * @param observerMap
+ */
+static void DeleteObserverMap(ObserverMap *observerMap) {
+    free(observerMap);
+    observerMap = NULL;
 }
 
-// View
-
+/**
+ * <P>Initialize the Singleton View instance.</P>
+ *
+ * <P>Called automatically by the constructor, this
+ * is your opportunity to initialize the Singleton
+ * instance in your subclass without overriding the
+ * constructor.</P>
+ */
 static void initializeView(View *self) {
 
 }
 
-static void registerMediator(View *self, Mediator *mediator) {
-    pthread_rwlock_wrlock(&mediatorMap_mutex);
-    MediatorMap **mediatorMap = &self->mediatorMap;
-
-    while (*mediatorMap) {
-        if (strcmp((*mediatorMap)->name, mediator->getMediatorName(mediator)) == 0)
-            return; // do not allow re-registration (you must to removeMediator first)
-        mediatorMap = &(*mediatorMap)->next;
-    }
-
-    mediator->notifier->initializeNotifier(mediator->notifier, self->multitonKey);
-    *mediatorMap = NewMediatorMap(mediator);
-
-    const char * const *interests = mediator->listNotificationInterests(mediator);
-    while(*interests) {
-        Observer *observer = NewObserver((void (*)(void *, Notification *)) mediator->handleNotification, mediator);
-        self->registerObserver(self, *interests, observer);
-        interests++;
-    }
-
-    mediator->onRegister(mediator);
-    pthread_rwlock_unlock(&mediatorMap_mutex);
-}
-
-static Mediator *retrieveMediator(View *self, const char *mediatorName) {
-    pthread_rwlock_rdlock(&mediatorMap_mutex);
-    MediatorMap *mediatorMap = self->mediatorMap;
-    while(mediatorMap && strcmp(mediatorMap->name, mediatorName) != 0)
-        mediatorMap = mediatorMap->next;
-    pthread_rwlock_unlock(&mediatorMap_mutex);
-    return mediatorMap == NULL ? NULL : mediatorMap->mediator;
-}
-
-static bool hasMediator(View *self, const char *mediatorName) {
-    pthread_rwlock_rdlock(&mediatorMap_mutex);
-    MediatorMap *mediatorMap = self->mediatorMap;
-    while(mediatorMap && strcmp(mediatorMap->name, mediatorName) != 0)
-        mediatorMap = mediatorMap->next;
-    pthread_rwlock_unlock(&mediatorMap_mutex);
-    return mediatorMap != NULL;
-}
-
-static Mediator *removeMediator(View *self, const char *mediatorName) {
-    pthread_rwlock_wrlock(&mediatorMap_mutex);
-    MediatorMap **mediatorMap = &self->mediatorMap;
-
-    while (*mediatorMap) {
-        if (strcmp((*mediatorMap)->name, mediatorName) == 0) {
-            Mediator *mediator = (*mediatorMap)->mediator;
-
-            const char * const *interests = mediator->listNotificationInterests(mediator);
-            while(*interests) {
-                self->removeObserver(self, *interests, mediator);
-                interests++;
-            }
-
-            MediatorMap *node = *mediatorMap;
-            *mediatorMap = (*mediatorMap)->next; // remove the mediator from the map
-            DeleteMediatorMap(node);
-
-            // alert the mediator that it has been removed
-            mediator->onRemove(mediator);
-            return mediator;
-        }
-        mediatorMap = &(*mediatorMap)->next;
-    }
-    pthread_rwlock_unlock(&mediatorMap_mutex);
-    return NULL;
-}
-
+/**
+ * <P>Register an <code>IObserver</code> to be notified
+ * of <code>INotifications</code> with a given name.</P>
+ *
+ * @param View*
+ * @param notificationName the name of the <code>INotifications</code> to notify this <code>IObserver</code> of
+ * @param observer the <code>IObserver</code> to register
+ */
 static void registerObserver(View *self, const char *notificationName, Observer *observer) {
     pthread_rwlock_wrlock(&observerMap_mutex);
     ObserverMap **observerMap = &self->observerMap;
@@ -219,6 +221,16 @@ static void registerObserver(View *self, const char *notificationName, Observer 
     pthread_rwlock_unlock(&observerMap_mutex);
 }
 
+/**
+ * <P>Notify the <code>IObservers</code> for a particular <code>INotification</code>.</P>
+ *
+ * <P>All previously attached <code>IObservers</code> for this <code>INotification</code>'s
+ * list are notified and are passed a reference to the <code>INotification</code> in
+ * the order in which they were registered.</P>
+ *
+ * @param self
+ * @param notification the <code>INotification</code> to notify <code>IObservers</code> of.
+ */
 static void notifyObservers(View *self, Notification *notification) {
     pthread_rwlock_rdlock(&observerMap_mutex);
     ObserverMap *pointer = self->observerMap;
@@ -254,6 +266,13 @@ static void notifyObservers(View *self, Notification *notification) {
     pthread_rwlock_unlock(&observerMap_mutex);
 }
 
+/**
+ * <P>Remove the observer for a given notifyContext from an observer list for a given Notification name.</P>
+ *
+ * @param self
+ * @param notificationName which observer list to remove from
+ * @param notifyContext remove the observer with this object as its notifyContext
+ */
 static void removeObserver(View *self, const char *notificationName, void *notifyContext) {
     pthread_rwlock_wrlock(&observerMap_mutex);
     ObserverMap **observerMap = &self->observerMap;
@@ -285,42 +304,176 @@ static void removeObserver(View *self, const char *notificationName, void *notif
     pthread_rwlock_unlock(&observerMap_mutex);
 }
 
-void InitView(View *self) {
-    self->mediatorMap = NULL;
-    self->observerMap = NULL;
-    self->initializeView = initializeView;
-    self->registerObserver = registerObserver;
-    self->notifyObservers = notifyObservers;
-    self->removeObserver = removeObserver;
-    self->registerMediator = registerMediator;
-    self->retrieveMediator = retrieveMediator;
-    self->hasMediator = hasMediator;
-    self->removeMediator = removeMediator;
+/**
+ * <P>Register an <code>IMediator</code> instance with the <code>View</code>.</P>
+ *
+ * <P>Registers the <code>IMediator</code> so that it can be retrieved by name,
+ * and further interrogates the <code>IMediator</code> for its
+ * <code>INotification</code> interests.</P>
+ *
+ * <P>If the <code>IMediator</code> returns any <code>INotification</code>
+ * names to be notified about, an <code>Observer</code> is created encapsulating
+ * the <code>IMediator</code> instance's <code>handleNotification</code> method
+ * and registering it as an <code>Observer</code> for all <code>INotifications</code> the
+ * <code>IMediator</code> is interested in.</P>
+ *
+ * @param self
+ * @param mediator a reference to the <code>IMediator</code> instance
+ */
+static void registerMediator(View *self, Mediator *mediator) {
+    pthread_rwlock_wrlock(&mediatorMap_mutex);
+    MediatorMap **mediatorMap = &self->mediatorMap;
+
+    while (*mediatorMap) {
+        if (strcmp((*mediatorMap)->name, mediator->getMediatorName(mediator)) == 0)
+            return; // do not allow re-registration (you must to removeMediator first)
+        mediatorMap = &(*mediatorMap)->next;
+    }
+
+    mediator->notifier->initializeNotifier(mediator->notifier, self->multitonKey);
+    *mediatorMap = NewMediatorMap(mediator);
+
+    const char * const *interests = mediator->listNotificationInterests(mediator);
+    while(*interests) {
+        Observer *observer = NewObserver((void (*)(void *, Notification *)) mediator->handleNotification, mediator);
+        self->registerObserver(self, *interests, observer);
+        interests++;
+    }
+
+    mediator->onRegister(mediator);
+    pthread_rwlock_unlock(&mediatorMap_mutex);
 }
 
+/**
+ * <P>Retrieve an <code>IMediator</code> from the <code>View</code>.</P>
+ *
+ * @param self
+ * @param mediatorName the name of the <code>IMediator</code> instance to retrieve.
+ * @return the <code>IMediator</code> instance previously registered with the given <code>mediatorName</code>.
+ */
+static Mediator *retrieveMediator(View *self, const char *mediatorName) {
+    pthread_rwlock_rdlock(&mediatorMap_mutex);
+    MediatorMap *mediatorMap = self->mediatorMap;
+    while(mediatorMap && strcmp(mediatorMap->name, mediatorName) != 0)
+        mediatorMap = mediatorMap->next;
+    pthread_rwlock_unlock(&mediatorMap_mutex);
+    return mediatorMap == NULL ? NULL : mediatorMap->mediator;
+}
+
+/**
+ * <P>Check if a Mediator is registered or not</P>
+ *
+ * @param self
+ * @param mediatorName mediator name
+ * @return whether a Mediator is registered with the given <code>mediatorName</code>.
+ */
+static bool hasMediator(View *self, const char *mediatorName) {
+    pthread_rwlock_rdlock(&mediatorMap_mutex);
+    MediatorMap *mediatorMap = self->mediatorMap;
+    while(mediatorMap && strcmp(mediatorMap->name, mediatorName) != 0)
+        mediatorMap = mediatorMap->next;
+    pthread_rwlock_unlock(&mediatorMap_mutex);
+    return mediatorMap != NULL;
+}
+
+/**
+ * <P>Remove an <code>IMediator</code> from the <code>View</code>.</P>
+ *
+ * @param self
+ * @param mediatorName name of the <code>IMediator</code> instance to be removed.
+ * @return the <code>IMediator</code> that was removed from the <code>View</code>
+ */
+static Mediator *removeMediator(View *self, const char *mediatorName) {
+    pthread_rwlock_wrlock(&mediatorMap_mutex);
+    MediatorMap **mediatorMap = &self->mediatorMap;
+
+    while (*mediatorMap) {
+        if (strcmp((*mediatorMap)->name, mediatorName) == 0) {
+            Mediator *mediator = (*mediatorMap)->mediator;
+
+            const char * const *interests = mediator->listNotificationInterests(mediator);
+            while(*interests) {
+                self->removeObserver(self, *interests, mediator);
+                interests++;
+            }
+
+            MediatorMap *node = *mediatorMap;
+            *mediatorMap = (*mediatorMap)->next; // remove the mediator from the map
+            DeleteMediatorMap(node);
+
+            // alert the mediator that it has been removed
+            mediator->onRemove(mediator);
+            return mediator;
+        }
+        mediatorMap = &(*mediatorMap)->next;
+    }
+    pthread_rwlock_unlock(&mediatorMap_mutex);
+    return NULL;
+}
+
+/**
+ * Initializer
+ *
+ * @param view
+ */
+void InitView(View *view) {
+    view->mediatorMap = NULL;
+    view->observerMap = NULL;
+    view->initializeView = initializeView;
+    view->registerObserver = registerObserver;
+    view->notifyObservers = notifyObservers;
+    view->removeObserver = removeObserver;
+    view->registerMediator = registerMediator;
+    view->retrieveMediator = retrieveMediator;
+    view->hasMediator = hasMediator;
+    view->removeMediator = removeMediator;
+}
+
+/**
+ * <P>Constructor.</P>
+ *
+ * <P>This <code>IView</code> implementation is a Multiton,
+ * so you should not call the constructor
+ * directly, but instead call the static Multiton
+ * Factory method <code>View.getInstance( multitonKey )</code></P>
+ *
+ * @param key multitonKey
+ * @throws Error if instance for this Multiton key has already been constructed
+ * @returns View*
+ */
 View *NewView(const char *key) {
     assert(GetViewMap(key) == NULL);
 
-    View *self = malloc(sizeof(View));
-    if (self == NULL) goto exception;
-    InitView(self);
-    self->multitonKey = key;
-    AddViewMap(key, self);
-    return self;
+    View *view = malloc(sizeof(View));
+    if (view == NULL) goto exception;
+    InitView(view);
+    view->multitonKey = key;
+    AddViewMap(key, view);
+    return view;
 
     exception:
         fprintf(stderr, "View allocation failed.\n");
         return NULL;
 }
 
-static pthread_rwlock_t view_mutex;
-
-void DeleteView(const char *key) {
+/**
+ * <P>Remove an IView instance</P>
+ *
+ * @param key of IView instance to remove
+ */
+void RemoveView(const char *key) {
     pthread_rwlock_wrlock(&view_mutex);
     RemoveViewMap(key);
     pthread_rwlock_unlock(&view_mutex);
 }
 
+/**
+ * <P>View Singleton Factory method.</P>
+ *
+ * @param key multitonKey
+ * @param factory factory that returns <code>View*</code>
+ * @return the Multiton instance of <code>View*</code>
+ */
 View *getViewInstance(const char *key, View *(*factory)(const char *)) {
     pthread_rwlock_wrlock(&view_mutex);
     View *instance = GetViewMap(key);

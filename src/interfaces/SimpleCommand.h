@@ -23,22 +23,22 @@ struct SimpleCommand {
 };
 
 /**
- * Initializer
- *
- * @param self
- */
-void InitSimpleCommand(SimpleCommand *self);
-
-/**
  * Constructor
  */
 SimpleCommand *NewSimpleCommand();
 
 /**
+ * Initializer
+ *
+ * @param simpleCommand
+ */
+void InitSimpleCommand(SimpleCommand *simpleCommand);
+
+/**
  * Destructor
  *
- * @param self
+ * @param simpleCommand
  */
-void DeleteSimpleCommand(SimpleCommand *self);
+void DeleteSimpleCommand(SimpleCommand *simpleCommand);
 
 #endif //PUREMVC_SIMPLECOMMAND_H

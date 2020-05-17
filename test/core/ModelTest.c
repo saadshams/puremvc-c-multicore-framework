@@ -29,7 +29,7 @@ void testGetInstance() {
 
     // test assertions
     assert(model == getModelInstance("ModelTestKey1", NewModel));
-    DeleteModel("ModelTestKey1");
+    RemoveModel("ModelTestKey1");
     model = NULL;
 }
 
@@ -59,7 +59,7 @@ void testRegisterAndRetrieveProxy() {
     assert(strcmp(removedProxy->proxyName, "colors") == 0);
     DeleteProxy(removedProxy);
     assert(model->retrieveProxy(model, "colors") == NULL);
-    DeleteModel("ModelTestKey2");
+    RemoveModel("ModelTestKey2");
     model = NULL;
 }
 
@@ -81,7 +81,7 @@ void testRegisterAndRemoveProxy() {
     assert(model->retrieveProxy(model, "sizes") == NULL);
 
     DeleteProxy(removedProxy);
-    DeleteModel("ModelTestKey4");
+    RemoveModel("ModelTestKey4");
     model = NULL;
 }
 
@@ -107,7 +107,7 @@ void testHasProxy() {
     // for that proxy name
     assert(model->hasProxy(model, "aces") == false);
 
-    DeleteModel("ModelTestKey5");
+    RemoveModel("ModelTestKey5");
     model = NULL;
 }
 
@@ -134,7 +134,7 @@ void testOnRegisterAndOnRemove() {
     assert(strcmp(modelTestProxy->proxy.data, data) == 0);
     DeleteProxy((Proxy *) modelTestProxy);
 
-    DeleteModel("ModelTestKey6");
+    RemoveModel("ModelTestKey6");
     model = NULL;
 }
 
@@ -143,11 +143,11 @@ void testRemoveModel() {
     getModelInstance("ModelTestKey6", NewModel);
 
     // remove the model
-    DeleteModel("ModelTestKey6");
+    RemoveModel("ModelTestKey6");
 
     // re-create the model without throwing an exception
     NewModel("ModelTestKey6");
 
     // cleanup
-    DeleteModel("ModelTestKey6");
+    RemoveModel("ModelTestKey6");
 }

@@ -67,19 +67,19 @@ static bool compareNotifyContext(Observer *self, const void *context) {
 
 /**
  * Initializer
- * @param self
+ * @param observer
  * @param notifyMethod
  * @param notifyContext
  */
-void InitObserver(Observer *self, void (*notifyMethod)(void *context, Notification *notification), void *notifyContext) {
-    self->notify = notifyMethod;
-    self->context = notifyContext;
-    self->getNotifyContext = getNotifyContext;
-    self->setNotifyContext = setNotifyContext;
-    self->getNotifyMethod = getNotifyMethod;
-    self->setNotifyMethod = setNotifyMethod;
-    self->notifyObserver = notifyObserver;
-    self->compareNotifyContext = compareNotifyContext;
+void InitObserver(Observer *observer, void (*notifyMethod)(void *context, Notification *notification), void *notifyContext) {
+    observer->notify = notifyMethod;
+    observer->context = notifyContext;
+    observer->getNotifyContext = getNotifyContext;
+    observer->setNotifyContext = setNotifyContext;
+    observer->getNotifyMethod = getNotifyMethod;
+    observer->setNotifyMethod = setNotifyMethod;
+    observer->notifyObserver = notifyObserver;
+    observer->compareNotifyContext = compareNotifyContext;
 }
 
 /**
@@ -93,10 +93,10 @@ void InitObserver(Observer *self, void (*notifyMethod)(void *context, Notificati
  * @param notifyContext the notification context of the interested object
  */
 Observer *NewObserver(void (*notifyMethod)(void *context, Notification *notification), void *notifyContext) {
-    Observer *self = malloc(sizeof(Observer));
-    if (self == NULL) goto exception;
-    InitObserver(self, notifyMethod, notifyContext);
-    return self;
+    Observer *observer = malloc(sizeof(Observer));
+    if (observer == NULL) goto exception;
+    InitObserver(observer, notifyMethod, notifyContext);
+    return observer;
 
     exception:
         fprintf(stderr, "Observer allocation failed.\n");
@@ -105,9 +105,9 @@ Observer *NewObserver(void (*notifyMethod)(void *context, Notification *notifica
 
 /**
  * Destructor
- * @param self
+ * @param observer
  */
-void DeleteObserver(Observer *self) {
-    free(self);
-    self = NULL;
+void DeleteObserver(Observer *observer) {
+    free(observer);
+    observer = NULL;
 }

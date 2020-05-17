@@ -16,20 +16,23 @@ struct FacadeMap {
 // The Multiton Facade instanceMap.
 static FacadeMap *instanceMap;
 
+// mutex for instanceMap
+static pthread_rwlock_t facade_mutex = PTHREAD_MUTEX_INITIALIZER;
+
 /**
- * Construct a new instanceMap Node
+ * Construct a new instanceMap node
  *
  * @param key
  * @param facade
  * @return facadeMap
  */
 static FacadeMap *NewFacadeMap(const char *key, Facade *facade) {
-    FacadeMap *self = malloc(sizeof(FacadeMap));
-    if (self == NULL) goto exception;
-    self->name = key;
-    self->facade = facade;
-    self->next = NULL;
-    return self;
+    FacadeMap *facadeMap = malloc(sizeof(FacadeMap));
+    if (facadeMap == NULL) goto exception;
+    facadeMap->name = key;
+    facadeMap->facade = facade;
+    facadeMap->next = NULL;
+    return facadeMap;
 
     exception:
         fprintf(stderr, "FacadeMap allocation failed.\n");
@@ -37,19 +40,8 @@ static FacadeMap *NewFacadeMap(const char *key, Facade *facade) {
 }
 
 /**
- * Add a Node to the instanceMap LinkedList
- * @param key
- * @param facade
- */
-static void AddFacadeMap(const char *key, Facade *facade) {
-    FacadeMap **cursor = &instanceMap;
-    while (*cursor)
-        cursor = &(*cursor)->next;
-    *cursor = NewFacadeMap(key, facade);
-}
-
-/**
  * Retrieve a Node from instanceMap LinkedList
+ *
  * @param key
  * @return facade
  */
@@ -61,17 +53,21 @@ static Facade *GetFacadeMap(const char *key) {
 }
 
 /**
- * Release the memory for a instanceMap node
- * @param self
+ * Add a Node to the instanceMap LinkedList
+ *
+ * @param key
+ * @param facade
  */
-static void DeleteFacadeMap(FacadeMap *self) {
-    free(self->facade);
-    free(self);
-    self = NULL;
+static void AddFacadeMap(const char *key, Facade *facade) {
+    FacadeMap **cursor = &instanceMap;
+    while (*cursor)
+        cursor = &(*cursor)->next;
+    *cursor = NewFacadeMap(key, facade);
 }
 
 /**
  * Remove a node from instanceMap LinkedList
+ *
  * @param key
  */
 static void RemoveFacadeMap(const char *key) {
@@ -80,13 +76,14 @@ static void RemoveFacadeMap(const char *key) {
         if (strcmp((*cursor)->name, key) == 0) {
             FacadeMap *node = *cursor;
             *cursor = (*cursor)->next;
-            DeleteFacadeMap(node);
+            free(node->facade);
+            free(node);
+            node = NULL;
             break;
         }
         cursor = &(*cursor)->next;
     }
 }
-
 
 /**
  * <P>Initialize the Multiton <code>Facade</code> instance.</P>
@@ -95,7 +92,7 @@ static void RemoveFacadeMap(const char *key) {
  * subclass to do any subclass specific initializations. Be
  * sure to call <code>super.initializeFacade()</code>, though.</P>
  *
- * @param self
+ * @param Facade*
  */
 static void initializeFacade(Facade *self) {
     self->initializeModel(self);
@@ -355,30 +352,30 @@ static void initializeNotifier(Facade *self, const char *key) {
 /**
  * Initializer
  *
- * @param self
+ * @param facade
  */
-void InitFacade(Facade *self) {
-    self->controller = NULL;
-    self->model = NULL;
-    self->view = NULL;
-    self->initializeFacade = initializeFacade;
-    self->initializeController = initializeController;
-    self->initializeModel = initializeModel;
-    self->initializeView = initializeView;
-    self->registerCommand = registerCommand;
-    self->removeCommand = removeCommand;
-    self->hasCommand = hasCommand;
-    self->registerProxy = registerProxy;
-    self->retrieveProxy = retrieveProxy;
-    self->removeProxy = removeProxy;
-    self->hasProxy = hasProxy;
-    self->registerMediator = registerMediator;
-    self->retrieveMediator = retrieveMediator;
-    self->removeMediator = removeMediator;
-    self->hasMediator = hasMediator;
-    self->sendNotification = sendNotification;
-    self->notifyObservers = notifyObservers;
-    self->initializeNotifier = initializeNotifier;
+void InitFacade(Facade *facade) {
+    facade->controller = NULL;
+    facade->model = NULL;
+    facade->view = NULL;
+    facade->initializeFacade = initializeFacade;
+    facade->initializeController = initializeController;
+    facade->initializeModel = initializeModel;
+    facade->initializeView = initializeView;
+    facade->registerCommand = registerCommand;
+    facade->removeCommand = removeCommand;
+    facade->hasCommand = hasCommand;
+    facade->registerProxy = registerProxy;
+    facade->retrieveProxy = retrieveProxy;
+    facade->removeProxy = removeProxy;
+    facade->hasProxy = hasProxy;
+    facade->registerMediator = registerMediator;
+    facade->retrieveMediator = retrieveMediator;
+    facade->removeMediator = removeMediator;
+    facade->hasMediator = hasMediator;
+    facade->sendNotification = sendNotification;
+    facade->notifyObservers = notifyObservers;
+    facade->initializeNotifier = initializeNotifier;
 }
 
 /**
@@ -388,19 +385,16 @@ void InitFacade(Facade *self) {
  */
 Facade *NewFacade(const char *key) {
     assert(GetFacadeMap(key) == NULL);
-    Facade *self = malloc(sizeof(Facade));
-    if (self == NULL) goto exception;
-    InitFacade(self);
-    self->multitonKey = key;
-    return self;
+    Facade *facade = malloc(sizeof(Facade));
+    if (facade == NULL) goto exception;
+    InitFacade(facade);
+    facade->multitonKey = key;
+    return facade;
 
     exception:
         fprintf(stderr, "Facade allocation failed.\n");
         return NULL;
 }
-
-// mutex for facade instanceMap
-static pthread_rwlock_t facade_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 /**
  * Check if a Core is registered or not
@@ -420,11 +414,11 @@ bool HasFacadeCore(const char *key) {
  *
  * @param key
  */
-void RemoveFacadeCore(const char *key) {
+void RemoveFacade(const char *key) {
     pthread_rwlock_wrlock(&facade_mutex);
-    DeleteModel(key);
-    DeleteView(key);
-    DeleteController(key);
+    RemoveModel(key);
+    RemoveView(key);
+    RemoveController(key);
     RemoveFacadeMap(key);
     pthread_rwlock_unlock(&facade_mutex);
 }

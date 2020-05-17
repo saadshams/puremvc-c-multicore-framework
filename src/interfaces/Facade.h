@@ -12,7 +12,6 @@
  * @see org.puremvc.c.multicore.core.View View
  * @see org.puremvc.c.multicore.core.Controller Controller
  */
-
 typedef struct Facade Facade;
 
 struct Facade {
@@ -41,11 +40,13 @@ struct Facade {
 };
 
 /**
- * Initializer
+ * Facade Multiton Factory method
  *
- * @param self
+ * @param key
+ * @param factory
+ * @return facade
  */
-void InitFacade(Facade *self);
+Facade *getFacadeInstance(const char *key, Facade *(*factory)(const char *));
 
 /**
  * Constructor
@@ -53,6 +54,13 @@ void InitFacade(Facade *self);
  * @param key
  */
 Facade *NewFacade(const char *key);
+
+/**
+ * Initializer
+ *
+ * @param facade
+ */
+void InitFacade(Facade *facade);
 
 /**
  * Check if a Core is registered or not
@@ -67,15 +75,6 @@ bool HasFacadeCore(const char *key);
  *
  * @param key
  */
-void RemoveFacadeCore(const char *key);
-
-/**
- * Facade Multiton Factory method
- *
- * @param key
- * @param factory
- * @return facade
- */
-Facade *getFacadeInstance(const char *key, Facade *(*factory)(const char *));
+void RemoveFacade(const char *key);
 
 #endif //PUREMVC_FACADE_H

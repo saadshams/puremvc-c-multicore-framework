@@ -35,7 +35,6 @@ struct SubCommandNode {
  * @see org.puremvc.c.multicore.patterns.observer.Notification Notification
  * @see org.puremvc.c.multicore.patterns.command.SimpleCommand SimpleCommand
  */
-
 typedef struct MacroCommand MacroCommand;
 
 struct MacroCommand {
@@ -49,9 +48,9 @@ struct MacroCommand {
 /**
  * Initializer
  *
- * @param self
+ * @param macroCommand
  */
-void InitMacroCommand(MacroCommand *self);
+void InitMacroCommand(MacroCommand *macroCommand);
 
 /**
  * Constructor
@@ -61,8 +60,8 @@ MacroCommand *NewMacroCommand();
 /**
  * Destructor
  *
- * @param self
+ * @param macroCommand
  */
-void DeleteMacroCommand(MacroCommand *self);
+void DeleteMacroCommand(MacroCommand *macroCommand);
 
 #endif //PUREMVC_MACROCOMMAND_H

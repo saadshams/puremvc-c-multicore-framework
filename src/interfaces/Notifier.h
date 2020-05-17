@@ -45,22 +45,22 @@ struct Notifier {
 };
 
 /**
- * Initializer
- *
- * @param self
- */
-void InitNotifier(Notifier *self);
-
-/**
  * Constructor
  */
 Notifier *NewNotifier();
 
 /**
+ * Initializer
+ *
+ * @param notifier
+ */
+void InitNotifier(Notifier *notifier);
+
+/**
  * Destructor
  *
- * @param self
+ * @param notifier
  */
-void DeleteNotifier(Notifier *self);
+void DeleteNotifier(Notifier *notifier);
 
 #endif //PUREMVC_NOTIFIER_H

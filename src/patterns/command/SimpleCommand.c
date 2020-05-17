@@ -21,21 +21,21 @@ static void execute(SimpleCommand *self, Notification *notification) {
 /**
  * Initializer
  *
- * @param self
+ * @param simpleCommand
  */
-void InitSimpleCommand(SimpleCommand *self) {
-    self->notifier = NewNotifier();
-    self->execute = execute;
+void InitSimpleCommand(SimpleCommand *simpleCommand) {
+    simpleCommand->notifier = NewNotifier();
+    simpleCommand->execute = execute;
 }
 
 /**
  * Constructor
  */
 SimpleCommand *NewSimpleCommand() {
-    SimpleCommand *self = malloc(sizeof(SimpleCommand));
-    if (self == NULL) goto exception;
-    InitSimpleCommand(self);
-    return self;
+    SimpleCommand *simpleCommand = malloc(sizeof(SimpleCommand));
+    if (simpleCommand == NULL) goto exception;
+    InitSimpleCommand(simpleCommand);
+    return simpleCommand;
 
     exception:
         fprintf(stderr, "SimpleCommand allocation failed.\n");
@@ -45,10 +45,10 @@ SimpleCommand *NewSimpleCommand() {
 /**
  * Destructor
  *
- * @param self
+ * @param simpleCommand
  */
-void DeleteSimpleCommand(SimpleCommand *self) {
-    DeleteNotifier(self->notifier);
-    free(self);
-    self = NULL;
+void DeleteSimpleCommand(SimpleCommand *simpleCommand) {
+    DeleteNotifier(simpleCommand->notifier);
+    free(simpleCommand);
+    simpleCommand = NULL;
 }

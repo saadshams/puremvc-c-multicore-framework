@@ -22,11 +22,11 @@ static SubCommandNode *NewSubCommandNode(SimpleCommand *(*factory)()) {
 
 /**
  * Destruct the SubCommand Node
- * @param self
+ * @param subCommandNode
  */
-static void DeleteSubCommand(SubCommandNode *self) {
-    free(self);
-    self = NULL;
+static void DeleteSubCommand(SubCommandNode *subCommandNode) {
+    free(subCommandNode);
+    subCommandNode = NULL;
 }
 
 /**
@@ -51,7 +51,6 @@ static void DeleteSubCommand(SubCommandNode *self) {
  *
  * @param self
  */
-
 static void initializeMacroCommand(MacroCommand *self) {
 
 }
@@ -107,26 +106,24 @@ static void execute(MacroCommand *self, Notification *notification) {
 /**
  * Initializer
  *
- * @param self
+ * @param macroCommand
  */
-void InitMacroCommand(MacroCommand *self) {
-    if (self) {
-        self->notifier = NewNotifier();
-        self->SubCommands = NULL;
-        self->initializeMacroCommand = initializeMacroCommand;
-        self->addSubCommand = addSubCommand;
-        self->execute = execute;
-    }
+void InitMacroCommand(MacroCommand *macroCommand) {
+    macroCommand->notifier = NewNotifier();
+    macroCommand->SubCommands = NULL;
+    macroCommand->initializeMacroCommand = initializeMacroCommand;
+    macroCommand->addSubCommand = addSubCommand;
+    macroCommand->execute = execute;
 }
 
 /**
  * Constructor
  */
 MacroCommand *NewMacroCommand() {
-    MacroCommand *self = malloc(sizeof(MacroCommand));
-    if (self == NULL) goto exception;
-    InitMacroCommand(self);
-    return self;
+    MacroCommand *macroCommand = malloc(sizeof(MacroCommand));
+    if (macroCommand == NULL) goto exception;
+    InitMacroCommand(macroCommand);
+    return macroCommand;
 
     exception:
         fprintf(stderr, "MacroCommand allocation failed.\n");
@@ -136,10 +133,10 @@ MacroCommand *NewMacroCommand() {
 /**
  * Destructor
  *
- * @param self
+ * @param macroCommand
  */
-void DeleteMacroCommand(MacroCommand *self) {
-    DeleteNotifier(self->notifier);
-    free(self);
-    self = NULL;
+void DeleteMacroCommand(MacroCommand *macroCommand) {
+    DeleteNotifier(macroCommand->notifier);
+    free(macroCommand);
+    macroCommand = NULL;
 }

@@ -47,12 +47,12 @@ struct Notification {
 /**
  * Initializer
  *
- * @param self
+ * @param notification
  * @param name
  * @param body
  * @param type
  */
-void InitNotification(Notification *self, const char *name, void *body, char *type);
+void InitNotification(Notification *notification, const char *name, void *body, char *type);
 
 /**
  * Constructor
@@ -66,8 +66,8 @@ Notification *NewNotification(const char *name, void *body, char *type);
 /**
  * Destructor
  *
- * @param self
+ * @param notification
  */
-void DeleteNotification(Notification *self);
+void DeleteNotification(Notification *notification);
 
 #endif //PUREMVC_NOTIFICATION_H

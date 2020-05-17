@@ -63,7 +63,7 @@ void testGetInstance() {
     // test assertions
     assert(view != NULL);
     assert(view == getViewInstance("ViewTestKey1", NewView));
-    DeleteView("ViewTestKey1");
+    RemoveView("ViewTestKey1");
     view = NULL;
 }
 
@@ -116,7 +116,7 @@ void testRegisterAndNotifyObserver() {
     assert(viewTestVar1->value == 0);
 
     DeleteNotification(note);
-    DeleteView("ViewTestKey2");
+    RemoveView("ViewTestKey2");
     view = NULL;
 }
 
@@ -143,7 +143,7 @@ void testRegisterAndRetrieveMediator() {
     // clean up
     view->removeMediator(view, "testing");
     DeleteMediator(mediator);
-    DeleteView("ViewTestKey3");
+    RemoveView("ViewTestKey3");
     view = NULL;
 }
 
@@ -170,7 +170,7 @@ void testHasMediator() {
     assert(view->hasMediator(view, "hasMediatorTest") == false);
 
     DeleteMediator(mediator);
-    DeleteView("ViewTestKey4");
+    RemoveView("ViewTestKey4");
     view = NULL;
 }
 
@@ -196,7 +196,7 @@ void testRegisterAndRemoveMediator() {
     assert(view->retrieveMediator(view, "testing") == NULL);
 
     DeleteMediator(mediator);
-    DeleteView("ViewTestKey6");
+    RemoveView("ViewTestKey6");
     view = NULL;
 }
 
@@ -226,7 +226,7 @@ void testOnRegisterAndOnRemove() {
 
     // clean up
     DeleteMediator(mediator);
-    DeleteView("ViewTestKey5");
+    RemoveView("ViewTestKey5");
     view = NULL;
 }
 
@@ -270,7 +270,7 @@ void testSuccessiveRegisterAndRemoveMediator() {
 
     DeleteMediator(mediator);
     DeleteMediator(mediator2);
-    DeleteView("ViewTestKey7");
+    RemoveView("ViewTestKey7");
     view = NULL;
 }
 
@@ -312,7 +312,7 @@ void testRemoveMediatorAndSubsequentNotify() {
     DeleteNotification(notification1);
     DeleteNotification(notification2);
     DeleteMediator(mediator);
-    DeleteView("ViewTestKey8");
+    RemoveView("ViewTestKey8");
     view = NULL;
 }
 
@@ -373,7 +373,7 @@ void testRemoveOneOfTwoMediatorsAndSubsequentNotify() {
     DeleteNotification(notification1);
     DeleteNotification(notification2);
     DeleteNotification(notification3);
-    DeleteView("ViewTestKey9");
+    RemoveView("ViewTestKey9");
     view = NULL;
 }
 
@@ -415,7 +415,7 @@ void testMediatorReregistration() {
     assert(viewTest.counter == 0);
 
     DeleteNotification(notification);
-    DeleteView("ViewTestKey10");
+    RemoveView("ViewTestKey10");
     view = NULL;
 }
 
@@ -462,7 +462,7 @@ void testModifyObserverListDuringNotification() {
     assert(viewTest.counter == 0);
 
     DeleteNotification(notification);
-    RemoveFacadeCore("ViewTestKey11");
+    RemoveFacade("ViewTestKey11");
     view = NULL;
 }
 
@@ -471,11 +471,11 @@ void testRemoveView() {
     getViewInstance("ViewTestKey12", NewView);
 
     // remove the View
-    DeleteView("ViewTestKey12");
+    RemoveView("ViewTestKey12");
 
     // re-create the view without throwing an exception
     NewView("ViewTestKey12");
 
     // cleanup
-    DeleteView("ViewTestKey12");
+    RemoveView("ViewTestKey12");
 }

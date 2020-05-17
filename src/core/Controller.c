@@ -7,10 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-static pthread_rwlock_t commandMap_mutex;
-
-// ControllerMap
-
+// ControllerMap LinkedList
 typedef struct ControllerMap ControllerMap;
 
 struct ControllerMap {
@@ -19,28 +16,35 @@ struct ControllerMap {
     ControllerMap *next;
 };
 
+// The Multiton Controller instanceMap.
 static ControllerMap *instanceMap;
 
+/**
+ * Construct a new instanceMap node
+ *
+ * @param key
+ * @param controller
+ * @return
+ */
 static ControllerMap *NewControllerMap(const char *key, Controller *controller) {
-    ControllerMap *self = malloc(sizeof(ControllerMap));
-    if (self == NULL) goto exception;
-    self->name = key;
-    self->controller = controller;
-    self->next = NULL;
-    return self;
+    ControllerMap *controllerMap = malloc(sizeof(ControllerMap));
+    if (controllerMap == NULL) goto exception;
+    controllerMap->name = key;
+    controllerMap->controller = controller;
+    controllerMap->next = NULL;
+    return controllerMap;
 
     exception:
         fprintf(stderr, "ControllerMap allocation failed.\n");
         return NULL;
 }
 
-static void AddControllerMap(const char *key, Controller *controller) {
-    ControllerMap **controllerMap = &instanceMap;
-    while (*controllerMap)
-        controllerMap = &(*controllerMap)->next;
-    *controllerMap = NewControllerMap(key, controller);
-}
-
+/**
+ * Retrieve a Node from instanceMap LinkedList
+ *
+ * @param key
+ * @return controller
+ */
 static Controller *GetControllerMap(const char *key) {
     ControllerMap *controllerMap = instanceMap;
     while (controllerMap && strcmp(controllerMap->name, key) != 0)
@@ -48,27 +52,49 @@ static Controller *GetControllerMap(const char *key) {
     return controllerMap == NULL ? NULL : controllerMap->controller;
 }
 
-static void DeleteControllerMap(ControllerMap *self) {
-    free(self->controller);
-    free(self);
-    self = NULL;
+/**
+ * Add a Node to the instanceMap LinkedList
+ *
+ * @param key
+ * @param controller
+ */
+static void AddControllerMap(const char *key, Controller *controller) {
+    ControllerMap **controllerMap = &instanceMap;
+    while (*controllerMap)
+        controllerMap = &(*controllerMap)->next;
+    *controllerMap = NewControllerMap(key, controller);
 }
 
+/**
+ * Remove a node from instanceMap LinkedList
+ *
+ * @param key
+ */
 static void RemoveControllerMap(const char *key) {
     ControllerMap **controllerMap = &instanceMap;
     while (*controllerMap) {
         if (strcmp((*controllerMap)->name, key) == 0) {
             ControllerMap *node = *controllerMap;
             *controllerMap = (*controllerMap)->next;
-            DeleteControllerMap(node);
+            free(node->controller);
+            free(node);
+            node = NULL;
             break;
         }
         controllerMap = &(*controllerMap)->next;
     }
 }
 
-// CommandMap
+// mutex for commandMap
+static pthread_rwlock_t commandMap_mutex = PTHREAD_MUTEX_INITIALIZER;
 
+/**
+ * Construct a new commandMap node
+ *
+ * @param notificationName
+ * @param factory
+ * @return CommandMap*
+ */
 static CommandMap *NewCommandMap(const char *notificationName, SimpleCommand *(*factory)()) {
     CommandMap *self = malloc(sizeof(CommandMap));
     self->name = notificationName;
@@ -77,17 +103,44 @@ static CommandMap *NewCommandMap(const char *notificationName, SimpleCommand *(*
     return self;
 }
 
+/**
+ * Release the memory for a commandMap node
+ *
+ * @param CommandMap*
+ */
 static void DeleteCommandMap(CommandMap *self) {
     free(self);
     self = NULL;
 }
 
-// Controller
-
+/**
+ * <P>Initialize the Multiton <code>Controller</code> instance.</P>
+ *
+ * <P>Called automatically by the constructor.</P>
+ *
+ * <P>Note that if you are using a subclass of <code>View</code>
+ * in your application, you should <i>also</i> subclass <code>Controller</code>
+ * and override the <code>initializeController</code> method in the
+ * following way:</P>
+ *
+ * <code>// ensure that the Controller is talking to my IView implementation
+ * static void initializeController()
+ * {
+ *     view = getViewInstance(self->multitonKey, NewMyView);
+ * }
+ * </code>
+ */
 static void initializeController(Controller *self) {
     self->view = getViewInstance(self->multitonKey, NewView);
 }
 
+/**
+ * <P>If an <code>ICommand</code> has previously been registered
+ * to handle a the given <code>INotification</code>, then it is executed.</P>
+ *
+ * @param self
+ * @param notification an <code>INotification</code>
+ */
 static void executeCommand(Controller *self, Notification *notification) {
     pthread_rwlock_rdlock(&commandMap_mutex);
     CommandMap *cursor = self->commandMap;
@@ -103,6 +156,21 @@ static void executeCommand(Controller *self, Notification *notification) {
     pthread_rwlock_unlock(&commandMap_mutex);
 }
 
+/**
+ * <P>Register a particular <code>ICommand</code> class as the handler
+ * for a particular <code>INotification</code>.</P>
+ *
+ * <P>If an <code>ICommand</code> has already been registered to
+ * handle <code>INotification</code>s with this name, it is no longer
+ * used, the new <code>ICommand</code> is used instead.</P>
+ *
+ * <P>The Observer for the new ICommand is only created if this the
+ * first time an ICommand has been registered for this Notification name.</P>
+ *
+ * @param self
+ * @param notificationName the name of the <code>INotification</code>
+ * @param factory a reference to <code>ICommand</code> factory
+ */
 static void registerCommand(Controller *self, const char *notificationName, SimpleCommand *(factory)()) {
     pthread_rwlock_wrlock(&commandMap_mutex);
     CommandMap **cursor = &self->commandMap;
@@ -124,6 +192,13 @@ static void registerCommand(Controller *self, const char *notificationName, Simp
     pthread_rwlock_unlock(&commandMap_mutex);
 }
 
+/**
+ * <P>Check if a Command is registered for a given Notification</P>
+ *
+ * @param self
+ * @param notificationName notification name
+ * @return whether a Command is currently registered for the given <code>notificationName</code>.
+ */
 static bool hasCommand(Controller *self, const char *notificationName) {
     pthread_rwlock_rdlock(&commandMap_mutex);
     CommandMap *cursor = self->commandMap;
@@ -133,6 +208,12 @@ static bool hasCommand(Controller *self, const char *notificationName) {
     return cursor != NULL;
 }
 
+/**
+ * <P>Remove a previously registered <code>ICommand</code> to <code>INotification</code> mapping.</P>
+ *
+ * @param self
+ * @param notificationName the name of the <code>INotification</code> to remove the <code>ICommand</code> mapping for
+ */
 static void removeCommand(Controller *self, const char *notificationName) {
     pthread_rwlock_wrlock(&commandMap_mutex);
     CommandMap **cursor = &self->commandMap;
@@ -150,38 +231,69 @@ static void removeCommand(Controller *self, const char *notificationName) {
     pthread_rwlock_unlock(&commandMap_mutex);
 }
 
-void InitController(Controller *self) {
-    self->commandMap = NULL;
-    self->initializeController = initializeController;
-    self->executeCommand = executeCommand;
-    self->registerCommand = registerCommand;
-    self->hasCommand = hasCommand;
-    self->removeCommand = removeCommand;
+/**
+ * Initializer
+ *
+ * @param controller
+ */
+void InitController(Controller *controller) {
+    controller->commandMap = NULL;
+    controller->initializeController = initializeController;
+    controller->executeCommand = executeCommand;
+    controller->registerCommand = registerCommand;
+    controller->hasCommand = hasCommand;
+    controller->removeCommand = removeCommand;
 }
 
+// mutex for controller instanceMap
 static pthread_rwlock_t controller_mutex;
 
+/**
+ * Constructor
+ *
+ * <P>This <code>IController</code> implementation is a Multiton,
+ * so you should not call the constructor
+ * directly, but instead call the static Factory method,
+ * passing the unique key and a supplier for this instance
+ * <code>getControllerInstance(multitonKey, NewController)</code></P>
+ *
+ * @param key
+ * @return instance of <code>Controller</code>
+ * @throws Error if instance for this Multiton key has already been constructed
+ */
 Controller *NewController(const char *key) {
     assert(GetControllerMap(key) == NULL);
 
-    Controller *self = malloc(sizeof(Controller));
-    if (self == NULL) goto exception;
-    InitController(self);
-    self->multitonKey = key;
-    AddControllerMap(key, self);
-    return self;
+    Controller *controller = malloc(sizeof(Controller));
+    if (controller == NULL) goto exception;
+    InitController(controller);
+    controller->multitonKey = key;
+    AddControllerMap(key, controller);
+    return controller;
 
     exception:
         fprintf(stderr, "Controller allocation failed.\n");
         return NULL;
 }
 
-void DeleteController(const char *key) {
+/**
+ * Destructor
+ *
+ * @param key
+ */
+void RemoveController(const char *key) {
     pthread_rwlock_wrlock(&controller_mutex);
     RemoveControllerMap(key);
     pthread_rwlock_unlock(&controller_mutex);
 }
 
+/**
+ * <P><code>Controller</code> Multiton Factory method.</P>
+ *
+ * @param key multitonKey
+ * @param factory factory that returns <code>IController</code>
+ * @return the Multiton instance of <code>Controller</code>
+ */
 Controller *getControllerInstance(const char *key, Controller *(*factory)(const char *)) {
     pthread_rwlock_wrlock(&controller_mutex);
     Controller *instance = GetControllerMap(key);

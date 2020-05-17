@@ -29,7 +29,7 @@ void testInstance() {
     assert(notifier != NULL);
     assert(notifier->getFacade(notifier) != NULL);
 
-    RemoveFacadeCore("Test1");
+    RemoveFacade("Test1");
     DeleteNotifier(notifier);
 }
 
@@ -75,6 +75,6 @@ void testRegisterCommandAndSendNotification() {
     assert(temp.result == 16);
 
     facade->removeCommand(facade, "TestNote");
-    RemoveFacadeCore("Test2");
+    RemoveFacade("Test2");
     DeleteNotifier(notifier);
 }

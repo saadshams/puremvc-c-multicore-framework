@@ -37,15 +37,6 @@ struct Observer {
 };
 
 /**
- * Initializer
- *
- * @param self
- * @param notifyMethod
- * @param notifyContext
- */
-void InitObserver(Observer *self, void (*notifyMethod)(void *context, Notification *notification), void *notifyContext);
-
-/**
  * Constructor
  *
  * @param notifyMethod
@@ -54,10 +45,19 @@ void InitObserver(Observer *self, void (*notifyMethod)(void *context, Notificati
 Observer *NewObserver(void (*notifyMethod)(void *context, Notification *notification), void *notifyContext);
 
 /**
+ * Initializer
+ *
+ * @param observer
+ * @param notifyMethod
+ * @param notifyContext
+ */
+void InitObserver(Observer *observer, void (*notifyMethod)(void *context, Notification *notification), void *notifyContext);
+
+/**
  * Destructor
  *
- * @param self
+ * @param observer
  */
-void DeleteObserver(Observer *self);
+void DeleteObserver(Observer *observer);
 
 #endif //PUREMVC_OBSERVER_H

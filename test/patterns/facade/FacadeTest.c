@@ -38,7 +38,7 @@ void testGetInstance() {
 
     // test assertions
     assert(facade != NULL);
-    RemoveFacadeCore("FacadeTestKey1");
+    RemoveFacade("FacadeTestKey1");
 }
 
 /**
@@ -69,7 +69,7 @@ void testRegisterCommandAndSendNotification() {
     // test assertions
     assert(vo.result == 64);
     facade->removeCommand(facade, "FacadeTestNote");
-    RemoveFacadeCore("FacadeTestKey2");
+    RemoveFacade("FacadeTestKey2");
 }
 
 /**
@@ -100,7 +100,7 @@ void testRegisterAndRemoveCommandAndSendNotification() {
 
     // test assertions
     assert(vo.result != 64);
-    RemoveFacadeCore("FacadeTestKey3");
+    RemoveFacade("FacadeTestKey3");
 }
 
 /**
@@ -130,7 +130,7 @@ void testRegisterAndRetrieveProxy() {
     assert(strcmp(data[2], "blue") == 0);
 
     DeleteProxy(facade->removeProxy(facade, "colors"));
-    RemoveFacadeCore("FacadeTestKey4");
+    RemoveFacade("FacadeTestKey4");
 }
 
 /**
@@ -151,7 +151,7 @@ void testRegisterAndRemoveProxy() {
     assert(facade->retrieveProxy(facade, "sizes") == NULL);
 
     DeleteProxy(removedProxy);
-    RemoveFacadeCore("FacadeTestKey5");
+    RemoveFacade("FacadeTestKey5");
 }
 
 /**
@@ -175,7 +175,7 @@ void testRegisterRetrieveAndRemoveMediator() {
     // assert that the mediator is no longer retrievable
     assert(facade->retrieveMediator(facade, MEDIATOR_NAME) == NULL);
     DeleteMediator(removedMediator);
-    RemoveFacadeCore("FacadeTestKey6");
+    RemoveFacade("FacadeTestKey6");
 }
 
 void testHasProxy() {
@@ -189,7 +189,7 @@ void testHasProxy() {
 
     DeleteProxy(facade->removeProxy(facade, "hasProxyTest"));
     assert(facade->hasProxy(facade, "hasProxyTest") == false);
-    RemoveFacadeCore("FacadeTestKey7");
+    RemoveFacade("FacadeTestKey7");
 }
 
 /**
@@ -210,7 +210,7 @@ void testHasMediator() {
     // assert that the facade.hasMediator method returns false
     // for that mediator name
     assert(facade->hasMediator(facade, "facadeHasMediatorTest") == false);
-    RemoveFacadeCore("FacadeTestKey8");
+    RemoveFacade("FacadeTestKey8");
 }
 
 /**
@@ -229,7 +229,7 @@ void testHasCommand() {
 
     // test that hasCommand returns false for hasCommandTest notifications
     assert(facade->hasCommand(facade, "facadeHasCommandTest") == false);
-    RemoveFacadeCore("FacadeTestKey10");
+    RemoveFacade("FacadeTestKey10");
 }
 
 /**
@@ -245,7 +245,7 @@ void testHasCoreAndRemoveCore() {
     assert(HasFacadeCore("FacadeTestKey11") == true);
 
     // remove the Core
-    RemoveFacadeCore("FacadeTestKey11");
+    RemoveFacade("FacadeTestKey11");
 
     // assert that the Facade.hasCore method returns false now that the core has been removed.
     assert(HasFacadeCore("FacadeTestKey11") == false);
@@ -283,5 +283,5 @@ void testGetInstancesThreaded() {
     free(thread_group);
 
     // cleanup
-    RemoveFacadeCore("FacadeTestKey11");
+    RemoveFacade("FacadeTestKey11");
 }

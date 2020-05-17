@@ -37,11 +37,11 @@ struct Mediator {
 /**
  * Initializer
  *
- * @param self
+ * @param mediator
  * @param mediatorName
  * @param viewComponent
  */
-void InitMediator(Mediator *self, const char *mediatorName, void *viewComponent);
+void InitMediator(Mediator *mediator, const char *mediatorName, void *viewComponent);
 
 /**
  * Constructor
@@ -54,8 +54,8 @@ Mediator *NewMediator(const char *mediatorName, void *viewComponent);
 /**
  * Destructor
  *
- * @param self
+ * @param mediator
  */
-void DeleteMediator(Mediator *self);
+void DeleteMediator(Mediator *mediator);
 
 #endif //PUREMVC_MEDIATOR_H

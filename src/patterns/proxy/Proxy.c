@@ -53,19 +53,19 @@ static void onRemove(Proxy *self) {
 /**
  * Initializer
  *
- * @param self
+ * @param proxy
  * @param proxyName
  * @param data
  */
-void InitProxy(Proxy *self, const char *proxyName, void *data) {
-    self->notifier = NewNotifier();
-    self->proxyName = proxyName != NULL ? proxyName : PROXY_NAME;
-    self->data = data != NULL ? data : NULL;
-    self->getProxyName = getProxyName;
-    self->setData = setData;
-    self->getData = getData;
-    self->onRegister = onRegister;
-    self->onRemove = onRemove;
+void InitProxy(Proxy *proxy, const char *proxyName, void *data) {
+    proxy->notifier = NewNotifier();
+    proxy->proxyName = proxyName != NULL ? proxyName : PROXY_NAME;
+    proxy->data = data != NULL ? data : NULL;
+    proxy->getProxyName = getProxyName;
+    proxy->setData = setData;
+    proxy->getData = getData;
+    proxy->onRegister = onRegister;
+    proxy->onRemove = onRemove;
 }
 
 /**
@@ -75,10 +75,10 @@ void InitProxy(Proxy *self, const char *proxyName, void *data) {
  * @param data
  */
 Proxy *NewProxy(const char *proxyName, void *data) {
-    Proxy *self = malloc(sizeof(Proxy));
-    if (self == NULL) goto exception;
-    InitProxy(self, proxyName, data);
-    return self;
+    Proxy *proxy = malloc(sizeof(Proxy));
+    if (proxy == NULL) goto exception;
+    InitProxy(proxy, proxyName, data);
+    return proxy;
 
     exception:
         fprintf(stderr, "Proxy allocation failed.\n");
@@ -88,10 +88,10 @@ Proxy *NewProxy(const char *proxyName, void *data) {
 /**
  * Destructor
  *
- * @param self
+ * @param proxy
  */
-void DeleteProxy(Proxy *self) {
-    DeleteNotifier(self->notifier);
-    free(self);
-    self = NULL;
+void DeleteProxy(Proxy *proxy) {
+    DeleteNotifier(proxy->notifier);
+    free(proxy);
+    proxy = NULL;
 }

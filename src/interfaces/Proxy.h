@@ -42,15 +42,6 @@ struct Proxy {
 #define PROXY_NAME "Proxy"
 
 /**
- * Initializer
- *
- * @param self
- * @param proxyName
- * @param data
- */
-void InitProxy(Proxy *self, const char *proxyName, void *data);
-
-/**
  * Constructor
  *
  * @param proxyName
@@ -59,10 +50,19 @@ void InitProxy(Proxy *self, const char *proxyName, void *data);
 Proxy *NewProxy(const char *proxyName, void *data);
 
 /**
+ * Initializer
+ *
+ * @param proxy
+ * @param proxyName
+ * @param data
+ */
+void InitProxy(Proxy *proxy, const char *proxyName, void *data);
+
+/**
  * Destructor
  *
- * @param self
+ * @param proxy
  */
-void DeleteProxy(Proxy *self);
+void DeleteProxy(Proxy *proxy);
 
 #endif //PUREMVC_PROXY_H

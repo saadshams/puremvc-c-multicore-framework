@@ -50,5 +50,5 @@ void testSimpleCommandExecute() {
 
     DeleteNotification(note);
     DeleteSimpleCommandTestCommand(command);
-    RemoveFacadeCore("test");
+    RemoveFacade("test");
 }
