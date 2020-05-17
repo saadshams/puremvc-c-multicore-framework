@@ -29,8 +29,6 @@
  */
 typedef struct ProxyMap ProxyMap;
 
-
-
 typedef struct Model Model;
 
 struct Model {

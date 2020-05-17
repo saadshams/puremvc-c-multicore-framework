@@ -90,18 +90,18 @@ $(document).ready(function(){initNavTree('_macro_command_8h_source.html',''); in
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;SimpleCommand.h&quot;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="struct_sub_command_node.html">SubCommandNode</a> <a class="code" href="struct_sub_command_node.html">SubCommandNode</a>;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>SubCommandNode SubCommandNode;</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
-<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="struct_sub_command_node.html">   11</a></span>&#160;<span class="keyword">struct </span><a class="code" href="struct_sub_command_node.html">SubCommandNode</a> {</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">struct </span>SubCommandNode {</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <a class="code" href="struct_simple_command.html">SimpleCommand</a> *(*factory)();</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <a class="code" href="struct_sub_command_node.html">SubCommandNode</a> *next;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    SubCommandNode *next;</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;};</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="struct_macro_command.html">MacroCommand</a> <a class="code" href="struct_macro_command.html">MacroCommand</a>;</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
 <div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="struct_macro_command.html">   40</a></span>&#160;<span class="keyword">struct </span><a class="code" href="struct_macro_command.html">MacroCommand</a> {</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">struct </span><a class="code" href="struct_notifier.html">Notifier</a> *notifier;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <a class="code" href="struct_sub_command_node.html">SubCommandNode</a> *SubCommands;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    SubCommandNode *SubCommands;</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    void (*initializeMacroCommand)(<a class="code" href="struct_macro_command.html">MacroCommand</a> *<span class="keyword">self</span>);</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    void (*addSubCommand)(<a class="code" href="struct_macro_command.html">MacroCommand</a> *<span class="keyword">self</span>, <a class="code" href="struct_simple_command.html">SimpleCommand</a> *(*factory)());</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    void (*execute)(<a class="code" href="struct_macro_command.html">MacroCommand</a> *<span class="keyword">self</span>, <a class="code" href="struct_notification.html">Notification</a> *notification);</div>
@@ -116,7 +116,6 @@ $(document).ready(function(){initNavTree('_macro_command_8h_source.html',''); in
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="preprocessor">#endif //PUREMVC_MACROCOMMAND_H</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="astruct_sub_command_node_html"><div class="ttname"><a href="struct_sub_command_node.html">SubCommandNode</a></div><div class="ttdef"><b>Definition:</b> <a href="_macro_command_8h_source.html#l00011">MacroCommand.h:11</a></div></div>
 <div class="ttc" id="astruct_macro_command_html"><div class="ttname"><a href="struct_macro_command.html">MacroCommand</a></div><div class="ttdef"><b>Definition:</b> <a href="_macro_command_8h_source.html#l00040">MacroCommand.h:40</a></div></div>
 <div class="ttc" id="astruct_simple_command_html"><div class="ttname"><a href="struct_simple_command.html">SimpleCommand</a></div><div class="ttdef"><b>Definition:</b> <a href="_simple_command_8h_source.html#l00022">SimpleCommand.h:22</a></div></div>
 <div class="ttc" id="astruct_notifier_html"><div class="ttname"><a href="struct_notifier.html">Notifier</a></div><div class="ttdef"><b>Definition:</b> <a href="_notifier_8h_source.html#l00040">Notifier.h:40</a></div></div>

@@ -39,12 +39,6 @@
  */
 typedef struct CommandMap CommandMap;
 
-struct CommandMap {
-    const char *name;
-    SimpleCommand *(*factory)();
-    CommandMap *next;
-};
-
 typedef struct Controller Controller;
 
 struct Controller {

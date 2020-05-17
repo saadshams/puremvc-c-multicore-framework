@@ -92,22 +92,22 @@ $(document).ready(function(){initNavTree('_facade_8c_source.html',''); initResiz
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;string.h&gt;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">// FacadeMap LinkedList</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="struct_facade_map.html">FacadeMap</a> <a class="code" href="struct_facade_map.html">FacadeMap</a>;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>FacadeMap FacadeMap;</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
-<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="struct_facade_map.html">   10</a></span>&#160;<span class="keyword">struct </span><a class="code" href="struct_facade_map.html">FacadeMap</a> {</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">struct </span>FacadeMap {</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span> *name;</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <a class="code" href="struct_facade.html">Facade</a> *facade;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <a class="code" href="struct_facade_map.html">FacadeMap</a> *next;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    FacadeMap *next;</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;};</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment">// The Multiton Facade instanceMap.</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">static</span> <a class="code" href="struct_facade_map.html">FacadeMap</a> *instanceMap;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">static</span> FacadeMap *instanceMap;</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment">// mutex for instanceMap</span></div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">static</span> pthread_rwlock_t facade_mutex = PTHREAD_MUTEX_INITIALIZER;</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">static</span> <a class="code" href="struct_facade_map.html">FacadeMap</a> *NewFacadeMap(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <a class="code" href="struct_facade.html">Facade</a> *facade) {</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <a class="code" href="struct_facade_map.html">FacadeMap</a> *facadeMap = malloc(<span class="keyword">sizeof</span>(<a class="code" href="struct_facade_map.html">FacadeMap</a>));</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">static</span> FacadeMap *NewFacadeMap(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <a class="code" href="struct_facade.html">Facade</a> *facade) {</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    FacadeMap *facadeMap = malloc(<span class="keyword">sizeof</span>(FacadeMap));</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordflow">if</span> (facadeMap == NULL) <span class="keywordflow">goto</span> exception;</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    facadeMap-&gt;name = key;</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    facadeMap-&gt;facade = facade;</div>
@@ -120,24 +120,24 @@ $(document).ready(function(){initNavTree('_facade_8c_source.html',''); initResiz
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;}</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keyword">static</span> <a class="code" href="struct_facade.html">Facade</a> *GetFacadeMap(<span class="keyword">const</span> <span class="keywordtype">char</span> *key) {</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <a class="code" href="struct_facade_map.html">FacadeMap</a> *cursor = instanceMap;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    FacadeMap *cursor = instanceMap;</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordflow">while</span> (cursor &amp;&amp; strcmp(cursor-&gt;name, key) != 0)</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        cursor = cursor-&gt;next;</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordflow">return</span> cursor == NULL ? NULL : cursor-&gt;facade;</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;}</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> AddFacadeMap(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <a class="code" href="struct_facade.html">Facade</a> *facade) {</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <a class="code" href="struct_facade_map.html">FacadeMap</a> **cursor = &amp;instanceMap;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    FacadeMap **cursor = &amp;instanceMap;</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordflow">while</span> (*cursor)</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        cursor = &amp;(*cursor)-&gt;next;</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    *cursor = NewFacadeMap(key, facade);</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;}</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> RemoveFacadeMap(<span class="keyword">const</span> <span class="keywordtype">char</span> *key) {</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <a class="code" href="struct_facade_map.html">FacadeMap</a> **cursor = &amp;instanceMap;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    FacadeMap **cursor = &amp;instanceMap;</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordflow">while</span> (*cursor) {</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="keywordflow">if</span> (strcmp((*cursor)-&gt;name, key) == 0) {</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            <a class="code" href="struct_facade_map.html">FacadeMap</a> *node = *cursor;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            FacadeMap *node = *cursor;</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            *cursor = (*cursor)-&gt;next;</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            free(node-&gt;facade);</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            free(node);</div>
@@ -294,7 +294,6 @@ $(document).ready(function(){initNavTree('_facade_8c_source.html',''); initResiz
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="astruct_proxy_html"><div class="ttname"><a href="struct_proxy.html">Proxy</a></div><div class="ttdef"><b>Definition:</b> <a href="_proxy_8h_source.html#l00031">Proxy.h:31</a></div></div>
-<div class="ttc" id="astruct_facade_map_html"><div class="ttname"><a href="struct_facade_map.html">FacadeMap</a></div><div class="ttdef"><b>Definition:</b> <a href="_facade_8c_source.html#l00010">Facade.c:10</a></div></div>
 <div class="ttc" id="astruct_simple_command_html"><div class="ttname"><a href="struct_simple_command.html">SimpleCommand</a></div><div class="ttdef"><b>Definition:</b> <a href="_simple_command_8h_source.html#l00022">SimpleCommand.h:22</a></div></div>
 <div class="ttc" id="astruct_mediator_html"><div class="ttname"><a href="struct_mediator.html">Mediator</a></div><div class="ttdef"><b>Definition:</b> <a href="_mediator_8h_source.html#l00015">Mediator.h:15</a></div></div>
 <div class="ttc" id="astruct_facade_html"><div class="ttname"><a href="struct_facade.html">Facade</a></div><div class="ttdef"><b>Definition:</b> <a href="_facade_8h_source.html#l00017">Facade.h:17</a></div></div>

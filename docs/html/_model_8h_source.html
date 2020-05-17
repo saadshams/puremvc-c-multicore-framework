@@ -91,36 +91,33 @@ $(document).ready(function(){initNavTree('_model_8h_source.html',''); initResiza
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;Proxy.h&quot;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;stdbool.h&gt;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="struct_proxy_map.html">ProxyMap</a> <a class="code" href="struct_proxy_map.html">ProxyMap</a>;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>ProxyMap ProxyMap;</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="struct_model.html">Model</a> <a class="code" href="struct_model.html">Model</a>;</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="struct_model.html">Model</a> <a class="code" href="struct_model.html">Model</a>;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="struct_model.html">   36</a></span>&#160;<span class="keyword">struct </span><a class="code" href="struct_model.html">Model</a> {</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span> *multitonKey;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <a class="code" href="struct_proxy_map.html">ProxyMap</a> *proxyMap;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    void (*initializeModel)(<a class="code" href="struct_model.html">Model</a> *<span class="keyword">self</span>);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    void (*registerProxy)(<a class="code" href="struct_model.html">Model</a> *<span class="keyword">self</span>, <a class="code" href="struct_proxy.html">Proxy</a> *proxy);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <a class="code" href="struct_proxy.html">Proxy</a> *(*retrieveProxy)(<a class="code" href="struct_model.html">Model</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *proxyName);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    bool (*hasProxy)(<a class="code" href="struct_model.html">Model</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *proxyName);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <a class="code" href="struct_proxy.html">Proxy</a> *(*removeProxy)(<a class="code" href="struct_model.html">Model</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *proxyName);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;};</div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="struct_model.html">   34</a></span>&#160;<span class="keyword">struct </span><a class="code" href="struct_model.html">Model</a> {</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span> *multitonKey;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    ProxyMap *proxyMap;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    void (*initializeModel)(<a class="code" href="struct_model.html">Model</a> *<span class="keyword">self</span>);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    void (*registerProxy)(<a class="code" href="struct_model.html">Model</a> *<span class="keyword">self</span>, <a class="code" href="struct_proxy.html">Proxy</a> *proxy);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <a class="code" href="struct_proxy.html">Proxy</a> *(*retrieveProxy)(<a class="code" href="struct_model.html">Model</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *proxyName);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    bool (*hasProxy)(<a class="code" href="struct_model.html">Model</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *proxyName);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <a class="code" href="struct_proxy.html">Proxy</a> *(*removeProxy)(<a class="code" href="struct_model.html">Model</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *proxyName);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;};</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<a class="code" href="struct_model.html">Model</a> *getModelInstance(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <a class="code" href="struct_model.html">Model</a> *(factory)(<span class="keyword">const</span> <span class="keywordtype">char</span> *));</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<a class="code" href="struct_model.html">Model</a> *getModelInstance(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <a class="code" href="struct_model.html">Model</a> *(factory)(<span class="keyword">const</span> <span class="keywordtype">char</span> *));</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<a class="code" href="struct_model.html">Model</a> *NewModel(<span class="keyword">const</span> <span class="keywordtype">char</span> *key);</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<a class="code" href="struct_model.html">Model</a> *NewModel(<span class="keyword">const</span> <span class="keywordtype">char</span> *key);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="keywordtype">void</span> InitModel(<a class="code" href="struct_model.html">Model</a> *model);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="keywordtype">void</span> InitModel(<a class="code" href="struct_model.html">Model</a> *model);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="keywordtype">void</span> RemoveModel(<span class="keyword">const</span> <span class="keywordtype">char</span> *key);</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keywordtype">void</span> RemoveModel(<span class="keyword">const</span> <span class="keywordtype">char</span> *key);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor">#endif //PUREMVC_MODEL_H</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor">#endif //PUREMVC_MODEL_H</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="astruct_model_html"><div class="ttname"><a href="struct_model.html">Model</a></div><div class="ttdef"><b>Definition:</b> <a href="_model_8h_source.html#l00036">Model.h:36</a></div></div>
+<div class="ttc" id="astruct_model_html"><div class="ttname"><a href="struct_model.html">Model</a></div><div class="ttdef"><b>Definition:</b> <a href="_model_8h_source.html#l00034">Model.h:34</a></div></div>
 <div class="ttc" id="astruct_proxy_html"><div class="ttname"><a href="struct_proxy.html">Proxy</a></div><div class="ttdef"><b>Definition:</b> <a href="_proxy_8h_source.html#l00031">Proxy.h:31</a></div></div>
-<div class="ttc" id="astruct_proxy_map_html"><div class="ttname"><a href="struct_proxy_map.html">ProxyMap</a></div><div class="ttdef"><b>Definition:</b> <a href="_model_8c_source.html#l00011">Model.c:11</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

@@ -92,41 +92,34 @@ $(document).ready(function(){initNavTree('_controller_8h_source.html',''); initR
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;View.h&quot;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;stdbool.h&gt;</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="struct_command_map.html">CommandMap</a> <a class="code" href="struct_command_map.html">CommandMap</a>;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>CommandMap CommandMap;</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="struct_command_map.html">   42</a></span>&#160;<span class="keyword">struct </span><a class="code" href="struct_command_map.html">CommandMap</a> {</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span> *name;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <a class="code" href="struct_simple_command.html">SimpleCommand</a> *(*factory)();</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <a class="code" href="struct_command_map.html">CommandMap</a> *next;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;};</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="struct_controller.html">Controller</a> <a class="code" href="struct_controller.html">Controller</a>;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="struct_controller.html">   50</a></span>&#160;<span class="keyword">struct </span><a class="code" href="struct_controller.html">Controller</a> {</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span> *multitonKey;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <a class="code" href="struct_view.html">View</a> *view;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <a class="code" href="struct_command_map.html">CommandMap</a> *commandMap;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    void (*initializeController)(<a class="code" href="struct_controller.html">Controller</a> *<span class="keyword">self</span>);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    void (*executeCommand)(<a class="code" href="struct_controller.html">Controller</a> *<span class="keyword">self</span>, <a class="code" href="struct_notification.html">Notification</a> *notification);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    void (*registerCommand)(<a class="code" href="struct_controller.html">Controller</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *notificationName, <a class="code" href="struct_simple_command.html">SimpleCommand</a> *(*factory)());</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    bool (*hasCommand)(<a class="code" href="struct_controller.html">Controller</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *notificationName);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    void (*removeCommand)(<a class="code" href="struct_controller.html">Controller</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *notificationName);</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;};</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="struct_controller.html">Controller</a> <a class="code" href="struct_controller.html">Controller</a>;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="struct_controller.html">   44</a></span>&#160;<span class="keyword">struct </span><a class="code" href="struct_controller.html">Controller</a> {</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span> *multitonKey;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <a class="code" href="struct_view.html">View</a> *view;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    CommandMap *commandMap;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    void (*initializeController)(<a class="code" href="struct_controller.html">Controller</a> *<span class="keyword">self</span>);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    void (*executeCommand)(<a class="code" href="struct_controller.html">Controller</a> *<span class="keyword">self</span>, <a class="code" href="struct_notification.html">Notification</a> *notification);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    void (*registerCommand)(<a class="code" href="struct_controller.html">Controller</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *notificationName, <a class="code" href="struct_simple_command.html">SimpleCommand</a> *(*factory)());</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    bool (*hasCommand)(<a class="code" href="struct_controller.html">Controller</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *notificationName);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    void (*removeCommand)(<a class="code" href="struct_controller.html">Controller</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *notificationName);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;};</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<a class="code" href="struct_controller.html">Controller</a> *getControllerInstance(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <a class="code" href="struct_controller.html">Controller</a> *(*factory)(<span class="keyword">const</span> <span class="keywordtype">char</span> *));</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<a class="code" href="struct_controller.html">Controller</a> *NewController(<span class="keyword">const</span> <span class="keywordtype">char</span> *key);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="keywordtype">void</span> InitController(<a class="code" href="struct_controller.html">Controller</a> *controller);</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<a class="code" href="struct_controller.html">Controller</a> *getControllerInstance(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <a class="code" href="struct_controller.html">Controller</a> *(*factory)(<span class="keyword">const</span> <span class="keywordtype">char</span> *));</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="keywordtype">void</span> RemoveController(<span class="keyword">const</span> <span class="keywordtype">char</span> *key);</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<a class="code" href="struct_controller.html">Controller</a> *NewController(<span class="keyword">const</span> <span class="keywordtype">char</span> *key);</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="keywordtype">void</span> InitController(<a class="code" href="struct_controller.html">Controller</a> *controller);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="keywordtype">void</span> RemoveController(<span class="keyword">const</span> <span class="keywordtype">char</span> *key);</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="preprocessor">#endif //PUREMVC_CONTROLLER_H</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor">#endif //PUREMVC_CONTROLLER_H</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="astruct_view_html"><div class="ttname"><a href="struct_view.html">View</a></div><div class="ttdef"><b>Definition:</b> <a href="_view_8h_source.html#l00052">View.h:52</a></div></div>
-<div class="ttc" id="astruct_command_map_html"><div class="ttname"><a href="struct_command_map.html">CommandMap</a></div><div class="ttdef"><b>Definition:</b> <a href="_controller_8h_source.html#l00042">Controller.h:42</a></div></div>
-<div class="ttc" id="astruct_controller_html"><div class="ttname"><a href="struct_controller.html">Controller</a></div><div class="ttdef"><b>Definition:</b> <a href="_controller_8h_source.html#l00050">Controller.h:50</a></div></div>
+<div class="ttc" id="astruct_controller_html"><div class="ttname"><a href="struct_controller.html">Controller</a></div><div class="ttdef"><b>Definition:</b> <a href="_controller_8h_source.html#l00044">Controller.h:44</a></div></div>
 <div class="ttc" id="astruct_simple_command_html"><div class="ttname"><a href="struct_simple_command.html">SimpleCommand</a></div><div class="ttdef"><b>Definition:</b> <a href="_simple_command_8h_source.html#l00022">SimpleCommand.h:22</a></div></div>
 <div class="ttc" id="astruct_notification_html"><div class="ttname"><a href="struct_notification.html">Notification</a></div><div class="ttdef"><b>Definition:</b> <a href="_notification_8h_source.html#l00036">Notification.h:36</a></div></div>
 <!-- start footer part -->

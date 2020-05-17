@@ -85,6 +85,13 @@ static void RemoveControllerMap(const char *key) {
     }
 }
 
+struct CommandMap {
+    const char *name;
+    SimpleCommand *(*factory)();
+    CommandMap *next;
+};
+
+
 // mutex for commandMap
 static pthread_rwlock_t commandMap_mutex = PTHREAD_MUTEX_INITIALIZER;
 

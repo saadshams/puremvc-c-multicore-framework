@@ -90,8 +90,8 @@ $(document).ready(function(){initNavTree('_macro_command_8c_source.html',''); in
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;stdio.h&gt;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;stdlib.h&gt;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">static</span> <a class="code" href="struct_sub_command_node.html">SubCommandNode</a> *NewSubCommandNode(<a class="code" href="struct_simple_command.html">SimpleCommand</a> *(*factory)()) {</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <a class="code" href="struct_sub_command_node.html">SubCommandNode</a> *<span class="keyword">self</span> = malloc(<span class="keyword">sizeof</span>(<a class="code" href="struct_sub_command_node.html">SubCommandNode</a>));</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">static</span> SubCommandNode *NewSubCommandNode(<a class="code" href="struct_simple_command.html">SimpleCommand</a> *(*factory)()) {</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    SubCommandNode *<span class="keyword">self</span> = malloc(<span class="keyword">sizeof</span>(SubCommandNode));</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keywordflow">if</span> (<span class="keyword">self</span> == NULL) <span class="keywordflow">goto</span> exception;</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keyword">self</span>-&gt;factory = factory;</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keyword">self</span>-&gt;next = NULL;</div>
@@ -102,7 +102,7 @@ $(document).ready(function(){initNavTree('_macro_command_8c_source.html',''); in
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="keywordflow">return</span> NULL;</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;}</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> DeleteSubCommand(<a class="code" href="struct_sub_command_node.html">SubCommandNode</a> *subCommandNode) {</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> DeleteSubCommand(SubCommandNode *subCommandNode) {</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    free(subCommandNode);</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    subCommandNode = NULL;</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;}</div>
@@ -112,7 +112,7 @@ $(document).ready(function(){initNavTree('_macro_command_8c_source.html',''); in
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;}</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> addSubCommand(<a class="code" href="struct_macro_command.html">MacroCommand</a> *<span class="keyword">self</span>, <a class="code" href="struct_simple_command.html">SimpleCommand</a> *(*factory)()) {</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <a class="code" href="struct_sub_command_node.html">SubCommandNode</a> **cursor = &amp;<span class="keyword">self</span>-&gt;SubCommands;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    SubCommandNode **cursor = &amp;<span class="keyword">self</span>-&gt;SubCommands;</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordflow">while</span> (*cursor)</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        cursor = &amp;(*cursor)-&gt;next;</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
@@ -121,7 +121,7 @@ $(document).ready(function(){initNavTree('_macro_command_8c_source.html',''); in
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> execute(<a class="code" href="struct_macro_command.html">MacroCommand</a> *<span class="keyword">self</span>, <a class="code" href="struct_notification.html">Notification</a> *notification) {</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keyword">self</span>-&gt;initializeMacroCommand(<span class="keyword">self</span>);</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <a class="code" href="struct_sub_command_node.html">SubCommandNode</a> *cursor = <span class="keyword">self</span>-&gt;SubCommands;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    SubCommandNode *cursor = <span class="keyword">self</span>-&gt;SubCommands;</div>
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordflow">while</span> (cursor) {</div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <a class="code" href="struct_simple_command.html">SimpleCommand</a> *commandInstance = cursor-&gt;factory();</div>
@@ -134,7 +134,7 @@ $(document).ready(function(){initNavTree('_macro_command_8c_source.html',''); in
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="comment">// releasing memory</span></div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    cursor = <span class="keyword">self</span>-&gt;SubCommands;</div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keywordflow">while</span> (cursor) {</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        <a class="code" href="struct_sub_command_node.html">SubCommandNode</a> *next = cursor-&gt;next;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        SubCommandNode *next = cursor-&gt;next;</div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        DeleteSubCommand(cursor);</div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        cursor = next;</div>
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    }</div>
@@ -167,7 +167,6 @@ $(document).ready(function(){initNavTree('_macro_command_8c_source.html',''); in
 <div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="astruct_sub_command_node_html"><div class="ttname"><a href="struct_sub_command_node.html">SubCommandNode</a></div><div class="ttdef"><b>Definition:</b> <a href="_macro_command_8h_source.html#l00011">MacroCommand.h:11</a></div></div>
 <div class="ttc" id="astruct_macro_command_html"><div class="ttname"><a href="struct_macro_command.html">MacroCommand</a></div><div class="ttdef"><b>Definition:</b> <a href="_macro_command_8h_source.html#l00040">MacroCommand.h:40</a></div></div>
 <div class="ttc" id="astruct_simple_command_html"><div class="ttname"><a href="struct_simple_command.html">SimpleCommand</a></div><div class="ttdef"><b>Definition:</b> <a href="_simple_command_8h_source.html#l00022">SimpleCommand.h:22</a></div></div>
 <div class="ttc" id="astruct_simple_command_html_a583b271ff2ca8bccd201684029c6eb53"><div class="ttname"><a href="struct_simple_command.html#a583b271ff2ca8bccd201684029c6eb53">SimpleCommand::execute</a></div><div class="ttdeci">void(* execute)(SimpleCommand *self, Notification *notification)</div><div class="ttdef"><b>Definition:</b> <a href="_simple_command_8h_source.html#l00036">SimpleCommand.h:36</a></div></div>
