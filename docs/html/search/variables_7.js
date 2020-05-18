@@ -1,7 +1,9 @@
 var searchData=
 [
-  ['handlenotification_123',['handleNotification',['../struct_mediator.html#a46ae75f70c3ee203f351fd7e4d8a7cfd',1,'Mediator']]],
-  ['hascommand_124',['hasCommand',['../struct_controller.html#a51512b85af342ddaf84a8a158919fff6',1,'Controller::hasCommand()'],['../struct_facade.html#a5bd60b516d6958054bca8688333607e4',1,'Facade::hasCommand()']]],
-  ['hasmediator_125',['hasMediator',['../struct_facade.html#aaa380314583c3700e896e8eae9c332e8',1,'Facade::hasMediator()'],['../struct_view.html#acf6cac1fbbd9ff9577fe0fb1d1398479',1,'View::hasMediator()']]],
-  ['hasproxy_126',['hasProxy',['../struct_facade.html#a3399ec0ea39ba08f126ef806cdb992a6',1,'Facade::hasProxy()'],['../struct_model.html#a17feb28d1c28d897f1859890fc45ae90',1,'Model::hasProxy()']]]
+  ['initializecontroller_101',['initializeController',['../struct_controller.html#ad78dcc1df71591c19edc372fdd4abf0d',1,'Controller::initializeController()'],['../struct_facade.html#a68bd3a514aa84d0d2daf73fc8d59e571',1,'Facade::initializeController()']]],
+  ['initializefacade_102',['initializeFacade',['../struct_facade.html#a36bbf0dc000d90514c764642fabcec86',1,'Facade']]],
+  ['initializemacrocommand_103',['initializeMacroCommand',['../struct_macro_command.html#a929c9198bb7725b3b87ede6dc250b3a3',1,'MacroCommand']]],
+  ['initializemodel_104',['initializeModel',['../struct_facade.html#a74b5e44d5ed9c4f33083a50933b7a895',1,'Facade::initializeModel()'],['../struct_model.html#acf68ac08cfad0532993f80e5eac4e25b',1,'Model::initializeModel()']]],
+  ['initializenotifier_105',['initializeNotifier',['../struct_facade.html#a258035e78a3241ca298941dabf6ee5b7',1,'Facade::initializeNotifier()'],['../struct_notifier.html#a9a15795a43e2c386cfd523f9d2ef464a',1,'Notifier::initializeNotifier()']]],
+  ['initializeview_106',['initializeView',['../struct_facade.html#ace625f0d9675db811dff5faa701d2808',1,'Facade::initializeView()'],['../struct_view.html#a876bdb91d40ee0717618a42c3355745e',1,'View::initializeView()']]]
 ];

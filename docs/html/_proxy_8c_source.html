@@ -98,53 +98,56 @@ $(document).ready(function(){initNavTree('_proxy_8c_source.html',''); initResiza
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keyword">self</span>-&gt;data = data;</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;}</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> *getData(<a class="code" href="struct_proxy.html">Proxy</a> *<span class="keyword">self</span>) {</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">self</span>-&gt;data;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;}</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> onRegister(<a class="code" href="struct_proxy.html">Proxy</a> *<span class="keyword">self</span>) {</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> *getData(<a class="code" href="struct_proxy.html">Proxy</a> *<span class="keyword">self</span>) {</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">self</span>-&gt;data;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;}</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> onRegister(<a class="code" href="struct_proxy.html">Proxy</a> *<span class="keyword">self</span>) {</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;}</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> onRemove(<a class="code" href="struct_proxy.html">Proxy</a> *<span class="keyword">self</span>) {</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;}</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;}</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> onRemove(<a class="code" href="struct_proxy.html">Proxy</a> *<span class="keyword">self</span>) {</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;}</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keywordtype">void</span> InitProxy(<a class="code" href="struct_proxy.html">Proxy</a> *proxy, <span class="keyword">const</span> <span class="keywordtype">char</span> *proxyName, <span class="keywordtype">void</span> *data) {</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    proxy-&gt;notifier = NewNotifier();</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    proxy-&gt;proxyName = proxyName != NULL ? proxyName : PROXY_NAME;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    proxy-&gt;data = data != NULL ? data : NULL;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    proxy-&gt;<a class="code" href="struct_proxy.html#a026a8626d2674a51165a16df926689ac">getProxyName</a> = getProxyName;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    proxy-&gt;<a class="code" href="struct_proxy.html#a6929c44fbb5593d96c92011ccf037cba">setData</a> = setData;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    proxy-&gt;<a class="code" href="struct_proxy.html#a3f38fe0fbcd5e14e85d5b505773c0677">getData</a> = getData;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    proxy-&gt;<a class="code" href="struct_proxy.html#aab7778d02c4802e4a1485926c568199b">onRegister</a> = onRegister;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    proxy-&gt;<a class="code" href="struct_proxy.html#a11cd40c5a73f5d4df633b31f562eebc0">onRemove</a> = onRemove;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;}</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<a class="code" href="struct_proxy.html">Proxy</a> *NewProxy(<span class="keyword">const</span> <span class="keywordtype">char</span> *proxyName, <span class="keywordtype">void</span> *data) {</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <a class="code" href="struct_proxy.html">Proxy</a> *proxy = malloc(<span class="keyword">sizeof</span>(<a class="code" href="struct_proxy.html">Proxy</a>));</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordflow">if</span> (proxy == NULL) <span class="keywordflow">goto</span> exception;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    InitProxy(proxy, proxyName, data);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordflow">return</span> proxy;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    exception:</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        fprintf(stderr, <span class="stringliteral">&quot;Proxy allocation failed.\n&quot;</span>);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordflow">return</span> NULL;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;}</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="keywordtype">void</span> DeleteProxy(<a class="code" href="struct_proxy.html">Proxy</a> *proxy) {</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    DeleteNotifier(proxy-&gt;notifier);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    free(proxy);</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    proxy = NULL;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;}</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<a class="code" href="struct_proxy.html">Proxy</a> *NewProxy(<span class="keyword">const</span> <span class="keywordtype">char</span> *proxyName, <span class="keywordtype">void</span> *data) {</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <a class="code" href="struct_proxy.html">Proxy</a> *proxy = malloc(<span class="keyword">sizeof</span>(<a class="code" href="struct_proxy.html">Proxy</a>));</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordflow">if</span> (proxy == NULL) <span class="keywordflow">goto</span> exception;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    InitProxy(proxy, proxyName, data);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordflow">return</span> proxy;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    exception:</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        fprintf(stderr, <span class="stringliteral">&quot;Proxy allocation failed.\n&quot;</span>);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="keywordflow">return</span> NULL;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;}</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keywordtype">void</span> InitProxy(<a class="code" href="struct_proxy.html">Proxy</a> *proxy, <span class="keyword">const</span> <span class="keywordtype">char</span> *proxyName, <span class="keywordtype">void</span> *data) {</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    proxy-&gt;<a class="code" href="struct_proxy.html#a2c9e9c16409b72d4b91ec03634bedfa9">notifier</a> = NewNotifier();</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    proxy-&gt;<a class="code" href="struct_proxy.html#a4e29f14b61392771ed55911e926316a4">proxyName</a> = proxyName != NULL ? proxyName : PROXY_NAME;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    proxy-&gt;<a class="code" href="struct_proxy.html#a735984d41155bc1032e09bece8f8d66d">data</a> = data != NULL ? data : NULL;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    proxy-&gt;<a class="code" href="struct_proxy.html#a026a8626d2674a51165a16df926689ac">getProxyName</a> = getProxyName;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    proxy-&gt;<a class="code" href="struct_proxy.html#a6929c44fbb5593d96c92011ccf037cba">setData</a> = setData;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    proxy-&gt;<a class="code" href="struct_proxy.html#a3f38fe0fbcd5e14e85d5b505773c0677">getData</a> = getData;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    proxy-&gt;<a class="code" href="struct_proxy.html#aab7778d02c4802e4a1485926c568199b">onRegister</a> = onRegister;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    proxy-&gt;<a class="code" href="struct_proxy.html#a11cd40c5a73f5d4df633b31f562eebc0">onRemove</a> = onRemove;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;}</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keywordtype">void</span> DeleteProxy(<a class="code" href="struct_proxy.html">Proxy</a> *proxy) {</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    DeleteNotifier(proxy-&gt;<a class="code" href="struct_proxy.html#a2c9e9c16409b72d4b91ec03634bedfa9">notifier</a>);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    free(proxy);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    proxy = NULL;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="astruct_proxy_html"><div class="ttname"><a href="struct_proxy.html">Proxy</a></div><div class="ttdef"><b>Definition:</b> <a href="_proxy_8h_source.html#l00031">Proxy.h:31</a></div></div>
-<div class="ttc" id="astruct_proxy_html_a026a8626d2674a51165a16df926689ac"><div class="ttname"><a href="struct_proxy.html#a026a8626d2674a51165a16df926689ac">Proxy::getProxyName</a></div><div class="ttdeci">const char *(* getProxyName)(Proxy *self)</div><div class="ttdef"><b>Definition:</b> <a href="_proxy_8h_source.html#l00038">Proxy.h:38</a></div></div>
-<div class="ttc" id="astruct_proxy_html_a6929c44fbb5593d96c92011ccf037cba"><div class="ttname"><a href="struct_proxy.html#a6929c44fbb5593d96c92011ccf037cba">Proxy::setData</a></div><div class="ttdeci">void(* setData)(Proxy *self, void *data)</div><div class="ttdef"><b>Definition:</b> <a href="_proxy_8h_source.html#l00041">Proxy.h:41</a></div></div>
-<div class="ttc" id="astruct_proxy_html_a11cd40c5a73f5d4df633b31f562eebc0"><div class="ttname"><a href="struct_proxy.html#a11cd40c5a73f5d4df633b31f562eebc0">Proxy::onRemove</a></div><div class="ttdeci">void(* onRemove)(Proxy *self)</div><div class="ttdef"><b>Definition:</b> <a href="_proxy_8h_source.html#l00050">Proxy.h:50</a></div></div>
-<div class="ttc" id="astruct_proxy_html_aab7778d02c4802e4a1485926c568199b"><div class="ttname"><a href="struct_proxy.html#aab7778d02c4802e4a1485926c568199b">Proxy::onRegister</a></div><div class="ttdeci">void(* onRegister)(Proxy *self)</div><div class="ttdef"><b>Definition:</b> <a href="_proxy_8h_source.html#l00047">Proxy.h:47</a></div></div>
-<div class="ttc" id="astruct_proxy_html_a3f38fe0fbcd5e14e85d5b505773c0677"><div class="ttname"><a href="struct_proxy.html#a3f38fe0fbcd5e14e85d5b505773c0677">Proxy::getData</a></div><div class="ttdeci">void *(* getData)(Proxy *self)</div><div class="ttdef"><b>Definition:</b> <a href="_proxy_8h_source.html#l00044">Proxy.h:44</a></div></div>
+<div class="ttc" id="astruct_proxy_html_a2c9e9c16409b72d4b91ec03634bedfa9"><div class="ttname"><a href="struct_proxy.html#a2c9e9c16409b72d4b91ec03634bedfa9">Proxy::notifier</a></div><div class="ttdeci">struct Notifier * notifier</div><div class="ttdef"><b>Definition:</b> <a href="_proxy_8h_source.html#l00033">Proxy.h:33</a></div></div>
+<div class="ttc" id="astruct_proxy_html_a026a8626d2674a51165a16df926689ac"><div class="ttname"><a href="struct_proxy.html#a026a8626d2674a51165a16df926689ac">Proxy::getProxyName</a></div><div class="ttdeci">const char *(* getProxyName)(Proxy *self)</div><div class="ttdef"><b>Definition:</b> <a href="_proxy_8h_source.html#l00040">Proxy.h:40</a></div></div>
+<div class="ttc" id="astruct_proxy_html_a6929c44fbb5593d96c92011ccf037cba"><div class="ttname"><a href="struct_proxy.html#a6929c44fbb5593d96c92011ccf037cba">Proxy::setData</a></div><div class="ttdeci">void(* setData)(Proxy *self, void *data)</div><div class="ttdef"><b>Definition:</b> <a href="_proxy_8h_source.html#l00043">Proxy.h:43</a></div></div>
+<div class="ttc" id="astruct_proxy_html_a11cd40c5a73f5d4df633b31f562eebc0"><div class="ttname"><a href="struct_proxy.html#a11cd40c5a73f5d4df633b31f562eebc0">Proxy::onRemove</a></div><div class="ttdeci">void(* onRemove)(Proxy *self)</div><div class="ttdef"><b>Definition:</b> <a href="_proxy_8h_source.html#l00052">Proxy.h:52</a></div></div>
+<div class="ttc" id="astruct_proxy_html_a4e29f14b61392771ed55911e926316a4"><div class="ttname"><a href="struct_proxy.html#a4e29f14b61392771ed55911e926316a4">Proxy::proxyName</a></div><div class="ttdeci">const char * proxyName</div><div class="ttdef"><b>Definition:</b> <a href="_proxy_8h_source.html#l00035">Proxy.h:35</a></div></div>
+<div class="ttc" id="astruct_proxy_html_a735984d41155bc1032e09bece8f8d66d"><div class="ttname"><a href="struct_proxy.html#a735984d41155bc1032e09bece8f8d66d">Proxy::data</a></div><div class="ttdeci">void * data</div><div class="ttdef"><b>Definition:</b> <a href="_proxy_8h_source.html#l00037">Proxy.h:37</a></div></div>
+<div class="ttc" id="astruct_proxy_html_aab7778d02c4802e4a1485926c568199b"><div class="ttname"><a href="struct_proxy.html#aab7778d02c4802e4a1485926c568199b">Proxy::onRegister</a></div><div class="ttdeci">void(* onRegister)(Proxy *self)</div><div class="ttdef"><b>Definition:</b> <a href="_proxy_8h_source.html#l00049">Proxy.h:49</a></div></div>
+<div class="ttc" id="astruct_proxy_html_a3f38fe0fbcd5e14e85d5b505773c0677"><div class="ttname"><a href="struct_proxy.html#a3f38fe0fbcd5e14e85d5b505773c0677">Proxy::getData</a></div><div class="ttdeci">void *(* getData)(Proxy *self)</div><div class="ttdef"><b>Definition:</b> <a href="_proxy_8h_source.html#l00046">Proxy.h:46</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

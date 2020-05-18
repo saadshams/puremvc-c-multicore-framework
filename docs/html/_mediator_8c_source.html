@@ -91,67 +91,77 @@ $(document).ready(function(){initNavTree('_mediator_8c_source.html',''); initRes
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;stdlib.h&gt;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;string.h&gt;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">char</span> *getMediatorName(<a class="code" href="struct_mediator.html">Mediator</a> *<span class="keyword">self</span>) {</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">self</span>-&gt;mediatorName;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;}</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> setViewComponent(<a class="code" href="struct_mediator.html">Mediator</a> *<span class="keyword">self</span>, <span class="keywordtype">void</span> *viewComponent) {</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keyword">self</span>-&gt;viewComponent = viewComponent;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;}</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> *getViewComponent(<a class="code" href="struct_mediator.html">Mediator</a> *<span class="keyword">self</span>) {</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">self</span>-&gt;viewComponent;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;}</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">char</span> * <span class="keyword">const</span> *listNotificationInterests(<a class="code" href="struct_mediator.html">Mediator</a> *<span class="keyword">self</span>) {</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">char</span> * <span class="keyword">const</span> interests[] = {NULL};</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordflow">return</span> interests;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;}</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> handleNotification(<a class="code" href="struct_mediator.html">Mediator</a> *<span class="keyword">self</span>, <a class="code" href="struct_notification.html">Notification</a> *notification) {</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">char</span> *getMediatorName(<a class="code" href="struct_mediator.html">Mediator</a> *<span class="keyword">self</span>) {</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">self</span>-&gt;mediatorName;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;}</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> setViewComponent(<a class="code" href="struct_mediator.html">Mediator</a> *<span class="keyword">self</span>, <span class="keywordtype">void</span> *viewComponent) {</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keyword">self</span>-&gt;viewComponent = viewComponent;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;}</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> *getViewComponent(<a class="code" href="struct_mediator.html">Mediator</a> *<span class="keyword">self</span>) {</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">self</span>-&gt;viewComponent;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;}</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">char</span> * <span class="keyword">const</span> *listNotificationInterests(<a class="code" href="struct_mediator.html">Mediator</a> *<span class="keyword">self</span>) {</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">char</span> * <span class="keyword">const</span> interests[] = {NULL};</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordflow">return</span> interests;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;}</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> handleNotification(<a class="code" href="struct_mediator.html">Mediator</a> *<span class="keyword">self</span>, <a class="code" href="struct_notification.html">Notification</a> *notification) {</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;}</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> onRegister(<a class="code" href="struct_mediator.html">Mediator</a> *<span class="keyword">self</span>) {</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;}</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> onRemove(<a class="code" href="struct_mediator.html">Mediator</a> *<span class="keyword">self</span>) {</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;}</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<a class="code" href="struct_mediator.html">Mediator</a> *NewMediator(<span class="keyword">const</span> <span class="keywordtype">char</span> *mediatorName, <span class="keywordtype">void</span> *viewComponent) {</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <a class="code" href="struct_mediator.html">Mediator</a> *mediator = malloc(<span class="keyword">sizeof</span>(<a class="code" href="struct_mediator.html">Mediator</a>));</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordflow">if</span> (mediator == NULL) <span class="keywordflow">goto</span> exception;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    InitMediator(mediator, mediatorName, viewComponent);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordflow">return</span> mediator;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    exception:</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        fprintf(stderr, <span class="stringliteral">&quot;Mediator allocation failed.\n&quot;</span>);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keywordflow">return</span> NULL;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;}</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keywordtype">void</span> InitMediator(<a class="code" href="struct_mediator.html">Mediator</a> *mediator, <span class="keyword">const</span> <span class="keywordtype">char</span> *mediatorName, <span class="keywordtype">void</span> *viewComponent) {</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    mediator-&gt;<a class="code" href="struct_mediator.html#a2c9e9c16409b72d4b91ec03634bedfa9">notifier</a> = NewNotifier();</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    mediator-&gt;<a class="code" href="struct_mediator.html#a3c7485a8842f3c7106a5066b861311d8">mediatorName</a> = mediatorName != NULL ? mediatorName : MEDIATOR_NAME;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    mediator-&gt;<a class="code" href="struct_mediator.html#a507e60887b1d26057337e19da5d8059f">viewComponent</a> = viewComponent;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    mediator-&gt;<a class="code" href="struct_mediator.html#a5569db1afebc0119e9f4e36ddc4c5ad4">getMediatorName</a> = getMediatorName;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    mediator-&gt;<a class="code" href="struct_mediator.html#addceeb9b9706bdbbf5b39275979063d6">setViewComponent</a> = setViewComponent;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    mediator-&gt;<a class="code" href="struct_mediator.html#a32bca2c2b6c52e3231ea5f57f6180f67">getViewComponent</a> = getViewComponent;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    mediator-&gt;<a class="code" href="struct_mediator.html#a0b6e54c8453a9b00d5a5f0a9a3a58267">listNotificationInterests</a> = listNotificationInterests;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    mediator-&gt;<a class="code" href="struct_mediator.html#a46ae75f70c3ee203f351fd7e4d8a7cfd">handleNotification</a> = handleNotification;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    mediator-&gt;<a class="code" href="struct_mediator.html#ab680dba89c718d23e61e07ff8c23f0f4">onRegister</a> = onRegister;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    mediator-&gt;<a class="code" href="struct_mediator.html#a0960935fa076d624515ed3bb5012a60c">onRemove</a> = onRemove;</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;}</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> onRegister(<a class="code" href="struct_mediator.html">Mediator</a> *<span class="keyword">self</span>) {</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;}</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> onRemove(<a class="code" href="struct_mediator.html">Mediator</a> *<span class="keyword">self</span>) {</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;}</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="keywordtype">void</span> InitMediator(<a class="code" href="struct_mediator.html">Mediator</a> *mediator, <span class="keyword">const</span> <span class="keywordtype">char</span> *mediatorName, <span class="keywordtype">void</span> *viewComponent) {</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    mediator-&gt;notifier = NewNotifier();</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    mediator-&gt;mediatorName = mediatorName != NULL ? mediatorName : MEDIATOR_NAME;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    mediator-&gt;viewComponent = viewComponent;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    mediator-&gt;getMediatorName = getMediatorName;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    mediator-&gt;setViewComponent = setViewComponent;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    mediator-&gt;getViewComponent = getViewComponent;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    mediator-&gt;listNotificationInterests = listNotificationInterests;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    mediator-&gt;handleNotification = handleNotification;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    mediator-&gt;onRegister = onRegister;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    mediator-&gt;onRemove = onRemove;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;}</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<a class="code" href="struct_mediator.html">Mediator</a> *NewMediator(<span class="keyword">const</span> <span class="keywordtype">char</span> *mediatorName, <span class="keywordtype">void</span> *viewComponent) {</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <a class="code" href="struct_mediator.html">Mediator</a> *mediator = malloc(<span class="keyword">sizeof</span>(<a class="code" href="struct_mediator.html">Mediator</a>));</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keywordflow">if</span> (mediator == NULL) <span class="keywordflow">goto</span> exception;</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    InitMediator(mediator, mediatorName, viewComponent);</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keywordflow">return</span> mediator;</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160; </div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    exception:</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        fprintf(stderr, <span class="stringliteral">&quot;Mediator allocation failed.\n&quot;</span>);</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        <span class="keywordflow">return</span> NULL;</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;}</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160; </div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="keywordtype">void</span> DeleteMediator(<a class="code" href="struct_mediator.html">Mediator</a> *mediator) {</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    DeleteNotifier(mediator-&gt;notifier);</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    free(mediator);</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    mediator = NULL;</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;}</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="keywordtype">void</span> DeleteMediator(<a class="code" href="struct_mediator.html">Mediator</a> *mediator) {</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    DeleteNotifier(mediator-&gt;<a class="code" href="struct_mediator.html#a2c9e9c16409b72d4b91ec03634bedfa9">notifier</a>);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    free(mediator);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    mediator = NULL;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="astruct_mediator_html"><div class="ttname"><a href="struct_mediator.html">Mediator</a></div><div class="ttdef"><b>Definition:</b> <a href="_mediator_8h_source.html#l00015">Mediator.h:15</a></div></div>
+<div class="ttc" id="astruct_mediator_html_a2c9e9c16409b72d4b91ec03634bedfa9"><div class="ttname"><a href="struct_mediator.html#a2c9e9c16409b72d4b91ec03634bedfa9">Mediator::notifier</a></div><div class="ttdeci">struct Notifier * notifier</div><div class="ttdef"><b>Definition:</b> <a href="_mediator_8h_source.html#l00026">Mediator.h:26</a></div></div>
+<div class="ttc" id="astruct_mediator_html_addceeb9b9706bdbbf5b39275979063d6"><div class="ttname"><a href="struct_mediator.html#addceeb9b9706bdbbf5b39275979063d6">Mediator::setViewComponent</a></div><div class="ttdeci">void(* setViewComponent)(Mediator *self, void *viewComponent)</div><div class="ttdef"><b>Definition:</b> <a href="_mediator_8h_source.html#l00036">Mediator.h:36</a></div></div>
+<div class="ttc" id="astruct_mediator_html_a0960935fa076d624515ed3bb5012a60c"><div class="ttname"><a href="struct_mediator.html#a0960935fa076d624515ed3bb5012a60c">Mediator::onRemove</a></div><div class="ttdeci">void(* onRemove)(Mediator *self)</div><div class="ttdef"><b>Definition:</b> <a href="_mediator_8h_source.html#l00063">Mediator.h:63</a></div></div>
+<div class="ttc" id="astruct_mediator_html_ab680dba89c718d23e61e07ff8c23f0f4"><div class="ttname"><a href="struct_mediator.html#ab680dba89c718d23e61e07ff8c23f0f4">Mediator::onRegister</a></div><div class="ttdeci">void(* onRegister)(Mediator *self)</div><div class="ttdef"><b>Definition:</b> <a href="_mediator_8h_source.html#l00060">Mediator.h:60</a></div></div>
+<div class="ttc" id="astruct_mediator_html_a507e60887b1d26057337e19da5d8059f"><div class="ttname"><a href="struct_mediator.html#a507e60887b1d26057337e19da5d8059f">Mediator::viewComponent</a></div><div class="ttdeci">void * viewComponent</div><div class="ttdef"><b>Definition:</b> <a href="_mediator_8h_source.html#l00030">Mediator.h:30</a></div></div>
+<div class="ttc" id="astruct_mediator_html_a46ae75f70c3ee203f351fd7e4d8a7cfd"><div class="ttname"><a href="struct_mediator.html#a46ae75f70c3ee203f351fd7e4d8a7cfd">Mediator::handleNotification</a></div><div class="ttdeci">void(* handleNotification)(Mediator *self, Notification *notification)</div><div class="ttdef"><b>Definition:</b> <a href="_mediator_8h_source.html#l00057">Mediator.h:57</a></div></div>
+<div class="ttc" id="astruct_mediator_html"><div class="ttname"><a href="struct_mediator.html">Mediator</a></div><div class="ttdef"><b>Definition:</b> <a href="_mediator_8h_source.html#l00024">Mediator.h:24</a></div></div>
+<div class="ttc" id="astruct_mediator_html_a5569db1afebc0119e9f4e36ddc4c5ad4"><div class="ttname"><a href="struct_mediator.html#a5569db1afebc0119e9f4e36ddc4c5ad4">Mediator::getMediatorName</a></div><div class="ttdeci">const char *(* getMediatorName)(Mediator *self)</div><div class="ttdef"><b>Definition:</b> <a href="_mediator_8h_source.html#l00033">Mediator.h:33</a></div></div>
+<div class="ttc" id="astruct_mediator_html_a0b6e54c8453a9b00d5a5f0a9a3a58267"><div class="ttname"><a href="struct_mediator.html#a0b6e54c8453a9b00d5a5f0a9a3a58267">Mediator::listNotificationInterests</a></div><div class="ttdeci">const char *const  *(* listNotificationInterests)(Mediator *self)</div><div class="ttdef"><b>Definition:</b> <a href="_mediator_8h_source.html#l00048">Mediator.h:48</a></div></div>
+<div class="ttc" id="astruct_mediator_html_a32bca2c2b6c52e3231ea5f57f6180f67"><div class="ttname"><a href="struct_mediator.html#a32bca2c2b6c52e3231ea5f57f6180f67">Mediator::getViewComponent</a></div><div class="ttdeci">void *(* getViewComponent)(Mediator *self)</div><div class="ttdef"><b>Definition:</b> <a href="_mediator_8h_source.html#l00039">Mediator.h:39</a></div></div>
+<div class="ttc" id="astruct_mediator_html_a3c7485a8842f3c7106a5066b861311d8"><div class="ttname"><a href="struct_mediator.html#a3c7485a8842f3c7106a5066b861311d8">Mediator::mediatorName</a></div><div class="ttdeci">const char * mediatorName</div><div class="ttdef"><b>Definition:</b> <a href="_mediator_8h_source.html#l00028">Mediator.h:28</a></div></div>
 <div class="ttc" id="astruct_notification_html"><div class="ttname"><a href="struct_notification.html">Notification</a></div><div class="ttdef"><b>Definition:</b> <a href="_notification_8h_source.html#l00036">Notification.h:36</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

@@ -87,18 +87,26 @@ $(document).ready(function(){initNavTree('struct_simple_command.html',''); initR
 <div class="title">SimpleCommand Struct Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="_simple_command_8h_source.html">SimpleCommand.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:a2c9e9c16409b72d4b91ec03634bedfa9"><td class="memItemLeft" align="right" valign="top"><a id="a2c9e9c16409b72d4b91ec03634bedfa9"></a>
-struct <a class="el" href="struct_notifier.html">Notifier</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>notifier</b></td></tr>
+<tr class="memitem:a2c9e9c16409b72d4b91ec03634bedfa9"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="struct_notifier.html">Notifier</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_simple_command.html#a2c9e9c16409b72d4b91ec03634bedfa9">notifier</a></td></tr>
 <tr class="separator:a2c9e9c16409b72d4b91ec03634bedfa9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a583b271ff2ca8bccd201684029c6eb53"><td class="memItemLeft" align="right" valign="top">void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_simple_command.html#a583b271ff2ca8bccd201684029c6eb53">execute</a> )(<a class="el" href="struct_simple_command.html">SimpleCommand</a> *self, <a class="el" href="struct_notification.html">Notification</a> *notification)</td></tr>
 <tr class="separator:a583b271ff2ca8bccd201684029c6eb53"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="_simple_command_8h_source.html#l00022">22</a> of file <a class="el" href="_simple_command_8h_source.html">SimpleCommand.h</a>.</p>
+<div class="textblock"><p>A base <code>Command</code> implementation.</p>
+<p>Your subclass should override the <code>execute</code> method where your business logic will handle the <code><a class="el" href="struct_notification.html">Notification</a></code>.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="struct_controller.html">Controller</a> </dd>
+<dd>
+<a class="el" href="struct_notification.html">Notification</a> </dd>
+<dd>
+<a class="el" href="struct_macro_command.html">MacroCommand</a> </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_simple_command_8h_source.html#l00020">20</a> of file <a class="el" href="_simple_command_8h_source.html">SimpleCommand.h</a>.</p>
 </div><h2 class="groupheader">Field Documentation</h2>
 <a id="a583b271ff2ca8bccd201684029c6eb53"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a583b271ff2ca8bccd201684029c6eb53">&#9670;&nbsp;</a></span>execute</h2>
@@ -111,17 +119,33 @@ struct <a class="el" href="struct_notifier.html">Notifier</a> *&#160;</td><td cl
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Fulfill the use-case initiated by the given <code>INotification</code>.</p>
-<p>In the Command Pattern, an application use-case typically begins with some user action, which results in an <code>INotification</code> being broadcast, which is handled by business logic in the <code>execute</code> method of an <code>ICommand</code>.</p>
+<p>Fulfill the use-case initiated by the given <code><a class="el" href="struct_notification.html">Notification</a></code>.</p>
+<p>In the Command Pattern, an application use-case typically begins with some user action, which results in an <code><a class="el" href="struct_notification.html">Notification</a></code> being broadcast, which is handled by business logic in the <code>execute</code> method of an <code>Command</code>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">self</td><td>*SimpleCommand </td></tr>
-    <tr><td class="paramname">notification</td><td>*Notification </td></tr>
+    <tr><td class="paramname">self</td><td><a class="el" href="struct_simple_command.html">SimpleCommand</a> </td></tr>
+    <tr><td class="paramname">notification</td><td><a class="el" href="struct_notification.html">Notification</a> </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_simple_command_8h_source.html#l00036">36</a> of file <a class="el" href="_simple_command_8h_source.html">SimpleCommand.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_simple_command_8h_source.html#l00035">35</a> of file <a class="el" href="_simple_command_8h_source.html">SimpleCommand.h</a>.</p>
+
+</div>
+</div>
+<a id="a2c9e9c16409b72d4b91ec03634bedfa9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c9e9c16409b72d4b91ec03634bedfa9">&#9670;&nbsp;</a></span>notifier</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="struct_notifier.html">Notifier</a>* notifier</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_simple_command_8h_source.html#l00022">22</a> of file <a class="el" href="_simple_command_8h_source.html">SimpleCommand.h</a>.</p>
 
 </div>
 </div>

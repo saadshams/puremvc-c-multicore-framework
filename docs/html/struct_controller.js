@@ -1,6 +1,5 @@
 var struct_controller =
 [
-    [ "commandMap", "struct_controller.html#aed1c35dc960305e09284a098523c06b7", null ],
     [ "executeCommand", "struct_controller.html#a067a199590aa8b860c9f48ae64a656a3", null ],
     [ "hasCommand", "struct_controller.html#a51512b85af342ddaf84a8a158919fff6", null ],
     [ "initializeController", "struct_controller.html#ad78dcc1df71591c19edc372fdd4abf0d", null ],

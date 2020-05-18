@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['execute_28',['execute',['../struct_simple_command.html#a583b271ff2ca8bccd201684029c6eb53',1,'SimpleCommand']]]
+  ['addsubcommand_79',['addSubCommand',['../struct_macro_command.html#a666c37d60317832a9e38feac9b408672',1,'MacroCommand']]]
 ];

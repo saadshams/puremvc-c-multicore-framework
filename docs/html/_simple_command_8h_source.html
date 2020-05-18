@@ -92,25 +92,27 @@ $(document).ready(function(){initNavTree('_simple_command_8h_source.html',''); i
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">struct </span><a class="code" href="struct_notifier.html">Notifier</a>;</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="struct_simple_command.html">SimpleCommand</a> <a class="code" href="struct_simple_command.html">SimpleCommand</a>;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="struct_simple_command.html">SimpleCommand</a> <a class="code" href="struct_simple_command.html">SimpleCommand</a>;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="struct_simple_command.html">   20</a></span>&#160;<span class="keyword">struct </span><a class="code" href="struct_simple_command.html">SimpleCommand</a> {</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
-<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="struct_simple_command.html">   22</a></span>&#160;<span class="keyword">struct </span><a class="code" href="struct_simple_command.html">SimpleCommand</a> {</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keyword">struct </span><a class="code" href="struct_notifier.html">Notifier</a> *notifier;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="struct_simple_command.html#a583b271ff2ca8bccd201684029c6eb53">   36</a></span>&#160;    void (*<a class="code" href="struct_simple_command.html#a583b271ff2ca8bccd201684029c6eb53">execute</a>)(<a class="code" href="struct_simple_command.html">SimpleCommand</a> *<span class="keyword">self</span>, <a class="code" href="struct_notification.html">Notification</a> *notification);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;};</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<a class="code" href="struct_simple_command.html">SimpleCommand</a> *NewSimpleCommand();</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="keywordtype">void</span> InitSimpleCommand(<a class="code" href="struct_simple_command.html">SimpleCommand</a> *simpleCommand);</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="keywordtype">void</span> DeleteSimpleCommand(<a class="code" href="struct_simple_command.html">SimpleCommand</a> *simpleCommand);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="preprocessor">#endif //PUREMVC_SIMPLECOMMAND_H</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="struct_simple_command.html#a2c9e9c16409b72d4b91ec03634bedfa9">   22</a></span>&#160;    <span class="keyword">struct </span><a class="code" href="struct_notifier.html">Notifier</a> *<a class="code" href="struct_simple_command.html#a2c9e9c16409b72d4b91ec03634bedfa9">notifier</a>;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="struct_simple_command.html#a583b271ff2ca8bccd201684029c6eb53">   35</a></span>&#160;    void (*<a class="code" href="struct_simple_command.html#a583b271ff2ca8bccd201684029c6eb53">execute</a>)(<a class="code" href="struct_simple_command.html">SimpleCommand</a> *<span class="keyword">self</span>, <a class="code" href="struct_notification.html">Notification</a> *notification);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;};</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<a class="code" href="struct_simple_command.html">SimpleCommand</a> *NewSimpleCommand();</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="keywordtype">void</span> InitSimpleCommand(<a class="code" href="struct_simple_command.html">SimpleCommand</a> *simpleCommand);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keywordtype">void</span> DeleteSimpleCommand(<a class="code" href="struct_simple_command.html">SimpleCommand</a> *simpleCommand);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#endif //PUREMVC_SIMPLECOMMAND_H</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="astruct_simple_command_html"><div class="ttname"><a href="struct_simple_command.html">SimpleCommand</a></div><div class="ttdef"><b>Definition:</b> <a href="_simple_command_8h_source.html#l00022">SimpleCommand.h:22</a></div></div>
-<div class="ttc" id="astruct_simple_command_html_a583b271ff2ca8bccd201684029c6eb53"><div class="ttname"><a href="struct_simple_command.html#a583b271ff2ca8bccd201684029c6eb53">SimpleCommand::execute</a></div><div class="ttdeci">void(* execute)(SimpleCommand *self, Notification *notification)</div><div class="ttdef"><b>Definition:</b> <a href="_simple_command_8h_source.html#l00036">SimpleCommand.h:36</a></div></div>
+<div class="ttc" id="astruct_simple_command_html_a2c9e9c16409b72d4b91ec03634bedfa9"><div class="ttname"><a href="struct_simple_command.html#a2c9e9c16409b72d4b91ec03634bedfa9">SimpleCommand::notifier</a></div><div class="ttdeci">struct Notifier * notifier</div><div class="ttdef"><b>Definition:</b> <a href="_simple_command_8h_source.html#l00022">SimpleCommand.h:22</a></div></div>
+<div class="ttc" id="astruct_simple_command_html"><div class="ttname"><a href="struct_simple_command.html">SimpleCommand</a></div><div class="ttdef"><b>Definition:</b> <a href="_simple_command_8h_source.html#l00020">SimpleCommand.h:20</a></div></div>
+<div class="ttc" id="astruct_simple_command_html_a583b271ff2ca8bccd201684029c6eb53"><div class="ttname"><a href="struct_simple_command.html#a583b271ff2ca8bccd201684029c6eb53">SimpleCommand::execute</a></div><div class="ttdeci">void(* execute)(SimpleCommand *self, Notification *notification)</div><div class="ttdef"><b>Definition:</b> <a href="_simple_command_8h_source.html#l00035">SimpleCommand.h:35</a></div></div>
 <div class="ttc" id="astruct_notifier_html"><div class="ttname"><a href="struct_notifier.html">Notifier</a></div><div class="ttdef"><b>Definition:</b> <a href="_notifier_8h_source.html#l00040">Notifier.h:40</a></div></div>
 <div class="ttc" id="astruct_notification_html"><div class="ttname"><a href="struct_notification.html">Notification</a></div><div class="ttdef"><b>Definition:</b> <a href="_notification_8h_source.html#l00036">Notification.h:36</a></div></div>
 <!-- start footer part -->

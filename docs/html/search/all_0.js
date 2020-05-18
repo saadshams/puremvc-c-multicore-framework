@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['controller_0',['Controller',['../struct_controller.html',1,'']]]
+  ['addsubcommand_0',['addSubCommand',['../struct_macro_command.html#a666c37d60317832a9e38feac9b408672',1,'MacroCommand']]]
 ];

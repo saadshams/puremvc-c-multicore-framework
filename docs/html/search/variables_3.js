@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['setdata_33',['setData',['../struct_proxy.html#a6929c44fbb5593d96c92011ccf037cba',1,'Proxy']]]
+  ['data_84',['data',['../struct_proxy.html#a735984d41155bc1032e09bece8f8d66d',1,'Proxy']]]
 ];

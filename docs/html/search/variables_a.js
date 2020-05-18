@@ -1,8 +1,9 @@
 var searchData=
 [
-  ['mediator_134',['mediator',['../struct_mediator_map.html#a0b753e0e90c45dba31c7be367e13585f',1,'MediatorMap']]],
-  ['mediatormap_135',['mediatorMap',['../struct_view.html#a2d3c79de833dc9280a4ed68408974a55',1,'View']]],
-  ['mediatorname_136',['mediatorName',['../struct_mediator.html#a3c7485a8842f3c7106a5066b861311d8',1,'Mediator']]],
-  ['model_137',['model',['../struct_model_map.html#a7b56c3ca57dde73bdbc8dbe9772bca19',1,'ModelMap::model()'],['../struct_facade.html#a7b56c3ca57dde73bdbc8dbe9772bca19',1,'Facade::model()']]],
-  ['multitonkey_138',['multitonKey',['../struct_controller.html#a19fdedbf1c3f543f4358255f0ca4269d',1,'Controller::multitonKey()'],['../struct_facade.html#a19fdedbf1c3f543f4358255f0ca4269d',1,'Facade::multitonKey()'],['../struct_model.html#a19fdedbf1c3f543f4358255f0ca4269d',1,'Model::multitonKey()'],['../struct_notifier.html#a19fdedbf1c3f543f4358255f0ca4269d',1,'Notifier::multitonKey()'],['../struct_view.html#a19fdedbf1c3f543f4358255f0ca4269d',1,'View::multitonKey()']]]
+  ['name_111',['name',['../struct_notification.html#a8f8f80d37794cde9472343e4487ba3eb',1,'Notification']]],
+  ['notification_112',['notification',['../struct_observer.html#a3247db6919862bab0136b17e1365afc6',1,'Observer']]],
+  ['notifier_113',['notifier',['../struct_macro_command.html#a2c9e9c16409b72d4b91ec03634bedfa9',1,'MacroCommand::notifier()'],['../struct_mediator.html#a2c9e9c16409b72d4b91ec03634bedfa9',1,'Mediator::notifier()'],['../struct_proxy.html#a2c9e9c16409b72d4b91ec03634bedfa9',1,'Proxy::notifier()'],['../struct_simple_command.html#a2c9e9c16409b72d4b91ec03634bedfa9',1,'SimpleCommand::notifier()']]],
+  ['notify_114',['notify',['../struct_observer.html#a7ffe2172bd4e710abd97d64d29d8237e',1,'Observer']]],
+  ['notifyobserver_115',['notifyObserver',['../struct_observer.html#a2b00423cf852df148b70a556a4e216e1',1,'Observer']]],
+  ['notifyobservers_116',['notifyObservers',['../struct_facade.html#a81de770c7eae9ab97a221586f8d7d32e',1,'Facade::notifyObservers()'],['../struct_view.html#a1fa9753e87a089dba42b668ccb58f743',1,'View::notifyObservers()']]]
 ];

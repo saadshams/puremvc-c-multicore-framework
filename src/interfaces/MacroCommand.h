@@ -49,14 +49,14 @@ struct MacroCommand {
      * list with <code>Command</code> class references like
      * this:</P>
      *
-     * <code>
+     * ```c
      * static void initializeMacroCommand(MacroCommand *self) {
      * {
      *      self->addSubCommand(self, NewFirstCommand);
      *      self->addSubCommand(self, NewSecondCommand);
      *      self->addSubCommand(self, NewThirdCommand);
      * }
-     * </code>
+     * ```
      *
      * <P>Note that <i>SubCommand</i>s may be any <code>Command</code> implementor,
      * <code>MacroCommand</code>s or <code>SimpleCommands</code> are both acceptable.</P>

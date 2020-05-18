@@ -94,9 +94,9 @@ $(document).ready(function(){initNavTree('_controller_8c_source.html',''); initR
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;stdlib.h&gt;</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;string.h&gt;</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">// ControllerMap LinkedList</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>ControllerMap ControllerMap;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>ControllerMap ControllerMap;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">// ControllerMap LinkedList</span></div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">struct </span>ControllerMap {</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span> *name;</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <a class="code" href="struct_controller.html">Controller</a> *controller;</div>
@@ -106,187 +106,201 @@ $(document).ready(function(){initNavTree('_controller_8c_source.html',''); initR
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment">// The Multiton Controller instanceMap.</span></div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">static</span> ControllerMap *instanceMap;</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">static</span> ControllerMap *NewControllerMap(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <a class="code" href="struct_controller.html">Controller</a> *controller) {</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    ControllerMap *controllerMap = malloc(<span class="keyword">sizeof</span>(ControllerMap));</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordflow">if</span> (controllerMap == NULL) <span class="keywordflow">goto</span> exception;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    controllerMap-&gt;name = key;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    controllerMap-&gt;controller = controller;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    controllerMap-&gt;next = NULL;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordflow">return</span> controllerMap;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    exception:</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        fprintf(stderr, <span class="stringliteral">&quot;ControllerMap allocation failed.\n&quot;</span>);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keywordflow">return</span> NULL;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;}</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keyword">static</span> <a class="code" href="struct_controller.html">Controller</a> *GetControllerMap(<span class="keyword">const</span> <span class="keywordtype">char</span> *key) {</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    ControllerMap *controllerMap = instanceMap;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordflow">while</span> (controllerMap &amp;&amp; strcmp(controllerMap-&gt;name, key) != 0)</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        controllerMap = controllerMap-&gt;next;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordflow">return</span> controllerMap == NULL ? NULL : controllerMap-&gt;controller;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">// mutex for controller instanceMap</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">static</span> pthread_rwlock_t controller_mutex;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">static</span> ControllerMap *NewControllerMap(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <a class="code" href="struct_controller.html">Controller</a> *controller) {</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    ControllerMap *controllerMap = malloc(<span class="keyword">sizeof</span>(ControllerMap));</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordflow">if</span> (controllerMap == NULL) <span class="keywordflow">goto</span> exception;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    controllerMap-&gt;name = key;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    controllerMap-&gt;controller = controller;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    controllerMap-&gt;next = NULL;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordflow">return</span> controllerMap;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    exception:</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        fprintf(stderr, <span class="stringliteral">&quot;ControllerMap allocation failed.\n&quot;</span>);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keywordflow">return</span> NULL;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;}</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">static</span> <a class="code" href="struct_controller.html">Controller</a> *GetControllerMap(<span class="keyword">const</span> <span class="keywordtype">char</span> *key) {</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    ControllerMap *controllerMap = instanceMap;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">while</span> (controllerMap &amp;&amp; strcmp(controllerMap-&gt;name, key) != 0)</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        controllerMap = controllerMap-&gt;next;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordflow">return</span> controllerMap == NULL ? NULL : controllerMap-&gt;controller;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;}</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> AddControllerMap(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <a class="code" href="struct_controller.html">Controller</a> *controller) {</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    ControllerMap **controllerMap = &amp;instanceMap;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordflow">while</span> (*controllerMap)</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        controllerMap = &amp;(*controllerMap)-&gt;next;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    *controllerMap = NewControllerMap(key, controller);</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;}</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> AddControllerMap(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <a class="code" href="struct_controller.html">Controller</a> *controller) {</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    ControllerMap **controllerMap = &amp;instanceMap;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordflow">while</span> (*controllerMap)</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        controllerMap = &amp;(*controllerMap)-&gt;next;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    *controllerMap = NewControllerMap(key, controller);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;}</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> RemoveControllerMap(<span class="keyword">const</span> <span class="keywordtype">char</span> *key) {</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    ControllerMap **controllerMap = &amp;instanceMap;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordflow">while</span> (*controllerMap) {</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="keywordflow">if</span> (strcmp((*controllerMap)-&gt;name, key) == 0) {</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            ControllerMap *node = *controllerMap;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            *controllerMap = (*controllerMap)-&gt;next;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            free(node-&gt;controller);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            free(node);</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            node = NULL;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        }</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        controllerMap = &amp;(*controllerMap)-&gt;next;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    }</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;}</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="keyword">struct </span>CommandMap {</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span> *name;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <a class="code" href="struct_simple_command.html">SimpleCommand</a> *(*factory)();</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    CommandMap *next;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;};</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> RemoveControllerMap(<span class="keyword">const</span> <span class="keywordtype">char</span> *key) {</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    ControllerMap **controllerMap = &amp;instanceMap;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordflow">while</span> (*controllerMap) {</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keywordflow">if</span> (strcmp((*controllerMap)-&gt;name, key) == 0) {</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            ControllerMap *node = *controllerMap;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            *controllerMap = (*controllerMap)-&gt;next;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            free(node-&gt;controller);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            free(node);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            node = NULL;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        }</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        controllerMap = &amp;(*controllerMap)-&gt;next;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    }</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;}</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="keyword">struct </span>CommandMap {</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span> *name;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <a class="code" href="struct_simple_command.html">SimpleCommand</a> *(*factory)();</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    CommandMap *next;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;};</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="comment">// mutex for commandMap</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="keyword">static</span> pthread_rwlock_t commandMap_mutex = PTHREAD_MUTEX_INITIALIZER;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="keyword">static</span> CommandMap *NewCommandMap(<span class="keyword">const</span> <span class="keywordtype">char</span> *notificationName, <a class="code" href="struct_simple_command.html">SimpleCommand</a> *(*factory)()) {</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    CommandMap *<span class="keyword">self</span> = malloc(<span class="keyword">sizeof</span>(CommandMap));</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keyword">self</span>-&gt;name = notificationName;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keyword">self</span>-&gt;factory = factory;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keyword">self</span>-&gt;next = NULL;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">self</span>;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;}</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> DeleteCommandMap(CommandMap *<span class="keyword">self</span>) {</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    free(<span class="keyword">self</span>);</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keyword">self</span> = NULL;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;}</div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="comment">// mutex for commandMap</span></div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="keyword">static</span> pthread_rwlock_t commandMap_mutex = PTHREAD_MUTEX_INITIALIZER;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="keyword">static</span> CommandMap *NewCommandMap(<span class="keyword">const</span> <span class="keywordtype">char</span> *notificationName, <a class="code" href="struct_simple_command.html">SimpleCommand</a> *(*factory)()) {</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    CommandMap *<span class="keyword">self</span> = malloc(<span class="keyword">sizeof</span>(CommandMap));</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <span class="keyword">self</span>-&gt;name = notificationName;</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="keyword">self</span>-&gt;factory = factory;</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="keyword">self</span>-&gt;next = NULL;</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">self</span>;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;}</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> DeleteCommandMap(CommandMap *<span class="keyword">self</span>) {</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    free(<span class="keyword">self</span>);</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="keyword">self</span> = NULL;</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;}</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160; </div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> initializeController(<a class="code" href="struct_controller.html">Controller</a> *<span class="keyword">self</span>) {</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    <span class="keyword">self</span>-&gt;view = getViewInstance(self-&gt;multitonKey, NewView);</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> initializeController(<a class="code" href="struct_controller.html">Controller</a> *<span class="keyword">self</span>) {</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keyword">self</span>-&gt;view = getViewInstance(self-&gt;multitonKey, NewView);</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;}</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> executeCommand(<a class="code" href="struct_controller.html">Controller</a> *<span class="keyword">self</span>, <a class="code" href="struct_notification.html">Notification</a> *notification) {</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    pthread_rwlock_rdlock(&amp;commandMap_mutex);</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    CommandMap *cursor = <span class="keyword">self</span>-&gt;commandMap;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keywordflow">while</span>(cursor &amp;&amp; strcmp(cursor-&gt;name, notification-&gt;<a class="code" href="struct_notification.html#a83743d70ccf4602d09f3d6ca41a3de72">getName</a>(notification)) != 0)</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        cursor = cursor-&gt;next;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="keywordflow">if</span> (cursor) {</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        <a class="code" href="struct_simple_command.html">SimpleCommand</a> *commandInstance = cursor-&gt;factory();</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        commandInstance-&gt;<a class="code" href="struct_simple_command.html#a2c9e9c16409b72d4b91ec03634bedfa9">notifier</a>-&gt;<a class="code" href="struct_notifier.html#a9a15795a43e2c386cfd523f9d2ef464a">initializeNotifier</a>(commandInstance-&gt;<a class="code" href="struct_simple_command.html#a2c9e9c16409b72d4b91ec03634bedfa9">notifier</a>, self-&gt;<a class="code" href="struct_notifier.html#a19fdedbf1c3f543f4358255f0ca4269d">multitonKey</a>);</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        commandInstance-&gt;<a class="code" href="struct_simple_command.html#a583b271ff2ca8bccd201684029c6eb53">execute</a>(commandInstance, notification);</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        DeleteSimpleCommand(commandInstance);</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    }</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    pthread_rwlock_unlock(&amp;commandMap_mutex);</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;}</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160; </div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> registerCommand(<a class="code" href="struct_controller.html">Controller</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *notificationName, <a class="code" href="struct_simple_command.html">SimpleCommand</a> *(factory)()) {</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    pthread_rwlock_wrlock(&amp;commandMap_mutex);</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    CommandMap **cursor = &amp;<span class="keyword">self</span>-&gt;commandMap;</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160; </div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="keywordflow">while</span> (*cursor) {</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        <span class="keywordflow">if</span> (strcmp((*cursor)-&gt;name, notificationName) == 0) {</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;            CommandMap *node = NewCommandMap(notificationName, factory);</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;            node-&gt;next = (*cursor)-&gt;next;</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;            DeleteCommandMap(*cursor);</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;            *cursor = node;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;            <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        }</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        cursor = &amp;(*cursor)-&gt;next;</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    }</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160; </div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    *cursor = NewCommandMap(notificationName, factory);</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    <a class="code" href="struct_observer.html">Observer</a> *observer = NewObserver((<span class="keywordtype">void</span> (*)(<span class="keywordtype">void</span> *, <a class="code" href="struct_notification.html">Notification</a> *)) self-&gt;executeCommand, <span class="keyword">self</span>);</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <span class="keyword">self</span>-&gt;view-&gt;registerObserver(self-&gt;view, notificationName, observer);</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    pthread_rwlock_unlock(&amp;commandMap_mutex);</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;}</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160; </div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;<span class="keyword">static</span> <span class="keywordtype">bool</span> hasCommand(<a class="code" href="struct_controller.html">Controller</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *notificationName) {</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    pthread_rwlock_rdlock(&amp;commandMap_mutex);</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    CommandMap *cursor = <span class="keyword">self</span>-&gt;commandMap;</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    <span class="keywordflow">while</span>(cursor != NULL &amp;&amp; strcmp(cursor-&gt;name, notificationName) != 0)</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;        cursor = cursor-&gt;next;</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    pthread_rwlock_unlock(&amp;commandMap_mutex);</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    <span class="keywordflow">return</span> cursor != NULL;</div>
 <div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;}</div>
 <div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160; </div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> executeCommand(<a class="code" href="struct_controller.html">Controller</a> *<span class="keyword">self</span>, <a class="code" href="struct_notification.html">Notification</a> *notification) {</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    pthread_rwlock_rdlock(&amp;commandMap_mutex);</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    CommandMap *cursor = <span class="keyword">self</span>-&gt;commandMap;</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    <span class="keywordflow">while</span>(cursor &amp;&amp; strcmp(cursor-&gt;name, notification-&gt;getName(notification)) != 0)</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        cursor = cursor-&gt;next;</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160; </div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    <span class="keywordflow">if</span> (cursor) {</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        <a class="code" href="struct_simple_command.html">SimpleCommand</a> *commandInstance = cursor-&gt;factory();</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;        commandInstance-&gt;notifier-&gt;initializeNotifier(commandInstance-&gt;notifier, self-&gt;multitonKey);</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;        commandInstance-&gt;<a class="code" href="struct_simple_command.html#a583b271ff2ca8bccd201684029c6eb53">execute</a>(commandInstance, notification);</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        DeleteSimpleCommand(commandInstance);</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> removeCommand(<a class="code" href="struct_controller.html">Controller</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *notificationName) {</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    pthread_rwlock_wrlock(&amp;commandMap_mutex);</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    CommandMap **cursor = &amp;<span class="keyword">self</span>-&gt;commandMap;</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160; </div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <span class="keywordflow">while</span> (*cursor) {</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        <span class="comment">// if the Command is registered...</span></div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        <span class="keywordflow">if</span> (strcmp((*cursor)-&gt;name, notificationName) == 0) {</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;            CommandMap *commandMap = (*cursor);</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160; </div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;            <span class="comment">// remove the command</span></div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;            *cursor = (*cursor)-&gt;next;</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160; </div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;            <span class="comment">// remove the observer</span></div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;            <span class="keyword">self</span>-&gt;view-&gt;removeObserver(self-&gt;view, notificationName, <span class="keyword">self</span>);</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;            DeleteCommandMap(commandMap);</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;            <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;        }</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        cursor = &amp;(*cursor)-&gt;next;</div>
 <div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    }</div>
 <div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    pthread_rwlock_unlock(&amp;commandMap_mutex);</div>
 <div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;}</div>
 <div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160; </div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> registerCommand(<a class="code" href="struct_controller.html">Controller</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *notificationName, <a class="code" href="struct_simple_command.html">SimpleCommand</a> *(factory)()) {</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    pthread_rwlock_wrlock(&amp;commandMap_mutex);</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    CommandMap **cursor = &amp;<span class="keyword">self</span>-&gt;commandMap;</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;<span class="keywordtype">void</span> InitController(<a class="code" href="struct_controller.html">Controller</a> *controller) {</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    controller-&gt;commandMap = NULL;</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    controller-&gt;<a class="code" href="struct_controller.html#ad78dcc1df71591c19edc372fdd4abf0d">initializeController</a> = initializeController;</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    controller-&gt;<a class="code" href="struct_controller.html#a067a199590aa8b860c9f48ae64a656a3">executeCommand</a> = executeCommand;</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    controller-&gt;<a class="code" href="struct_controller.html#aeff108381a92fb76676cbd1a05db9ee3">registerCommand</a> = registerCommand;</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    controller-&gt;<a class="code" href="struct_controller.html#a51512b85af342ddaf84a8a158919fff6">hasCommand</a> = hasCommand;</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    controller-&gt;<a class="code" href="struct_controller.html#a344ad064e4a5bee55a5bddb37c1db2fe">removeCommand</a> = removeCommand;</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;}</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160; </div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;<a class="code" href="struct_controller.html">Controller</a> *NewController(<span class="keyword">const</span> <span class="keywordtype">char</span> *key) {</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    assert(GetControllerMap(key) == NULL);</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160; </div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    <a class="code" href="struct_controller.html">Controller</a> *controller = malloc(<span class="keyword">sizeof</span>(<a class="code" href="struct_controller.html">Controller</a>));</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    <span class="keywordflow">if</span> (controller == NULL) <span class="keywordflow">goto</span> exception;</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;    InitController(controller);</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;    controller-&gt;<a class="code" href="struct_controller.html#a19fdedbf1c3f543f4358255f0ca4269d">multitonKey</a> = key;</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    AddControllerMap(key, controller);</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    <span class="keywordflow">return</span> controller;</div>
 <div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160; </div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;    <span class="keywordflow">while</span> (*cursor) {</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;        <span class="keywordflow">if</span> (strcmp((*cursor)-&gt;name, notificationName) == 0) {</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;            CommandMap *node = NewCommandMap(notificationName, factory);</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;            node-&gt;next = (*cursor)-&gt;next;</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;            DeleteCommandMap(*cursor);</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;            *cursor = node;</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;            <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;        }</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;        cursor = &amp;(*cursor)-&gt;next;</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    }</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;    exception:</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;        fprintf(stderr, <span class="stringliteral">&quot;Controller allocation failed.\n&quot;</span>);</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;        <span class="keywordflow">return</span> NULL;</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;}</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160; </div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;<span class="keywordtype">void</span> RemoveController(<span class="keyword">const</span> <span class="keywordtype">char</span> *key) {</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    pthread_rwlock_wrlock(&amp;controller_mutex);</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    RemoveControllerMap(key);</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    pthread_rwlock_unlock(&amp;controller_mutex);</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;}</div>
 <div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160; </div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    *cursor = NewCommandMap(notificationName, factory);</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    <a class="code" href="struct_observer.html">Observer</a> *observer = NewObserver((<span class="keywordtype">void</span> (*)(<span class="keywordtype">void</span> *, <a class="code" href="struct_notification.html">Notification</a> *)) self-&gt;executeCommand, <span class="keyword">self</span>);</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    <span class="keyword">self</span>-&gt;view-&gt;registerObserver(self-&gt;view, notificationName, observer);</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    pthread_rwlock_unlock(&amp;commandMap_mutex);</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;}</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160; </div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;<span class="keyword">static</span> <span class="keywordtype">bool</span> hasCommand(<a class="code" href="struct_controller.html">Controller</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *notificationName) {</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;    pthread_rwlock_rdlock(&amp;commandMap_mutex);</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;    CommandMap *cursor = <span class="keyword">self</span>-&gt;commandMap;</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;    <span class="keywordflow">while</span>(cursor != NULL &amp;&amp; strcmp(cursor-&gt;name, notificationName) != 0)</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;        cursor = cursor-&gt;next;</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;    pthread_rwlock_unlock(&amp;commandMap_mutex);</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;    <span class="keywordflow">return</span> cursor != NULL;</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;}</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160; </div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> removeCommand(<a class="code" href="struct_controller.html">Controller</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *notificationName) {</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;    pthread_rwlock_wrlock(&amp;commandMap_mutex);</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;    CommandMap **cursor = &amp;<span class="keyword">self</span>-&gt;commandMap;</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160; </div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;    <span class="keywordflow">while</span> (*cursor) {</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;        <span class="keywordflow">if</span> (strcmp((*cursor)-&gt;name, notificationName) == 0) {</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;            CommandMap *commandMap = (*cursor);</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;            *cursor = (*cursor)-&gt;next;</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;            <span class="keyword">self</span>-&gt;view-&gt;removeObserver(self-&gt;view, notificationName, <span class="keyword">self</span>);</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;            DeleteCommandMap(commandMap);</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;            <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;        }</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;        cursor = &amp;(*cursor)-&gt;next;</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;    }</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;    pthread_rwlock_unlock(&amp;commandMap_mutex);</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;}</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160; </div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;<span class="keywordtype">void</span> InitController(<a class="code" href="struct_controller.html">Controller</a> *controller) {</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;    controller-&gt;commandMap = NULL;</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;    controller-&gt;initializeController = initializeController;</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;    controller-&gt;executeCommand = executeCommand;</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;    controller-&gt;registerCommand = registerCommand;</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;    controller-&gt;hasCommand = hasCommand;</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;    controller-&gt;removeCommand = removeCommand;</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;}</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160; </div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;<span class="comment">// mutex for controller instanceMap</span></div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;<span class="keyword">static</span> pthread_rwlock_t controller_mutex;</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160; </div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;<a class="code" href="struct_controller.html">Controller</a> *NewController(<span class="keyword">const</span> <span class="keywordtype">char</span> *key) {</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;    assert(GetControllerMap(key) == NULL);</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160; </div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;    <a class="code" href="struct_controller.html">Controller</a> *controller = malloc(<span class="keyword">sizeof</span>(<a class="code" href="struct_controller.html">Controller</a>));</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;    <span class="keywordflow">if</span> (controller == NULL) <span class="keywordflow">goto</span> exception;</div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;    InitController(controller);</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;    controller-&gt;multitonKey = key;</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;    AddControllerMap(key, controller);</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;    <span class="keywordflow">return</span> controller;</div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160; </div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;    exception:</div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;        fprintf(stderr, <span class="stringliteral">&quot;Controller allocation failed.\n&quot;</span>);</div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;        <span class="keywordflow">return</span> NULL;</div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;}</div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160; </div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;<span class="keywordtype">void</span> RemoveController(<span class="keyword">const</span> <span class="keywordtype">char</span> *key) {</div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;    pthread_rwlock_wrlock(&amp;controller_mutex);</div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;    RemoveControllerMap(key);</div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;    pthread_rwlock_unlock(&amp;controller_mutex);</div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;}</div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160; </div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;<a class="code" href="struct_controller.html">Controller</a> *getControllerInstance(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <a class="code" href="struct_controller.html">Controller</a> *(*factory)(<span class="keyword">const</span> <span class="keywordtype">char</span> *)) {</div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;    pthread_rwlock_wrlock(&amp;controller_mutex);</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;    <a class="code" href="struct_controller.html">Controller</a> *instance = GetControllerMap(key);</div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;    <span class="keywordflow">if</span> (instance == NULL) {</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;        instance = factory(key);</div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;        instance-&gt;initializeController(instance);</div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;    }</div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;    pthread_rwlock_unlock(&amp;controller_mutex);</div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;    <span class="keywordflow">return</span> instance;</div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;}</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;<a class="code" href="struct_controller.html">Controller</a> *getControllerInstance(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <a class="code" href="struct_controller.html">Controller</a> *(*factory)(<span class="keyword">const</span> <span class="keywordtype">char</span> *)) {</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    pthread_rwlock_wrlock(&amp;controller_mutex);</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    <a class="code" href="struct_controller.html">Controller</a> *instance = GetControllerMap(key);</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    <span class="keywordflow">if</span> (instance == NULL) {</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;        instance = factory(key);</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;        instance-&gt;<a class="code" href="struct_controller.html#ad78dcc1df71591c19edc372fdd4abf0d">initializeController</a>(instance);</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    }</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;    pthread_rwlock_unlock(&amp;controller_mutex);</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;    <span class="keywordflow">return</span> instance;</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
+<div class="ttc" id="astruct_controller_html_ad78dcc1df71591c19edc372fdd4abf0d"><div class="ttname"><a href="struct_controller.html#ad78dcc1df71591c19edc372fdd4abf0d">Controller::initializeController</a></div><div class="ttdeci">void(* initializeController)(Controller *self)</div><div class="ttdef"><b>Definition:</b> <a href="_controller_8h_source.html#l00072">Controller.h:72</a></div></div>
+<div class="ttc" id="astruct_controller_html_a344ad064e4a5bee55a5bddb37c1db2fe"><div class="ttname"><a href="struct_controller.html#a344ad064e4a5bee55a5bddb37c1db2fe">Controller::removeCommand</a></div><div class="ttdeci">void(* removeCommand)(Controller *self, const char *notificationName)</div><div class="ttdef"><b>Definition:</b> <a href="_controller_8h_source.html#l00115">Controller.h:115</a></div></div>
+<div class="ttc" id="astruct_notifier_html_a19fdedbf1c3f543f4358255f0ca4269d"><div class="ttname"><a href="struct_notifier.html#a19fdedbf1c3f543f4358255f0ca4269d">Notifier::multitonKey</a></div><div class="ttdeci">const char * multitonKey</div><div class="ttdef"><b>Definition:</b> <a href="_notifier_8h_source.html#l00043">Notifier.h:43</a></div></div>
+<div class="ttc" id="astruct_simple_command_html_a2c9e9c16409b72d4b91ec03634bedfa9"><div class="ttname"><a href="struct_simple_command.html#a2c9e9c16409b72d4b91ec03634bedfa9">SimpleCommand::notifier</a></div><div class="ttdeci">struct Notifier * notifier</div><div class="ttdef"><b>Definition:</b> <a href="_simple_command_8h_source.html#l00022">SimpleCommand.h:22</a></div></div>
+<div class="ttc" id="astruct_controller_html_a51512b85af342ddaf84a8a158919fff6"><div class="ttname"><a href="struct_controller.html#a51512b85af342ddaf84a8a158919fff6">Controller::hasCommand</a></div><div class="ttdeci">bool(* hasCommand)(Controller *self, const char *notificationName)</div><div class="ttdef"><b>Definition:</b> <a href="_controller_8h_source.html#l00107">Controller.h:107</a></div></div>
+<div class="ttc" id="astruct_controller_html_aeff108381a92fb76676cbd1a05db9ee3"><div class="ttname"><a href="struct_controller.html#aeff108381a92fb76676cbd1a05db9ee3">Controller::registerCommand</a></div><div class="ttdeci">void(* registerCommand)(Controller *self, const char *notificationName, SimpleCommand *(*factory)())</div><div class="ttdef"><b>Definition:</b> <a href="_controller_8h_source.html#l00098">Controller.h:98</a></div></div>
+<div class="ttc" id="astruct_notification_html_a83743d70ccf4602d09f3d6ca41a3de72"><div class="ttname"><a href="struct_notification.html#a83743d70ccf4602d09f3d6ca41a3de72">Notification::getName</a></div><div class="ttdeci">const char *(* getName)(Notification *self)</div><div class="ttdef"><b>Definition:</b> <a href="_notification_8h_source.html#l00049">Notification.h:49</a></div></div>
 <div class="ttc" id="astruct_observer_html"><div class="ttname"><a href="struct_observer.html">Observer</a></div><div class="ttdef"><b>Definition:</b> <a href="_observer_8h_source.html#l00028">Observer.h:28</a></div></div>
 <div class="ttc" id="astruct_controller_html"><div class="ttname"><a href="struct_controller.html">Controller</a></div><div class="ttdef"><b>Definition:</b> <a href="_controller_8h_source.html#l00044">Controller.h:44</a></div></div>
-<div class="ttc" id="astruct_simple_command_html"><div class="ttname"><a href="struct_simple_command.html">SimpleCommand</a></div><div class="ttdef"><b>Definition:</b> <a href="_simple_command_8h_source.html#l00022">SimpleCommand.h:22</a></div></div>
-<div class="ttc" id="astruct_simple_command_html_a583b271ff2ca8bccd201684029c6eb53"><div class="ttname"><a href="struct_simple_command.html#a583b271ff2ca8bccd201684029c6eb53">SimpleCommand::execute</a></div><div class="ttdeci">void(* execute)(SimpleCommand *self, Notification *notification)</div><div class="ttdef"><b>Definition:</b> <a href="_simple_command_8h_source.html#l00036">SimpleCommand.h:36</a></div></div>
+<div class="ttc" id="astruct_simple_command_html"><div class="ttname"><a href="struct_simple_command.html">SimpleCommand</a></div><div class="ttdef"><b>Definition:</b> <a href="_simple_command_8h_source.html#l00020">SimpleCommand.h:20</a></div></div>
+<div class="ttc" id="astruct_controller_html_a19fdedbf1c3f543f4358255f0ca4269d"><div class="ttname"><a href="struct_controller.html#a19fdedbf1c3f543f4358255f0ca4269d">Controller::multitonKey</a></div><div class="ttdeci">const char * multitonKey</div><div class="ttdef"><b>Definition:</b> <a href="_controller_8h_source.html#l00046">Controller.h:46</a></div></div>
+<div class="ttc" id="astruct_simple_command_html_a583b271ff2ca8bccd201684029c6eb53"><div class="ttname"><a href="struct_simple_command.html#a583b271ff2ca8bccd201684029c6eb53">SimpleCommand::execute</a></div><div class="ttdeci">void(* execute)(SimpleCommand *self, Notification *notification)</div><div class="ttdef"><b>Definition:</b> <a href="_simple_command_8h_source.html#l00035">SimpleCommand.h:35</a></div></div>
+<div class="ttc" id="astruct_controller_html_a067a199590aa8b860c9f48ae64a656a3"><div class="ttname"><a href="struct_controller.html#a067a199590aa8b860c9f48ae64a656a3">Controller::executeCommand</a></div><div class="ttdeci">void(* executeCommand)(Controller *self, Notification *notification)</div><div class="ttdef"><b>Definition:</b> <a href="_controller_8h_source.html#l00081">Controller.h:81</a></div></div>
 <div class="ttc" id="astruct_notification_html"><div class="ttname"><a href="struct_notification.html">Notification</a></div><div class="ttdef"><b>Definition:</b> <a href="_notification_8h_source.html#l00036">Notification.h:36</a></div></div>
+<div class="ttc" id="astruct_notifier_html_a9a15795a43e2c386cfd523f9d2ef464a"><div class="ttname"><a href="struct_notifier.html#a9a15795a43e2c386cfd523f9d2ef464a">Notifier::initializeNotifier</a></div><div class="ttdeci">void(* initializeNotifier)(Notifier *self, const char *key)</div><div class="ttdef"><b>Definition:</b> <a href="_notifier_8h_source.html#l00066">Notifier.h:66</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

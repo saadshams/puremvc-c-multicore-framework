@@ -93,23 +93,31 @@ $(document).ready(function(){initNavTree('_notifier_8h_source.html',''); initRes
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="struct_notifier.html">Notifier</a> <a class="code" href="struct_notifier.html">Notifier</a>;</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
 <div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="struct_notifier.html">   40</a></span>&#160;<span class="keyword">struct </span><a class="code" href="struct_notifier.html">Notifier</a> {</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span> *multitonKey;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <a class="code" href="struct_facade.html">Facade</a> *(*getFacade)(<a class="code" href="struct_notifier.html">Notifier</a> *<span class="keyword">self</span>);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    void (*initializeNotifier)(<a class="code" href="struct_notifier.html">Notifier</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *key);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    void (*sendNotification)(<a class="code" href="struct_notifier.html">Notifier</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *notificationName, <span class="keywordtype">void</span> *body, <span class="keywordtype">char</span> *type);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;};</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<a class="code" href="struct_notifier.html">Notifier</a> *NewNotifier();</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keywordtype">void</span> InitNotifier(<a class="code" href="struct_notifier.html">Notifier</a> *notifier);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="keywordtype">void</span> DeleteNotifier(<a class="code" href="struct_notifier.html">Notifier</a> *notifier);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="preprocessor">#endif //PUREMVC_NOTIFIER_H</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="comment">// The Multiton Key for this app</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="struct_notifier.html#a19fdedbf1c3f543f4358255f0ca4269d">   43</a></span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="struct_notifier.html#a19fdedbf1c3f543f4358255f0ca4269d">multitonKey</a>;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="struct_notifier.html#ad6ebe1ade10cc282643745d8e96d5679">   46</a></span>&#160;    <a class="code" href="struct_facade.html">Facade</a> *(*getFacade)(<a class="code" href="struct_notifier.html">Notifier</a> *<span class="keyword">self</span>);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="struct_notifier.html#a9a15795a43e2c386cfd523f9d2ef464a">   66</a></span>&#160;    void (*<a class="code" href="struct_notifier.html#a9a15795a43e2c386cfd523f9d2ef464a">initializeNotifier</a>)(<a class="code" href="struct_notifier.html">Notifier</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *key);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="struct_notifier.html#a68c3e9cb282d7b18a7b633b85f02e2c4">   80</a></span>&#160;    void (*<a class="code" href="struct_notifier.html#a68c3e9cb282d7b18a7b633b85f02e2c4">sendNotification</a>)(<a class="code" href="struct_notifier.html">Notifier</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *notificationName, <span class="keywordtype">void</span> *body, <span class="keywordtype">char</span> *type);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;};</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<a class="code" href="struct_notifier.html">Notifier</a> *NewNotifier();</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="keywordtype">void</span> InitNotifier(<a class="code" href="struct_notifier.html">Notifier</a> *notifier);</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="keywordtype">void</span> DeleteNotifier(<a class="code" href="struct_notifier.html">Notifier</a> *notifier);</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160; </div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="preprocessor">#endif //PUREMVC_NOTIFIER_H</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
+<div class="ttc" id="astruct_notifier_html_a19fdedbf1c3f543f4358255f0ca4269d"><div class="ttname"><a href="struct_notifier.html#a19fdedbf1c3f543f4358255f0ca4269d">Notifier::multitonKey</a></div><div class="ttdeci">const char * multitonKey</div><div class="ttdef"><b>Definition:</b> <a href="_notifier_8h_source.html#l00043">Notifier.h:43</a></div></div>
+<div class="ttc" id="astruct_notifier_html_a68c3e9cb282d7b18a7b633b85f02e2c4"><div class="ttname"><a href="struct_notifier.html#a68c3e9cb282d7b18a7b633b85f02e2c4">Notifier::sendNotification</a></div><div class="ttdeci">void(* sendNotification)(Notifier *self, const char *notificationName, void *body, char *type)</div><div class="ttdef"><b>Definition:</b> <a href="_notifier_8h_source.html#l00080">Notifier.h:80</a></div></div>
 <div class="ttc" id="astruct_facade_html"><div class="ttname"><a href="struct_facade.html">Facade</a></div><div class="ttdef"><b>Definition:</b> <a href="_facade_8h_source.html#l00017">Facade.h:17</a></div></div>
 <div class="ttc" id="astruct_notifier_html"><div class="ttname"><a href="struct_notifier.html">Notifier</a></div><div class="ttdef"><b>Definition:</b> <a href="_notifier_8h_source.html#l00040">Notifier.h:40</a></div></div>
+<div class="ttc" id="astruct_notifier_html_a9a15795a43e2c386cfd523f9d2ef464a"><div class="ttname"><a href="struct_notifier.html#a9a15795a43e2c386cfd523f9d2ef464a">Notifier::initializeNotifier</a></div><div class="ttdeci">void(* initializeNotifier)(Notifier *self, const char *key)</div><div class="ttdef"><b>Definition:</b> <a href="_notifier_8h_source.html#l00066">Notifier.h:66</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

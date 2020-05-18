@@ -90,54 +90,71 @@ $(document).ready(function(){initNavTree('_notification_8c_source.html',''); ini
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;stdlib.h&gt;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;string.h&gt;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">char</span> *getName(<a class="code" href="struct_notification.html">Notification</a> *<span class="keyword">self</span>) {</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">self</span>-&gt;name;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;}</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> setBody(<a class="code" href="struct_notification.html">Notification</a> *<span class="keyword">self</span>, <span class="keywordtype">void</span> *body) {</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keyword">self</span>-&gt;body = body;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;}</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> *getBody(<a class="code" href="struct_notification.html">Notification</a> *<span class="keyword">self</span>) {</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">self</span>-&gt;body;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;}</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> setType(<a class="code" href="struct_notification.html">Notification</a> *<span class="keyword">self</span>, <span class="keywordtype">char</span> *type) {</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">self</span>-&gt;type = type;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">char</span> *getName(<a class="code" href="struct_notification.html">Notification</a> *<span class="keyword">self</span>) {</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">self</span>-&gt;name;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;}</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> setBody(<a class="code" href="struct_notification.html">Notification</a> *<span class="keyword">self</span>, <span class="keywordtype">void</span> *body) {</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keyword">self</span>-&gt;body = body;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;}</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> *getBody(<a class="code" href="struct_notification.html">Notification</a> *<span class="keyword">self</span>) {</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">self</span>-&gt;body;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;}</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> setType(<a class="code" href="struct_notification.html">Notification</a> *<span class="keyword">self</span>, <span class="keywordtype">char</span> *type) {</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keyword">self</span>-&gt;type = type;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;}</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">static</span> <span class="keywordtype">char</span> *getType(<a class="code" href="struct_notification.html">Notification</a> *<span class="keyword">self</span>) {</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">self</span>-&gt;type;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;}</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">char</span> * toString(<a class="code" href="struct_notification.html">Notification</a> *<span class="keyword">self</span>) {</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordtype">char</span> *msg = malloc(strlen(self-&gt;name) + (self-&gt;type != NULL ? strlen(self-&gt;type) : 0));</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    strcat(msg, self-&gt;name);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keywordflow">if</span> (self-&gt;type) strcat(msg, self-&gt;type);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordflow">return</span> msg;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;}</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<a class="code" href="struct_notification.html">Notification</a> *NewNotification(<span class="keyword">const</span> <span class="keywordtype">char</span> *name, <span class="keywordtype">void</span> *body, <span class="keywordtype">char</span> *type) {</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <a class="code" href="struct_notification.html">Notification</a> *notification = malloc(<span class="keyword">sizeof</span>(<a class="code" href="struct_notification.html">Notification</a>));</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordflow">if</span> (notification == NULL) <span class="keywordflow">goto</span> exception;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    InitNotification(notification, name, body, type);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordflow">return</span> notification;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    exception:</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        fprintf(stderr, <span class="stringliteral">&quot;Notification allocation failed.\n&quot;</span>);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keywordflow">return</span> NULL;</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;}</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keyword">static</span> <span class="keywordtype">char</span> *getType(<a class="code" href="struct_notification.html">Notification</a> *<span class="keyword">self</span>) {</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">self</span>-&gt;type;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;}</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="keywordtype">void</span> InitNotification(<a class="code" href="struct_notification.html">Notification</a> *notification, <span class="keyword">const</span> <span class="keywordtype">char</span> *name, <span class="keywordtype">void</span> *body, <span class="keywordtype">char</span> *type) {</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    notification-&gt;name = name;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    notification-&gt;body = body;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    notification-&gt;type = type != NULL ? type : NULL;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    notification-&gt;getName = getName;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    notification-&gt;setBody = setBody;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    notification-&gt;getBody = getBody;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    notification-&gt;setType = setType;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    notification-&gt;getType = getType;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;}</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<a class="code" href="struct_notification.html">Notification</a> *NewNotification(<span class="keyword">const</span> <span class="keywordtype">char</span> *name, <span class="keywordtype">void</span> *body, <span class="keywordtype">char</span> *type) {</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <a class="code" href="struct_notification.html">Notification</a> *notification = malloc(<span class="keyword">sizeof</span>(<a class="code" href="struct_notification.html">Notification</a>));</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordflow">if</span> (notification == NULL) <span class="keywordflow">goto</span> exception;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    InitNotification(notification, name, body, type);</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keywordflow">return</span> notification;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    exception:</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        fprintf(stderr, <span class="stringliteral">&quot;Notification allocation failed.\n&quot;</span>);</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <span class="keywordflow">return</span> NULL;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;}</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="keywordtype">void</span> DeleteNotification(<a class="code" href="struct_notification.html">Notification</a> *notification) {</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    free(notification);</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    notification = NULL;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;}</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keywordtype">void</span> InitNotification(<a class="code" href="struct_notification.html">Notification</a> *notification, <span class="keyword">const</span> <span class="keywordtype">char</span> *name, <span class="keywordtype">void</span> *body, <span class="keywordtype">char</span> *type) {</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    notification-&gt;<a class="code" href="struct_notification.html#a8f8f80d37794cde9472343e4487ba3eb">name</a> = name;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    notification-&gt;<a class="code" href="struct_notification.html#a7759209fb3526720feab2817938f1296">body</a> = body;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    notification-&gt;<a class="code" href="struct_notification.html#a23506fc4821ab6d9671f3e6222591a96">type</a> = type != NULL ? type : NULL;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    notification-&gt;<a class="code" href="struct_notification.html#a83743d70ccf4602d09f3d6ca41a3de72">getName</a> = getName;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    notification-&gt;<a class="code" href="struct_notification.html#ae0d2485fe5aa77798a53f0fb605d5e7b">setBody</a> = setBody;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    notification-&gt;<a class="code" href="struct_notification.html#ad694dce8e2f43fab75137d40d467ee03">getBody</a> = getBody;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    notification-&gt;<a class="code" href="struct_notification.html#a7071d6533fc96c83cd62db93d114cbc0">setType</a> = setType;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    notification-&gt;<a class="code" href="struct_notification.html#a222884780156cca758855d366f46e1b9">getType</a> = getType;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    notification-&gt;<a class="code" href="struct_notification.html#a2e5c7970f7dd5f10809eba634869e785">toString</a> = toString;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;}</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="keywordtype">void</span> DeleteNotification(<a class="code" href="struct_notification.html">Notification</a> *notification) {</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    free(notification);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    notification = NULL;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
+<div class="ttc" id="astruct_notification_html_a2e5c7970f7dd5f10809eba634869e785"><div class="ttname"><a href="struct_notification.html#a2e5c7970f7dd5f10809eba634869e785">Notification::toString</a></div><div class="ttdeci">const char *(* toString)(Notification *self)</div><div class="ttdef"><b>Definition:</b> <a href="_notification_8h_source.html#l00080">Notification.h:80</a></div></div>
+<div class="ttc" id="astruct_notification_html_a8f8f80d37794cde9472343e4487ba3eb"><div class="ttname"><a href="struct_notification.html#a8f8f80d37794cde9472343e4487ba3eb">Notification::name</a></div><div class="ttdeci">const char * name</div><div class="ttdef"><b>Definition:</b> <a href="_notification_8h_source.html#l00038">Notification.h:38</a></div></div>
+<div class="ttc" id="astruct_notification_html_ae0d2485fe5aa77798a53f0fb605d5e7b"><div class="ttname"><a href="struct_notification.html#ae0d2485fe5aa77798a53f0fb605d5e7b">Notification::setBody</a></div><div class="ttdeci">void(* setBody)(Notification *self, void *body)</div><div class="ttdef"><b>Definition:</b> <a href="_notification_8h_source.html#l00061">Notification.h:61</a></div></div>
+<div class="ttc" id="astruct_notification_html_a7071d6533fc96c83cd62db93d114cbc0"><div class="ttname"><a href="struct_notification.html#a7071d6533fc96c83cd62db93d114cbc0">Notification::setType</a></div><div class="ttdeci">void(* setType)(Notification *self, char *type)</div><div class="ttdef"><b>Definition:</b> <a href="_notification_8h_source.html#l00073">Notification.h:73</a></div></div>
+<div class="ttc" id="astruct_notification_html_a23506fc4821ab6d9671f3e6222591a96"><div class="ttname"><a href="struct_notification.html#a23506fc4821ab6d9671f3e6222591a96">Notification::type</a></div><div class="ttdeci">char * type</div><div class="ttdef"><b>Definition:</b> <a href="_notification_8h_source.html#l00042">Notification.h:42</a></div></div>
+<div class="ttc" id="astruct_notification_html_a83743d70ccf4602d09f3d6ca41a3de72"><div class="ttname"><a href="struct_notification.html#a83743d70ccf4602d09f3d6ca41a3de72">Notification::getName</a></div><div class="ttdeci">const char *(* getName)(Notification *self)</div><div class="ttdef"><b>Definition:</b> <a href="_notification_8h_source.html#l00049">Notification.h:49</a></div></div>
+<div class="ttc" id="astruct_notification_html_a222884780156cca758855d366f46e1b9"><div class="ttname"><a href="struct_notification.html#a222884780156cca758855d366f46e1b9">Notification::getType</a></div><div class="ttdeci">char *(* getType)(Notification *self)</div><div class="ttdef"><b>Definition:</b> <a href="_notification_8h_source.html#l00068">Notification.h:68</a></div></div>
+<div class="ttc" id="astruct_notification_html_a7759209fb3526720feab2817938f1296"><div class="ttname"><a href="struct_notification.html#a7759209fb3526720feab2817938f1296">Notification::body</a></div><div class="ttdeci">void * body</div><div class="ttdef"><b>Definition:</b> <a href="_notification_8h_source.html#l00040">Notification.h:40</a></div></div>
+<div class="ttc" id="astruct_notification_html_ad694dce8e2f43fab75137d40d467ee03"><div class="ttname"><a href="struct_notification.html#ad694dce8e2f43fab75137d40d467ee03">Notification::getBody</a></div><div class="ttdeci">void *(* getBody)(Notification *self)</div><div class="ttdef"><b>Definition:</b> <a href="_notification_8h_source.html#l00056">Notification.h:56</a></div></div>
 <div class="ttc" id="astruct_notification_html"><div class="ttname"><a href="struct_notification.html">Notification</a></div><div class="ttdef"><b>Definition:</b> <a href="_notification_8h_source.html#l00036">Notification.h:36</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

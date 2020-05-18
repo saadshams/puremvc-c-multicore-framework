@@ -7,5 +7,6 @@ var struct_notification =
     [ "name", "struct_notification.html#a8f8f80d37794cde9472343e4487ba3eb", null ],
     [ "setBody", "struct_notification.html#ae0d2485fe5aa77798a53f0fb605d5e7b", null ],
     [ "setType", "struct_notification.html#a7071d6533fc96c83cd62db93d114cbc0", null ],
+    [ "toString", "struct_notification.html#a2e5c7970f7dd5f10809eba634869e785", null ],
     [ "type", "struct_notification.html#a23506fc4821ab6d9671f3e6222591a96", null ]
 ];

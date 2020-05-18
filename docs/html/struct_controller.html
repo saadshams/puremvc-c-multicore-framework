@@ -87,39 +87,219 @@ $(document).ready(function(){initNavTree('struct_controller.html',''); initResiz
 <div class="title">Controller Struct Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="_controller_8h_source.html">Controller.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:a19fdedbf1c3f543f4358255f0ca4269d"><td class="memItemLeft" align="right" valign="top"><a id="a19fdedbf1c3f543f4358255f0ca4269d"></a>
-const char *&#160;</td><td class="memItemRight" valign="bottom"><b>multitonKey</b></td></tr>
+<tr class="memitem:a19fdedbf1c3f543f4358255f0ca4269d"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_controller.html#a19fdedbf1c3f543f4358255f0ca4269d">multitonKey</a></td></tr>
 <tr class="separator:a19fdedbf1c3f543f4358255f0ca4269d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af2dd70d8b95c32fb670ac6f9cc8df201"><td class="memItemLeft" align="right" valign="top"><a id="af2dd70d8b95c32fb670ac6f9cc8df201"></a>
-<a class="el" href="struct_view.html">View</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>view</b></td></tr>
+<tr class="memitem:af2dd70d8b95c32fb670ac6f9cc8df201"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_view.html">View</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_controller.html#af2dd70d8b95c32fb670ac6f9cc8df201">view</a></td></tr>
 <tr class="separator:af2dd70d8b95c32fb670ac6f9cc8df201"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aed1c35dc960305e09284a098523c06b7"><td class="memItemLeft" align="right" valign="top"><a id="aed1c35dc960305e09284a098523c06b7"></a>
-CommandMap *&#160;</td><td class="memItemRight" valign="bottom"><b>commandMap</b></td></tr>
-<tr class="separator:aed1c35dc960305e09284a098523c06b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad78dcc1df71591c19edc372fdd4abf0d"><td class="memItemLeft" align="right" valign="top"><a id="ad78dcc1df71591c19edc372fdd4abf0d"></a>
-void(*&#160;</td><td class="memItemRight" valign="bottom"><b>initializeController</b> )(<a class="el" href="struct_controller.html">Controller</a> *self)</td></tr>
+<tr class="memitem:ad78dcc1df71591c19edc372fdd4abf0d"><td class="memItemLeft" align="right" valign="top">void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_controller.html#ad78dcc1df71591c19edc372fdd4abf0d">initializeController</a> )(<a class="el" href="struct_controller.html">Controller</a> *self)</td></tr>
 <tr class="separator:ad78dcc1df71591c19edc372fdd4abf0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a067a199590aa8b860c9f48ae64a656a3"><td class="memItemLeft" align="right" valign="top"><a id="a067a199590aa8b860c9f48ae64a656a3"></a>
-void(*&#160;</td><td class="memItemRight" valign="bottom"><b>executeCommand</b> )(<a class="el" href="struct_controller.html">Controller</a> *self, <a class="el" href="struct_notification.html">Notification</a> *notification)</td></tr>
+<tr class="memitem:a067a199590aa8b860c9f48ae64a656a3"><td class="memItemLeft" align="right" valign="top">void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_controller.html#a067a199590aa8b860c9f48ae64a656a3">executeCommand</a> )(<a class="el" href="struct_controller.html">Controller</a> *self, <a class="el" href="struct_notification.html">Notification</a> *notification)</td></tr>
 <tr class="separator:a067a199590aa8b860c9f48ae64a656a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeff108381a92fb76676cbd1a05db9ee3"><td class="memItemLeft" align="right" valign="top"><a id="aeff108381a92fb76676cbd1a05db9ee3"></a>
-void(*&#160;</td><td class="memItemRight" valign="bottom"><b>registerCommand</b> )(<a class="el" href="struct_controller.html">Controller</a> *self, const char *notificationName, <a class="el" href="struct_simple_command.html">SimpleCommand</a> *(*factory)())</td></tr>
+<tr class="memitem:aeff108381a92fb76676cbd1a05db9ee3"><td class="memItemLeft" align="right" valign="top">void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_controller.html#aeff108381a92fb76676cbd1a05db9ee3">registerCommand</a> )(<a class="el" href="struct_controller.html">Controller</a> *self, const char *notificationName, <a class="el" href="struct_simple_command.html">SimpleCommand</a> *(*factory)())</td></tr>
 <tr class="separator:aeff108381a92fb76676cbd1a05db9ee3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a51512b85af342ddaf84a8a158919fff6"><td class="memItemLeft" align="right" valign="top"><a id="a51512b85af342ddaf84a8a158919fff6"></a>
-bool(*&#160;</td><td class="memItemRight" valign="bottom"><b>hasCommand</b> )(<a class="el" href="struct_controller.html">Controller</a> *self, const char *notificationName)</td></tr>
+<tr class="memitem:a51512b85af342ddaf84a8a158919fff6"><td class="memItemLeft" align="right" valign="top">bool(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_controller.html#a51512b85af342ddaf84a8a158919fff6">hasCommand</a> )(<a class="el" href="struct_controller.html">Controller</a> *self, const char *notificationName)</td></tr>
 <tr class="separator:a51512b85af342ddaf84a8a158919fff6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a344ad064e4a5bee55a5bddb37c1db2fe"><td class="memItemLeft" align="right" valign="top"><a id="a344ad064e4a5bee55a5bddb37c1db2fe"></a>
-void(*&#160;</td><td class="memItemRight" valign="bottom"><b>removeCommand</b> )(<a class="el" href="struct_controller.html">Controller</a> *self, const char *notificationName)</td></tr>
+<tr class="memitem:a344ad064e4a5bee55a5bddb37c1db2fe"><td class="memItemLeft" align="right" valign="top">void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_controller.html#a344ad064e4a5bee55a5bddb37c1db2fe">removeCommand</a> )(<a class="el" href="struct_controller.html">Controller</a> *self, const char *notificationName)</td></tr>
 <tr class="separator:a344ad064e4a5bee55a5bddb37c1db2fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
+<div class="textblock"><p>A Multiton <code><a class="el" href="struct_controller.html">Controller</a></code> implementation.</p>
+<p>In PureMVC, the <code><a class="el" href="struct_controller.html">Controller</a></code> class follows the 'Command and <a class="el" href="struct_controller.html">Controller</a>' strategy, and assumes these responsibilities:</p>
+<ul>
+<li>
+Remembering which <code>Command</code> are intended to handle which <code>Notifications</code>. </li>
+<li>
+Registering itself as an <code><a class="el" href="struct_observer.html">Observer</a></code> with the <code><a class="el" href="struct_view.html">View</a></code> for each <code><a class="el" href="struct_notification.html">Notification</a></code> that it has an <code>Command</code> mapping for. </li>
+<li>
+Creating a new instance of the proper <code>Command</code> to handle a given <code><a class="el" href="struct_notification.html">Notification</a></code> when notified by the <code><a class="el" href="struct_view.html">View</a></code>. </li>
+<li>
+Calling the <code>Command</code>'s <code>execute</code> method, passing in the <code><a class="el" href="struct_notification.html">Notification</a></code>. </li>
+</ul>
+<p>Your application must register <code>Commands</code> with the <a class="el" href="struct_controller.html">Controller</a>.</p>
+<p>The simplest way is to subclass <code><a class="el" href="struct_facade.html">Facade</a></code>, and use its <code>initializeController</code> method to add your registrations.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="struct_view.html">View</a> <a class="el" href="struct_view.html">View</a> </dd>
+<dd>
+<a class="el" href="struct_observer.html">Observer</a> </dd>
+<dd>
+<a class="el" href="struct_notification.html">Notification</a> </dd>
+<dd>
+<a class="el" href="struct_simple_command.html">SimpleCommand</a> </dd>
+<dd>
+<a class="el" href="struct_macro_command.html">MacroCommand</a> </dd></dl>
+
 <p class="definition">Definition at line <a class="el" href="_controller_8h_source.html#l00044">44</a> of file <a class="el" href="_controller_8h_source.html">Controller.h</a>.</p>
-</div></div><!-- contents -->
+</div><h2 class="groupheader">Field Documentation</h2>
+<a id="a067a199590aa8b860c9f48ae64a656a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a067a199590aa8b860c9f48ae64a656a3">&#9670;&nbsp;</a></span>executeCommand</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void(* executeCommand) (<a class="el" href="struct_controller.html">Controller</a> *self, <a class="el" href="struct_notification.html">Notification</a> *notification)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>If an <code>Command</code> has previously been registered to handle a the given <code><a class="el" href="struct_notification.html">Notification</a></code>, then it is executed.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">self</td><td><a class="el" href="struct_controller.html">Controller</a> </td></tr>
+    <tr><td class="paramname">notification</td><td>an <code><a class="el" href="struct_notification.html">Notification</a></code> </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_controller_8h_source.html#l00081">81</a> of file <a class="el" href="_controller_8h_source.html">Controller.h</a>.</p>
+
+</div>
+</div>
+<a id="a51512b85af342ddaf84a8a158919fff6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a51512b85af342ddaf84a8a158919fff6">&#9670;&nbsp;</a></span>hasCommand</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool(* hasCommand) (<a class="el" href="struct_controller.html">Controller</a> *self, const char *notificationName)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Check if a Command is registered for a given <a class="el" href="struct_notification.html">Notification</a></p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">self</td><td><a class="el" href="struct_controller.html">Controller</a> </td></tr>
+    <tr><td class="paramname">notificationName</td><td>notification name </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>whether a Command is currently registered for the given <code>notificationName</code>. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_controller_8h_source.html#l00107">107</a> of file <a class="el" href="_controller_8h_source.html">Controller.h</a>.</p>
+
+</div>
+</div>
+<a id="ad78dcc1df71591c19edc372fdd4abf0d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad78dcc1df71591c19edc372fdd4abf0d">&#9670;&nbsp;</a></span>initializeController</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void(* initializeController) (<a class="el" href="struct_controller.html">Controller</a> *self)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Initialize the Multiton <code><a class="el" href="struct_controller.html">Controller</a></code> instance.</p>
+<p>Called automatically by the constructor.</p>
+<p>Note that if you are using a subclass of <code><a class="el" href="struct_view.html">View</a></code> in your application, you should <em>also</em> subclass <code><a class="el" href="struct_controller.html">Controller</a></code> and override the <code>initializeController</code> method in the following way:</p>
+<div class="fragment"><div class="line"><span class="comment">// ensure that the Controller is talking to my View implementation</span></div>
+<div class="line"><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="struct_controller.html#ad78dcc1df71591c19edc372fdd4abf0d">initializeController</a>()</div>
+<div class="line">{</div>
+<div class="line">    <a class="code" href="struct_controller.html#af2dd70d8b95c32fb670ac6f9cc8df201">view</a> = getViewInstance(self-&gt;multitonKey, NewMyView);</div>
+<div class="line">}</div>
+</div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">self</td><td><a class="el" href="struct_controller.html">Controller</a> </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_controller_8h_source.html#l00072">72</a> of file <a class="el" href="_controller_8h_source.html">Controller.h</a>.</p>
+
+</div>
+</div>
+<a id="a19fdedbf1c3f543f4358255f0ca4269d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a19fdedbf1c3f543f4358255f0ca4269d">&#9670;&nbsp;</a></span>multitonKey</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char* multitonKey</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_controller_8h_source.html#l00046">46</a> of file <a class="el" href="_controller_8h_source.html">Controller.h</a>.</p>
+
+</div>
+</div>
+<a id="aeff108381a92fb76676cbd1a05db9ee3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeff108381a92fb76676cbd1a05db9ee3">&#9670;&nbsp;</a></span>registerCommand</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void(* registerCommand) (<a class="el" href="struct_controller.html">Controller</a> *self, const char *notificationName, <a class="el" href="struct_simple_command.html">SimpleCommand</a> *(*factory)())</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Register a particular <code>Command</code> class as the handler for a particular <code><a class="el" href="struct_notification.html">Notification</a></code>.</p>
+<p>If an <code>Command</code> has already been registered to handle <code><a class="el" href="struct_notification.html">Notification</a></code>s with this name, it is no longer used, the new <code>Command</code> is used instead.</p>
+<p>The <a class="el" href="struct_observer.html">Observer</a> for the new Command is only created if this the first time an Command has been registered for this <a class="el" href="struct_notification.html">Notification</a> name.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">self</td><td><a class="el" href="struct_controller.html">Controller</a> </td></tr>
+    <tr><td class="paramname">notificationName</td><td>the name of the <code><a class="el" href="struct_notification.html">Notification</a></code> </td></tr>
+    <tr><td class="paramname">factory</td><td>a reference to <code>Command</code> factory </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_controller_8h_source.html#l00098">98</a> of file <a class="el" href="_controller_8h_source.html">Controller.h</a>.</p>
+
+</div>
+</div>
+<a id="a344ad064e4a5bee55a5bddb37c1db2fe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a344ad064e4a5bee55a5bddb37c1db2fe">&#9670;&nbsp;</a></span>removeCommand</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void(* removeCommand) (<a class="el" href="struct_controller.html">Controller</a> *self, const char *notificationName)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Remove a previously registered <code>Command</code> to <code><a class="el" href="struct_notification.html">Notification</a></code> mapping.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">self</td><td><a class="el" href="struct_controller.html">Controller</a> </td></tr>
+    <tr><td class="paramname">notificationName</td><td>the name of the <code><a class="el" href="struct_notification.html">Notification</a></code> to remove the <code>Command</code> mapping for </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_controller_8h_source.html#l00115">115</a> of file <a class="el" href="_controller_8h_source.html">Controller.h</a>.</p>
+
+</div>
+</div>
+<a id="af2dd70d8b95c32fb670ac6f9cc8df201"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af2dd70d8b95c32fb670ac6f9cc8df201">&#9670;&nbsp;</a></span>view</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_view.html">View</a>* view</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_controller_8h_source.html#l00048">48</a> of file <a class="el" href="_controller_8h_source.html">Controller.h</a>.</p>
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
+<div class="ttc" id="astruct_controller_html_ad78dcc1df71591c19edc372fdd4abf0d"><div class="ttname"><a href="struct_controller.html#ad78dcc1df71591c19edc372fdd4abf0d">Controller::initializeController</a></div><div class="ttdeci">void(* initializeController)(Controller *self)</div><div class="ttdef"><b>Definition:</b> <a href="_controller_8h_source.html#l00072">Controller.h:72</a></div></div>
+<div class="ttc" id="astruct_controller_html_af2dd70d8b95c32fb670ac6f9cc8df201"><div class="ttname"><a href="struct_controller.html#af2dd70d8b95c32fb670ac6f9cc8df201">Controller::view</a></div><div class="ttdeci">View * view</div><div class="ttdef"><b>Definition:</b> <a href="_controller_8h_source.html#l00048">Controller.h:48</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

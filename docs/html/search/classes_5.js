@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['proxy_25',['Proxy',['../struct_proxy.html',1,'']]]
+  ['proxy_76',['Proxy',['../struct_proxy.html',1,'']]]
 ];

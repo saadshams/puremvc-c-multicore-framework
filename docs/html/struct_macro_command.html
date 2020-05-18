@@ -87,27 +87,125 @@ $(document).ready(function(){initNavTree('struct_macro_command.html',''); initRe
 <div class="title">MacroCommand Struct Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="_macro_command_8h_source.html">MacroCommand.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:a2c9e9c16409b72d4b91ec03634bedfa9"><td class="memItemLeft" align="right" valign="top"><a id="a2c9e9c16409b72d4b91ec03634bedfa9"></a>
-struct <a class="el" href="struct_notifier.html">Notifier</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>notifier</b></td></tr>
+<tr class="memitem:a2c9e9c16409b72d4b91ec03634bedfa9"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="struct_notifier.html">Notifier</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_macro_command.html#a2c9e9c16409b72d4b91ec03634bedfa9">notifier</a></td></tr>
 <tr class="separator:a2c9e9c16409b72d4b91ec03634bedfa9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a929c9198bb7725b3b87ede6dc250b3a3"><td class="memItemLeft" align="right" valign="top"><a id="a929c9198bb7725b3b87ede6dc250b3a3"></a>
-void(*&#160;</td><td class="memItemRight" valign="bottom"><b>initializeMacroCommand</b> )(<a class="el" href="struct_macro_command.html">MacroCommand</a> *self)</td></tr>
+<tr class="memitem:a929c9198bb7725b3b87ede6dc250b3a3"><td class="memItemLeft" align="right" valign="top">void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_macro_command.html#a929c9198bb7725b3b87ede6dc250b3a3">initializeMacroCommand</a> )(<a class="el" href="struct_macro_command.html">MacroCommand</a> *self)</td></tr>
 <tr class="separator:a929c9198bb7725b3b87ede6dc250b3a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a666c37d60317832a9e38feac9b408672"><td class="memItemLeft" align="right" valign="top"><a id="a666c37d60317832a9e38feac9b408672"></a>
-void(*&#160;</td><td class="memItemRight" valign="bottom"><b>addSubCommand</b> )(<a class="el" href="struct_macro_command.html">MacroCommand</a> *self, <a class="el" href="struct_simple_command.html">SimpleCommand</a> *(*factory)())</td></tr>
+<tr class="memitem:a666c37d60317832a9e38feac9b408672"><td class="memItemLeft" align="right" valign="top">void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_macro_command.html#a666c37d60317832a9e38feac9b408672">addSubCommand</a> )(<a class="el" href="struct_macro_command.html">MacroCommand</a> *self, <a class="el" href="struct_simple_command.html">SimpleCommand</a> *(*factory)())</td></tr>
 <tr class="separator:a666c37d60317832a9e38feac9b408672"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aad6ea97862b4f0192c298ad744b1db43"><td class="memItemLeft" align="right" valign="top"><a id="aad6ea97862b4f0192c298ad744b1db43"></a>
-void(*&#160;</td><td class="memItemRight" valign="bottom"><b>execute</b> )(<a class="el" href="struct_macro_command.html">MacroCommand</a> *self, <a class="el" href="struct_notification.html">Notification</a> *notification)</td></tr>
+<tr class="memitem:aad6ea97862b4f0192c298ad744b1db43"><td class="memItemLeft" align="right" valign="top">void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_macro_command.html#aad6ea97862b4f0192c298ad744b1db43">execute</a> )(<a class="el" href="struct_macro_command.html">MacroCommand</a> *self, <a class="el" href="struct_notification.html">Notification</a> *notification)</td></tr>
 <tr class="separator:aad6ea97862b4f0192c298ad744b1db43"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
+<p class="definition">Definition at line <a class="el" href="_macro_command_8h_source.html#l00038">38</a> of file <a class="el" href="_macro_command_8h_source.html">MacroCommand.h</a>.</p>
+</div><h2 class="groupheader">Field Documentation</h2>
+<a id="a666c37d60317832a9e38feac9b408672"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a666c37d60317832a9e38feac9b408672">&#9670;&nbsp;</a></span>addSubCommand</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void(* addSubCommand) (<a class="el" href="struct_macro_command.html">MacroCommand</a> *self, <a class="el" href="struct_simple_command.html">SimpleCommand</a> *(*factory)())</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Add a <em>SubCommand</em>.</p>
+<p>The <em>SubCommands</em> will be called in First In/First Out (FIFO) order.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">self</td><td><a class="el" href="struct_macro_command.html">MacroCommand</a> </td></tr>
+    <tr><td class="paramname">factory</td><td>a reference to the factory of the <code>Command</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_macro_command_8h_source.html#l00077">77</a> of file <a class="el" href="_macro_command_8h_source.html">MacroCommand.h</a>.</p>
+
+</div>
+</div>
+<a id="aad6ea97862b4f0192c298ad744b1db43"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad6ea97862b4f0192c298ad744b1db43">&#9670;&nbsp;</a></span>execute</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void(* execute) (<a class="el" href="struct_macro_command.html">MacroCommand</a> *self, <a class="el" href="struct_notification.html">Notification</a> *notification)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Execute this <code><a class="el" href="struct_macro_command.html">MacroCommand</a></code>'s <em>SubCommands</em>.</p>
+<p>The <em>SubCommands</em> will be called in First In/First Out (FIFO) order.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">self</td><td><a class="el" href="struct_macro_command.html">MacroCommand</a> </td></tr>
+    <tr><td class="paramname">notification</td><td>the <code><a class="el" href="struct_notification.html">Notification</a></code> object to be passed to each <em>SubCommand</em>. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_macro_command_8h_source.html#l00088">88</a> of file <a class="el" href="_macro_command_8h_source.html">MacroCommand.h</a>.</p>
+
+</div>
+</div>
+<a id="a929c9198bb7725b3b87ede6dc250b3a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a929c9198bb7725b3b87ede6dc250b3a3">&#9670;&nbsp;</a></span>initializeMacroCommand</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void(* initializeMacroCommand) (<a class="el" href="struct_macro_command.html">MacroCommand</a> *self)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Initialize the <code><a class="el" href="struct_macro_command.html">MacroCommand</a></code>.</p>
+<p>In your subclass, override this method to initialize the <code><a class="el" href="struct_macro_command.html">MacroCommand</a></code>'s <em>SubCommand</em> list with <code>Command</code> class references like this:</p>
+<div class="fragment"><div class="line"><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="struct_macro_command.html#a929c9198bb7725b3b87ede6dc250b3a3">initializeMacroCommand</a>(<a class="code" href="struct_macro_command.html">MacroCommand</a> *<span class="keyword">self</span>) {</div>
+<div class="line">{</div>
+<div class="line">     <span class="keyword">self</span>-&gt;addSubCommand(<span class="keyword">self</span>, NewFirstCommand);</div>
+<div class="line">     <span class="keyword">self</span>-&gt;addSubCommand(<span class="keyword">self</span>, NewSecondCommand);</div>
+<div class="line">     <span class="keyword">self</span>-&gt;addSubCommand(<span class="keyword">self</span>, NewThirdCommand);</div>
+<div class="line">}</div>
+</div><!-- fragment --><p>Note that <em>SubCommand</em>s may be any <code>Command</code> implementor, <code><a class="el" href="struct_macro_command.html">MacroCommand</a></code>s or <code>SimpleCommands</code> are both acceptable.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">self</td><td><a class="el" href="struct_macro_command.html">MacroCommand</a> </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_macro_command_8h_source.html#l00066">66</a> of file <a class="el" href="_macro_command_8h_source.html">MacroCommand.h</a>.</p>
+
+</div>
+</div>
+<a id="a2c9e9c16409b72d4b91ec03634bedfa9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c9e9c16409b72d4b91ec03634bedfa9">&#9670;&nbsp;</a></span>notifier</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="struct_notifier.html">Notifier</a>* notifier</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
 <p class="definition">Definition at line <a class="el" href="_macro_command_8h_source.html#l00040">40</a> of file <a class="el" href="_macro_command_8h_source.html">MacroCommand.h</a>.</p>
-</div></div><!-- contents -->
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
+<div class="ttc" id="astruct_macro_command_html"><div class="ttname"><a href="struct_macro_command.html">MacroCommand</a></div><div class="ttdef"><b>Definition:</b> <a href="_macro_command_8h_source.html#l00038">MacroCommand.h:38</a></div></div>
+<div class="ttc" id="astruct_macro_command_html_a929c9198bb7725b3b87ede6dc250b3a3"><div class="ttname"><a href="struct_macro_command.html#a929c9198bb7725b3b87ede6dc250b3a3">MacroCommand::initializeMacroCommand</a></div><div class="ttdeci">void(* initializeMacroCommand)(MacroCommand *self)</div><div class="ttdef"><b>Definition:</b> <a href="_macro_command_8h_source.html#l00066">MacroCommand.h:66</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

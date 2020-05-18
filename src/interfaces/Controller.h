@@ -59,12 +59,13 @@ struct Controller {
      * and override the <code>initializeController</code> method in the
      * following way:</P>
      *
-     * <code>// ensure that the Controller is talking to my View implementation
+     * ```c
+     * // ensure that the Controller is talking to my View implementation
      * static void initializeController()
      * {
      *     view = getViewInstance(self->multitonKey, NewMyView);
      * }
-     * </code>
+     * ```
      *
      * @param self Controller
      */

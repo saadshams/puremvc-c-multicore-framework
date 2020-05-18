@@ -91,9 +91,9 @@ $(document).ready(function(){initNavTree('_facade_8c_source.html',''); initResiz
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;stdio.h&gt;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;string.h&gt;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">// FacadeMap LinkedList</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>FacadeMap FacadeMap;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>FacadeMap FacadeMap;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment">// FacadeMap LinkedList</span></div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">struct </span>FacadeMap {</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span> *name;</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <a class="code" href="struct_facade.html">Facade</a> *facade;</div>
@@ -106,198 +106,220 @@ $(document).ready(function(){initNavTree('_facade_8c_source.html',''); initResiz
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment">// mutex for instanceMap</span></div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">static</span> pthread_rwlock_t facade_mutex = PTHREAD_MUTEX_INITIALIZER;</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">static</span> FacadeMap *NewFacadeMap(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <a class="code" href="struct_facade.html">Facade</a> *facade) {</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    FacadeMap *facadeMap = malloc(<span class="keyword">sizeof</span>(FacadeMap));</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordflow">if</span> (facadeMap == NULL) <span class="keywordflow">goto</span> exception;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    facadeMap-&gt;name = key;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    facadeMap-&gt;facade = facade;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    facadeMap-&gt;next = NULL;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordflow">return</span> facadeMap;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    exception:</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        fprintf(stderr, <span class="stringliteral">&quot;FacadeMap allocation failed.\n&quot;</span>);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keywordflow">return</span> NULL;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;}</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keyword">static</span> <a class="code" href="struct_facade.html">Facade</a> *GetFacadeMap(<span class="keyword">const</span> <span class="keywordtype">char</span> *key) {</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    FacadeMap *cursor = instanceMap;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordflow">while</span> (cursor &amp;&amp; strcmp(cursor-&gt;name, key) != 0)</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        cursor = cursor-&gt;next;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordflow">return</span> cursor == NULL ? NULL : cursor-&gt;facade;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;}</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> AddFacadeMap(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <a class="code" href="struct_facade.html">Facade</a> *facade) {</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    FacadeMap **cursor = &amp;instanceMap;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordflow">while</span> (*cursor)</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">static</span> FacadeMap *NewFacadeMap(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <a class="code" href="struct_facade.html">Facade</a> *facade) {</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    FacadeMap *facadeMap = malloc(<span class="keyword">sizeof</span>(FacadeMap));</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordflow">if</span> (facadeMap == NULL) <span class="keywordflow">goto</span> exception;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    facadeMap-&gt;name = key;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    facadeMap-&gt;facade = facade;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    facadeMap-&gt;next = NULL;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keywordflow">return</span> facadeMap;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    exception:</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        fprintf(stderr, <span class="stringliteral">&quot;FacadeMap allocation failed.\n&quot;</span>);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keywordflow">return</span> NULL;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;}</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keyword">static</span> <a class="code" href="struct_facade.html">Facade</a> *GetFacadeMap(<span class="keyword">const</span> <span class="keywordtype">char</span> *key) {</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    FacadeMap *cursor = instanceMap;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">while</span> (cursor &amp;&amp; strcmp(cursor-&gt;name, key) != 0)</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        cursor = cursor-&gt;next;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordflow">return</span> cursor == NULL ? NULL : cursor-&gt;facade;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;}</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> AddFacadeMap(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <a class="code" href="struct_facade.html">Facade</a> *facade) {</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    FacadeMap **cursor = &amp;instanceMap;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordflow">while</span> (*cursor)</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        cursor = &amp;(*cursor)-&gt;next;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    *cursor = NewFacadeMap(key, facade);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;}</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> RemoveFacadeMap(<span class="keyword">const</span> <span class="keywordtype">char</span> *key) {</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    FacadeMap **cursor = &amp;instanceMap;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordflow">while</span> (*cursor) {</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordflow">if</span> (strcmp((*cursor)-&gt;name, key) == 0) {</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            FacadeMap *node = *cursor;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            *cursor = (*cursor)-&gt;next;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            free(node-&gt;facade);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            free(node);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            node = NULL;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        }</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        cursor = &amp;(*cursor)-&gt;next;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    *cursor = NewFacadeMap(key, facade);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    }</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;}</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> RemoveFacadeMap(<span class="keyword">const</span> <span class="keywordtype">char</span> *key) {</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    FacadeMap **cursor = &amp;instanceMap;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordflow">while</span> (*cursor) {</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="keywordflow">if</span> (strcmp((*cursor)-&gt;name, key) == 0) {</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            FacadeMap *node = *cursor;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            *cursor = (*cursor)-&gt;next;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            free(node-&gt;facade);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            free(node);</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            node = NULL;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        }</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        cursor = &amp;(*cursor)-&gt;next;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    }</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;}</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> initializeFacade(<a class="code" href="struct_facade.html">Facade</a> *<span class="keyword">self</span>) {</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keyword">self</span>-&gt;initializeModel(<span class="keyword">self</span>);</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="keyword">self</span>-&gt;initializeController(<span class="keyword">self</span>);</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keyword">self</span>-&gt;initializeView(<span class="keyword">self</span>);</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;}</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> initializeController(<a class="code" href="struct_facade.html">Facade</a> *<span class="keyword">self</span>) {</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <span class="keywordflow">if</span> (self-&gt;controller != NULL) <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <span class="keyword">self</span>-&gt;controller = getControllerInstance(self-&gt;multitonKey, NewController);</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;}</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160; </div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> initializeModel(<a class="code" href="struct_facade.html">Facade</a> *<span class="keyword">self</span>) {</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="keywordflow">if</span> (self-&gt;model != NULL) <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    <span class="keyword">self</span>-&gt;model = getModelInstance(self-&gt;multitonKey, NewModel);</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;}</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160; </div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> initializeView(<a class="code" href="struct_facade.html">Facade</a> *<span class="keyword">self</span>) {</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;    <span class="keywordflow">if</span> (self-&gt;view != NULL) <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    <span class="keyword">self</span>-&gt;view = getViewInstance(self-&gt;multitonKey, NewView);</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;}</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160; </div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> registerCommand(<a class="code" href="struct_facade.html">Facade</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *notificationName, <a class="code" href="struct_simple_command.html">SimpleCommand</a> *(*factory)()) {</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    <span class="keyword">self</span>-&gt;controller-&gt;registerCommand(self-&gt;controller, notificationName, factory);</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;}</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160; </div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> removeCommand(<a class="code" href="struct_facade.html">Facade</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *notificationName) {</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;    <span class="keyword">self</span>-&gt;controller-&gt;removeCommand(self-&gt;controller, notificationName);</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;}</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160; </div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;<span class="keyword">static</span> <span class="keywordtype">bool</span> hasCommand(<a class="code" href="struct_facade.html">Facade</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *notificationName) {</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">self</span>-&gt;controller-&gt;hasCommand(self-&gt;controller, notificationName);</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;}</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160; </div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> registerProxy(<a class="code" href="struct_facade.html">Facade</a> *<span class="keyword">self</span>, <a class="code" href="struct_proxy.html">Proxy</a> *proxy) {</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    <span class="keyword">self</span>-&gt;model-&gt;registerProxy(self-&gt;model, proxy);</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;}</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160; </div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;<span class="keyword">static</span> <a class="code" href="struct_proxy.html">Proxy</a> *retrieveProxy(<a class="code" href="struct_facade.html">Facade</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *proxyName) {</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">self</span>-&gt;model-&gt;retrieveProxy(self-&gt;model, proxyName);</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;}</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160; </div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;<span class="keyword">static</span> <a class="code" href="struct_proxy.html">Proxy</a> *removeProxy(<a class="code" href="struct_facade.html">Facade</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *proxyName) {</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">self</span>-&gt;model-&gt;removeProxy(self-&gt;model, proxyName);</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;}</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160; </div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;<span class="keyword">static</span> <span class="keywordtype">bool</span> hasProxy(<a class="code" href="struct_facade.html">Facade</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *proxyName) {</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">self</span>-&gt;model-&gt;hasProxy(self-&gt;model, proxyName);</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;}</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160; </div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> registerMediator(<a class="code" href="struct_facade.html">Facade</a> *<span class="keyword">self</span>, <a class="code" href="struct_mediator.html">Mediator</a> *mediator) {</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;    <span class="keyword">self</span>-&gt;view-&gt;registerMediator(self-&gt;view, mediator);</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;}</div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160; </div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;<span class="keyword">static</span> <a class="code" href="struct_mediator.html">Mediator</a> *retrieveMediator(<a class="code" href="struct_facade.html">Facade</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *mediatorName) {</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">self</span>-&gt;view-&gt;retrieveMediator(self-&gt;view, mediatorName);</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;}</div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160; </div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;<span class="keyword">static</span> <a class="code" href="struct_mediator.html">Mediator</a> *removeMediator(<a class="code" href="struct_facade.html">Facade</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *mediatorName) {</div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">self</span>-&gt;view-&gt;removeMediator(self-&gt;view, mediatorName);</div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;}</div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160; </div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;<span class="keyword">static</span> <span class="keywordtype">bool</span> hasMediator(<a class="code" href="struct_facade.html">Facade</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *mediatorName) {</div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">self</span>-&gt;view-&gt;hasMediator(self-&gt;view, mediatorName);</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;}</div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160; </div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> sendNotification(<a class="code" href="struct_facade.html">Facade</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *notificationName, <span class="keywordtype">void</span> *body, <span class="keywordtype">char</span> *type) {</div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;    <a class="code" href="struct_notification.html">Notification</a> *notification = NewNotification(notificationName, body, type);</div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;    <span class="keyword">self</span>-&gt;notifyObservers(<span class="keyword">self</span>, notification);</div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;    DeleteNotification(notification);</div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;}</div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160; </div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> notifyObservers(<a class="code" href="struct_facade.html">Facade</a> *<span class="keyword">self</span>, <a class="code" href="struct_notification.html">Notification</a> *notification) {</div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;    <span class="keyword">self</span>-&gt;view-&gt;notifyObservers(self-&gt;view, notification);</div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;}</div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160; </div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> initializeNotifier(<a class="code" href="struct_facade.html">Facade</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *key) {</div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;    <span class="keyword">self</span>-&gt;multitonKey = key;</div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;}</div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160; </div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;<span class="keywordtype">void</span> InitFacade(<a class="code" href="struct_facade.html">Facade</a> *facade) {</div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;    facade-&gt;controller = NULL;</div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;    facade-&gt;model = NULL;</div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;    facade-&gt;view = NULL;</div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;    facade-&gt;initializeFacade = initializeFacade;</div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;    facade-&gt;initializeController = initializeController;</div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;    facade-&gt;initializeModel = initializeModel;</div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;    facade-&gt;initializeView = initializeView;</div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;    facade-&gt;registerCommand = registerCommand;</div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;    facade-&gt;removeCommand = removeCommand;</div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;    facade-&gt;hasCommand = hasCommand;</div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;    facade-&gt;registerProxy = registerProxy;</div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;    facade-&gt;retrieveProxy = retrieveProxy;</div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;    facade-&gt;removeProxy = removeProxy;</div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;    facade-&gt;hasProxy = hasProxy;</div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;    facade-&gt;registerMediator = registerMediator;</div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;    facade-&gt;retrieveMediator = retrieveMediator;</div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;    facade-&gt;removeMediator = removeMediator;</div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;    facade-&gt;hasMediator = hasMediator;</div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;    facade-&gt;sendNotification = sendNotification;</div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;    facade-&gt;notifyObservers = notifyObservers;</div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;    facade-&gt;initializeNotifier = initializeNotifier;</div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;}</div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160; </div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;<a class="code" href="struct_facade.html">Facade</a> *NewFacade(<span class="keyword">const</span> <span class="keywordtype">char</span> *key) {</div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;    assert(GetFacadeMap(key) == NULL);</div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;    <a class="code" href="struct_facade.html">Facade</a> *facade = malloc(<span class="keyword">sizeof</span>(<a class="code" href="struct_facade.html">Facade</a>));</div>
-<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;    <span class="keywordflow">if</span> (facade == NULL) <span class="keywordflow">goto</span> exception;</div>
-<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;    InitFacade(facade);</div>
-<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;    facade-&gt;multitonKey = key;</div>
-<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;    <span class="keywordflow">return</span> facade;</div>
-<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160; </div>
-<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;    exception:</div>
-<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;        fprintf(stderr, <span class="stringliteral">&quot;Facade allocation failed.\n&quot;</span>);</div>
-<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;        <span class="keywordflow">return</span> NULL;</div>
-<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;}</div>
-<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160; </div>
-<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;<span class="keywordtype">bool</span> HasFacadeCore(<span class="keyword">const</span> <span class="keywordtype">char</span> *key) {</div>
-<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;    pthread_rwlock_rdlock(&amp;facade_mutex);</div>
-<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;    <span class="keywordtype">bool</span> result = GetFacadeMap(key) != NULL;</div>
-<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;    pthread_rwlock_unlock(&amp;facade_mutex);</div>
-<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;    <span class="keywordflow">return</span> result;</div>
-<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;}</div>
-<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160; </div>
-<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;<span class="keywordtype">void</span> RemoveFacade(<span class="keyword">const</span> <span class="keywordtype">char</span> *key) {</div>
-<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;    pthread_rwlock_wrlock(&amp;facade_mutex);</div>
-<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;    RemoveModel(key);</div>
-<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;    RemoveView(key);</div>
-<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;    RemoveController(key);</div>
-<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;    RemoveFacadeMap(key);</div>
-<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;    pthread_rwlock_unlock(&amp;facade_mutex);</div>
-<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;}</div>
-<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160; </div>
-<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;<a class="code" href="struct_facade.html">Facade</a> *getFacadeInstance(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <a class="code" href="struct_facade.html">Facade</a> *(*factory)(<span class="keyword">const</span> <span class="keywordtype">char</span> *)) {</div>
-<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;    pthread_rwlock_wrlock(&amp;facade_mutex);</div>
-<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;    <a class="code" href="struct_facade.html">Facade</a> *instance = GetFacadeMap(key);</div>
-<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;    <span class="keywordflow">if</span> (instance == NULL) {</div>
-<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;        instance = factory(key);</div>
-<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;        AddFacadeMap(key, instance);</div>
-<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;        instance-&gt;initializeFacade(instance);</div>
-<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;    }</div>
-<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;    pthread_rwlock_unlock(&amp;facade_mutex);</div>
-<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;    <span class="keywordflow">return</span> instance;</div>
-<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;}</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> initializeFacade(<a class="code" href="struct_facade.html">Facade</a> *<span class="keyword">self</span>) {</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keyword">self</span>-&gt;initializeModel(<span class="keyword">self</span>);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keyword">self</span>-&gt;initializeController(<span class="keyword">self</span>);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keyword">self</span>-&gt;initializeView(<span class="keyword">self</span>);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;}</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> initializeController(<a class="code" href="struct_facade.html">Facade</a> *<span class="keyword">self</span>) {</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordflow">if</span> (self-&gt;controller != NULL) <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keyword">self</span>-&gt;controller = getControllerInstance(self-&gt;multitonKey, NewController);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;}</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> initializeModel(<a class="code" href="struct_facade.html">Facade</a> *<span class="keyword">self</span>) {</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordflow">if</span> (self-&gt;model != NULL) <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keyword">self</span>-&gt;model = getModelInstance(self-&gt;multitonKey, NewModel);</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;}</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> initializeView(<a class="code" href="struct_facade.html">Facade</a> *<span class="keyword">self</span>) {</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordflow">if</span> (self-&gt;view != NULL) <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keyword">self</span>-&gt;view = getViewInstance(self-&gt;multitonKey, NewView);</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;}</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> registerCommand(<a class="code" href="struct_facade.html">Facade</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *notificationName, <a class="code" href="struct_simple_command.html">SimpleCommand</a> *(*factory)()) {</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keyword">self</span>-&gt;controller-&gt;registerCommand(self-&gt;controller, notificationName, factory);</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;}</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> removeCommand(<a class="code" href="struct_facade.html">Facade</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *notificationName) {</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keyword">self</span>-&gt;controller-&gt;removeCommand(self-&gt;controller, notificationName);</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;}</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="keyword">static</span> <span class="keywordtype">bool</span> hasCommand(<a class="code" href="struct_facade.html">Facade</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *notificationName) {</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">self</span>-&gt;controller-&gt;hasCommand(self-&gt;controller, notificationName);</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;}</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> registerProxy(<a class="code" href="struct_facade.html">Facade</a> *<span class="keyword">self</span>, <a class="code" href="struct_proxy.html">Proxy</a> *proxy) {</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keyword">self</span>-&gt;model-&gt;registerProxy(self-&gt;model, proxy);</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;}</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="keyword">static</span> <a class="code" href="struct_proxy.html">Proxy</a> *retrieveProxy(<a class="code" href="struct_facade.html">Facade</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *proxyName) {</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">self</span>-&gt;model-&gt;retrieveProxy(self-&gt;model, proxyName);</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;}</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="keyword">static</span> <a class="code" href="struct_proxy.html">Proxy</a> *removeProxy(<a class="code" href="struct_facade.html">Facade</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *proxyName) {</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">self</span>-&gt;model-&gt;removeProxy(self-&gt;model, proxyName);</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;}</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="keyword">static</span> <span class="keywordtype">bool</span> hasProxy(<a class="code" href="struct_facade.html">Facade</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *proxyName) {</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">self</span>-&gt;model-&gt;hasProxy(self-&gt;model, proxyName);</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;}</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160; </div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> registerMediator(<a class="code" href="struct_facade.html">Facade</a> *<span class="keyword">self</span>, <a class="code" href="struct_mediator.html">Mediator</a> *mediator) {</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="keyword">self</span>-&gt;view-&gt;registerMediator(self-&gt;view, mediator);</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;}</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160; </div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="keyword">static</span> <a class="code" href="struct_mediator.html">Mediator</a> *retrieveMediator(<a class="code" href="struct_facade.html">Facade</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *mediatorName) {</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">self</span>-&gt;view-&gt;retrieveMediator(self-&gt;view, mediatorName);</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;}</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160; </div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;<span class="keyword">static</span> <a class="code" href="struct_mediator.html">Mediator</a> *removeMediator(<a class="code" href="struct_facade.html">Facade</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *mediatorName) {</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">self</span>-&gt;view-&gt;removeMediator(self-&gt;view, mediatorName);</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;}</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160; </div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;<span class="keyword">static</span> <span class="keywordtype">bool</span> hasMediator(<a class="code" href="struct_facade.html">Facade</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *mediatorName) {</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">self</span>-&gt;view-&gt;hasMediator(self-&gt;view, mediatorName);</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;}</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160; </div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> sendNotification(<a class="code" href="struct_facade.html">Facade</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *notificationName, <span class="keywordtype">void</span> *body, <span class="keywordtype">char</span> *type) {</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    <a class="code" href="struct_notification.html">Notification</a> *notification = NewNotification(notificationName, body, type);</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <span class="keyword">self</span>-&gt;notifyObservers(<span class="keyword">self</span>, notification);</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    DeleteNotification(notification);</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;}</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160; </div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> notifyObservers(<a class="code" href="struct_facade.html">Facade</a> *<span class="keyword">self</span>, <a class="code" href="struct_notification.html">Notification</a> *notification) {</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    <span class="keyword">self</span>-&gt;view-&gt;notifyObservers(self-&gt;view, notification);</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;}</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160; </div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> initializeNotifier(<a class="code" href="struct_facade.html">Facade</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *key) {</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    <span class="keyword">self</span>-&gt;multitonKey = key;</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;}</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160; </div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;<a class="code" href="struct_facade.html">Facade</a> *NewFacade(<span class="keyword">const</span> <span class="keywordtype">char</span> *key) {</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    assert(GetFacadeMap(key) == NULL);</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <a class="code" href="struct_facade.html">Facade</a> *facade = malloc(<span class="keyword">sizeof</span>(<a class="code" href="struct_facade.html">Facade</a>));</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    <span class="keywordflow">if</span> (facade == NULL) <span class="keywordflow">goto</span> exception;</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    InitFacade(facade);</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    facade-&gt;<a class="code" href="struct_facade.html#a19fdedbf1c3f543f4358255f0ca4269d">multitonKey</a> = key;</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    <span class="keywordflow">return</span> facade;</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160; </div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    exception:</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        fprintf(stderr, <span class="stringliteral">&quot;Facade allocation failed.\n&quot;</span>);</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        <span class="keywordflow">return</span> NULL;</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;}</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160; </div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;<span class="keywordtype">void</span> InitFacade(<a class="code" href="struct_facade.html">Facade</a> *facade) {</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    facade-&gt;<a class="code" href="struct_facade.html#acaf0644c14bf7a45d314781c4168cb83">controller</a> = NULL;</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    facade-&gt;<a class="code" href="struct_facade.html#a7b56c3ca57dde73bdbc8dbe9772bca19">model</a> = NULL;</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    facade-&gt;<a class="code" href="struct_facade.html#af2dd70d8b95c32fb670ac6f9cc8df201">view</a> = NULL;</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    facade-&gt;<a class="code" href="struct_facade.html#a36bbf0dc000d90514c764642fabcec86">initializeFacade</a> = initializeFacade;</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    facade-&gt;<a class="code" href="struct_facade.html#a68bd3a514aa84d0d2daf73fc8d59e571">initializeController</a> = initializeController;</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    facade-&gt;<a class="code" href="struct_facade.html#a74b5e44d5ed9c4f33083a50933b7a895">initializeModel</a> = initializeModel;</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    facade-&gt;<a class="code" href="struct_facade.html#ace625f0d9675db811dff5faa701d2808">initializeView</a> = initializeView;</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    facade-&gt;<a class="code" href="struct_facade.html#aeec97ced1692f8095a682a6e8955841a">registerCommand</a> = registerCommand;</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    facade-&gt;<a class="code" href="struct_facade.html#a3aed1debb2c66c6181dfc44f4ca9c0ff">removeCommand</a> = removeCommand;</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    facade-&gt;<a class="code" href="struct_facade.html#a5bd60b516d6958054bca8688333607e4">hasCommand</a> = hasCommand;</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    facade-&gt;<a class="code" href="struct_facade.html#a18cf5c867a4b458bcc30a906be3ae4c9">registerProxy</a> = registerProxy;</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    facade-&gt;<a class="code" href="struct_facade.html#af05af0198ca69e9659abde72679aaca4">retrieveProxy</a> = retrieveProxy;</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    facade-&gt;<a class="code" href="struct_facade.html#afe798a70d24a7eac062b0f5286de0d96">removeProxy</a> = removeProxy;</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    facade-&gt;<a class="code" href="struct_facade.html#a3399ec0ea39ba08f126ef806cdb992a6">hasProxy</a> = hasProxy;</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    facade-&gt;<a class="code" href="struct_facade.html#afac920958a4e07618f82f75c8cea7cc3">registerMediator</a> = registerMediator;</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    facade-&gt;<a class="code" href="struct_facade.html#a40691b4a07e7b26669ba43b701cb11b7">retrieveMediator</a> = retrieveMediator;</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    facade-&gt;<a class="code" href="struct_facade.html#aac9d584f5f24f0eeb01cbfa30f9dcf24">removeMediator</a> = removeMediator;</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    facade-&gt;<a class="code" href="struct_facade.html#aaa380314583c3700e896e8eae9c332e8">hasMediator</a> = hasMediator;</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    facade-&gt;<a class="code" href="struct_facade.html#a2cbf8ecb86b87394d3b73a44f3553b29">sendNotification</a> = sendNotification;</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;    facade-&gt;<a class="code" href="struct_facade.html#a81de770c7eae9ab97a221586f8d7d32e">notifyObservers</a> = notifyObservers;</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;    facade-&gt;<a class="code" href="struct_facade.html#a258035e78a3241ca298941dabf6ee5b7">initializeNotifier</a> = initializeNotifier;</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;}</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160; </div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;<span class="keywordtype">bool</span> HasFacadeCore(<span class="keyword">const</span> <span class="keywordtype">char</span> *key) {</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;    pthread_rwlock_rdlock(&amp;facade_mutex);</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    <span class="keywordtype">bool</span> result = GetFacadeMap(key) != NULL;</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;    pthread_rwlock_unlock(&amp;facade_mutex);</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    <span class="keywordflow">return</span> result;</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;}</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160; </div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;<span class="keywordtype">void</span> RemoveFacade(<span class="keyword">const</span> <span class="keywordtype">char</span> *key) {</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    pthread_rwlock_wrlock(&amp;facade_mutex);</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    RemoveModel(key);</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    RemoveView(key);</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    RemoveController(key);</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    RemoveFacadeMap(key);</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    pthread_rwlock_unlock(&amp;facade_mutex);</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;}</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160; </div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;<a class="code" href="struct_facade.html">Facade</a> *getFacadeInstance(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <a class="code" href="struct_facade.html">Facade</a> *(*factory)(<span class="keyword">const</span> <span class="keywordtype">char</span> *)) {</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    pthread_rwlock_wrlock(&amp;facade_mutex);</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    <a class="code" href="struct_facade.html">Facade</a> *instance = GetFacadeMap(key);</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;    <span class="keywordflow">if</span> (instance == NULL) {</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;        instance = factory(key);</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;        AddFacadeMap(key, instance);</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;        instance-&gt;<a class="code" href="struct_facade.html#a36bbf0dc000d90514c764642fabcec86">initializeFacade</a>(instance);</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    }</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;    pthread_rwlock_unlock(&amp;facade_mutex);</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;    <span class="keywordflow">return</span> instance;</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
+<div class="ttc" id="astruct_facade_html_a2cbf8ecb86b87394d3b73a44f3553b29"><div class="ttname"><a href="struct_facade.html#a2cbf8ecb86b87394d3b73a44f3553b29">Facade::sendNotification</a></div><div class="ttdeci">void(* sendNotification)(Facade *self, const char *notificationName, void *body, char *type)</div><div class="ttdef"><b>Definition:</b> <a href="_facade_8h_source.html#l00220">Facade.h:220</a></div></div>
+<div class="ttc" id="astruct_facade_html_afe798a70d24a7eac062b0f5286de0d96"><div class="ttname"><a href="struct_facade.html#afe798a70d24a7eac062b0f5286de0d96">Facade::removeProxy</a></div><div class="ttdeci">Proxy *(* removeProxy)(Facade *self, const char *proxyName)</div><div class="ttdef"><b>Definition:</b> <a href="_facade_8h_source.html#l00163">Facade.h:163</a></div></div>
+<div class="ttc" id="astruct_facade_html_a40691b4a07e7b26669ba43b701cb11b7"><div class="ttname"><a href="struct_facade.html#a40691b4a07e7b26669ba43b701cb11b7">Facade::retrieveMediator</a></div><div class="ttdeci">Mediator *(* retrieveMediator)(Facade *self, const char *mediatorName)</div><div class="ttdef"><b>Definition:</b> <a href="_facade_8h_source.html#l00189">Facade.h:189</a></div></div>
+<div class="ttc" id="astruct_facade_html_afac920958a4e07618f82f75c8cea7cc3"><div class="ttname"><a href="struct_facade.html#afac920958a4e07618f82f75c8cea7cc3">Facade::registerMediator</a></div><div class="ttdeci">void(* registerMediator)(Facade *self, Mediator *mediator)</div><div class="ttdef"><b>Definition:</b> <a href="_facade_8h_source.html#l00180">Facade.h:180</a></div></div>
+<div class="ttc" id="astruct_facade_html_acaf0644c14bf7a45d314781c4168cb83"><div class="ttname"><a href="struct_facade.html#acaf0644c14bf7a45d314781c4168cb83">Facade::controller</a></div><div class="ttdeci">Controller * controller</div><div class="ttdef"><b>Definition:</b> <a href="_facade_8h_source.html#l00023">Facade.h:23</a></div></div>
 <div class="ttc" id="astruct_proxy_html"><div class="ttname"><a href="struct_proxy.html">Proxy</a></div><div class="ttdef"><b>Definition:</b> <a href="_proxy_8h_source.html#l00031">Proxy.h:31</a></div></div>
-<div class="ttc" id="astruct_simple_command_html"><div class="ttname"><a href="struct_simple_command.html">SimpleCommand</a></div><div class="ttdef"><b>Definition:</b> <a href="_simple_command_8h_source.html#l00022">SimpleCommand.h:22</a></div></div>
-<div class="ttc" id="astruct_mediator_html"><div class="ttname"><a href="struct_mediator.html">Mediator</a></div><div class="ttdef"><b>Definition:</b> <a href="_mediator_8h_source.html#l00015">Mediator.h:15</a></div></div>
+<div class="ttc" id="astruct_facade_html_a7b56c3ca57dde73bdbc8dbe9772bca19"><div class="ttname"><a href="struct_facade.html#a7b56c3ca57dde73bdbc8dbe9772bca19">Facade::model</a></div><div class="ttdeci">Model * model</div><div class="ttdef"><b>Definition:</b> <a href="_facade_8h_source.html#l00025">Facade.h:25</a></div></div>
+<div class="ttc" id="astruct_facade_html_a5bd60b516d6958054bca8688333607e4"><div class="ttname"><a href="struct_facade.html#a5bd60b516d6958054bca8688333607e4">Facade::hasCommand</a></div><div class="ttdeci">bool(* hasCommand)(Facade *self, const char *notificationName)</div><div class="ttdef"><b>Definition:</b> <a href="_facade_8h_source.html#l00137">Facade.h:137</a></div></div>
+<div class="ttc" id="astruct_facade_html_aac9d584f5f24f0eeb01cbfa30f9dcf24"><div class="ttname"><a href="struct_facade.html#aac9d584f5f24f0eeb01cbfa30f9dcf24">Facade::removeMediator</a></div><div class="ttdeci">Mediator *(* removeMediator)(Facade *self, const char *mediatorName)</div><div class="ttdef"><b>Definition:</b> <a href="_facade_8h_source.html#l00198">Facade.h:198</a></div></div>
+<div class="ttc" id="astruct_facade_html_ace625f0d9675db811dff5faa701d2808"><div class="ttname"><a href="struct_facade.html#ace625f0d9675db811dff5faa701d2808">Facade::initializeView</a></div><div class="ttdeci">void(* initializeView)(Facade *self)</div><div class="ttdef"><b>Definition:</b> <a href="_facade_8h_source.html#l00111">Facade.h:111</a></div></div>
+<div class="ttc" id="astruct_facade_html_af05af0198ca69e9659abde72679aaca4"><div class="ttname"><a href="struct_facade.html#af05af0198ca69e9659abde72679aaca4">Facade::retrieveProxy</a></div><div class="ttdeci">Proxy *(* retrieveProxy)(Facade *self, const char *proxyName)</div><div class="ttdef"><b>Definition:</b> <a href="_facade_8h_source.html#l00154">Facade.h:154</a></div></div>
+<div class="ttc" id="astruct_facade_html_a68bd3a514aa84d0d2daf73fc8d59e571"><div class="ttname"><a href="struct_facade.html#a68bd3a514aa84d0d2daf73fc8d59e571">Facade::initializeController</a></div><div class="ttdeci">void(* initializeController)(Facade *self)</div><div class="ttdef"><b>Definition:</b> <a href="_facade_8h_source.html#l00058">Facade.h:58</a></div></div>
+<div class="ttc" id="astruct_facade_html_a3aed1debb2c66c6181dfc44f4ca9c0ff"><div class="ttname"><a href="struct_facade.html#a3aed1debb2c66c6181dfc44f4ca9c0ff">Facade::removeCommand</a></div><div class="ttdeci">void(* removeCommand)(Facade *self, const char *notificationName)</div><div class="ttdef"><b>Definition:</b> <a href="_facade_8h_source.html#l00128">Facade.h:128</a></div></div>
+<div class="ttc" id="astruct_facade_html_a258035e78a3241ca298941dabf6ee5b7"><div class="ttname"><a href="struct_facade.html#a258035e78a3241ca298941dabf6ee5b7">Facade::initializeNotifier</a></div><div class="ttdeci">void(* initializeNotifier)(Facade *self, const char *key)</div><div class="ttdef"><b>Definition:</b> <a href="_facade_8h_source.html#l00248">Facade.h:248</a></div></div>
+<div class="ttc" id="astruct_simple_command_html"><div class="ttname"><a href="struct_simple_command.html">SimpleCommand</a></div><div class="ttdef"><b>Definition:</b> <a href="_simple_command_8h_source.html#l00020">SimpleCommand.h:20</a></div></div>
+<div class="ttc" id="astruct_mediator_html"><div class="ttname"><a href="struct_mediator.html">Mediator</a></div><div class="ttdef"><b>Definition:</b> <a href="_mediator_8h_source.html#l00024">Mediator.h:24</a></div></div>
+<div class="ttc" id="astruct_facade_html_aeec97ced1692f8095a682a6e8955841a"><div class="ttname"><a href="struct_facade.html#aeec97ced1692f8095a682a6e8955841a">Facade::registerCommand</a></div><div class="ttdeci">void(* registerCommand)(Facade *self, const char *notificationName, SimpleCommand *(*factory)())</div><div class="ttdef"><b>Definition:</b> <a href="_facade_8h_source.html#l00120">Facade.h:120</a></div></div>
+<div class="ttc" id="astruct_facade_html_af2dd70d8b95c32fb670ac6f9cc8df201"><div class="ttname"><a href="struct_facade.html#af2dd70d8b95c32fb670ac6f9cc8df201">Facade::view</a></div><div class="ttdeci">View * view</div><div class="ttdef"><b>Definition:</b> <a href="_facade_8h_source.html#l00027">Facade.h:27</a></div></div>
+<div class="ttc" id="astruct_facade_html_aaa380314583c3700e896e8eae9c332e8"><div class="ttname"><a href="struct_facade.html#aaa380314583c3700e896e8eae9c332e8">Facade::hasMediator</a></div><div class="ttdeci">bool(* hasMediator)(Facade *self, const char *mediatorName)</div><div class="ttdef"><b>Definition:</b> <a href="_facade_8h_source.html#l00207">Facade.h:207</a></div></div>
+<div class="ttc" id="astruct_facade_html_a19fdedbf1c3f543f4358255f0ca4269d"><div class="ttname"><a href="struct_facade.html#a19fdedbf1c3f543f4358255f0ca4269d">Facade::multitonKey</a></div><div class="ttdeci">const char * multitonKey</div><div class="ttdef"><b>Definition:</b> <a href="_facade_8h_source.html#l00020">Facade.h:20</a></div></div>
+<div class="ttc" id="astruct_facade_html_a18cf5c867a4b458bcc30a906be3ae4c9"><div class="ttname"><a href="struct_facade.html#a18cf5c867a4b458bcc30a906be3ae4c9">Facade::registerProxy</a></div><div class="ttdeci">void(* registerProxy)(Facade *self, Proxy *proxy)</div><div class="ttdef"><b>Definition:</b> <a href="_facade_8h_source.html#l00145">Facade.h:145</a></div></div>
+<div class="ttc" id="astruct_facade_html_a36bbf0dc000d90514c764642fabcec86"><div class="ttname"><a href="struct_facade.html#a36bbf0dc000d90514c764642fabcec86">Facade::initializeFacade</a></div><div class="ttdeci">void(* initializeFacade)(Facade *self)</div><div class="ttdef"><b>Definition:</b> <a href="_facade_8h_source.html#l00038">Facade.h:38</a></div></div>
 <div class="ttc" id="astruct_facade_html"><div class="ttname"><a href="struct_facade.html">Facade</a></div><div class="ttdef"><b>Definition:</b> <a href="_facade_8h_source.html#l00017">Facade.h:17</a></div></div>
+<div class="ttc" id="astruct_facade_html_a81de770c7eae9ab97a221586f8d7d32e"><div class="ttname"><a href="struct_facade.html#a81de770c7eae9ab97a221586f8d7d32e">Facade::notifyObservers</a></div><div class="ttdeci">void(* notifyObservers)(Facade *self, Notification *notification)</div><div class="ttdef"><b>Definition:</b> <a href="_facade_8h_source.html#l00236">Facade.h:236</a></div></div>
+<div class="ttc" id="astruct_facade_html_a3399ec0ea39ba08f126ef806cdb992a6"><div class="ttname"><a href="struct_facade.html#a3399ec0ea39ba08f126ef806cdb992a6">Facade::hasProxy</a></div><div class="ttdeci">bool(* hasProxy)(Facade *self, const char *proxyName)</div><div class="ttdef"><b>Definition:</b> <a href="_facade_8h_source.html#l00172">Facade.h:172</a></div></div>
 <div class="ttc" id="astruct_notification_html"><div class="ttname"><a href="struct_notification.html">Notification</a></div><div class="ttdef"><b>Definition:</b> <a href="_notification_8h_source.html#l00036">Notification.h:36</a></div></div>
+<div class="ttc" id="astruct_facade_html_a74b5e44d5ed9c4f33083a50933b7a895"><div class="ttname"><a href="struct_facade.html#a74b5e44d5ed9c4f33083a50933b7a895">Facade::initializeModel</a></div><div class="ttdeci">void(* initializeModel)(Facade *self)</div><div class="ttdef"><b>Definition:</b> <a href="_facade_8h_source.html#l00085">Facade.h:85</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

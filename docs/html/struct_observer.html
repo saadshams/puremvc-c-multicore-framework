@@ -87,41 +87,223 @@ $(document).ready(function(){initNavTree('struct_observer.html',''); initResizab
 <div class="title">Observer Struct Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="_observer_8h_source.html">Observer.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:ae376f130b17d169ee51be68077a89ed0"><td class="memItemLeft" align="right" valign="top"><a id="ae376f130b17d169ee51be68077a89ed0"></a>
-void *&#160;</td><td class="memItemRight" valign="bottom"><b>context</b></td></tr>
+<tr class="memitem:ae376f130b17d169ee51be68077a89ed0"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_observer.html#ae376f130b17d169ee51be68077a89ed0">context</a></td></tr>
 <tr class="separator:ae376f130b17d169ee51be68077a89ed0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7ffe2172bd4e710abd97d64d29d8237e"><td class="memItemLeft" align="right" valign="top"><a id="a7ffe2172bd4e710abd97d64d29d8237e"></a>
-void(*&#160;</td><td class="memItemRight" valign="bottom"><b>notify</b> )(void *context, <a class="el" href="struct_notification.html">Notification</a> *notification)</td></tr>
+<tr class="memitem:a7ffe2172bd4e710abd97d64d29d8237e"><td class="memItemLeft" align="right" valign="top">void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_observer.html#a7ffe2172bd4e710abd97d64d29d8237e">notify</a> )(void *<a class="el" href="struct_observer.html#ae376f130b17d169ee51be68077a89ed0">context</a>, <a class="el" href="struct_notification.html">Notification</a> *<a class="el" href="struct_observer.html#a3247db6919862bab0136b17e1365afc6">notification</a>)</td></tr>
 <tr class="separator:a7ffe2172bd4e710abd97d64d29d8237e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaf624bb544e944f0ead47d1dd519263e"><td class="memItemLeft" align="right" valign="top"><a id="aaf624bb544e944f0ead47d1dd519263e"></a>
-void *(*&#160;</td><td class="memItemRight" valign="bottom"><b>getNotifyContext</b> )(<a class="el" href="struct_observer.html">Observer</a> *self)</td></tr>
+<tr class="memitem:aaf624bb544e944f0ead47d1dd519263e"><td class="memItemLeft" align="right" valign="top">void *(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_observer.html#aaf624bb544e944f0ead47d1dd519263e">getNotifyContext</a> )(<a class="el" href="struct_observer.html">Observer</a> *self)</td></tr>
 <tr class="separator:aaf624bb544e944f0ead47d1dd519263e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a49f521608c85ff40c0eabf8fbf2bcdfa"><td class="memItemLeft" align="right" valign="top"><a id="a49f521608c85ff40c0eabf8fbf2bcdfa"></a>
-void(*&#160;</td><td class="memItemRight" valign="bottom"><b>setNotifyContext</b> )(<a class="el" href="struct_observer.html">Observer</a> *self, void *notifyContext)</td></tr>
+<tr class="memitem:a49f521608c85ff40c0eabf8fbf2bcdfa"><td class="memItemLeft" align="right" valign="top">void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_observer.html#a49f521608c85ff40c0eabf8fbf2bcdfa">setNotifyContext</a> )(<a class="el" href="struct_observer.html">Observer</a> *self, void *notifyContext)</td></tr>
 <tr class="separator:a49f521608c85ff40c0eabf8fbf2bcdfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad3d12103af0dc7fee11fa45bc211b862"><td class="memItemLeft" align="right" valign="top"><a id="ad3d12103af0dc7fee11fa45bc211b862"></a>
-void(*(*&#160;</td><td class="memItemRight" valign="bottom"><b>getNotifyMethod</b> )(<a class="el" href="struct_observer.html">Observer</a> *self))(void *context</td></tr>
+<tr class="memitem:ad3d12103af0dc7fee11fa45bc211b862"><td class="memItemLeft" align="right" valign="top">void(*(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_observer.html#ad3d12103af0dc7fee11fa45bc211b862">getNotifyMethod</a> )(<a class="el" href="struct_observer.html">Observer</a> *self))(void *<a class="el" href="struct_observer.html#ae376f130b17d169ee51be68077a89ed0">context</a></td></tr>
 <tr class="separator:ad3d12103af0dc7fee11fa45bc211b862"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3247db6919862bab0136b17e1365afc6"><td class="memItemLeft" align="right" valign="top"><a id="a3247db6919862bab0136b17e1365afc6"></a>
-void(*(*) <a class="el" href="struct_notification.html">Notification</a>&#160;</td><td class="memItemRight" valign="bottom"><b>notification</b> )</td></tr>
+<tr class="memitem:a3247db6919862bab0136b17e1365afc6"><td class="memItemLeft" align="right" valign="top">void(*(*) <a class="el" href="struct_notification.html">Notification</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_observer.html#a3247db6919862bab0136b17e1365afc6">notification</a> )</td></tr>
 <tr class="separator:a3247db6919862bab0136b17e1365afc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a55cf78fc5cfc3e960f641ca6a5651e4a"><td class="memItemLeft" align="right" valign="top"><a id="a55cf78fc5cfc3e960f641ca6a5651e4a"></a>
-void(*&#160;</td><td class="memItemRight" valign="bottom"><b>setNotifyMethod</b> )(<a class="el" href="struct_observer.html">Observer</a> *self, void(*notifyMethod)(void *context, <a class="el" href="struct_notification.html">Notification</a> *notification))</td></tr>
+<tr class="memitem:a55cf78fc5cfc3e960f641ca6a5651e4a"><td class="memItemLeft" align="right" valign="top">void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_observer.html#a55cf78fc5cfc3e960f641ca6a5651e4a">setNotifyMethod</a> )(<a class="el" href="struct_observer.html">Observer</a> *self, void(*notifyMethod)(void *<a class="el" href="struct_observer.html#ae376f130b17d169ee51be68077a89ed0">context</a>, <a class="el" href="struct_notification.html">Notification</a> *<a class="el" href="struct_observer.html#a3247db6919862bab0136b17e1365afc6">notification</a>))</td></tr>
 <tr class="separator:a55cf78fc5cfc3e960f641ca6a5651e4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2b00423cf852df148b70a556a4e216e1"><td class="memItemLeft" align="right" valign="top"><a id="a2b00423cf852df148b70a556a4e216e1"></a>
-void(*&#160;</td><td class="memItemRight" valign="bottom"><b>notifyObserver</b> )(<a class="el" href="struct_observer.html">Observer</a> *self, <a class="el" href="struct_notification.html">Notification</a> *notification)</td></tr>
+<tr class="memitem:a2b00423cf852df148b70a556a4e216e1"><td class="memItemLeft" align="right" valign="top">void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_observer.html#a2b00423cf852df148b70a556a4e216e1">notifyObserver</a> )(<a class="el" href="struct_observer.html">Observer</a> *self, <a class="el" href="struct_notification.html">Notification</a> *<a class="el" href="struct_observer.html#a3247db6919862bab0136b17e1365afc6">notification</a>)</td></tr>
 <tr class="separator:a2b00423cf852df148b70a556a4e216e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa2b7d1d72abab0358ab86cc11926e72a"><td class="memItemLeft" align="right" valign="top"><a id="aa2b7d1d72abab0358ab86cc11926e72a"></a>
-bool(*&#160;</td><td class="memItemRight" valign="bottom"><b>compareNotifyContext</b> )(<a class="el" href="struct_observer.html">Observer</a> *self, const void *context)</td></tr>
+<tr class="memitem:aa2b7d1d72abab0358ab86cc11926e72a"><td class="memItemLeft" align="right" valign="top">bool(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_observer.html#aa2b7d1d72abab0358ab86cc11926e72a">compareNotifyContext</a> )(<a class="el" href="struct_observer.html">Observer</a> *self, const void *<a class="el" href="struct_observer.html#ae376f130b17d169ee51be68077a89ed0">context</a>)</td></tr>
 <tr class="separator:aa2b7d1d72abab0358ab86cc11926e72a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
 <p class="definition">Definition at line <a class="el" href="_observer_8h_source.html#l00028">28</a> of file <a class="el" href="_observer_8h_source.html">Observer.h</a>.</p>
-</div></div><!-- contents -->
+</div><h2 class="groupheader">Field Documentation</h2>
+<a id="aa2b7d1d72abab0358ab86cc11926e72a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa2b7d1d72abab0358ab86cc11926e72a">&#9670;&nbsp;</a></span>compareNotifyContext</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool(* compareNotifyContext) (<a class="el" href="struct_observer.html">Observer</a> *self, const void *<a class="el" href="struct_observer.html#ae376f130b17d169ee51be68077a89ed0">context</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Compare an object to the notification context.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">self</td><td><a class="el" href="struct_observer.html">Observer</a> </td></tr>
+    <tr><td class="paramname">object</td><td>the object to compare </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>boolean indicating if the object and the notification context are the same </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_observer_8h_source.html#l00082">82</a> of file <a class="el" href="_observer_8h_source.html">Observer.h</a>.</p>
+
+</div>
+</div>
+<a id="ae376f130b17d169ee51be68077a89ed0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae376f130b17d169ee51be68077a89ed0">&#9670;&nbsp;</a></span>context</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void* context</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_observer_8h_source.html#l00030">30</a> of file <a class="el" href="_observer_8h_source.html">Observer.h</a>.</p>
+
+</div>
+</div>
+<a id="aaf624bb544e944f0ead47d1dd519263e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf624bb544e944f0ead47d1dd519263e">&#9670;&nbsp;</a></span>getNotifyContext</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void*(* getNotifyContext) (<a class="el" href="struct_observer.html">Observer</a> *self)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get the notification context.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">self</td><td><a class="el" href="struct_observer.html">Observer</a> </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>context </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_observer_8h_source.html#l00040">40</a> of file <a class="el" href="_observer_8h_source.html">Observer.h</a>.</p>
+
+</div>
+</div>
+<a id="ad3d12103af0dc7fee11fa45bc211b862"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad3d12103af0dc7fee11fa45bc211b862">&#9670;&nbsp;</a></span>getNotifyMethod</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void(*(* getNotifyMethod) (<a class="el" href="struct_observer.html">Observer</a> *self))(void *<a class="el" href="struct_observer.html#ae376f130b17d169ee51be68077a89ed0">context</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Get the notification method.</p>
+<dl class="section return"><dt>Returns</dt><dd>the notification (callback) method of the interested object </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_observer_8h_source.html#l00055">55</a> of file <a class="el" href="_observer_8h_source.html">Observer.h</a>.</p>
+
+</div>
+</div>
+<a id="a3247db6919862bab0136b17e1365afc6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3247db6919862bab0136b17e1365afc6">&#9670;&nbsp;</a></span>notification</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void(*(*) <a class="el" href="struct_notification.html">Notification</a> notification) </td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_observer_8h_source.html#l00055">55</a> of file <a class="el" href="_observer_8h_source.html">Observer.h</a>.</p>
+
+</div>
+</div>
+<a id="a7ffe2172bd4e710abd97d64d29d8237e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ffe2172bd4e710abd97d64d29d8237e">&#9670;&nbsp;</a></span>notify</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void(* notify) (void *<a class="el" href="struct_observer.html#ae376f130b17d169ee51be68077a89ed0">context</a>, <a class="el" href="struct_notification.html">Notification</a> *<a class="el" href="struct_observer.html#a3247db6919862bab0136b17e1365afc6">notification</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_observer_8h_source.html#l00032">32</a> of file <a class="el" href="_observer_8h_source.html">Observer.h</a>.</p>
+
+</div>
+</div>
+<a id="a2b00423cf852df148b70a556a4e216e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b00423cf852df148b70a556a4e216e1">&#9670;&nbsp;</a></span>notifyObserver</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void(* notifyObserver) (<a class="el" href="struct_observer.html">Observer</a> *self, <a class="el" href="struct_notification.html">Notification</a> *<a class="el" href="struct_observer.html#a3247db6919862bab0136b17e1365afc6">notification</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Notify the interested object.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">self</td><td><a class="el" href="struct_observer.html">Observer</a> </td></tr>
+    <tr><td class="paramname">notification</td><td><a class="el" href="struct_notification.html">Notification</a> </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_observer_8h_source.html#l00073">73</a> of file <a class="el" href="_observer_8h_source.html">Observer.h</a>.</p>
+
+</div>
+</div>
+<a id="a49f521608c85ff40c0eabf8fbf2bcdfa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49f521608c85ff40c0eabf8fbf2bcdfa">&#9670;&nbsp;</a></span>setNotifyContext</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void(* setNotifyContext) (<a class="el" href="struct_observer.html">Observer</a> *self, void *notifyContext)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Set the notification context.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">self</td><td><a class="el" href="struct_observer.html">Observer</a> </td></tr>
+    <tr><td class="paramname">notifyContext</td><td>the notification context (this) of the interested object. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_observer_8h_source.html#l00048">48</a> of file <a class="el" href="_observer_8h_source.html">Observer.h</a>.</p>
+
+</div>
+</div>
+<a id="a55cf78fc5cfc3e960f641ca6a5651e4a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a55cf78fc5cfc3e960f641ca6a5651e4a">&#9670;&nbsp;</a></span>setNotifyMethod</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void(* setNotifyMethod) (<a class="el" href="struct_observer.html">Observer</a> *self, void(*notifyMethod)(void *<a class="el" href="struct_observer.html#ae376f130b17d169ee51be68077a89ed0">context</a>, <a class="el" href="struct_notification.html">Notification</a> *<a class="el" href="struct_observer.html#a3247db6919862bab0136b17e1365afc6">notification</a>))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Set the notification method.</p>
+<p>The notification method should take one parameter of type <code><a class="el" href="struct_notification.html">Notification</a></code>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">self</td><td><a class="el" href="struct_observer.html">Observer</a> </td></tr>
+    <tr><td class="paramname">notifyMethod</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_observer_8h_source.html#l00065">65</a> of file <a class="el" href="_observer_8h_source.html">Observer.h</a>.</p>
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

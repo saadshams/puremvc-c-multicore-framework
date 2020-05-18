@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['facade_2',['Facade',['../struct_facade.html',1,'']]]
+  ['comparenotifycontext_2',['compareNotifyContext',['../struct_observer.html#aa2b7d1d72abab0358ab86cc11926e72a',1,'Observer']]],
+  ['context_3',['context',['../struct_observer.html#ae376f130b17d169ee51be68077a89ed0',1,'Observer']]],
+  ['controller_4',['Controller',['../struct_controller.html',1,'Controller'],['../struct_facade.html#acaf0644c14bf7a45d314781c4168cb83',1,'Facade::controller()']]]
 ];

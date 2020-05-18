@@ -16,12 +16,14 @@ typedef struct Facade Facade;
 
 struct Facade {
 
-    // The Multiton Key for this app
+    /** The Multiton Key for this app */
     const char *multitonKey;
 
-    // References to Model, View and Controller
+    /** References to Model, View and Controller */
     Controller *controller;
+
     Model *model;
+
     View *view;
 
     /**

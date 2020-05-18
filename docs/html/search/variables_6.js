@@ -1,13 +1,7 @@
 var searchData=
 [
-  ['getbody_113',['getBody',['../struct_notification.html#ad694dce8e2f43fab75137d40d467ee03',1,'Notification']]],
-  ['getdata_114',['getData',['../struct_proxy.html#a3f38fe0fbcd5e14e85d5b505773c0677',1,'Proxy']]],
-  ['getfacade_115',['getFacade',['../struct_notifier.html#ad6ebe1ade10cc282643745d8e96d5679',1,'Notifier']]],
-  ['getmediatorname_116',['getMediatorName',['../struct_mediator.html#a5569db1afebc0119e9f4e36ddc4c5ad4',1,'Mediator']]],
-  ['getname_117',['getName',['../struct_notification.html#a83743d70ccf4602d09f3d6ca41a3de72',1,'Notification']]],
-  ['getnotifycontext_118',['getNotifyContext',['../struct_observer.html#aaf624bb544e944f0ead47d1dd519263e',1,'Observer']]],
-  ['getnotifymethod_119',['getNotifyMethod',['../struct_observer.html#ad3d12103af0dc7fee11fa45bc211b862',1,'Observer']]],
-  ['getproxyname_120',['getProxyName',['../struct_proxy.html#a026a8626d2674a51165a16df926689ac',1,'Proxy']]],
-  ['gettype_121',['getType',['../struct_notification.html#a222884780156cca758855d366f46e1b9',1,'Notification']]],
-  ['getviewcomponent_122',['getViewComponent',['../struct_mediator.html#a32bca2c2b6c52e3231ea5f57f6180f67',1,'Mediator']]]
+  ['handlenotification_97',['handleNotification',['../struct_mediator.html#a46ae75f70c3ee203f351fd7e4d8a7cfd',1,'Mediator']]],
+  ['hascommand_98',['hasCommand',['../struct_controller.html#a51512b85af342ddaf84a8a158919fff6',1,'Controller::hasCommand()'],['../struct_facade.html#a5bd60b516d6958054bca8688333607e4',1,'Facade::hasCommand()']]],
+  ['hasmediator_99',['hasMediator',['../struct_facade.html#aaa380314583c3700e896e8eae9c332e8',1,'Facade::hasMediator()'],['../struct_view.html#acf6cac1fbbd9ff9577fe0fb1d1398479',1,'View::hasMediator()']]],
+  ['hasproxy_100',['hasProxy',['../struct_facade.html#a3399ec0ea39ba08f126ef806cdb992a6',1,'Facade::hasProxy()'],['../struct_model.html#a17feb28d1c28d897f1859890fc45ae90',1,'Model::hasProxy()']]]
 ];

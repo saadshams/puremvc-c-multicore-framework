@@ -943,7 +943,7 @@ EXCLUDE_SYMBOLS        = ModelMap \
                          proxyMap \
                          ControllerMap \
                          CommandMap \
-                         commandMap
+                         commandMap \
                          SubCommands \
                          SubCommandNode \
                          ViewMap \
@@ -952,7 +952,7 @@ EXCLUDE_SYMBOLS        = ModelMap \
                          ObserverMap \
                          observerMap \
                          ObserverNode \
-                         FacadeMap \
+                         FacadeMap
 
 # The EXAMPLE_PATH tag can be used to specify one or more files or directories
 # that contain example code fragments that are included (see the \include
