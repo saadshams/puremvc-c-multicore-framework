@@ -7,4 +7,6 @@ void testBodyAccessors();
 
 void testConstructor();
 
+void testToString();
+
 #endif //PUREMVC_NOTIFICATIONTEST_H

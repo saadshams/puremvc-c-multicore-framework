@@ -5,6 +5,10 @@
 #include "View.h"
 #include <stdbool.h>
 
+typedef struct CommandMap CommandMap;
+
+typedef struct Controller Controller;
+
 /**
  * <P>A Multiton <code>Controller</code> implementation.</P>
  *
@@ -37,27 +41,107 @@
  * @see SimpleCommand
  * @see MacroCommand
  */
-typedef struct CommandMap CommandMap;
-
-typedef struct Controller Controller;
-
 struct Controller {
+
     const char *multitonKey;
+
     View *view;
+
     CommandMap *commandMap;
+
+    /**
+     * <P>Initialize the Multiton <code>Controller</code> instance.</P>
+     *
+     * <P>Called automatically by the constructor.</P>
+     *
+     * <P>Note that if you are using a subclass of <code>View</code>
+     * in your application, you should <i>also</i> subclass <code>Controller</code>
+     * and override the <code>initializeController</code> method in the
+     * following way:</P>
+     *
+     * <code>// ensure that the Controller is talking to my View implementation
+     * static void initializeController()
+     * {
+     *     view = getViewInstance(self->multitonKey, NewMyView);
+     * }
+     * </code>
+     *
+     * @param self Controller
+     */
     void (*initializeController)(Controller *self);
+
+    /**
+     * <P>If an <code>Command</code> has previously been registered
+     * to handle a the given <code>Notification</code>, then it is executed.</P>
+     *
+     * @param self Controller
+     * @param notification an <code>Notification</code>
+     */
     void (*executeCommand)(Controller *self, Notification *notification);
+
+    /**
+     * <P>Register a particular <code>Command</code> class as the handler
+     * for a particular <code>Notification</code>.</P>
+     *
+     * <P>If an <code>Command</code> has already been registered to
+     * handle <code>Notification</code>s with this name, it is no longer
+     * used, the new <code>Command</code> is used instead.</P>
+     *
+     * <P>The Observer for the new Command is only created if this the
+     * first time an Command has been registered for this Notification name.</P>
+     *
+     * @param self Controller
+     * @param notificationName the name of the <code>Notification</code>
+     * @param factory a reference to <code>Command</code> factory
+     */
     void (*registerCommand)(Controller *self, const char *notificationName, SimpleCommand *(*factory)());
+
+    /**
+     * <P>Check if a Command is registered for a given Notification</P>
+     *
+     * @param self Controller
+     * @param notificationName notification name
+     * @return whether a Command is currently registered for the given <code>notificationName</code>.
+     */
     bool (*hasCommand)(Controller *self, const char *notificationName);
+
+    /**
+     * <P>Remove a previously registered <code>Command</code> to <code>Notification</code> mapping.</P>
+     *
+     * @param self Controller
+     * @param notificationName the name of the <code>Notification</code> to remove the <code>Command</code> mapping for
+     */
     void (*removeCommand)(Controller *self, const char *notificationName);
 };
 
+/**
+ * <P><code>Controller</code> Multiton Factory method.</P>
+ *
+ * @param key multitonKey
+ * @param factory factory that returns <code>Controller</code>
+ * @return the Multiton instance of <code>Controller</code>
+ */
 Controller *getControllerInstance(const char *key, Controller *(*factory)(const char *));
 
+/**
+ * Constructor
+ *
+ * <P>This <code>Controller</code> implementation is a Multiton,
+ * so you should not call the constructor
+ * directly, but instead call the static Factory method,
+ * passing the unique key and a supplier for this instance
+ * <code>getControllerInstance(multitonKey, NewController)</code></P>
+ *
+ * @param key
+ * @return instance of <code>Controller</code>
+ * @throws Error if instance for this Multiton key has already been constructed
+ */
 Controller *NewController(const char *key);
 
+/** Initializer */
 void InitController(Controller *controller);
 
+/** Remove Core */
 void RemoveController(const char *key);
 
 #endif //PUREMVC_CONTROLLER_H

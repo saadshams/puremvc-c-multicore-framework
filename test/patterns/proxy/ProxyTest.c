@@ -8,8 +8,7 @@
 /**
  * Test the PureMVC Proxy class.
  *
- * @see org.puremvc.c.multicore.interfaces.Proxy Proxy
- * @see Proxy Proxy
+ * @see Proxy
  */
 int main() {
     testNameAccessor();

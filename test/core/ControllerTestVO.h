@@ -4,8 +4,8 @@
 /**
  * A utility struct used by ControllerTest.
  *
- * @see ControllerTest ControllerTest
- * @see org.puremvc.c.multicore.core.ControllerTestCommand ControllerTestCommand
+ * @see ControllerTest
+ * @see ControllerTestCommand
  */
 typedef struct ControllerTestVO ControllerTestVO;
 

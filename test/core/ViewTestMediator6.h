@@ -6,7 +6,7 @@
 /**
  * A Mediator class used by ViewTest.
  *
- * @see ViewTest ViewTest
+ * @see ViewTest
  */
 typedef struct {
     Mediator mediator;

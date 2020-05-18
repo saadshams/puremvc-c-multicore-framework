@@ -4,8 +4,8 @@
 /**
  * Test the PureMVC MacroCommand struct.
  *
- * @see org.puremvc.c.multicore.patterns.command.MacroCommandTestVO MacroCommandTestVO
- * @see org.puremvc.c.multicore.patterns.command.MacroCommandTestCommand MacroCommandTestCommand
+ * @see MacroCommandTestVO
+ * @see MacroCommandTestCommand
  */
 void testMacroCommandExecute();
 

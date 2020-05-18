@@ -7,8 +7,8 @@
 /**
  * A SimpleCommand substruct used by SimpleCommandTest.
  *
- * @see SimpleCommandTest SimpleCommandTest
- * @see SimpleCommandTestVO SimpleCommandTestVO
+ * @see SimpleCommandTest
+ * @see SimpleCommandTestVO
  */
 typedef struct SimpleCommandTestCommand SimpleCommandTestCommand;
 

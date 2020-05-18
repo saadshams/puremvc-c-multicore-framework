@@ -9,8 +9,8 @@
 /**
  * Test the PureMVC SimpleCommand class.
  *
- * @see org.puremvc.c.multicore.patterns.command.SimpleCommandTestVO SimpleCommandTestVO
- * @see org.puremvc.c.multicore.patterns.command.SimpleCommandTestCommand SimpleCommandTestCommand
+ * @see SimpleCommandTestVO
+ * @see SimpleCommandTestCommand
  */
 int main() {
     testSimpleCommandExecute();

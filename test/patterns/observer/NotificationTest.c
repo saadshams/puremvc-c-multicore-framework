@@ -7,13 +7,13 @@
 /**
  * Test the PureMVC Notification class.
  *
- * @see org.puremvc.c.multicore.interfaces.Notification Notification
- * @see Notification Notification
+ * @see Notification
  */
 int main() {
     testConstructor();
     testNameAccessors();
     testBodyAccessors();
+    testToString();
     puts("NotificationTest: Success");
     return 0;
 }
@@ -59,4 +59,12 @@ void testConstructor() {
     assert(notification->getBody(notification) == &test);
     assert(strcmp(notification->getType(notification), "TestNoteType") == 0);
     DeleteNotification(notification);
+}
+
+/** Test Notifications */
+void testToString() {
+    struct {int value;} test = {5};
+    Notification *notification = NewNotification("TestNote", &test, "TestNoteType");
+    const char *str = notification->toString(notification);
+    assert(strcmp(str, "TestNoteTestNoteType") == 0);
 }

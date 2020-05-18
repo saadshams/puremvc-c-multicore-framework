@@ -4,8 +4,8 @@
 /**
  * A utility struct used by SimpleCommandTest.
  *
- * @see SimpleCommandTest SimpleCommandTest
- * @see org.puremvc.c.multicore.patterns.command.SimpleCommandTestCommand SimpleCommandTestCommand
+ * @see SimpleCommandTest
+ * @see SimpleCommandTestCommand
  */
 typedef struct SimpleCommandTestVO SimpleCommandTestVO;
 

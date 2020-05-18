@@ -16,9 +16,9 @@ static void execute(SimpleCommand *self, Notification *notification) {
 /**
  * A SimpleCommand struct used by MacroCommandTestCommand.
  *
- * @see MacroCommandTest MacroCommandTest
- * @see MacroCommandTestCommand MacroCommandTestCommand
- * @see MacroCommandTestVO MacroCommandTestVO
+ * @see MacroCommandTest
+ * @see MacroCommandTestCommand
+ * @see MacroCommandTestVO
  */
 SimpleCommand* NewMacroCommandTestSub1Command() {
     SimpleCommand *self = NewSimpleCommand();

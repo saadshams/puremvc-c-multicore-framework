@@ -71,6 +71,13 @@ struct Notification {
      * Set the type of the <code>Notification</code> instance.
      */
     void (*setType)(Notification *self, char *type);
+
+    /**
+     * Get the string representation of the <code>Notification</code> instance.
+     *
+     * @return the string representation of the <code>Notification</code> instance.
+     */
+    const char * (*toString)(Notification *self);
 };
 
 /**

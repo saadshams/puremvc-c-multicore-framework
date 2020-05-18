@@ -6,8 +6,8 @@
 /**
  * A SimpleCommand substruct used by FacadeTest.
  *
- * @see FacadeTest FacadeTest
- * @see FacadeTestVO FacadeTestVO
+ * @see FacadeTest
+ * @see FacadeTestVO
  */
 typedef struct {
     SimpleCommand simpleCommand;

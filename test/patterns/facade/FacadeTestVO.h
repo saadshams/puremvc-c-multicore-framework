@@ -4,8 +4,8 @@
 /**
  * A utility struct used by FacadeTest.
  *
- * @see FacadeTest FacadeTest
- * @see org.puremvc.c.multicore.patterns.facade.FacadeTestCommand FacadeTestCommand
+ * @see FacadeTest
+ * @see FacadeTestCommand
  */
 typedef struct FacadeTestVO FacadeTestVO;
 

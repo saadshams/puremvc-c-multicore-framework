@@ -6,8 +6,8 @@
 /**
  * A SimpleCommand struct used by ControllerTest.
  *
- * @see ControllerTest ControllerTest
- * @see ControllerTestVO ControllerTestVO
+ * @see ControllerTest
+ * @see ControllerTestVO
  */
 SimpleCommand *NewControllerTestCommand();
 

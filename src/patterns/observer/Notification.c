@@ -23,6 +23,13 @@ static char *getType(Notification *self) {
     return self->type;
 }
 
+static const char * toString(Notification *self) {
+    char *msg = malloc(strlen(self->name) + (self->type != NULL ? strlen(self->type) : 0));
+    strcat(msg, self->name);
+    if (self->type) strcat(msg, self->type);
+    return msg;
+}
+
 Notification *NewNotification(const char *name, void *body, char *type) {
     Notification *notification = malloc(sizeof(Notification));
     if (notification == NULL) goto exception;
@@ -43,6 +50,7 @@ void InitNotification(Notification *notification, const char *name, void *body, 
     notification->getBody = getBody;
     notification->setType = setType;
     notification->getType = getType;
+    notification->toString = toString;
 }
 
 void DeleteNotification(Notification *notification) {

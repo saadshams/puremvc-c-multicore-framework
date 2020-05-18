@@ -8,8 +8,7 @@
 /**
  * Test the PureMVC Mediator class.
  *
- * @see org.puremvc.c.multicore.interfaces.Mediator Mediator
- * @see Mediator Mediator
+ * @see Mediator
  */
 int main() {
     testNameAccessor();

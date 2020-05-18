@@ -6,8 +6,8 @@
 /**
  * A SimpleCommand subclass used by ControllerTest.
  *
- * @see ControllerTest ControllerTest
- * @see ControllerTestVO ControllerTestVO
+ * @see ControllerTest
+ * @see ControllerTestVO
  */
 SimpleCommand *NewControllerTestCommand2();
 

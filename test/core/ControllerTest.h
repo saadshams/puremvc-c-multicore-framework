@@ -4,8 +4,8 @@
 /**
  * Test the PureMVC Controller class.
  *
- * @see org.puremvc.c.multicore.core.ControllerTestVO ControllerTestVO
- * @see org.puremvc.c.multicore.core.ControllerTestCommand ControllerTestCommand
+ * @see ControllerTestVO
+ * @see ControllerTestCommand
  */
 void testGetInstance();
 void testRegisterAndExecuteCommand();

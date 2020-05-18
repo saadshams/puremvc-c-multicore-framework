@@ -7,10 +7,10 @@
 /**
  * A MacroCommand struct used by MacroCommandTest.
  *
- * @see MacroCommandTest MacroCommandTest
- * @see org.puremvc.c.multicore.patterns.command.MacroCommandTestSub1Command MacroCommandTestSub1Command
- * @see org.puremvc.c.multicore.patterns.command.MacroCommandTestSub2Command MacroCommandTestSub2Command
- * @see MacroCommandTestVO MacroCommandTestVO
+ * @see MacroCommandTest
+ * @see MacroCommandTestSub1Command
+ * @see MacroCommandTestSub2Command
+ * @see MacroCommandTestVO
  */
 typedef struct MacroCommandTestCommand MacroCommandTestCommand;
 

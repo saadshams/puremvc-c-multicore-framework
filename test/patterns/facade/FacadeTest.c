@@ -10,8 +10,8 @@
 /**
  * Test the PureMVC Facade class.
  *
- * @see org.puremvc.c.multicore.patterns.facade.FacadeTestVO FacadeTestVO
- * @see org.puremvc.c.multicore.patterns.facade.FacadeTestCommand FacadeTestCommand
+ * @see FacadeTestVO
+ * @see FacadeTestCommand
  */
 int main() {
     testGetInstance();
