@@ -112,8 +112,8 @@ static void DeleteObserverNode(ObserverNode *observerNode) {
 }
 
 // Count the observers in an ObserverNode
-static int CountObservers(ObserverNode *observerNode) {
-    int count = 0;
+static unsigned int CountObservers(ObserverNode *observerNode) {
+    unsigned int count = 0;
     while (observerNode) {
         count++;
         observerNode = observerNode->next;
