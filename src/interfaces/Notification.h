@@ -77,7 +77,7 @@ struct Notification {
      *
      * @return the string representation of the <code>Notification</code> instance.
      */
-    const char * (*toString)(Notification *self);
+    const char *(*toString)(Notification *self);
 };
 
 /**

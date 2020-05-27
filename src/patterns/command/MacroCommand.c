@@ -30,7 +30,6 @@ static void addSubCommand(MacroCommand *self, SimpleCommand *(*factory)()) {
     SubCommandNode **cursor = &self->SubCommands;
     while (*cursor)
         cursor = &(*cursor)->next;
-
     *cursor = NewSubCommandNode(factory);
 }
 
@@ -46,7 +45,7 @@ static void execute(MacroCommand *self, Notification *notification) {
         cursor = cursor->next;
     }
 
-    // releasing memory
+    // releasing commands
     cursor = self->SubCommands;
     while (cursor) {
         SubCommandNode *next = cursor->next;

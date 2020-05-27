@@ -20,7 +20,7 @@ static void execute(SimpleCommand *self, Notification *notification) {
  * @see MacroCommandTestCommand
  * @see MacroCommandTestVO
  */
-SimpleCommand *NewMacroCommandTestSub2Command() {
+inline SimpleCommand *NewMacroCommandTestSub2Command() {
     SimpleCommand *self = NewSimpleCommand();
     self->execute = execute;
     return self;
