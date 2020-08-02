@@ -7,7 +7,7 @@ typedef struct SubCommandNode SubCommandNode;
 
 /** A LinkedList of SimpleCommand factory nodes */
 struct SubCommandNode {
-    SimpleCommand *(*factory)();
+    SimpleCommand *(*factory)(void);
     SubCommandNode *next;
 };
 
@@ -74,7 +74,7 @@ struct MacroCommand {
      * @param self MacroCommand
      * @param factory a reference to the factory of the <code>Command</code>.
      */
-    void (*addSubCommand)(MacroCommand *self, SimpleCommand *(*factory)());
+    void (*addSubCommand)(MacroCommand *self, SimpleCommand *(*factory)(void));
 
     /**
      * <P>Execute this <code>MacroCommand</code>'s <i>SubCommands</i>.</P>
@@ -89,7 +89,7 @@ struct MacroCommand {
 };
 
 /** Constructor */
-MacroCommand *NewMacroCommand();
+MacroCommand *NewMacroCommand(void);
 
 /** Initializer */
 void InitMacroCommand(MacroCommand *macroCommand);

@@ -117,7 +117,7 @@ struct Facade {
      * @param notificationName the name of the <code>Notification</code> to associate the <code>Command</code> with
      * @param factory factory that returns <code>Controller</code>
      */
-    void (*registerCommand)(Facade *self, const char *notificationName, SimpleCommand *(*factory)());
+    void (*registerCommand)(Facade *self, const char *notificationName, SimpleCommand *(*factory)(void));
 
     /**
      * <P>Remove a previously registered <code>Command</code> to <code>Notification</code> mapping from the Controller.</P>

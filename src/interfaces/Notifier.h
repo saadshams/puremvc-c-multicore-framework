@@ -81,7 +81,7 @@ struct Notifier {
 };
 
 /** Constructor */
-Notifier *NewNotifier();
+Notifier *NewNotifier(void);
 
 /**
  * Initializer

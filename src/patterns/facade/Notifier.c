@@ -15,7 +15,7 @@ static void initializeNotifier(Notifier *self, const char *key) {
     self->multitonKey = key;
 }
 
-Notifier *NewNotifier() {
+Notifier *NewNotifier(void) {
     Notifier *notifier = malloc(sizeof(Notifier));
     if (notifier == NULL) goto exception;
     InitNotifier(notifier);

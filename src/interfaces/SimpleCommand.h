@@ -36,7 +36,7 @@ struct SimpleCommand {
 };
 
 /** Constructor */
-SimpleCommand *NewSimpleCommand();
+SimpleCommand *NewSimpleCommand(void);
 
 /** Initializer */
 void InitSimpleCommand(SimpleCommand *simpleCommand);

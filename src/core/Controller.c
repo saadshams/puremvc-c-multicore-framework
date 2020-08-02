@@ -70,7 +70,7 @@ static void RemoveControllerMap(const char *key) {
 
 struct CommandMap {
     const char *name;
-    SimpleCommand *(*factory)();
+    SimpleCommand *(*factory)(void);
     CommandMap *next;
 };
 
@@ -78,7 +78,7 @@ struct CommandMap {
 static pthread_rwlock_t commandMap_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 /** Construct a new commandMap node */
-static CommandMap *NewCommandMap(const char *notificationName, SimpleCommand *(*factory)()) {
+static CommandMap *NewCommandMap(const char *notificationName, SimpleCommand *(*factory)(void)) {
     CommandMap *self = malloc(sizeof(CommandMap));
     self->name = notificationName;
     self->factory = factory;
@@ -111,7 +111,7 @@ static void executeCommand(Controller *self, Notification *notification) {
     pthread_rwlock_unlock(&commandMap_mutex);
 }
 
-static void registerCommand(Controller *self, const char *notificationName, SimpleCommand *(factory)()) {
+static void registerCommand(Controller *self, const char *notificationName, SimpleCommand *(factory)(void)) {
     pthread_rwlock_wrlock(&commandMap_mutex);
     CommandMap **cursor = &self->commandMap;
 

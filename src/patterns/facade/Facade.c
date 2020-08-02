@@ -86,7 +86,7 @@ static void initializeView(Facade *self) {
     self->view = getViewInstance(self->multitonKey, NewView);
 }
 
-static void registerCommand(Facade *self, const char *notificationName, SimpleCommand *(*factory)()) {
+static void registerCommand(Facade *self, const char *notificationName, SimpleCommand *(*factory)(void)) {
     self->controller->registerCommand(self->controller, notificationName, factory);
 }
 

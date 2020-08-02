@@ -7,7 +7,7 @@ static void execute(SimpleCommand *self, Notification *notification) {
 
 }
 
-SimpleCommand *NewSimpleCommand() {
+SimpleCommand *NewSimpleCommand(void) {
     SimpleCommand *simpleCommand = malloc(sizeof(SimpleCommand));
     if (simpleCommand == NULL) goto exception;
     InitSimpleCommand(simpleCommand);

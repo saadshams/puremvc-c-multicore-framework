@@ -4,7 +4,7 @@
 #include <stdlib.h>
 
 // Construct a SubCommand Node for the SubCommands LinkedList
-static SubCommandNode *NewSubCommandNode(SimpleCommand *(*factory)()) {
+static SubCommandNode *NewSubCommandNode(SimpleCommand *(*factory)(void)) {
     SubCommandNode *self = malloc(sizeof(SubCommandNode));
     if (self == NULL) goto exception;
     self->factory = factory;
@@ -26,7 +26,7 @@ static void initializeMacroCommand(MacroCommand *self) {
 
 }
 
-static void addSubCommand(MacroCommand *self, SimpleCommand *(*factory)()) {
+static void addSubCommand(MacroCommand *self, SimpleCommand *(*factory)(void)) {
     SubCommandNode **cursor = &self->SubCommands;
     while (*cursor)
         cursor = &(*cursor)->next;
@@ -55,7 +55,7 @@ static void execute(MacroCommand *self, Notification *notification) {
     self->SubCommands = NULL;
 }
 
-MacroCommand *NewMacroCommand() {
+MacroCommand *NewMacroCommand(void) {
     MacroCommand *macroCommand = malloc(sizeof(MacroCommand));
     if (macroCommand == NULL) goto exception;
     InitMacroCommand(macroCommand);

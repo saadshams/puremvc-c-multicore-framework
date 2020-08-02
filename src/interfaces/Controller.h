@@ -95,7 +95,7 @@ struct Controller {
      * @param notificationName the name of the <code>Notification</code>
      * @param factory a reference to <code>Command</code> factory
      */
-    void (*registerCommand)(Controller *self, const char *notificationName, SimpleCommand *(*factory)());
+    void (*registerCommand)(Controller *self, const char *notificationName, SimpleCommand *(*factory)(void));
 
     /**
      * <P>Check if a Command is registered for a given Notification</P>
