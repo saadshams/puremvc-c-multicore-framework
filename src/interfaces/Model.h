@@ -4,7 +4,7 @@
 #include "Proxy.h"
 #include <stdbool.h>
 
-typedef struct ProxyMap ProxyMap;
+typedef struct ProxyNode ProxyNode;
 
 typedef struct Model Model;
 
@@ -32,7 +32,7 @@ typedef struct Model Model;
  */
 struct Model {
     const char *multitonKey;
-    ProxyMap *proxyMap;
+    ProxyNode *proxyMap;
 
     /**
      * <P>Initialize the <code>Model</code> instance.</P>

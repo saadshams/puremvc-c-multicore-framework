@@ -938,21 +938,21 @@ EXCLUDE_PATTERNS       =
 # Note that the wildcards are matched against the file with absolute path, so to
 # exclude all test directories use the pattern */test/*
 
-EXCLUDE_SYMBOLS        = ModelMap \
-                         ProxyMap \
+EXCLUDE_SYMBOLS        = ModelNode \
+                         ProxyNode \
                          proxyMap \
-                         ControllerMap \
-                         CommandMap \
+                         ControllerNode \
+                         CommandNode \
                          commandMap \
                          SubCommands \
                          SubCommandNode \
-                         ViewMap \
-                         MediatorMap \
+                         ViewNode \
+                         MediatorNode \
                          mediatorMap \
                          ObserverMap \
                          observerMap \
                          ObserverNode \
-                         FacadeMap
+                         FacadeNode
 
 # The EXAMPLE_PATH tag can be used to specify one or more files or directories
 # that contain example code fragments that are included (see the \include

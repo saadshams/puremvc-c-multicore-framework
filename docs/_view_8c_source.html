@@ -93,24 +93,24 @@ $(document).ready(function(){initNavTree('_view_8c_source.html',''); initResizab
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;stdlib.h&gt;</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;string.h&gt;</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>ViewMap ViewMap;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>ViewNode ViewNode;</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">// ViewMap LinkedList</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">struct </span>ViewMap {</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">// ViewNode LinkedList</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">struct </span>ViewNode {</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span> *name;</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <a class="code" href="struct_view.html">View</a> *view;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    ViewMap *next;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    ViewNode *next;</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;};</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment">// The Multiton View instanceMap.</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">static</span> ViewMap *instanceMap;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">static</span> ViewNode *instanceMap;</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment">// mutex for instanceMap</span></div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">static</span> pthread_rwlock_t view_mutex;</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">// Construct a ViewMap</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">static</span> ViewMap *NewViewMap(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <a class="code" href="struct_view.html">View</a> *view) {</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    ViewMap *viewMap = malloc(<span class="keyword">sizeof</span>(ViewMap));</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">// Construct a ViewNode</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">static</span> ViewNode *NewViewNode(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <a class="code" href="struct_view.html">View</a> *view) {</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    ViewNode *viewMap = malloc(<span class="keyword">sizeof</span>(ViewNode));</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordflow">if</span> (viewMap == NULL) <span class="keywordflow">goto</span> exception;</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    viewMap-&gt;name = key;</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    viewMap-&gt;view = view;</div>
@@ -118,32 +118,32 @@ $(document).ready(function(){initNavTree('_view_8c_source.html',''); initResizab
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordflow">return</span> viewMap;</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    exception:</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        fprintf(stderr, <span class="stringliteral">&quot;ViewMap allocation failed.\n&quot;</span>);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        fprintf(stderr, <span class="stringliteral">&quot;ViewNode allocation failed.\n&quot;</span>);</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keywordflow">return</span> NULL;</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;}</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="comment">// Retrieve a Node from instanceMap LinkedList</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">static</span> <a class="code" href="struct_view.html">View</a> *GetViewMap(<span class="keyword">const</span> <span class="keywordtype">char</span> *key) {</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    ViewMap *viewMap = instanceMap;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">static</span> <a class="code" href="struct_view.html">View</a> *GetViewNode(<span class="keyword">const</span> <span class="keywordtype">char</span> *key) {</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    ViewNode *viewMap = instanceMap;</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordflow">while</span> (viewMap &amp;&amp; strcmp(viewMap-&gt;name, key) != 0)</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        viewMap = viewMap-&gt;next;</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordflow">return</span> viewMap == NULL ? NULL : viewMap-&gt;view;</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;}</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="comment">// Add ViewMap</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="comment">// Add ViewNode</span></div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> AddViewMap(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <a class="code" href="struct_view.html">View</a> *view) {</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    ViewMap **viewMap = &amp;instanceMap;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    ViewNode **viewMap = &amp;instanceMap;</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordflow">while</span> (*viewMap)</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        viewMap = &amp;(*viewMap)-&gt;next;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    *viewMap = NewViewMap(key, view);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    *viewMap = NewViewNode(key, view);</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;}</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="comment">// Remove a node from instanceMap LinkedList</span></div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> RemoveViewMap(<span class="keyword">const</span> <span class="keywordtype">char</span> *key) {</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    ViewMap **viewMap = &amp;instanceMap;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    ViewNode **viewMap = &amp;instanceMap;</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordflow">while</span> (*viewMap) {</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keywordflow">if</span> (strcmp((*viewMap)-&gt;name, key) == 0) {</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            ViewMap *node = *viewMap;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            ViewNode *node = *viewMap;</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            *viewMap = (*viewMap)-&gt;next;</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            free(node-&gt;view);</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            free(node);</div>
@@ -154,18 +154,18 @@ $(document).ready(function(){initNavTree('_view_8c_source.html',''); initResizab
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    }</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;}</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="keyword">struct </span>MediatorMap {</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="keyword">struct </span>MediatorNode {</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span> *name;</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <a class="code" href="struct_mediator.html">Mediator</a> *mediator;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    MediatorMap *next;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    MediatorNode *next;</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;};</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="comment">// mutex for mediatorMap</span></div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="keyword">static</span> pthread_rwlock_t mediatorMap_mutex;</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="comment">// Construct a new mediatorMap node</span></div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="keyword">static</span> MediatorMap *NewMediatorMap(<a class="code" href="struct_mediator.html">Mediator</a> *mediator) {</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    MediatorMap *mediatorMap = malloc(<span class="keyword">sizeof</span>(MediatorMap));</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="keyword">static</span> MediatorNode *NewMediatorNode(<a class="code" href="struct_mediator.html">Mediator</a> *mediator) {</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    MediatorNode *mediatorMap = malloc(<span class="keyword">sizeof</span>(MediatorNode));</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    mediatorMap-&gt;name = mediator-&gt;<a class="code" href="struct_mediator.html#a5569db1afebc0119e9f4e36ddc4c5ad4">getMediatorName</a>(mediator);</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    mediatorMap-&gt;mediator = mediator;</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    mediatorMap-&gt;next = NULL;</div>
@@ -173,7 +173,7 @@ $(document).ready(function(){initNavTree('_view_8c_source.html',''); initResizab
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;}</div>
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="comment">// Remove a node from mediatorMap LinkedList</span></div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> DeleteMediatorMap(MediatorMap *mediatorMap) {</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> DeleteMediatorNode(MediatorNode *mediatorMap) {</div>
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    free(mediatorMap);</div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    mediatorMap = NULL;</div>
 <div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;}</div>
@@ -330,7 +330,7 @@ $(document).ready(function(){initNavTree('_view_8c_source.html',''); initResizab
 <div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160; </div>
 <div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> registerMediator(<a class="code" href="struct_view.html">View</a> *<span class="keyword">self</span>, <a class="code" href="struct_mediator.html">Mediator</a> *mediator) {</div>
 <div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;    pthread_rwlock_wrlock(&amp;mediatorMap_mutex);</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;    MediatorMap **mediatorMap = &amp;<span class="keyword">self</span>-&gt;mediatorMap;</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;    MediatorNode **mediatorMap = &amp;<span class="keyword">self</span>-&gt;mediatorMap;</div>
 <div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160; </div>
 <div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;    <span class="comment">// do not allow re-registration (you must to removeMediator first)</span></div>
 <div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;    <span class="keywordflow">while</span> (*mediatorMap) {</div>
@@ -342,7 +342,7 @@ $(document).ready(function(){initNavTree('_view_8c_source.html',''); initResizab
 <div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;    mediator-&gt;<a class="code" href="struct_mediator.html#a2c9e9c16409b72d4b91ec03634bedfa9">notifier</a>-&gt;<a class="code" href="struct_notifier.html#a9a15795a43e2c386cfd523f9d2ef464a">initializeNotifier</a>(mediator-&gt;<a class="code" href="struct_mediator.html#a2c9e9c16409b72d4b91ec03634bedfa9">notifier</a>, self-&gt;<a class="code" href="struct_notifier.html#a19fdedbf1c3f543f4358255f0ca4269d">multitonKey</a>);</div>
 <div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160; </div>
 <div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;    <span class="comment">// Register the Mediator for retrieval by name</span></div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;    *mediatorMap = NewMediatorMap(mediator);</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;    *mediatorMap = NewMediatorNode(mediator);</div>
 <div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160; </div>
 <div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;    <span class="comment">// Get Notification interests, if any.</span></div>
 <div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span> * <span class="keyword">const</span> *interests = mediator-&gt;<a class="code" href="struct_mediator.html#a0b6e54c8453a9b00d5a5f0a9a3a58267">listNotificationInterests</a>(mediator);</div>
@@ -364,7 +364,7 @@ $(document).ready(function(){initNavTree('_view_8c_source.html',''); initResizab
 <div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160; </div>
 <div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;<span class="keyword">static</span> <a class="code" href="struct_mediator.html">Mediator</a> *retrieveMediator(<a class="code" href="struct_view.html">View</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *mediatorName) {</div>
 <div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;    pthread_rwlock_rdlock(&amp;mediatorMap_mutex);</div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;    MediatorMap *mediatorMap = <span class="keyword">self</span>-&gt;mediatorMap;</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;    MediatorNode *mediatorMap = <span class="keyword">self</span>-&gt;mediatorMap;</div>
 <div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;    <span class="keywordflow">while</span>(mediatorMap &amp;&amp; strcmp(mediatorMap-&gt;name, mediatorName) != 0)</div>
 <div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;        mediatorMap = mediatorMap-&gt;next;</div>
 <div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;    pthread_rwlock_unlock(&amp;mediatorMap_mutex);</div>
@@ -373,7 +373,7 @@ $(document).ready(function(){initNavTree('_view_8c_source.html',''); initResizab
 <div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160; </div>
 <div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;<span class="keyword">static</span> <span class="keywordtype">bool</span> hasMediator(<a class="code" href="struct_view.html">View</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *mediatorName) {</div>
 <div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;    pthread_rwlock_rdlock(&amp;mediatorMap_mutex);</div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;    MediatorMap *mediatorMap = <span class="keyword">self</span>-&gt;mediatorMap;</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;    MediatorNode *mediatorMap = <span class="keyword">self</span>-&gt;mediatorMap;</div>
 <div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;    <span class="keywordflow">while</span>(mediatorMap &amp;&amp; strcmp(mediatorMap-&gt;name, mediatorName) != 0)</div>
 <div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;        mediatorMap = mediatorMap-&gt;next;</div>
 <div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;    pthread_rwlock_unlock(&amp;mediatorMap_mutex);</div>
@@ -382,7 +382,7 @@ $(document).ready(function(){initNavTree('_view_8c_source.html',''); initResizab
 <div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160; </div>
 <div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;<span class="keyword">static</span> <a class="code" href="struct_mediator.html">Mediator</a> *removeMediator(<a class="code" href="struct_view.html">View</a> *<span class="keyword">self</span>, <span class="keyword">const</span> <span class="keywordtype">char</span> *mediatorName) {</div>
 <div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;    pthread_rwlock_wrlock(&amp;mediatorMap_mutex);</div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;    MediatorMap **mediatorMap = &amp;<span class="keyword">self</span>-&gt;mediatorMap;</div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;    MediatorNode **mediatorMap = &amp;<span class="keyword">self</span>-&gt;mediatorMap;</div>
 <div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160; </div>
 <div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;    <span class="keywordflow">while</span> (*mediatorMap) {</div>
 <div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;        <span class="comment">// Retrieve the named mediator</span></div>
@@ -398,11 +398,11 @@ $(document).ready(function(){initNavTree('_view_8c_source.html',''); initResizab
 <div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;                interests++;</div>
 <div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;            }</div>
 <div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160; </div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;            MediatorMap *node = *mediatorMap;</div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;            MediatorNode *node = *mediatorMap;</div>
 <div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160; </div>
 <div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;            <span class="comment">// remove the mediator from the map</span></div>
 <div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;            *mediatorMap = (*mediatorMap)-&gt;next;</div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;            DeleteMediatorMap(node);</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;            DeleteMediatorNode(node);</div>
 <div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160; </div>
 <div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;            <span class="comment">// alert the mediator that it has been removed</span></div>
 <div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;            mediator-&gt;<a class="code" href="struct_mediator.html#a0960935fa076d624515ed3bb5012a60c">onRemove</a>(mediator);</div>
@@ -428,7 +428,7 @@ $(document).ready(function(){initNavTree('_view_8c_source.html',''); initResizab
 <div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;}</div>
 <div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160; </div>
 <div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;<a class="code" href="struct_view.html">View</a> *NewView(<span class="keyword">const</span> <span class="keywordtype">char</span> *key) {</div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;    assert(GetViewMap(key) == NULL);</div>
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;    assert(GetViewNode(key) == NULL);</div>
 <div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160; </div>
 <div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;    <a class="code" href="struct_view.html">View</a> *view = malloc(<span class="keyword">sizeof</span>(<a class="code" href="struct_view.html">View</a>));</div>
 <div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;    <span class="keywordflow">if</span> (view == NULL) <span class="keywordflow">goto</span> exception;</div>
@@ -450,7 +450,7 @@ $(document).ready(function(){initNavTree('_view_8c_source.html',''); initResizab
 <div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160; </div>
 <div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;<a class="code" href="struct_view.html">View</a> *getViewInstance(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <a class="code" href="struct_view.html">View</a> *(*factory)(<span class="keyword">const</span> <span class="keywordtype">char</span> *)) {</div>
 <div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;    pthread_rwlock_wrlock(&amp;view_mutex);</div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;    <a class="code" href="struct_view.html">View</a> *instance = GetViewMap(key);</div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;    <a class="code" href="struct_view.html">View</a> *instance = GetViewNode(key);</div>
 <div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;    <span class="keywordflow">if</span> (instance == NULL) {</div>
 <div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;        instance = factory(key);</div>
 <div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;        instance-&gt;<a class="code" href="struct_view.html#a876bdb91d40ee0717618a42c3355745e">initializeView</a>(instance);</div>

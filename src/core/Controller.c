@@ -7,79 +7,79 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct ControllerMap ControllerMap;
+typedef struct ControllerNode ControllerNode;
 
-// ControllerMap LinkedList
-struct ControllerMap {
+// ControllerNode LinkedList
+struct ControllerNode {
     const char *name;
     Controller *controller;
-    ControllerMap *next;
+    ControllerNode *next;
 };
 
 // The Multiton Controller instanceMap.
-static ControllerMap *instanceMap;
+static ControllerNode *instanceMap;
 
 // mutex for controller instanceMap
 static pthread_rwlock_t controller_mutex;
 
 /** Construct a new instanceMap node */
-static ControllerMap *NewControllerMap(const char *key, Controller *controller) {
-    ControllerMap *controllerMap = malloc(sizeof(ControllerMap));
-    if (controllerMap == NULL) goto exception;
-    controllerMap->name = key;
-    controllerMap->controller = controller;
-    controllerMap->next = NULL;
-    return controllerMap;
+static ControllerNode *NewControllerNode(const char *key, Controller *controller) {
+    ControllerNode *node = malloc(sizeof(ControllerNode));
+    if (node == NULL) goto exception;
+    node->name = key;
+    node->controller = controller;
+    node->next = NULL;
+    return node;
 
     exception:
-        fprintf(stderr, "ControllerMap allocation failed.\n");
+        fprintf(stderr, "ControllerNode allocation failed.\n");
         return NULL;
 }
 
 /** Retrieve a Node from instanceMap LinkedList */
-static Controller *GetControllerMap(const char *key) {
-    ControllerMap *controllerMap = instanceMap;
-    while (controllerMap && strcmp(controllerMap->name, key) != 0)
-        controllerMap = controllerMap->next;
-    return controllerMap == NULL ? NULL : controllerMap->controller;
+static Controller *GetControllerNode(const char *key) {
+    ControllerNode *cursor = instanceMap;
+    while (cursor && strcmp(cursor->name, key) != 0)
+        cursor = cursor->next;
+    return cursor == NULL ? NULL : cursor->controller;
 }
 
 /** Add a Node to the instanceMap LinkedList */
-static void AddControllerMap(const char *key, Controller *controller) {
-    ControllerMap **controllerMap = &instanceMap;
-    while (*controllerMap)
-        controllerMap = &(*controllerMap)->next;
-    *controllerMap = NewControllerMap(key, controller);
+static void AddControllerNode(const char *key, Controller *controller) {
+    ControllerNode **cursor = &instanceMap;
+    while (*cursor)
+        cursor = &(*cursor)->next;
+    *cursor = NewControllerNode(key, controller);
 }
 
 /** Remove a node from instanceMap LinkedList */
-static void RemoveControllerMap(const char *key) {
-    ControllerMap **controllerMap = &instanceMap;
-    while (*controllerMap) {
-        if (strcmp((*controllerMap)->name, key) == 0) {
-            ControllerMap *node = *controllerMap;
-            *controllerMap = (*controllerMap)->next;
+static void RemoveControllerNode(const char *key) {
+    ControllerNode **cursor = &instanceMap;
+    while (*cursor) {
+        if (strcmp((*cursor)->name, key) == 0) {
+            ControllerNode *node = *cursor;
+            *cursor = (*cursor)->next;
             free(node->controller);
             free(node);
             node = NULL;
             break;
         }
-        controllerMap = &(*controllerMap)->next;
+        cursor = &(*cursor)->next;
     }
 }
 
-struct CommandMap {
+struct CommandNode {
     const char *name;
     SimpleCommand *(*factory)(void);
-    CommandMap *next;
+    CommandNode *next;
 };
 
 // mutex for commandMap
 static pthread_rwlock_t commandMap_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 /** Construct a new commandMap node */
-static CommandMap *NewCommandMap(const char *notificationName, SimpleCommand *(*factory)(void)) {
-    CommandMap *self = malloc(sizeof(CommandMap));
+static CommandNode *NewCommandNode(const char *notificationName, SimpleCommand *(*factory)(void)) {
+    CommandNode *self = malloc(sizeof(CommandNode));
     self->name = notificationName;
     self->factory = factory;
     self->next = NULL;
@@ -87,7 +87,7 @@ static CommandMap *NewCommandMap(const char *notificationName, SimpleCommand *(*
 }
 
 /** Release the memory for a commandMap node */
-static void DeleteCommandMap(CommandMap *self) {
+static void DeleteCommandNode(CommandNode *self) {
     free(self);
     self = NULL;
 }
@@ -98,7 +98,7 @@ static void initializeController(Controller *self) {
 
 static void executeCommand(Controller *self, Notification *notification) {
     pthread_rwlock_rdlock(&commandMap_mutex);
-    CommandMap *cursor = self->commandMap;
+    CommandNode *cursor = self->commandMap;
     while(cursor && strcmp(cursor->name, notification->getName(notification)) != 0)
         cursor = cursor->next;
 
@@ -113,20 +113,20 @@ static void executeCommand(Controller *self, Notification *notification) {
 
 static void registerCommand(Controller *self, const char *notificationName, SimpleCommand *(factory)(void)) {
     pthread_rwlock_wrlock(&commandMap_mutex);
-    CommandMap **cursor = &self->commandMap;
+    CommandNode **cursor = &self->commandMap;
 
     while (*cursor) {
         if (strcmp((*cursor)->name, notificationName) == 0) {
-            CommandMap *node = NewCommandMap(notificationName, factory);
+            CommandNode *node = NewCommandNode(notificationName, factory);
             node->next = (*cursor)->next;
-            DeleteCommandMap(*cursor);
+            DeleteCommandNode(*cursor);
             *cursor = node;
             return;
         }
         cursor = &(*cursor)->next;
     }
 
-    *cursor = NewCommandMap(notificationName, factory);
+    *cursor = NewCommandNode(notificationName, factory);
     Observer *observer = NewObserver((void (*)(void *, Notification *)) self->executeCommand, self);
     self->view->registerObserver(self->view, notificationName, observer);
     pthread_rwlock_unlock(&commandMap_mutex);
@@ -134,7 +134,7 @@ static void registerCommand(Controller *self, const char *notificationName, Simp
 
 static bool hasCommand(Controller *self, const char *notificationName) {
     pthread_rwlock_rdlock(&commandMap_mutex);
-    CommandMap *cursor = self->commandMap;
+    CommandNode *cursor = self->commandMap;
     while(cursor != NULL && strcmp(cursor->name, notificationName) != 0)
         cursor = cursor->next;
     pthread_rwlock_unlock(&commandMap_mutex);
@@ -143,19 +143,19 @@ static bool hasCommand(Controller *self, const char *notificationName) {
 
 static void removeCommand(Controller *self, const char *notificationName) {
     pthread_rwlock_wrlock(&commandMap_mutex);
-    CommandMap **cursor = &self->commandMap;
+    CommandNode **cursor = &self->commandMap;
 
     while (*cursor) {
         // if the Command is registered...
         if (strcmp((*cursor)->name, notificationName) == 0) {
-            CommandMap *commandMap = (*cursor);
+            CommandNode *commandMap = (*cursor);
 
             // remove the command
             *cursor = (*cursor)->next;
 
             // remove the observer
             self->view->removeObserver(self->view, notificationName, self);
-            DeleteCommandMap(commandMap);
+            DeleteCommandNode(commandMap);
             break;
         }
         cursor = &(*cursor)->next;
@@ -173,13 +173,13 @@ void InitController(Controller *controller) {
 }
 
 Controller *NewController(const char *key) {
-    assert(GetControllerMap(key) == NULL);
+    assert(GetControllerNode(key) == NULL);
 
     Controller *controller = malloc(sizeof(Controller));
     if (controller == NULL) goto exception;
     InitController(controller);
     controller->multitonKey = key;
-    AddControllerMap(key, controller);
+    AddControllerNode(key, controller);
     return controller;
 
     exception:
@@ -189,13 +189,13 @@ Controller *NewController(const char *key) {
 
 void RemoveController(const char *key) {
     pthread_rwlock_wrlock(&controller_mutex);
-    RemoveControllerMap(key);
+    RemoveControllerNode(key);
     pthread_rwlock_unlock(&controller_mutex);
 }
 
 Controller *getControllerInstance(const char *key, Controller *(*factory)(const char *)) {
     pthread_rwlock_wrlock(&controller_mutex);
-    Controller *instance = GetControllerMap(key);
+    Controller *instance = GetControllerNode(key);
     if (instance == NULL) {
         instance = factory(key);
         instance->initializeController(instance);

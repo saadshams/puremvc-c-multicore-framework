@@ -4,38 +4,38 @@
 #include <stdio.h>
 #include <string.h>
 
-typedef struct FacadeMap FacadeMap;
+typedef struct FacadeNode FacadeNode;
 
-// FacadeMap LinkedList
-struct FacadeMap {
+// FacadeNode LinkedList
+struct FacadeNode {
     const char *name;
     Facade *facade;
-    FacadeMap *next;
+    FacadeNode *next;
 };
 
 // The Multiton Facade instanceMap.
-static FacadeMap *instanceMap;
+static FacadeNode *instanceMap;
 
 // mutex for instanceMap
 static pthread_rwlock_t facade_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 /** Construct a new instanceMap node */
-static FacadeMap *NewFacadeMap(const char *key, Facade *facade) {
-    FacadeMap *facadeMap = malloc(sizeof(FacadeMap));
-    if (facadeMap == NULL) goto exception;
-    facadeMap->name = key;
-    facadeMap->facade = facade;
-    facadeMap->next = NULL;
-    return facadeMap;
+static FacadeNode *NewFacadeMap(const char *key, Facade *facade) {
+    FacadeNode *node = malloc(sizeof(FacadeNode));
+    if (node == NULL) goto exception;
+    node->name = key;
+    node->facade = facade;
+    node->next = NULL;
+    return node;
 
     exception:
-        fprintf(stderr, "FacadeMap allocation failed.\n");
+        fprintf(stderr, "FacadeNode allocation failed.\n");
         return NULL;
 }
 
 /** Retrieve a Node from instanceMap LinkedList */
 static Facade *GetFacadeMap(const char *key) {
-    FacadeMap *cursor = instanceMap;
+    FacadeNode *cursor = instanceMap;
     while (cursor && strcmp(cursor->name, key) != 0)
         cursor = cursor->next;
     return cursor == NULL ? NULL : cursor->facade;
@@ -43,7 +43,7 @@ static Facade *GetFacadeMap(const char *key) {
 
 /** Add a Node to the instanceMap LinkedList */
 static void AddFacadeMap(const char *key, Facade *facade) {
-    FacadeMap **cursor = &instanceMap;
+    FacadeNode **cursor = &instanceMap;
     while (*cursor)
         cursor = &(*cursor)->next;
     *cursor = NewFacadeMap(key, facade);
@@ -51,10 +51,10 @@ static void AddFacadeMap(const char *key, Facade *facade) {
 
 /** Remove a node from instanceMap LinkedList */
 static void RemoveFacadeMap(const char *key) {
-    FacadeMap **cursor = &instanceMap;
+    FacadeNode **cursor = &instanceMap;
     while (*cursor) {
         if (strcmp((*cursor)->name, key) == 0) {
-            FacadeMap *node = *cursor;
+            FacadeNode *node = *cursor;
             *cursor = (*cursor)->next;
             free(node->facade);
             free(node);

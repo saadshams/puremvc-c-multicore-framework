@@ -5,7 +5,7 @@
 #include "View.h"
 #include <stdbool.h>
 
-typedef struct CommandMap CommandMap;
+typedef struct CommandNode CommandNode;
 
 typedef struct Controller Controller;
 
@@ -47,7 +47,7 @@ struct Controller {
 
     View *view;
 
-    CommandMap *commandMap;
+    CommandNode *commandMap;
 
     /**
      * <P>Initialize the Multiton <code>Controller</code> instance.</P>

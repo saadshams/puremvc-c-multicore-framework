@@ -5,7 +5,7 @@
 #include "Observer.h"
 #include <stdbool.h>
 
-typedef struct MediatorMap MediatorMap;
+typedef struct MediatorNode MediatorNode;
 
 typedef struct ObserverNode ObserverNode;
 
@@ -36,7 +36,7 @@ struct View {
 
     const char *multitonKey;
 
-    MediatorMap *mediatorMap;
+    MediatorNode *mediatorMap;
 
     ObserverMap *observerMap;
 

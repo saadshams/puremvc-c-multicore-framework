@@ -5,86 +5,86 @@
 #include <stdio.h>
 #include <string.h>
 
-struct ProxyMap {
+struct ProxyNode {
     const char *name;
     Proxy *proxy;
-    ProxyMap *next;
+    ProxyNode *next;
 };
 
-// ModelMap LinkedList
-typedef struct ModelMap ModelMap;
+// ModelNode LinkedList
+typedef struct ModelNode ModelNode;
 
-struct ModelMap {
+struct ModelNode {
     const char *name;
     Model *model;
-    ModelMap *next;
+    ModelNode *next;
 };
 
 // The Multiton Model instanceMap.
-static ModelMap *instanceMap;
+static ModelNode *instanceMap;
 
 // mutex for modelMap
 static pthread_rwlock_t modelMap_mutex;
 
 // Construct a new instanceMap node
-static ModelMap *NewModelMap(const char *key, Model *model) {
-    ModelMap *modelMap = malloc(sizeof(ModelMap));
-    if (modelMap == NULL) goto exception;
-    modelMap->name = key;
-    modelMap->model = model;
-    modelMap->next = NULL;
-    return modelMap;
+static ModelNode *NewModelNode(const char *key, Model *model) {
+    ModelNode *node = malloc(sizeof(ModelNode));
+    if (node == NULL) goto exception;
+    node->name = key;
+    node->model = model;
+    node->next = NULL;
+    return node;
 
     exception:
-        fprintf(stderr, "ModelMap allocation failed.\n");
+        fprintf(stderr, "ModelNode allocation failed.\n");
         return NULL;
 }
 
 // Retrieve a Node from instanceMap LinkedList
 static Model *GetModelMap(const char *key) {
-    ModelMap *modelMap = instanceMap;
-    while (modelMap && strcmp(modelMap->name, key) != 0)
-        modelMap = modelMap->next;
-    return modelMap == NULL ? NULL : modelMap->model;
+    ModelNode *cursor = instanceMap;
+    while (cursor && strcmp(cursor->name, key) != 0)
+        cursor = cursor->next;
+    return cursor == NULL ? NULL : cursor->model;
 }
 
 // Add a Node to the instanceMap LinkedList
-static void AddModelMap(const char *key, Model *model) {
-    ModelMap **modelMap = &instanceMap;
-    while (*modelMap)
-        modelMap = &(*modelMap)->next;
-    *modelMap = NewModelMap(key, model);
+static void AddModelNode(const char *key, Model *model) {
+    ModelNode **cursor = &instanceMap;
+    while (*cursor)
+        cursor = &(*cursor)->next;
+    *cursor = NewModelNode(key, model);
 }
 
 // Remove a node from instanceMap LinkedList
-static void RemoveModelMap(const char *key) {
-    ModelMap **modelMap = &instanceMap;
-    while (*modelMap) {
-        if (strcmp((*modelMap)->name, key) == 0) {
-            ModelMap *node = *modelMap;
-            *modelMap = (*modelMap)->next;
+static void RemoveModelNode(const char *key) {
+    ModelNode **cursor = &instanceMap;
+    while (*cursor) {
+        if (strcmp((*cursor)->name, key) == 0) {
+            ModelNode *node = *cursor;
+            *cursor = (*cursor)->next;
             free(node->model);
             free(node);
             node = NULL;
             break;
         }
-        modelMap = &(*modelMap)->next;
+        cursor = &(*cursor)->next;
     }
 }
 
-// Construct a new proxyMap node
-static ProxyMap *NewProxyNode(Proxy *proxy) {
-    ProxyMap *proxyMap = malloc(sizeof(ProxyMap));
-    proxyMap->name = proxy->getProxyName(proxy);
-    proxyMap->proxy = proxy;
-    proxyMap->next = NULL;
-    return proxyMap;
+// Construct a new proxy node
+static ProxyNode *NewProxyNode(Proxy *proxy) {
+    ProxyNode *node = malloc(sizeof(ProxyNode));
+    node->name = proxy->getProxyName(proxy);
+    node->proxy = proxy;
+    node->next = NULL;
+    return node;
 }
 
-// Release the memory for a proxyMap node
-static void DeleteProxyNode(ProxyMap *proxyMap) {
-    free(proxyMap);
-    proxyMap = NULL;
+// Release the memory for a node node
+static void DeleteProxyNode(ProxyNode *node) {
+    free(node);
+    node = NULL;
 }
 
 static void initializeModel(Model *self) {
@@ -93,7 +93,7 @@ static void initializeModel(Model *self) {
 
 static void registerProxy(Model *self, Proxy *proxy) {
     pthread_rwlock_wrlock(&modelMap_mutex);
-    ProxyMap **cursor = &self->proxyMap;
+    ProxyNode **cursor = &self->proxyMap;
 
     while (*cursor) {
         if (strcmp((*cursor)->name, proxy->getProxyName(proxy)) == 0) {
@@ -111,7 +111,7 @@ static void registerProxy(Model *self, Proxy *proxy) {
 
 static Proxy *retrieveProxy(Model *self, const char *proxyName) {
     pthread_rwlock_rdlock(&modelMap_mutex);
-    ProxyMap *cursor = self->proxyMap;
+    ProxyNode *cursor = self->proxyMap;
     while (cursor && strcmp(cursor->name, proxyName) != 0)
         cursor = cursor->next;
     pthread_rwlock_unlock(&modelMap_mutex);
@@ -120,7 +120,7 @@ static Proxy *retrieveProxy(Model *self, const char *proxyName) {
 
 static bool hasProxy(Model *self, const char *proxyName) {
     pthread_rwlock_rdlock(&modelMap_mutex);
-    ProxyMap *cursor = self->proxyMap;
+    ProxyNode *cursor = self->proxyMap;
     while (cursor && strcmp(cursor->name, proxyName) != 0)
         cursor = cursor->next;
     pthread_rwlock_unlock(&modelMap_mutex);
@@ -129,10 +129,10 @@ static bool hasProxy(Model *self, const char *proxyName) {
 
 static Proxy *removeProxy(Model *self, const char *proxyName) {
     pthread_rwlock_wrlock(&modelMap_mutex);
-    ProxyMap **cursor = &self->proxyMap;
+    ProxyNode **cursor = &self->proxyMap;
     while (*cursor) {
         if (strcmp((*cursor)->name, proxyName) == 0) {
-            ProxyMap *node = *cursor;
+            ProxyNode *node = *cursor;
             Proxy *proxy = node->proxy;
             *cursor = (*cursor)->next;
             DeleteProxyNode(node);
@@ -161,7 +161,7 @@ Model *NewModel(const char *key) {
     if (model == NULL) goto exception;
     InitModel(model);
     model->multitonKey = key;
-    AddModelMap(key, model);
+    AddModelNode(key, model);
     return model;
 
     exception:
@@ -175,7 +175,7 @@ static pthread_rwlock_t model_mutex;
 /** Destructor */
 void RemoveModel(const char *key) {
     pthread_rwlock_wrlock(&model_mutex);
-    RemoveModelMap(key);
+    RemoveModelNode(key);
     pthread_rwlock_unlock(&model_mutex);
 }
 
