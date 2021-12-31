@@ -62,16 +62,29 @@ void testMacroCommandExecute() {
     DeleteMacroCommand(command);
 }
 
+/**
+ * Tests Command registration and execution.
+ *
+ * <P>This test gets a Multiton Controller instance
+ * and registers the MacroCommandTestCommand class
+ * to handle 'ControllerTest' Notifications.<P>
+ *
+ * <P>It then constructs such a Notification and tells the
+ * View to execute the associated Command.
+ * Success is determined by evaluating a property
+ * on an object passed to the Command, which will
+ * be modified when the Command executes.</P>
+ */
 void testRegisterAndExecuteCommand() {
     // Create the controller, register the ControllerTestCommand to handle 'ControllerTest' notes
     Controller *controller = getControllerInstance("ControllerTestKey1", NewController);
-    controller->registerCommand(controller, "ControllerTest1", (SimpleCommand *(*)(void)) NewMacroCommandTestCommand);
+    controller->registerCommand(controller, "ControllerTest", (SimpleCommand *(*)(void)) NewMacroCommandTestCommand);
 
     View *view = getViewInstance("ControllerTestKey1", NewView);
 
     // Create a 'ControllerTest' note
     MacroCommandTestVO vo = {5, 0, 0};
-    Notification *notification = NewNotification("ControllerTest1", &vo, NULL);
+    Notification *notification = NewNotification("ControllerTest", &vo, NULL);
 
     view->notifyObservers(view, notification);
 
