@@ -40,7 +40,7 @@ static View *GetViewNode(const char *key) {
     ViewNode *cursor = instanceMap;
     while (cursor && strcmp(cursor->name, key) != 0)
         cursor = cursor->next;
-    return cursor == NULL ? NULL : cursor->view;
+    return cursor != NULL ? cursor->view : NULL;
 }
 
 // Add ViewNode

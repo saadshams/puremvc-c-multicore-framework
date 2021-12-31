@@ -45,7 +45,7 @@ static Model *GetModelMap(const char *key) {
     ModelNode *cursor = instanceMap;
     while (cursor && strcmp(cursor->name, key) != 0)
         cursor = cursor->next;
-    return cursor == NULL ? NULL : cursor->model;
+    return cursor != NULL ? cursor->model : NULL;
 }
 
 // Add a Node to the instanceMap LinkedList
@@ -115,7 +115,7 @@ static Proxy *retrieveProxy(Model *self, const char *proxyName) {
     while (cursor && strcmp(cursor->name, proxyName) != 0)
         cursor = cursor->next;
     pthread_rwlock_unlock(&modelMap_mutex);
-    return cursor == NULL ? NULL : cursor->proxy;
+    return cursor != NULL ? cursor->proxy : NULL;
 }
 
 static bool hasProxy(Model *self, const char *proxyName) {

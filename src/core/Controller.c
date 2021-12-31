@@ -41,7 +41,7 @@ static Controller *GetControllerNode(const char *key) {
     ControllerNode *cursor = instanceMap;
     while (cursor && strcmp(cursor->name, key) != 0)
         cursor = cursor->next;
-    return cursor == NULL ? NULL : cursor->controller;
+    return cursor != NULL ? cursor->controller : NULL;
 }
 
 /** Add a Node to the instanceMap LinkedList */

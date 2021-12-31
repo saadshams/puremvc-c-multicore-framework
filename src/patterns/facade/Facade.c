@@ -38,7 +38,7 @@ static Facade *GetFacadeMap(const char *key) {
     FacadeNode *cursor = instanceMap;
     while (cursor && strcmp(cursor->name, key) != 0)
         cursor = cursor->next;
-    return cursor == NULL ? NULL : cursor->facade;
+    return cursor != NULL ? cursor->facade : NULL;
 }
 
 /** Add a Node to the instanceMap LinkedList */
