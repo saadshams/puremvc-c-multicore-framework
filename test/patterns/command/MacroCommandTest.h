@@ -9,4 +9,6 @@
  */
 void testMacroCommandExecute();
 
+void testRegisterAndExecuteCommand();
+
 #endif //PUREMVC_MACROCOMMANDTEST_H

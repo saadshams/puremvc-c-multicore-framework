@@ -37,7 +37,7 @@ typedef struct MacroCommand MacroCommand;
 
 struct MacroCommand {
 
-    struct Notifier *notifier;
+    SimpleCommand simpleCommand;
 
     SubCommandNode *SubCommands;
 

@@ -8,6 +8,7 @@
 
 int main() {
     testMacroCommandExecute();
+    testRegisterAndExecuteCommand();
     puts("MacroCommandTest: Success");
     return 0;
 }
@@ -48,10 +49,10 @@ void testMacroCommandExecute() {
 
     // Create the SimpleCommand
     MacroCommand *command = NewMacroCommandTestCommand();
-    command->notifier->initializeNotifier(command->notifier, "test");
+    command->simpleCommand.notifier->initializeNotifier(command->simpleCommand.notifier, "test");
 
     // Execute the SimpleCommand
-    command->execute(command, notification);
+    command->simpleCommand.execute(&command->simpleCommand, notification);
 
     // test assertions
     assert(vo.result1 == 10);
@@ -59,4 +60,27 @@ void testMacroCommandExecute() {
 
     DeleteNotification(notification);
     DeleteMacroCommand(command);
+}
+
+void testRegisterAndExecuteCommand() {
+    // Create the controller, register the ControllerTestCommand to handle 'ControllerTest' notes
+    Controller *controller = getControllerInstance("ControllerTestKey1", NewController);
+    controller->registerCommand(controller, "ControllerTest1", (SimpleCommand *(*)(void)) NewMacroCommandTestCommand);
+
+    View *view = getViewInstance("ControllerTestKey1", NewView);
+
+    // Create a 'ControllerTest' note
+    MacroCommandTestVO vo = {5, 0, 0};
+    Notification *notification = NewNotification("ControllerTest1", &vo, NULL);
+
+    view->notifyObservers(view, notification);
+
+    // test assertions
+    assert(vo.result1 == 10);
+    assert(vo.result2 == 25);
+
+    controller->removeCommand(controller, "ControllerTest1");
+    DeleteNotification(notification);
+    RemoveController("ControllerTestKey2");
+    controller = NULL;
 }

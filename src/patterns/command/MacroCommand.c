@@ -39,7 +39,7 @@ static void execute(MacroCommand *self, Notification *notification) {
 
     while (cursor) {
         SimpleCommand *commandInstance = cursor->factory();
-        commandInstance->notifier->initializeNotifier(commandInstance->notifier, self->notifier->multitonKey);
+        commandInstance->notifier->initializeNotifier(commandInstance->notifier, self->simpleCommand.notifier->multitonKey);
         commandInstance->execute(commandInstance, notification);
         DeleteSimpleCommand(commandInstance);
         cursor = cursor->next;
@@ -67,15 +67,16 @@ MacroCommand *NewMacroCommand(void) {
 }
 
 void InitMacroCommand(MacroCommand *macroCommand) {
-    macroCommand->notifier = NewNotifier();
+    macroCommand->simpleCommand.notifier = NewNotifier();
     macroCommand->SubCommands = NULL;
     macroCommand->initializeMacroCommand = initializeMacroCommand;
     macroCommand->addSubCommand = addSubCommand;
+    macroCommand->simpleCommand.execute = (void (*)(SimpleCommand *, Notification *)) execute;
     macroCommand->execute = execute;
 }
 
 void DeleteMacroCommand(MacroCommand *macroCommand) {
-    DeleteNotifier(macroCommand->notifier);
+    DeleteNotifier(macroCommand->simpleCommand.notifier);
     free(macroCommand);
     macroCommand = NULL;
 }
