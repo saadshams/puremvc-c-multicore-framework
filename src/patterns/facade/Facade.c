@@ -73,17 +73,17 @@ static void initializeFacade(Facade *self) {
 
 static void initializeController(Facade *self) {
     if (self->controller != NULL) return;
-    self->controller = getControllerInstance(self->multitonKey, NewController);
+    self->controller = $Controller.getInstance(self->multitonKey, $Controller.new);
 }
 
 static void initializeModel(Facade *self) {
     if (self->model != NULL) return;
-    self->model = getModelInstance(self->multitonKey, NewModel);
+    self->model = $Model.getInstance(self->multitonKey, $Model.new);
 }
 
 static void initializeView(Facade *self) {
     if (self->view != NULL) return;
-    self->view = getViewInstance(self->multitonKey, NewView);
+    self->view = $View.getInstance(self->multitonKey, $View.new);
 }
 
 static void registerCommand(Facade *self, const char *notificationName, SimpleCommand *(*factory)(void)) {
@@ -131,9 +131,9 @@ static bool hasMediator(Facade *self, const char *mediatorName) {
 }
 
 static void sendNotification(Facade *self, const char *notificationName, void *body, char *type) {
-    Notification *notification = NewNotification(notificationName, body, type);
+    Notification *notification = $Notification.new(notificationName, body, type);
     self->notifyObservers(self, notification);
-    DeleteNotification(notification);
+    $Notification.delete(notification);
 }
 
 static void notifyObservers(Facade *self, Notification *notification) {
@@ -144,20 +144,7 @@ static void initializeNotifier(Facade *self, const char *key) {
     self->multitonKey = key;
 }
 
-Facade *NewFacade(const char *key) {
-    assert(GetFacadeMap(key) == NULL);
-    Facade *facade = malloc(sizeof(Facade));
-    if (facade == NULL) goto exception;
-    InitFacade(facade);
-    facade->multitonKey = key;
-    return facade;
-
-    exception:
-        fprintf(stderr, "Facade allocation failed.\n");
-        return NULL;
-}
-
-void InitFacade(Facade *facade) {
+static void init(Facade *facade) {
     facade->controller = NULL;
     facade->model = NULL;
     facade->view = NULL;
@@ -181,23 +168,20 @@ void InitFacade(Facade *facade) {
     facade->initializeNotifier = initializeNotifier;
 }
 
-bool HasFacadeCore(const char *key) {
-    pthread_rwlock_rdlock(&facade_mutex);
-    bool result = GetFacadeMap(key) != NULL;
-    pthread_rwlock_unlock(&facade_mutex);
-    return result;
+static Facade *new(const char *key) {
+    assert(GetFacadeMap(key) == NULL);
+    Facade *facade = malloc(sizeof(Facade));
+    if (facade == NULL) goto exception;
+    init(facade);
+    facade->multitonKey = key;
+    return facade;
+
+    exception:
+        fprintf(stderr, "Facade allocation failed.\n");
+        return NULL;
 }
 
-void RemoveFacade(const char *key) {
-    pthread_rwlock_wrlock(&facade_mutex);
-    RemoveModel(key);
-    RemoveView(key);
-    RemoveController(key);
-    RemoveFacadeMap(key);
-    pthread_rwlock_unlock(&facade_mutex);
-}
-
-Facade *getFacadeInstance(const char *key, Facade *(*factory)(const char *)) {
+static Facade *getInstance(const char *key, Facade *(*factory)(const char *)) {
     pthread_rwlock_wrlock(&facade_mutex);
     Facade *instance = GetFacadeMap(key);
     if (instance == NULL) {
@@ -208,3 +192,21 @@ Facade *getFacadeInstance(const char *key, Facade *(*factory)(const char *)) {
     pthread_rwlock_unlock(&facade_mutex);
     return instance;
 }
+
+static bool hasCore(const char *key) {
+    pthread_rwlock_rdlock(&facade_mutex);
+    bool result = GetFacadeMap(key) != NULL;
+    pthread_rwlock_unlock(&facade_mutex);
+    return result;
+}
+
+static void removeFacade(const char *key) {
+    pthread_rwlock_wrlock(&facade_mutex);
+    $Model.removeModel(key);
+    $View.removeView(key);
+    $Controller.removeController(key);
+    RemoveFacadeMap(key);
+    pthread_rwlock_unlock(&facade_mutex);
+}
+
+const struct $Facade $Facade = { .new = new, .init = init, .getInstance = getInstance, .hasCore = hasCore, .removeFacade = removeFacade };

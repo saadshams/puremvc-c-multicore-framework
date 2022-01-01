@@ -3,7 +3,7 @@
 #include <string.h>
 
 Facade *getFacade(Notifier *self) {
-    return getFacadeInstance(self->multitonKey, NewFacade);
+    return $Facade.getInstance(self->multitonKey, $Facade.new);
 }
 
 static void sendNotification(Notifier *self, const char *notificationName, void *body, char *type) {
@@ -15,10 +15,17 @@ static void initializeNotifier(Notifier *self, const char *key) {
     self->multitonKey = key;
 }
 
-Notifier *NewNotifier(void) {
+static void init(Notifier *notifier) {
+    notifier->multitonKey = NULL;
+    notifier->getFacade = getFacade;
+    notifier->initializeNotifier  = initializeNotifier;
+    notifier->sendNotification = sendNotification;
+}
+
+Notifier *new(void) {
     Notifier *notifier = malloc(sizeof(Notifier));
     if (notifier == NULL) goto exception;
-    InitNotifier(notifier);
+    init(notifier);
     return notifier;
 
     exception:
@@ -26,14 +33,9 @@ Notifier *NewNotifier(void) {
         return NULL;
 }
 
-void InitNotifier(Notifier *notifier) {
-    notifier->multitonKey = NULL;
-    notifier->getFacade = getFacade;
-    notifier->initializeNotifier  = initializeNotifier;
-    notifier->sendNotification = sendNotification;
-}
-
-void DeleteNotifier(Notifier *notifier) {
+static void delete(Notifier *notifier) {
     free(notifier);
     notifier = NULL;
 }
+
+const struct $Notifier $Notifier = { .new = new, .init = init, .delete = delete };

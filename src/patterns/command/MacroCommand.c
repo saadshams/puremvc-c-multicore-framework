@@ -41,7 +41,7 @@ static void execute(MacroCommand *self, Notification *notification) {
         SimpleCommand *commandInstance = cursor->factory();
         commandInstance->notifier->initializeNotifier(commandInstance->notifier, self->simpleCommand.notifier->multitonKey);
         commandInstance->execute(commandInstance, notification);
-        DeleteSimpleCommand(commandInstance);
+        $SimpleCommand.delete(commandInstance);
         cursor = cursor->next;
     }
 
@@ -55,19 +55,8 @@ static void execute(MacroCommand *self, Notification *notification) {
     self->SubCommands = NULL;
 }
 
-MacroCommand *NewMacroCommand(void) {
-    MacroCommand *macroCommand = malloc(sizeof(MacroCommand));
-    if (macroCommand == NULL) goto exception;
-    InitMacroCommand(macroCommand);
-    return macroCommand;
-
-    exception:
-        fprintf(stderr, "MacroCommand allocation failed.\n");
-        return NULL;
-}
-
-void InitMacroCommand(MacroCommand *macroCommand) {
-    macroCommand->simpleCommand.notifier = NewNotifier();
+static void init(MacroCommand *macroCommand) {
+    macroCommand->simpleCommand.notifier = $Notifier.new();
     macroCommand->SubCommands = NULL;
     macroCommand->initializeMacroCommand = initializeMacroCommand;
     macroCommand->addSubCommand = addSubCommand;
@@ -75,8 +64,21 @@ void InitMacroCommand(MacroCommand *macroCommand) {
     macroCommand->execute = execute;
 }
 
-void DeleteMacroCommand(MacroCommand *macroCommand) {
-    DeleteNotifier(macroCommand->simpleCommand.notifier);
+static MacroCommand *new(void) {
+    MacroCommand *macroCommand = malloc(sizeof(MacroCommand));
+    if (macroCommand == NULL) goto exception;
+    $MacroCommand.init(macroCommand);
+    return macroCommand;
+
+    exception:
+        fprintf(stderr, "MacroCommand allocation failed.\n");
+        return NULL;
+}
+
+static void delete(MacroCommand *macroCommand) {
+    $Notifier.delete(macroCommand->simpleCommand.notifier);
     free(macroCommand);
     macroCommand = NULL;
 }
+
+const struct $MacroCommand $MacroCommand = { .new = new, .init = init, .delete = delete };

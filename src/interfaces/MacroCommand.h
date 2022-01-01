@@ -88,13 +88,17 @@ struct MacroCommand {
     void (*execute)(MacroCommand *self, Notification *notification);
 };
 
-/** Constructor */
-MacroCommand *NewMacroCommand(void);
+struct $MacroCommand {
+    /** Constructor */
+    MacroCommand *(*new)(void);
 
-/** Initializer */
-void InitMacroCommand(MacroCommand *macroCommand);
+    /** Initializer */
+    void (*init)(MacroCommand *macroCommand);
 
-/** Destructor */
-void DeleteMacroCommand(MacroCommand *macroCommand);
+    /** Destructor */
+    void (*delete)(MacroCommand *macroCommand);
+};
+
+const struct $MacroCommand $MacroCommand;
 
 #endif //PUREMVC_MACROCOMMAND_H

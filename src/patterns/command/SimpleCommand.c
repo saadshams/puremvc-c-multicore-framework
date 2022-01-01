@@ -7,10 +7,15 @@ static void execute(SimpleCommand *self, Notification *notification) {
 
 }
 
-SimpleCommand *NewSimpleCommand(void) {
+static void init(SimpleCommand *simpleCommand) {
+    simpleCommand->notifier = $Notifier.new();
+    simpleCommand->execute = execute;
+}
+
+static SimpleCommand *new(void) {
     SimpleCommand *simpleCommand = malloc(sizeof(SimpleCommand));
     if (simpleCommand == NULL) goto exception;
-    InitSimpleCommand(simpleCommand);
+    $SimpleCommand.init(simpleCommand);
     return simpleCommand;
 
     exception:
@@ -18,13 +23,10 @@ SimpleCommand *NewSimpleCommand(void) {
         return NULL;
 }
 
-void InitSimpleCommand(SimpleCommand *simpleCommand) {
-    simpleCommand->notifier = NewNotifier();
-    simpleCommand->execute = execute;
-}
-
-void DeleteSimpleCommand(SimpleCommand *simpleCommand) {
-    DeleteNotifier(simpleCommand->notifier);
+static void delete(SimpleCommand *simpleCommand) {
+    $Notifier.delete(simpleCommand->notifier);
     free(simpleCommand);
     simpleCommand = NULL;
 }
+
+const struct $SimpleCommand $SimpleCommand = { .new = new, .init = init, .delete = delete };

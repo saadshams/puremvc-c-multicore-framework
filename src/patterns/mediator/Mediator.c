@@ -33,19 +33,8 @@ static void onRemove(Mediator *self) {
 
 }
 
-Mediator *NewMediator(const char *mediatorName, void *viewComponent) {
-    Mediator *mediator = malloc(sizeof(Mediator));
-    if (mediator == NULL) goto exception;
-    InitMediator(mediator, mediatorName, viewComponent);
-    return mediator;
-
-    exception:
-        fprintf(stderr, "Mediator allocation failed.\n");
-        return NULL;
-}
-
-void InitMediator(Mediator *mediator, const char *mediatorName, void *viewComponent) {
-    mediator->notifier = NewNotifier();
+static void init(Mediator *mediator, const char *mediatorName, void *viewComponent) {
+    mediator->notifier = $Notifier.new();
     mediator->mediatorName = mediatorName != NULL ? mediatorName : MEDIATOR_NAME;
     mediator->viewComponent = viewComponent;
     mediator->getMediatorName = getMediatorName;
@@ -57,8 +46,21 @@ void InitMediator(Mediator *mediator, const char *mediatorName, void *viewCompon
     mediator->onRemove = onRemove;
 }
 
-void DeleteMediator(Mediator *mediator) {
-    DeleteNotifier(mediator->notifier);
+static Mediator *new(const char *mediatorName, void *viewComponent) {
+    Mediator *mediator = malloc(sizeof(Mediator));
+    if (mediator == NULL) goto exception;
+    init(mediator, mediatorName, viewComponent);
+    return mediator;
+
+    exception:
+        fprintf(stderr, "Mediator allocation failed.\n");
+        return NULL;
+}
+
+static void delete(Mediator *mediator) {
+    $Notifier.delete(mediator->notifier);
     free(mediator);
     mediator = NULL;
 }
+
+const struct $Mediator $Mediator = { .new = new, .init = init, .delete = delete };

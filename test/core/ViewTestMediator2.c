@@ -17,7 +17,7 @@ static void handleNotification(Mediator *self, Notification *notification) {
 
 ViewTestMediator2 *NewViewTestMediator2(void *viewComponent) {
     ViewTestMediator2 *self = malloc(sizeof(ViewTestMediator2));
-    InitMediator(&self->mediator, ViewTestMediator2_NAME, viewComponent);
+    $Mediator.init(&self->mediator, ViewTestMediator2_NAME, viewComponent);
     self->mediator.listNotificationInterests = listNotificationInterests;
     self->mediator.handleNotification = handleNotification;
     return self;

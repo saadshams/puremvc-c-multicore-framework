@@ -80,21 +80,25 @@ struct Notifier {
     void (*sendNotification)(Notifier *self, const char *notificationName, void *body, char *type);
 };
 
-/** Constructor */
-Notifier *NewNotifier(void);
+struct $Notifier {
+    /** Constructor */
+    Notifier *(*new)(void);
 
-/**
- * Initializer
- *
- * @param notifier
- */
-void InitNotifier(Notifier *notifier);
+    /**
+     * Initializer
+     *
+     * @param notifier
+     */
+    void (*init)(Notifier *notifier);
 
-/**
- * Destructor
- *
- * @param notifier
- */
-void DeleteNotifier(Notifier *notifier);
+    /**
+     * Destructor
+     *
+     * @param notifier
+     */
+    void (*delete)(Notifier *notifier);
+};
+
+const struct $Notifier $Notifier;
 
 #endif //PUREMVC_NOTIFIER_H

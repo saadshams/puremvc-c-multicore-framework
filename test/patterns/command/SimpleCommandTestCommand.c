@@ -19,7 +19,7 @@ static void execute(SimpleCommand *self, Notification *notification) {
  */
 SimpleCommandTestCommand* NewSimpleCommandTestCommand() {
     SimpleCommandTestCommand *self = malloc(sizeof(SimpleCommandTestCommand));
-    InitSimpleCommand(&self->simpleCommand);
+    $SimpleCommand.init(&self->simpleCommand);
     self->simpleCommand.execute = execute; // override implementation
     return self;
 }
@@ -28,5 +28,5 @@ SimpleCommandTestCommand* NewSimpleCommandTestCommand() {
  * Destructor
  */
 void DeleteSimpleCommandTestCommand(SimpleCommandTestCommand *self) {
-    DeleteSimpleCommand(&self->simpleCommand);
+    $SimpleCommand.delete(&self->simpleCommand);
 }

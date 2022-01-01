@@ -23,12 +23,12 @@ int main() {
  */
 void testGetInstance() {
     // Test Factory Method
-    Controller *controller = getControllerInstance("ControllerTestKey1", NewController);
+    Controller *controller = $Controller.getInstance("ControllerTestKey1", $Controller.new);
 
     // test assertions
     assert(controller != NULL);
-    assert(controller == getControllerInstance("ControllerTestKey1", NewController));
-    RemoveController("ControllerTestKey1");
+    assert(controller == $Controller.getInstance("ControllerTestKey1", $Controller.new));
+    $Controller.removeController("ControllerTestKey1");
     controller = NULL;
 }
 
@@ -47,12 +47,12 @@ void testGetInstance() {
  */
 void testRegisterAndExecuteCommand() {
     // Create the controller, register the ControllerTestCommand to handle 'ControllerTest' notes
-    Controller *controller = getControllerInstance("ControllerTestKey2", NewController);
+    Controller *controller = $Controller.getInstance("ControllerTestKey2", $Controller.new);
     controller->registerCommand(controller, "ControllerTest1", NewControllerTestCommand);
 
     // Create a 'ControllerTest' note
     ControllerTestVO vo = {12, 0};
-    Notification *notification = NewNotification("ControllerTest1", &vo, NULL);
+    Notification *notification = $Notification.new("ControllerTest1", &vo, NULL);
 
     // Tell the controller to execute the Command associated with the note
     // the ControllerTestCommand invoked will multiply the vo.input value
@@ -63,8 +63,8 @@ void testRegisterAndExecuteCommand() {
     assert(vo.result == 24);
 
     controller->removeCommand(controller, "ControllerTest1");
-    DeleteNotification(notification);
-    RemoveController("ControllerTestKey2");
+    $Notification.delete(notification);
+    $Controller.removeController("ControllerTestKey2");
     controller = NULL;
 }
 
@@ -76,12 +76,12 @@ void testRegisterAndExecuteCommand() {
  */
 void testRegisterAndRemoveCommand() {
     // Create the controller, register the ControllerTestCommand to handle 'ControllerTest' notes
-    Controller *controller = getControllerInstance("ControllerTestKey3", NewController);
+    Controller *controller = $Controller.getInstance("ControllerTestKey3", $Controller.new);
     controller->registerCommand(controller, "ControllerRemoveTest", NewControllerTestCommand);
 
     // Create a 'ControllerTest' note
     ControllerTestVO vo = {12, 0};
-    Notification *notification = NewNotification("ControllerRemoveTest", &vo, NULL);
+    Notification *notification = $Notification.new("ControllerRemoveTest", &vo, NULL);
 
     // Tell the controller to execute the Command associated with the note
     // the ControllerTestCommand invoked will multiply the vo.input value
@@ -104,8 +104,8 @@ void testRegisterAndRemoveCommand() {
 
     // test assertions
     assert(vo.result == 0);
-    DeleteNotification(notification);
-    RemoveController("ControllerTestKey3");
+    $Notification.delete(notification);
+    $Controller.removeController("ControllerTestKey3");
     controller = NULL;
 }
 
@@ -114,7 +114,7 @@ void testRegisterAndRemoveCommand() {
  */
 void testHasCommand() {
     // register the ControllerTestCommand to handle 'hasCommandTest' notes
-    Controller *controller = getControllerInstance("ControllerTestKey4", NewController);
+    Controller *controller = $Controller.getInstance("ControllerTestKey4", $Controller.new);
 
     // test that hasCommand returns true for hasCommandTest notifications
     controller->registerCommand(controller, "hasCommandTest", NewControllerTestCommand);
@@ -126,7 +126,7 @@ void testHasCommand() {
     // test that hasCommand returns false for hasCommandTest notifications
     assert(controller->hasCommand(controller, "hasCommandTest") == false);
 
-    RemoveController("ControllerTestKey4");
+    $Controller.removeController("ControllerTestKey4");
     controller = NULL;
 }
 
@@ -141,7 +141,7 @@ void testHasCommand() {
  */
 void testReregisterAndExecuteCommand() {
     // Fetch the controller, register the ControllerTestCommand2 to handle 'ControllerTest2' notes
-    Controller *controller = getControllerInstance("ControllerTestKey5", NewController);
+    Controller *controller = $Controller.getInstance("ControllerTestKey5", $Controller.new);
     controller->registerCommand(controller, "ControllerTest2", NewControllerTestCommand2);
 
     // Remove the Command from the Controller
@@ -152,10 +152,10 @@ void testReregisterAndExecuteCommand() {
 
     // Create a 'ControllerTest2' note
     ControllerTestVO vo = {12, 0};
-    Notification *notification = NewNotification("ControllerTest2", &vo, NULL);
+    Notification *notification = $Notification.new("ControllerTest2", &vo, NULL);
 
     // retrieve a reference to the View from the same core.
-    View *view = getViewInstance("ControllerTestKey5", NewView);
+    View *view = $View.getInstance("ControllerTestKey5", $View.new);
     view->notifyObservers(view, notification);
 
     // test assertions
@@ -169,9 +169,9 @@ void testReregisterAndExecuteCommand() {
     assert(vo.result == 48);
 
     controller->removeCommand(controller, "ControllerTest2");
-    DeleteNotification(notification);
-    RemoveController("ControllerTestKey5");
-    RemoveView("ControllerTestKey5");
+    $Notification.delete(notification);
+    $Controller.removeController("ControllerTestKey5");
+    $View.removeView("ControllerTestKey5");
     controller = NULL;
 }
 
@@ -179,7 +179,7 @@ void testReregisterAndExecuteCommand() {
  * Test register a command, and then update the same notification with a second command
  */
 void testRegisterAndUpdateCommand() {
-    Controller *controller = getControllerInstance("ControllerTestKey3_2", NewController);
+    Controller *controller = $Controller.getInstance("ControllerTestKey3_2", $Controller.new);
 
     // first registration
     controller->registerCommand(controller, "ControllerTest2", NewControllerTestCommand);
@@ -188,28 +188,28 @@ void testRegisterAndUpdateCommand() {
     controller->registerCommand(controller, "ControllerTest2", NewControllerTestCommand2);
 
     ControllerTestVO vo = {12, 10};
-    Notification *notification = NewNotification("ControllerTest2", &vo, NULL);
+    Notification *notification = $Notification.new("ControllerTest2", &vo, NULL);
     controller->executeCommand(controller, notification);
 
     // second command result
     assert(vo.result == 34);
 
     controller->removeCommand(controller, "ControllerTest2");
-    DeleteNotification(notification);
-    RemoveController("ControllerTestKey3_2");
+    $Notification.delete(notification);
+    $Controller.removeController("ControllerTestKey3_2");
     controller = NULL;
 }
 
 void testRemoveController() {
     // Get a Multiton Controller instance
-    getControllerInstance("ControllerTestKey4", NewController);
+    $Controller.getInstance("ControllerTestKey4", $Controller.new);
 
     // remove the controller
-    RemoveController("ControllerTestKey4");
+    $Controller.removeController("ControllerTestKey4");
 
     // re-create the controller without throwing an exception
-    NewController("ControllerTestKey4");
+    $Controller.new("ControllerTestKey4");
 
     // cleanup
-    RemoveController("ControllerTestKey4");
+    $Controller.removeController("ControllerTestKey4");
 }

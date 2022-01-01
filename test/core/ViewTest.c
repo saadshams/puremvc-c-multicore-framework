@@ -58,12 +58,12 @@ int main() {
  */
 void testGetInstance() {
     // Test Factory Method
-    View *view = getViewInstance("ViewTestKey1", NewView);
+    View *view = $View.getInstance("ViewTestKey1", $View.new);
 
     // test assertions
     assert(view != NULL);
-    assert(view == getViewInstance("ViewTestKey1", NewView));
-    RemoveView("ViewTestKey1");
+    assert(view == $View.getInstance("ViewTestKey1", $View.new));
+    $View.removeView("ViewTestKey1");
     view = NULL;
 }
 
@@ -88,10 +88,10 @@ void testGetInstance() {
 void testRegisterAndNotifyObserver() {
     // Get the Multiton View instance
     ViewComponent viewComponent = {};
-    View *view = getViewInstance("ViewTestKey2", NewView);
+    View *view = $View.getInstance("ViewTestKey2", $View.new);
 
     // Create observer, passing in notification method and context
-    Observer *observer = NewObserver(viewTestMethod, &viewComponent);
+    Observer *observer = $Observer.new(viewTestMethod, &viewComponent);
 
     // Register Observer's interest in a particular Notification with the View
     view->registerObserver(view, "ViewTestNote1", observer);
@@ -103,7 +103,7 @@ void testRegisterAndNotifyObserver() {
     // successful notification will result in our local
     // viewTestVar being set to the value we pass in
     // on the note body.
-    Notification *note = NewNotification("ViewTestNote1", &(ViewTestVar) {10}, NULL);
+    Notification *note = $Notification.new("ViewTestNote1", &(ViewTestVar) {10}, NULL);
     view->notifyObservers(view, note);
 
     // test assertions
@@ -115,8 +115,8 @@ void testRegisterAndNotifyObserver() {
     view->notifyObservers(view, note);
     assert(viewTestVar1->value == 0);
 
-    DeleteNotification(note);
-    RemoveView("ViewTestKey2");
+    $Notification.delete(note);
+    $View.removeView("ViewTestKey2");
     view = NULL;
 }
 
@@ -126,11 +126,11 @@ void testRegisterAndNotifyObserver() {
  */
 void testRegisterAndRetrieveMediator() {
     // Get the Multiton View instance
-    View *view = getViewInstance("ViewTestKey3", NewView);
+    View *view = $View.getInstance("ViewTestKey3", $View.new);
 
     // Create and register the test mediator
     ViewComponent viewComponent = {};
-    view->registerMediator(view, NewMediator("testing", &viewComponent));
+    view->registerMediator(view, $Mediator.new("testing", &viewComponent));
 
     // Retrieve the component
     Mediator *mediator = view->retrieveMediator(view, "testing");
@@ -142,8 +142,8 @@ void testRegisterAndRetrieveMediator() {
 
     // clean up
     view->removeMediator(view, "testing");
-    DeleteMediator(mediator);
-    RemoveView("ViewTestKey3");
+    $Mediator.delete(mediator);
+    $View.removeView("ViewTestKey3");
     view = NULL;
 }
 
@@ -152,11 +152,11 @@ void testRegisterAndRetrieveMediator() {
  */
 void testHasMediator() {
     // Get the Multiton View instance
-    View *view = getViewInstance("ViewTestKey4", NewView);
+    View *view = $View.getInstance("ViewTestKey4", $View.new);
 
     // Create and register the test mediator
     ViewComponent viewComponent = {};
-    Mediator *mediator = NewMediator("hasMediatorTest", &viewComponent);
+    Mediator *mediator = $Mediator.new("hasMediatorTest", &viewComponent);
     view->registerMediator(view, mediator);
 
     // assert that the view.hasMediator method returns true
@@ -169,8 +169,8 @@ void testHasMediator() {
     // for that mediator name
     assert(view->hasMediator(view, "hasMediatorTest") == false);
 
-    DeleteMediator(mediator);
-    RemoveView("ViewTestKey4");
+    $Mediator.delete(mediator);
+    $View.removeView("ViewTestKey4");
     view = NULL;
 }
 
@@ -179,11 +179,11 @@ void testHasMediator() {
  */
 void testRegisterAndRemoveMediator() {
     // Get the Multiton View instance
-    View *view = getViewInstance("ViewTestKey6", NewView);
+    View *view = $View.getInstance("ViewTestKey6", $View.new);
 
     // Create and register the test mediator
     ViewComponent viewComponent = {};
-    Mediator *mediator = NewMediator("testing", &viewComponent);
+    Mediator *mediator = $Mediator.new("testing", &viewComponent);
     view->registerMediator(view, mediator);
 
     // Remove the component
@@ -195,8 +195,8 @@ void testRegisterAndRemoveMediator() {
     // assert that the mediator is no longer retrievable
     assert(view->retrieveMediator(view, "testing") == NULL);
 
-    DeleteMediator(mediator);
-    RemoveView("ViewTestKey6");
+    $Mediator.delete(mediator);
+    $View.removeView("ViewTestKey6");
     view = NULL;
 }
 
@@ -205,7 +205,7 @@ void testRegisterAndRemoveMediator() {
  */
 void testOnRegisterAndOnRemove() {
     // Get the Multiton View instance
-    View *view = getViewInstance("ViewTestKey5", NewView);
+    View *view = $View.getInstance("ViewTestKey5", $View.new);
     ViewTest viewTest = {"", false, false, 0};
 
     // Create and register the test mediator
@@ -225,8 +225,8 @@ void testOnRegisterAndOnRemove() {
     assert(viewTest.onRemoveCalled);
 
     // clean up
-    DeleteMediator(mediator);
-    RemoveView("ViewTestKey5");
+    $Mediator.delete(mediator);
+    $View.removeView("ViewTestKey5");
     view = NULL;
 }
 
@@ -235,7 +235,7 @@ void testOnRegisterAndOnRemove() {
  */
 void testSuccessiveRegisterAndRemoveMediator() {
     // Get the Multiton View instance
-    View *view = getViewInstance("ViewTestKey7", NewView);
+    View *view = $View.getInstance("ViewTestKey7", $View.new);
 
     // Create and register the test mediator,
     // but not so we have a reference to it
@@ -257,7 +257,7 @@ void testSuccessiveRegisterAndRemoveMediator() {
     assert(view->removeMediator(view, ViewTestMediator_NAME) == NULL);
 
     // Create and register another instance of the test mediator,
-    Mediator *mediator2 = NewMediator(ViewTestMediator_NAME, &viewComponent);
+    Mediator *mediator2 = $Mediator.new(ViewTestMediator_NAME, &viewComponent);
     view->registerMediator(view, mediator2);
 
     assert(view->retrieveMediator(view, ViewTestMediator_NAME) == mediator2);
@@ -268,9 +268,9 @@ void testSuccessiveRegisterAndRemoveMediator() {
     // test that retrieving it now returns null
     assert(view->retrieveMediator(view, ViewTestMediator_NAME) == NULL);
 
-    DeleteMediator(mediator);
-    DeleteMediator(mediator2);
-    RemoveView("ViewTestKey7");
+    $Mediator.delete(mediator);
+    $Mediator.delete(mediator2);
+    $View.removeView("ViewTestKey7");
     view = NULL;
 }
 
@@ -281,7 +281,7 @@ void testSuccessiveRegisterAndRemoveMediator() {
  */
 void testRemoveMediatorAndSubsequentNotify() {
     // Get the Multiton View instance
-    View *view = getViewInstance("ViewTestKey8", NewView);
+    View *view = $View.getInstance("ViewTestKey8", $View.new);
 
     // Create and register the test mediator to be removed.
     ViewTest viewTest = {};
@@ -289,11 +289,11 @@ void testRemoveMediatorAndSubsequentNotify() {
     view->registerMediator(view, mediator);
 
     // test that notifications work
-    Notification *notification1 = NewNotification(NOTE1, NULL, NULL);
+    Notification *notification1 = $Notification.new(NOTE1, NULL, NULL);
     view->notifyObservers(view, notification1);
     assert(strcmp(viewTest.lastNotification, NOTE1) == 0);
 
-    Notification *notification2 = NewNotification(NOTE2, NULL, NULL);
+    Notification *notification2 = $Notification.new(NOTE2, NULL, NULL);
     view->notifyObservers(view, notification2);
     assert(strcmp(viewTest.lastNotification, NOTE2) == 0);
 
@@ -309,10 +309,10 @@ void testRemoveMediatorAndSubsequentNotify() {
     view->notifyObservers(view, notification2);
     assert(strcmp(viewTest.lastNotification, NOTE2) != 0);
 
-    DeleteNotification(notification1);
-    DeleteNotification(notification2);
-    DeleteMediator(mediator);
-    RemoveView("ViewTestKey8");
+    $Notification.delete(notification1);
+    $Notification.delete(notification2);
+    $Mediator.delete(mediator);
+    $View.removeView("ViewTestKey8");
     view = NULL;
 }
 
@@ -322,7 +322,7 @@ void testRemoveMediatorAndSubsequentNotify() {
  */
 void testRemoveOneOfTwoMediatorsAndSubsequentNotify() {
     // Get the Multiton View instance
-    View *view = getViewInstance("ViewTestKey9", NewView);
+    View *view = $View.getInstance("ViewTestKey9", $View.new);
     ViewTest viewTest = {};
 
     // Create and register that responds to notifications 1 and 2
@@ -334,15 +334,15 @@ void testRemoveOneOfTwoMediatorsAndSubsequentNotify() {
     view->registerMediator(view, mediator3);
 
     // test that all notifications work
-    Notification *notification1 = NewNotification(NOTE1, NULL, NULL);
+    Notification *notification1 = $Notification.new(NOTE1, NULL, NULL);
     view->notifyObservers(view, notification1);
     assert(strcmp(viewTest.lastNotification, NOTE1) == 0);
 
-    Notification *notification2 = NewNotification(NOTE2, NULL, NULL);
+    Notification *notification2 = $Notification.new(NOTE2, NULL, NULL);
     view->notifyObservers(view, notification2);
     assert(strcmp(viewTest.lastNotification, NOTE2) == 0);
 
-    Notification *notification3 = NewNotification(NOTE3, NULL, NULL);
+    Notification *notification3 = $Notification.new(NOTE3, NULL, NULL);
     view->notifyObservers(view, notification3);
     assert(strcmp(viewTest.lastNotification, NOTE3) == 0);
 
@@ -367,13 +367,13 @@ void testRemoveOneOfTwoMediatorsAndSubsequentNotify() {
 
     view->removeMediator(view, ViewTestMediator3_NAME);
 
-    DeleteMediator(mediator2);
-    DeleteMediator(mediator3);
+    $Mediator.delete(mediator2);
+    $Mediator.delete(mediator3);
 
-    DeleteNotification(notification1);
-    DeleteNotification(notification2);
-    DeleteNotification(notification3);
-    RemoveView("ViewTestKey9");
+    $Notification.delete(notification1);
+    $Notification.delete(notification2);
+    $Notification.delete(notification3);
+    $View.removeView("ViewTestKey9");
     view = NULL;
 }
 
@@ -387,7 +387,7 @@ void testRemoveOneOfTwoMediatorsAndSubsequentNotify() {
  */
 void testMediatorReregistration() {
     // Get the Singleton View instance
-    View *view = getViewInstance("ViewTestKey10", NewView);
+    View *view = $View.getInstance("ViewTestKey10", $View.new);
 
     // Create and register that responds to notification 5
     ViewTest viewTest = {};
@@ -398,13 +398,13 @@ void testMediatorReregistration() {
 
     // test that the counter is only incremented once (mediator 5's response)
     viewTest.counter = 0;
-    Notification *notification = NewNotification(NOTE5, NULL, NULL);
+    Notification *notification = $Notification.new(NOTE5, NULL, NULL);
     view->notifyObservers(view, notification);
     assert(viewTest.counter == 1);
 
     // Remove the Mediator
     Mediator *removed = view->removeMediator(view, ViewTestMediator5_NAME);
-    DeleteMediator(removed);
+    $Mediator.delete(removed);
 
     // test that retrieving it now returns null
     assert(view->retrieveMediator(view, ViewTestMediator5_NAME) == NULL);
@@ -414,8 +414,8 @@ void testMediatorReregistration() {
     view->notifyObservers(view, notification);
     assert(viewTest.counter == 0);
 
-    DeleteNotification(notification);
-    RemoveView("ViewTestKey10");
+    $Notification.delete(notification);
+    $View.removeView("ViewTestKey10");
     view = NULL;
 }
 
@@ -429,7 +429,7 @@ void testMediatorReregistration() {
  */
 void testModifyObserverListDuringNotification() {
     // Get the Singleton View instance
-    View *view = getViewInstance("ViewTestKey11", NewView);
+    View *view = $View.getInstance("ViewTestKey11", $View.new);
 
     ViewTest viewTest = {"", "", "", 0};
 
@@ -448,7 +448,7 @@ void testModifyObserverListDuringNotification() {
     // send the notification. each of the above mediators will respond by removing
     // themselves and incrementing the counter by 1. This should leave us with a
     // count of 8, since 8 mediators will respond.
-    Notification *notification = NewNotification(NOTE6, NULL, NULL);
+    Notification *notification = $Notification.new(NOTE6, NULL, NULL);
     view->notifyObservers(view, notification);
 
     // verify the count is correct
@@ -461,21 +461,21 @@ void testModifyObserverListDuringNotification() {
     // verify the count is 0
     assert(viewTest.counter == 0);
 
-    DeleteNotification(notification);
-    RemoveFacade("ViewTestKey11");
+    $Notification.delete(notification);
+    $Facade.removeFacade("ViewTestKey11");
     view = NULL;
 }
 
 void testRemoveView() {
     // Get a Multiton View instance
-    getViewInstance("ViewTestKey12", NewView);
+    $View.getInstance("ViewTestKey12", $View.new);
 
     // remove the View
-    RemoveView("ViewTestKey12");
+    $View.removeView("ViewTestKey12");
 
     // re-create the view without throwing an exception
-    NewView("ViewTestKey12");
+    $View.new("ViewTestKey12");
 
     // cleanup
-    RemoveView("ViewTestKey12");
+    $View.removeView("ViewTestKey12");
 }

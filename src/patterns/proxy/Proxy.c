@@ -23,19 +23,8 @@ static void onRemove(Proxy *self) {
 
 }
 
-Proxy *NewProxy(const char *proxyName, void *data) {
-    Proxy *proxy = malloc(sizeof(Proxy));
-    if (proxy == NULL) goto exception;
-    InitProxy(proxy, proxyName, data);
-    return proxy;
-
-    exception:
-        fprintf(stderr, "Proxy allocation failed.\n");
-        return NULL;
-}
-
-void InitProxy(Proxy *proxy, const char *proxyName, void *data) {
-    proxy->notifier = NewNotifier();
+static void init(Proxy *proxy, const char *proxyName, void *data) {
+    proxy->notifier = $Notifier.new();
     proxy->proxyName = proxyName != NULL ? proxyName : PROXY_NAME;
     proxy->data = data != NULL ? data : NULL;
     proxy->getProxyName = getProxyName;
@@ -45,8 +34,21 @@ void InitProxy(Proxy *proxy, const char *proxyName, void *data) {
     proxy->onRemove = onRemove;
 }
 
-void DeleteProxy(Proxy *proxy) {
-    DeleteNotifier(proxy->notifier);
+static Proxy *new(const char *proxyName, void *data) {
+    Proxy *proxy = malloc(sizeof(Proxy));
+    if (proxy == NULL) goto exception;
+    init(proxy, proxyName, data);
+    return proxy;
+
+    exception:
+    fprintf(stderr, "Proxy allocation failed.\n");
+    return NULL;
+}
+
+static void delete(Proxy *proxy) {
+    $Notifier.delete(proxy->notifier);
     free(proxy);
     proxy = NULL;
 }
+
+const struct $Proxy $Proxy = { .new = new, .init = init, .delete = delete };

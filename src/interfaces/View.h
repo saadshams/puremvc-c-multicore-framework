@@ -129,32 +129,36 @@ struct View {
     Mediator *(*removeMediator)(View *self, const char *mediatorName);
 };
 
-/**
- * <P>View Singleton Factory method.</P>
- *
- * @param key multitonKey
- * @param factory factory that returns <code>View</code>
- * @return the Multiton instance of <code>View</code>
- */
-View *getViewInstance(const char *key, View *(factory)(const char *));
+struct $View {
+    /**
+     * <P>Constructor.</P>
+     *
+     * <P>This <code>View</code> implementation is a Multiton,
+     * so you should not call the constructor
+     * directly, but instead call the static Multiton
+     * Factory method <code>View.getInstance( multitonKey )</code></P>
+     *
+     * @param key multitonKey
+     * @throws Error if instance for this Multiton key has already been constructed
+     */
+    View *(*new)(const char *key);
 
-/**
- * <P>Constructor.</P>
- *
- * <P>This <code>View</code> implementation is a Multiton,
- * so you should not call the constructor
- * directly, but instead call the static Multiton
- * Factory method <code>View.getInstance( multitonKey )</code></P>
- *
- * @param key multitonKey
- * @throws Error if instance for this Multiton key has already been constructed
- */
-View *NewView(const char *key);
+    /** Initializer */
+    void (*init)(View *view);
 
-/** Initializer */
-void InitView(View *view);
+    /**
+     * <P>View Singleton Factory method.</P>
+     *
+     * @param key multitonKey
+     * @param factory factory that returns <code>View</code>
+     * @return the Multiton instance of <code>View</code>
+     */
+    View *(*getInstance)(const char *key, View *(factory)(const char *));
 
-/** Remove Core */
-void RemoveView(const char *key);
+    /** Remove Core */
+    void (*removeView)(const char *key);
+};
+
+const struct $View $View;
 
 #endif //PUREMVC_VIEW_H

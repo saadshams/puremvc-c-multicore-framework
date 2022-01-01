@@ -44,7 +44,7 @@ void testObserverAccessors() {
     // Create observer with null args, then
     // use accessors to set notification method and context
     struct Object {} object;
-    Observer *observer = NewObserver(NULL, NULL);
+    Observer *observer = $Observer.new(NULL, NULL);
     observer->setNotifyMethod(observer, handleNotification);
     observer->setNotifyContext(observer, &object);
 
@@ -54,14 +54,14 @@ void testObserverAccessors() {
     // successful notification will result in our local
     // observerTestVar being set to the value we pass in
     // on the note body.
-    Notification *notification = NewNotification("ObserverTestNote", &(ObserverTestVar){10}, NULL);
+    Notification *notification = $Notification.new("ObserverTestNote", &(ObserverTestVar){10}, NULL);
     observer->notifyObserver(observer, notification);
 
     // test assertions
     assert(observerTestVar.value == 10);
 
-    DeleteNotification(notification);
-    DeleteObserver(observer);
+    $Notification.delete(notification);
+    $Observer.delete(observer);
 }
 
 /**
@@ -70,15 +70,15 @@ void testObserverAccessors() {
 void testObserverConstructor() {
     // Create observer
     struct Object {} object;
-    Observer *observer = NewObserver(handleNotification, &object);
-    Notification *notification = NewNotification("ObserverTestNote", &(ObserverTestVar){5}, NULL);
+    Observer *observer = $Observer.new(handleNotification, &object);
+    Notification *notification = $Notification.new("ObserverTestNote", &(ObserverTestVar){5}, NULL);
     observer->notifyObserver(observer, notification);
 
     // test assertions
     assert(observerTestVar.value == 5);
 
-    DeleteNotification(notification);
-    DeleteObserver(observer);
+    $Notification.delete(notification);
+    $Observer.delete(observer);
 }
 
 /**
@@ -87,11 +87,11 @@ void testObserverConstructor() {
 void testCompareNotifyContext() {
     // Create observer passing in notification method and context
     struct Object {} object, negTestObj;
-    Observer *observer = NewObserver(handleNotification, &object);
+    Observer *observer = $Observer.new(handleNotification, &object);
 
     // test assertions
     assert(observer->compareNotifyContext(observer, &negTestObj) == false);
     assert(observer->compareNotifyContext(observer, &object) == true);
 
-    DeleteObserver(observer);
+    $Observer.delete(observer);
 }

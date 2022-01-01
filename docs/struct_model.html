@@ -96,7 +96,7 @@ Data Fields</h2></td></tr>
 <tr class="separator:a19fdedbf1c3f543f4358255f0ca4269d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acf68ac08cfad0532993f80e5eac4e25b"><td class="memItemLeft" align="right" valign="top">void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_model.html#acf68ac08cfad0532993f80e5eac4e25b">initializeModel</a> )(<a class="el" href="struct_model.html">Model</a> *self)</td></tr>
 <tr class="separator:acf68ac08cfad0532993f80e5eac4e25b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8cf13299726c89a76fcdaf5090d43e77"><td class="memItemLeft" align="right" valign="top">void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_model.html#a8cf13299726c89a76fcdaf5090d43e77">registerProxy</a> )(<a class="el" href="struct_model.html">Model</a> *self, <a class="el" href="struct_proxy.html">Proxy</a> *proxy)</td></tr>
+<tr class="memitem:a8cf13299726c89a76fcdaf5090d43e77"><td class="memItemLeft" align="right" valign="top">void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_model.html#a8cf13299726c89a76fcdaf5090d43e77">registerProxy</a> )(<a class="el" href="struct_model.html">Model</a> *self, <a class="el" href="struct_proxy.html">Proxy</a> *new)</td></tr>
 <tr class="separator:a8cf13299726c89a76fcdaf5090d43e77"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a103c7b8f794d8eafdb371ec345168056"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_proxy.html">Proxy</a> *(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_model.html#a103c7b8f794d8eafdb371ec345168056">retrieveProxy</a> )(<a class="el" href="struct_model.html">Model</a> *self, const char *proxyName)</td></tr>
 <tr class="separator:a103c7b8f794d8eafdb371ec345168056"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -135,7 +135,7 @@ Provide methods for registering, retrieving, and removing <code><a class="el" hr
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">self</td><td><a class="el" href="struct_model.html">Model</a> </td></tr>
-    <tr><td class="paramname">proxyName</td><td>proxy name </td></tr>
+    <tr><td class="paramname">proxyName</td><td>new name </td></tr>
   </table>
   </dd>
 </dl>
@@ -192,7 +192,7 @@ Provide methods for registering, retrieving, and removing <code><a class="el" hr
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void(* registerProxy) (<a class="el" href="struct_model.html">Model</a> *self, <a class="el" href="struct_proxy.html">Proxy</a> *proxy)</td>
+          <td class="memname">void(* registerProxy) (<a class="el" href="struct_model.html">Model</a> *self, <a class="el" href="struct_proxy.html">Proxy</a> *new)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -200,7 +200,7 @@ Provide methods for registering, retrieving, and removing <code><a class="el" hr
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">self</td><td><a class="el" href="struct_model.html">Model</a> </td></tr>
-    <tr><td class="paramname">proxy</td><td>an <code><a class="el" href="struct_proxy.html">Proxy</a></code> to be held by the <code><a class="el" href="struct_model.html">Model</a></code>. </td></tr>
+    <tr><td class="paramname">new</td><td>an <code><a class="el" href="struct_proxy.html">Proxy</a></code> to be held by the <code><a class="el" href="struct_model.html">Model</a></code>. </td></tr>
   </table>
   </dd>
 </dl>
@@ -249,7 +249,7 @@ Provide methods for registering, retrieving, and removing <code><a class="el" hr
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">self</td><td><a class="el" href="struct_model.html">Model</a> </td></tr>
-    <tr><td class="paramname">proxyName</td><td>proxy name </td></tr>
+    <tr><td class="paramname">proxyName</td><td>new name </td></tr>
   </table>
   </dd>
 </dl>

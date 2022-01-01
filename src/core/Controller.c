@@ -93,7 +93,7 @@ static void DeleteCommandNode(CommandNode *self) {
 }
 
 static void initializeController(Controller *self) {
-    self->view = getViewInstance(self->multitonKey, NewView);
+    self->view = $View.getInstance(self->multitonKey, $View.new);
 }
 
 static void executeCommand(Controller *self, Notification *notification) {
@@ -106,7 +106,7 @@ static void executeCommand(Controller *self, Notification *notification) {
         SimpleCommand *commandInstance = cursor->factory();
         commandInstance->notifier->initializeNotifier(commandInstance->notifier, self->multitonKey);
         commandInstance->execute(commandInstance, notification);
-        DeleteSimpleCommand(commandInstance);
+        $SimpleCommand.delete(commandInstance);
     }
     pthread_rwlock_unlock(&commandMap_mutex);
 }
@@ -127,7 +127,7 @@ static void registerCommand(Controller *self, const char *notificationName, Simp
     }
 
     *cursor = NewCommandNode(notificationName, factory);
-    Observer *observer = NewObserver((void (*)(void *, Notification *)) self->executeCommand, self);
+    Observer *observer = $Observer.new((void (*)(void *, Notification *)) self->executeCommand, self);
     self->view->registerObserver(self->view, notificationName, observer);
     pthread_rwlock_unlock(&commandMap_mutex);
 }
@@ -163,7 +163,7 @@ static void removeCommand(Controller *self, const char *notificationName) {
     pthread_rwlock_unlock(&commandMap_mutex);
 }
 
-void InitController(Controller *controller) {
+static void init(Controller *controller) {
     controller->commandMap = NULL;
     controller->initializeController = initializeController;
     controller->executeCommand = executeCommand;
@@ -172,12 +172,12 @@ void InitController(Controller *controller) {
     controller->removeCommand = removeCommand;
 }
 
-Controller *NewController(const char *key) {
+static Controller *new(const char *key) {
     assert(GetControllerNode(key) == NULL);
 
     Controller *controller = malloc(sizeof(Controller));
     if (controller == NULL) goto exception;
-    InitController(controller);
+    init(controller);
     controller->multitonKey = key;
     AddControllerNode(key, controller);
     return controller;
@@ -187,13 +187,13 @@ Controller *NewController(const char *key) {
         return NULL;
 }
 
-void RemoveController(const char *key) {
+static void removeController(const char *key) {
     pthread_rwlock_wrlock(&controller_mutex);
     RemoveControllerNode(key);
     pthread_rwlock_unlock(&controller_mutex);
 }
 
-Controller *getControllerInstance(const char *key, Controller *(*factory)(const char *)) {
+static Controller *getInstance(const char *key, Controller *(*factory)(const char *)) {
     pthread_rwlock_wrlock(&controller_mutex);
     Controller *instance = GetControllerNode(key);
     if (instance == NULL) {
@@ -203,3 +203,5 @@ Controller *getControllerInstance(const char *key, Controller *(*factory)(const 
     pthread_rwlock_unlock(&controller_mutex);
     return instance;
 }
+
+const struct $Controller $Controller = { .new = new, .init = init, .removeController = removeController, .getInstance = getInstance };

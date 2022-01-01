@@ -36,7 +36,7 @@ struct Proxy {
 
     void *data;
 
-    /** Get the proxy name */
+    /** Get the new name */
     const char *(*getProxyName)(Proxy *self);
 
     /** Set the data object */
@@ -52,13 +52,17 @@ struct Proxy {
     void (*onRemove)(Proxy *self);
 };
 
-/** Constructor */
-Proxy *NewProxy(const char *proxyName, void *data);
+struct $Proxy {
+    /** Constructor */
+    Proxy *(*new)(const char *proxyName, void *data);
 
-/** Initializer */
-void InitProxy(Proxy *proxy, const char *proxyName, void *data);
+    /** Initializer */
+    void (*init)(Proxy *proxy, const char *proxyName, void *data);
 
-/** Destructor */
-void DeleteProxy(Proxy *proxy);
+    /** Destructor */
+    void (*delete)(Proxy *proxy);
+};
+
+const struct $Proxy $Proxy;
 
 #endif //PUREMVC_PROXY_H

@@ -1,3 +1,4 @@
+#include "interfaces/Proxy.h"
 #include "interfaces/Model.h"
 #include "interfaces/Notifier.h"
 #include <assert.h>
@@ -72,7 +73,7 @@ static void RemoveModelNode(const char *key) {
     }
 }
 
-// Construct a new proxy node
+// Construct a new new node
 static ProxyNode *NewProxyNode(Proxy *proxy) {
     ProxyNode *node = malloc(sizeof(ProxyNode));
     node->name = proxy->getProxyName(proxy);
@@ -97,7 +98,7 @@ static void registerProxy(Model *self, Proxy *proxy) {
 
     while (*cursor) {
         if (strcmp((*cursor)->name, proxy->getProxyName(proxy)) == 0) {
-            DeleteProxy((*cursor)->proxy);
+            $Proxy.delete((*cursor)->proxy);
             (*cursor)->proxy = proxy;
             return;
         }
@@ -145,7 +146,7 @@ static Proxy *removeProxy(Model *self, const char *proxyName) {
     return NULL;
 }
 
-void InitModel(Model *model) {
+static void init(Model *model) {
     model->proxyMap = NULL;
     model->initializeModel = initializeModel;
     model->registerProxy = registerProxy;
@@ -154,12 +155,12 @@ void InitModel(Model *model) {
     model->removeProxy = removeProxy;
 }
 
-Model *NewModel(const char *key) {
+static Model *new(const char *key) {
     assert(GetModelMap(key) == NULL);
 
     Model *model = malloc(sizeof(Model));
     if (model == NULL) goto exception;
-    InitModel(model);
+    init(model);
     model->multitonKey = key;
     AddModelNode(key, model);
     return model;
@@ -173,13 +174,13 @@ Model *NewModel(const char *key) {
 static pthread_rwlock_t model_mutex;
 
 /** Destructor */
-void RemoveModel(const char *key) {
+static void removeModel(const char *key) {
     pthread_rwlock_wrlock(&model_mutex);
     RemoveModelNode(key);
     pthread_rwlock_unlock(&model_mutex);
 }
 
-Model *getModelInstance(const char *key, Model *(*factory)(const char *)) {
+static Model *getInstance(const char *key, Model *(*factory)(const char *)) {
     pthread_rwlock_wrlock(&model_mutex);
     Model *instance = GetModelMap(key);
     if (instance == NULL) {
@@ -189,3 +190,5 @@ Model *getModelInstance(const char *key, Model *(*factory)(const char *)) {
     pthread_rwlock_unlock(&model_mutex);
     return instance;
 }
+
+const struct $Model $Model = { .new = new, .init = init, .getInstance = getInstance, .removeModel = removeModel };

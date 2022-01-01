@@ -13,7 +13,7 @@ void onRemove(Mediator *self) {
 
 ViewTestMediator4 *NewTestMediator4(ViewTest *view) {
     ViewTestMediator4 *self = malloc(sizeof(ViewTestMediator4));
-    InitMediator(&self->mediator, ViewTestMediator4_NAME, view);
+    $Mediator.init(&self->mediator, ViewTestMediator4_NAME, view);
     self->mediator.onRegister = onRegister;
     self->mediator.onRemove = onRemove;
     return self;

@@ -35,13 +35,18 @@ struct SimpleCommand {
     void (*execute)(SimpleCommand *self, Notification *notification);
 };
 
-/** Constructor */
-SimpleCommand *NewSimpleCommand(void);
+struct $SimpleCommand {
+    /** Constructor */
+    SimpleCommand *(*new)(void);
 
-/** Initializer */
-void InitSimpleCommand(SimpleCommand *simpleCommand);
+    /** Initializer */
+    void (*init)(SimpleCommand *simpleCommand);
 
-/** Destructor */
-void DeleteSimpleCommand(SimpleCommand *simpleCommand);
+    /** Destructor */
+    void (*delete)(SimpleCommand *simpleCommand);
+};
+
+const struct $SimpleCommand $SimpleCommand;
+
 
 #endif //PUREMVC_SIMPLECOMMAND_H

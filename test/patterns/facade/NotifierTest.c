@@ -20,7 +20,7 @@ typedef struct {
  */
 void testInstance() {
     // create notifier instance
-    Notifier *notifier = NewNotifier();
+    Notifier *notifier = $Notifier.new();
 
     // initialize facade
     notifier->initializeNotifier(notifier, "Test1");
@@ -29,8 +29,8 @@ void testInstance() {
     assert(notifier != NULL);
     assert(notifier->getFacade(notifier) != NULL);
 
-    RemoveFacade("Test1");
-    DeleteNotifier(notifier);
+    $Facade.removeFacade("Test1");
+    $Notifier.delete(notifier);
 }
 
 /**
@@ -47,7 +47,7 @@ static void execute(SimpleCommand *self, Notification *notification) {
  * Create a simple command
  */
 static SimpleCommand *NewCommand() {
-    SimpleCommand *command = NewSimpleCommand();
+    SimpleCommand *command = $SimpleCommand.new();
     command->execute = execute;
     return command;
 }
@@ -57,7 +57,7 @@ static SimpleCommand *NewCommand() {
  */
 void testRegisterCommandAndSendNotification() {
     // create a notifier
-    Notifier *notifier = NewNotifier();
+    Notifier *notifier = $Notifier.new();
 
     // initialize facade
     notifier->initializeNotifier(notifier, "Test2");
@@ -75,6 +75,6 @@ void testRegisterCommandAndSendNotification() {
     assert(temp.result == 16);
 
     facade->removeCommand(facade, "TestNote");
-    RemoveFacade("Test2");
-    DeleteNotifier(notifier);
+    $Facade.removeFacade("Test2");
+    $Notifier.delete(notifier);
 }

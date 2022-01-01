@@ -80,19 +80,23 @@ struct Notification {
     const char *(*toString)(Notification *self);
 };
 
-/**
- * Constructor.
- *
- * @param name name of the <code>Notification</code> instance. (required)
- * @param body the <code>Notification</code> body. (optional)
- * @param type the type of the <code>Notification</code> (optional)
- */
-Notification *NewNotification(const char *name, void *body, char *type);
+struct $Notification {
+    /**
+     * Constructor.
+     *
+     * @param name name of the <code>Notification</code> instance. (required)
+     * @param body the <code>Notification</code> body. (optional)
+     * @param type the type of the <code>Notification</code> (optional)
+     */
+    Notification *(*new)(const char *name, void *body, char *type);
 
-/** Initializer */
-void InitNotification(Notification *notification, const char *name, void *body, char *type);
+    /** Initializer */
+    void (*init)(Notification *notification, const char *name, void *body, char *type);
 
-/** Destructor */
-void DeleteNotification(Notification *notification);
+    /** Destructor */
+    void (*delete)(Notification *notification);
+};
+
+const struct $Notification $Notification;
 
 #endif //PUREMVC_NOTIFICATION_H

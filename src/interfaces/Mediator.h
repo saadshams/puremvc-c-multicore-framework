@@ -63,13 +63,17 @@ struct Mediator {
     void (*onRemove)(Mediator *self);
 };
 
-/** Initializer */
-void InitMediator(Mediator *mediator, const char *mediatorName, void *viewComponent);
+struct $Mediator {
+    /** Constructor */
+    Mediator *(*new)(const char *mediatorName, void *viewComponent);
 
-/** Constructor */
-Mediator *NewMediator(const char *mediatorName, void *viewComponent);
+    /** Initializer */
+    void (*init)(Mediator *mediator, const char *mediatorName, void *viewComponent);
 
-/** Destructor */
-void DeleteMediator(Mediator *mediator);
+    /** Destructor */
+    void (*delete)(Mediator *mediator);
+};
+
+const struct $Mediator $Mediator;
 
 #endif //PUREMVC_MEDIATOR_H

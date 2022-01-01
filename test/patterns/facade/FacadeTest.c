@@ -34,11 +34,11 @@ int main() {
  */
 void testGetInstance() {
     // Test Factory Method
-    Facade *facade = getFacadeInstance("FacadeTestKey1", NewFacade);
+    Facade *facade = $Facade.getInstance("FacadeTestKey1", $Facade.new);
 
     // test assertions
     assert(facade != NULL);
-    RemoveFacade("FacadeTestKey1");
+    $Facade.removeFacade("FacadeTestKey1");
 }
 
 /**
@@ -57,7 +57,7 @@ void testGetInstance() {
 void testRegisterCommandAndSendNotification() {
     // Create the Facade, register the FacadeTestCommand to
     // handle 'FacadeTest' notifications
-    Facade *facade = getFacadeInstance("FacadeTestKey2", NewFacade);
+    Facade *facade = $Facade.getInstance("FacadeTestKey2", $Facade.new);
     facade->registerCommand(facade, "FacadeTestNote", (SimpleCommand *(*)()) NewFacadeTestCommand);
 
     // Send notification. The Command associated with the event
@@ -69,7 +69,7 @@ void testRegisterCommandAndSendNotification() {
     // test assertions
     assert(vo.result == 64);
     facade->removeCommand(facade, "FacadeTestNote");
-    RemoveFacade("FacadeTestKey2");
+    $Facade.removeFacade("FacadeTestKey2");
 }
 
 /**
@@ -88,7 +88,7 @@ void testRegisterCommandAndSendNotification() {
 void testRegisterAndRemoveCommandAndSendNotification() {
     // Create the Facade, register the FacadeTestCommand to
     // handle 'FacadeTest' events
-    Facade *facade = getFacadeInstance("FacadeTestKey3", NewFacade);
+    Facade *facade = $Facade.getInstance("FacadeTestKey3", $Facade.new);
     facade->registerCommand(facade, "FacadeTestNote", (SimpleCommand *(*)()) NewFacadeTestCommand);
     facade->removeCommand(facade, "FacadeTestNote");
 
@@ -100,7 +100,7 @@ void testRegisterAndRemoveCommandAndSendNotification() {
 
     // test assertions
     assert(vo.result != 64);
-    RemoveFacade("FacadeTestKey3");
+    $Facade.removeFacade("FacadeTestKey3");
 }
 
 /**
@@ -112,15 +112,15 @@ void testRegisterAndRemoveCommandAndSendNotification() {
  * methods do not throw exception when called. </P>
  */
 void testRegisterAndRetrieveProxy() {
-    // register a proxy and retrieve it.
-    Facade *facade = getFacadeInstance("FacadeTestKey4", NewFacade);
-    facade->registerProxy(facade, NewProxy("colors", (char *[]) {"red", "green", "blue", NULL}));
+    // register a new and retrieve it.
+    Facade *facade = $Facade.getInstance("FacadeTestKey4", $Facade.new);
+    facade->registerProxy(facade, $Proxy.new("colors", (char *[]) {"red", "green", "blue", NULL}));
     Proxy *proxy = facade->retrieveProxy(facade, "colors");
 
     // test assertions
     assert(proxy != NULL);
 
-    // retrieve data from proxy
+    // retrieve data from new
     const char **data = proxy->getData(proxy);
 
     // test assertions
@@ -129,29 +129,29 @@ void testRegisterAndRetrieveProxy() {
     assert(strcmp(data[1], "green") == 0);
     assert(strcmp(data[2], "blue") == 0);
 
-    DeleteProxy(facade->removeProxy(facade, "colors"));
-    RemoveFacade("FacadeTestKey4");
+    $Proxy.delete(facade->removeProxy(facade, "colors"));
+    $Facade.removeFacade("FacadeTestKey4");
 }
 
 /**
  * Tests the removing Proxies via the Facade.
  */
 void testRegisterAndRemoveProxy() {
-    // register a proxy, remove it, then try to retrieve it
-    Facade *facade = getFacadeInstance("FacadeTestKey5", NewFacade);
-    facade->registerProxy(facade, NewProxy("sizes", (char *[]) {"7", "13", "21"}));
+    // register a new, remove it, then try to retrieve it
+    Facade *facade = $Facade.getInstance("FacadeTestKey5", $Facade.new);
+    facade->registerProxy(facade, $Proxy.new("sizes", (char *[]) {"7", "13", "21"}));
 
-    // remove the proxy
+    // remove the new
     Proxy *removedProxy = facade->removeProxy(facade, "sizes");
 
-    // assert that we removed the appropriate proxy
+    // assert that we removed the appropriate new
     assert(strcmp(removedProxy->getProxyName(removedProxy), "sizes") == 0);
 
-    // test assertions - make sure we can no longer retrieve the proxy from the model
+    // test assertions - make sure we can no longer retrieve the new from the model
     assert(facade->retrieveProxy(facade, "sizes") == NULL);
 
-    DeleteProxy(removedProxy);
-    RemoveFacade("FacadeTestKey5");
+    $Proxy.delete(removedProxy);
+    $Facade.removeFacade("FacadeTestKey5");
 }
 
 /**
@@ -160,8 +160,8 @@ void testRegisterAndRemoveProxy() {
 void testRegisterRetrieveAndRemoveMediator() {
     // register a mediator, remove it, then try to retrieve it
     struct Object {} object;
-    Facade *facade = getFacadeInstance("FacadeTestKey6", NewFacade);
-    facade->registerMediator(facade, NewMediator(MEDIATOR_NAME, &object));
+    Facade *facade = $Facade.getInstance("FacadeTestKey6", $Facade.new);
+    facade->registerMediator(facade, $Mediator.new(MEDIATOR_NAME, &object));
 
     // retrieve the mediator
     assert(facade->retrieveMediator(facade, MEDIATOR_NAME) != NULL);
@@ -174,22 +174,22 @@ void testRegisterRetrieveAndRemoveMediator() {
 
     // assert that the mediator is no longer retrievable
     assert(facade->retrieveMediator(facade, MEDIATOR_NAME) == NULL);
-    DeleteMediator(removedMediator);
-    RemoveFacade("FacadeTestKey6");
+    $Mediator.delete(removedMediator);
+    $Facade.removeFacade("FacadeTestKey6");
 }
 
 void testHasProxy() {
     // register a Proxy
-    Facade *facade = getFacadeInstance("FacadeTestKey7", NewFacade);
-    facade->registerProxy(facade, NewProxy("hasProxyTest", (int []) {1, 2, 3}));
+    Facade *facade = $Facade.getInstance("FacadeTestKey7", $Facade.new);
+    facade->registerProxy(facade, $Proxy.new("hasProxyTest", (int[]) {1, 2, 3}));
 
     // assert that the model.hasProxy method returns true
-    // for that proxy name
+    // for that new name
     assert(facade->hasProxy(facade, "hasProxyTest") == true);
 
-    DeleteProxy(facade->removeProxy(facade, "hasProxyTest"));
+    $Proxy.delete(facade->removeProxy(facade, "hasProxyTest"));
     assert(facade->hasProxy(facade, "hasProxyTest") == false);
-    RemoveFacade("FacadeTestKey7");
+    $Facade.removeFacade("FacadeTestKey7");
 }
 
 /**
@@ -198,19 +198,19 @@ void testHasProxy() {
 void testHasMediator() {
     // register a Mediator
     struct Object {} object;
-    Facade *facade = getFacadeInstance("FacadeTestKey8", NewFacade);
-    facade->registerMediator(facade, NewMediator("facadeHasMediatorTest", &object));
+    Facade *facade = $Facade.getInstance("FacadeTestKey8", $Facade.new);
+    facade->registerMediator(facade, $Mediator.new("facadeHasMediatorTest", &object));
 
     // assert that the facade.hasMediator method returns true
     // for that mediator name
     assert(facade->hasMediator(facade, "facadeHasMediatorTest") == true);
 
-    DeleteMediator(facade->removeMediator(facade, "facadeHasMediatorTest"));
+    $Mediator.delete(facade->removeMediator(facade, "facadeHasMediatorTest"));
 
     // assert that the facade.hasMediator method returns false
     // for that mediator name
     assert(facade->hasMediator(facade, "facadeHasMediatorTest") == false);
-    RemoveFacade("FacadeTestKey8");
+    $Facade.removeFacade("FacadeTestKey8");
 }
 
 /**
@@ -218,7 +218,7 @@ void testHasMediator() {
  */
 void testHasCommand() {
     // register the ControllerTestCommand to handle 'hasCommandTest' notes
-    Facade *facade = getFacadeInstance("FacadeTestKey10", NewFacade);
+    Facade *facade = $Facade.getInstance("FacadeTestKey10", $Facade.new);
     facade->registerCommand(facade, "facadeHasCommandTest", (SimpleCommand *(*)()) NewFacadeTestCommand);
 
     // test that hasCommand returns true for hasCommandTest notifications
@@ -229,7 +229,7 @@ void testHasCommand() {
 
     // test that hasCommand returns false for hasCommandTest notifications
     assert(facade->hasCommand(facade, "facadeHasCommandTest") == false);
-    RemoveFacade("FacadeTestKey10");
+    $Facade.removeFacade("FacadeTestKey10");
 }
 
 /**
@@ -237,25 +237,25 @@ void testHasCommand() {
  */
 void testHasCoreAndRemoveCore() {
     // assert that the Facade.hasCore method returns false first
-    assert(HasFacadeCore("FacadeTestKey11") == false);
+    assert($Facade.hasCore("FacadeTestKey11") == false);
 
     // register a Core
-    getFacadeInstance("FacadeTestKey11", NewFacade);
+    $Facade.getInstance("FacadeTestKey11", $Facade.new);
 
-    assert(HasFacadeCore("FacadeTestKey11") == true);
+    assert($Facade.hasCore("FacadeTestKey11") == true);
 
     // remove the Core
-    RemoveFacade("FacadeTestKey11");
+    $Facade.removeFacade("FacadeTestKey11");
 
     // assert that the Facade.hasCore method returns false now that the core has been removed.
-    assert(HasFacadeCore("FacadeTestKey11") == false);
+    assert($Facade.hasCore("FacadeTestKey11") == false);
 }
 
 Facade *facade;
 
 void *getFacadeInstances(void *arg) {
-    assert(facade == getFacadeInstance("FacadeTestKey11", NewFacade));
-    assert(HasFacadeCore("FacadeTestKey11") == true);
+    assert(facade == $Facade.getInstance("FacadeTestKey11", $Facade.new));
+    assert($Facade.hasCore("FacadeTestKey11") == true);
     return NULL;
 }
 
@@ -263,7 +263,7 @@ void *getFacadeInstances(void *arg) {
  * Tests getInstance in a multithreaded environment
  */
 void testGetInstancesThreaded() {
-    facade = getFacadeInstance("FacadeTestKey11", NewFacade);
+    facade = $Facade.getInstance("FacadeTestKey11", $Facade.new);
 
     int total = 100;
     pthread_t *thread_group = malloc(sizeof(pthread_t) * total);
@@ -283,5 +283,5 @@ void testGetInstancesThreaded() {
     free(thread_group);
 
     // cleanup
-    RemoveFacade("FacadeTestKey11");
+    $Facade.removeFacade("FacadeTestKey11");
 }

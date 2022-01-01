@@ -12,7 +12,7 @@ static const char * const *listNotificationInterests(Mediator *self) {
 static void handleNotification(Mediator *self, Notification *notification) {
     Facade *facade = self->notifier->getFacade(self->notifier);
     Mediator *mediator = facade->removeMediator(facade, self->mediatorName);
-    DeleteMediator(mediator);
+    $Mediator.delete(mediator);
 }
 
 static void onRemove(Mediator *self) {
@@ -21,7 +21,7 @@ static void onRemove(Mediator *self) {
 
 ViewTestMediator6* NewViewTestMediator6(char *name, void *viewComponent) {
     ViewTestMediator6* self = malloc(sizeof(ViewTestMediator6));
-    InitMediator(&self->mediator, name, viewComponent);
+    $Mediator.init(&self->mediator, name, viewComponent);
     self->mediator.listNotificationInterests = listNotificationInterests;
     self->mediator.handleNotification = handleNotification;
     self->mediator.onRemove = onRemove;

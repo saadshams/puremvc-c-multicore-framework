@@ -106,7 +106,7 @@ static ObserverNode *NewObserverNode(Observer *observer) {
 
 // Delete ObserverNode
 static void DeleteObserverNode(ObserverNode *observerNode) {
-    DeleteObserver(observerNode->observer);
+    $Observer.delete(observerNode->observer);
     free(observerNode);
     observerNode = NULL;
 }
@@ -184,7 +184,7 @@ static void notifyObservers(View *self, Notification *notification) {
             ObserverNode *clone = NULL;
             ObserverNode **iterator = &clone;
             while (cursor) {
-                *iterator = NewObserverNode(NewObserver(cursor->observer->notify, cursor->observer->context));
+                *iterator = NewObserverNode($Observer.new(cursor->observer->notify, cursor->observer->context));
                 iterator = &(*iterator)->next;
                 cursor = cursor->next;
             }
@@ -262,7 +262,7 @@ static void registerMediator(View *self, Mediator *mediator) {
     // Register Mediator as an observer for each notification of interests
     while(*interests) {
         // Create Observer referencing this mediator's handleNotification method
-        Observer *observer = NewObserver((void (*)(void *, Notification *)) mediator->handleNotification, mediator);
+        Observer *observer = $Observer.new((void (*)(void *, Notification *)) mediator->handleNotification, mediator);
 
         // Register Mediator as Observer for its list of Notification interests
         self->registerObserver(self, *interests, observer);
@@ -280,7 +280,7 @@ static Mediator *retrieveMediator(View *self, const char *mediatorName) {
     while(cursor && strcmp(cursor->name, mediatorName) != 0)
         cursor = cursor->next;
     pthread_rwlock_unlock(&mediatorMap_mutex);
-    return cursor == NULL ? NULL : cursor->mediator;
+    return cursor != NULL ? cursor->mediator : NULL;
 }
 
 static bool hasMediator(View *self, const char *mediatorName) {
@@ -326,7 +326,7 @@ static Mediator *removeMediator(View *self, const char *mediatorName) {
     return NULL;
 }
 
-void InitView(View *view) {
+static void init(View *view) {
     view->mediatorMap = NULL;
     view->observerMap = NULL;
     view->initializeView = initializeView;
@@ -339,12 +339,12 @@ void InitView(View *view) {
     view->removeMediator = removeMediator;
 }
 
-View *NewView(const char *key) {
+static View *new(const char *key) {
     assert(GetViewNode(key) == NULL);
 
     View *view = malloc(sizeof(View));
     if (view == NULL) goto exception;
-    InitView(view);
+    init(view);
     view->multitonKey = key;
     AddViewMap(key, view);
     return view;
@@ -354,13 +354,13 @@ View *NewView(const char *key) {
         return NULL;
 }
 
-void RemoveView(const char *key) {
+static void removeView(const char *key) {
     pthread_rwlock_wrlock(&view_mutex);
     RemoveViewMap(key);
     pthread_rwlock_unlock(&view_mutex);
 }
 
-View *getViewInstance(const char *key, View *(*factory)(const char *)) {
+static View *getInstance(const char *key, View *(*factory)(const char *)) {
     pthread_rwlock_wrlock(&view_mutex);
     View *instance = GetViewNode(key);
     if (instance == NULL) {
@@ -370,3 +370,5 @@ View *getViewInstance(const char *key, View *(*factory)(const char *)) {
     pthread_rwlock_unlock(&view_mutex);
     return instance;
 }
+
+const struct $View $View = { .new = new, .init = init, .getInstance = getInstance, .removeView = removeView };

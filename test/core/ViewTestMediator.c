@@ -10,7 +10,7 @@ static const char * const *listNotificationInterests(Mediator *self) {
 
 ViewTestMediator *NewViewTestMediator(void *viewComponent) {
     ViewTestMediator *self = malloc(sizeof(ViewTestMediator));
-    InitMediator(&self->mediator, ViewTestMediator_NAME, viewComponent);
+    $Mediator.init(&self->mediator, ViewTestMediator_NAME, viewComponent);
     self->mediator.listNotificationInterests = listNotificationInterests;
     return self;
 }

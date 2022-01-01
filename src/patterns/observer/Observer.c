@@ -26,18 +26,7 @@ static bool compareNotifyContext(Observer *self, const void *context) {
     return self->context == context;
 }
 
-Observer *NewObserver(void (*notifyMethod)(void *context, Notification *notification), void *notifyContext) {
-    Observer *observer = malloc(sizeof(Observer));
-    if (observer == NULL) goto exception;
-    InitObserver(observer, notifyMethod, notifyContext);
-    return observer;
-
-    exception:
-        fprintf(stderr, "Observer allocation failed.\n");
-        return NULL;
-}
-
-void InitObserver(Observer *observer, void (*notifyMethod)(void *context, Notification *notification), void *notifyContext) {
+static void init(Observer *observer, void (*notifyMethod)(void *context, Notification *notification), void *notifyContext) {
     observer->notify = notifyMethod;
     observer->context = notifyContext;
     observer->getNotifyContext = getNotifyContext;
@@ -48,7 +37,21 @@ void InitObserver(Observer *observer, void (*notifyMethod)(void *context, Notifi
     observer->compareNotifyContext = compareNotifyContext;
 }
 
-void DeleteObserver(Observer *observer) {
+static Observer *new(void (*notifyMethod)(void *context, Notification *notification), void *notifyContext) {
+    Observer *observer = malloc(sizeof(Observer));
+    if (observer == NULL) goto exception;
+    $Observer.init(observer, notifyMethod, notifyContext);
+    return observer;
+
+    exception:
+    fprintf(stderr, "Observer allocation failed.\n");
+    return NULL;
+}
+
+static void delete(Observer *observer) {
     free(observer);
     observer = NULL;
 }
+
+const struct $Observer $Observer = { .new = new, .init = init, .delete = delete };
+

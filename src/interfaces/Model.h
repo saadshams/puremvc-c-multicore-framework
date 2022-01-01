@@ -58,7 +58,7 @@ struct Model {
      * <P>Retrieve an <code>Proxy</code> from the <code>Model</code>.</P>
      *
      * @param self Model
-     * @param proxyName proxy name
+     * @param proxyName new name
      * @return the <code>Proxy</code> instance previously registered with the given <code>proxyName</code>.
      */
     Proxy *(*retrieveProxy)(Model *self, const char *proxyName);
@@ -67,7 +67,7 @@ struct Model {
      * <P>Check if a Proxy is registered</P>
      *
      * @param self Model
-     * @param proxyName proxy name
+     * @param proxyName new name
      * @return whether a Proxy is currently registered with the given <code>proxyName</code>.
      */
     bool (*hasProxy)(Model *self, const char *proxyName);
@@ -82,33 +82,37 @@ struct Model {
     Proxy *(*removeProxy)(Model *self, const char *proxyName);
 };
 
-/**
- * <P><code>Model</code> Multiton Factory method.</P>
- *
- * @param key multitonKey
- * @param factory factory that returns <code>Model</code>
- * @return the Multiton instance of <code>Model</code>
- */
-Model *getModelInstance(const char *key, Model *(factory)(const char *));
+struct $Model {
+    /**
+     * Constructor.
+     *
+     * <P>
+     * This <code>IModel</code> implementation is a Multiton,
+     * so you should not call the constructor
+     * directly, but instead call the static Multiton
+     * Factory method <code>Model.getInstance( multitonKey )</code>
+     *
+     * @throws Error Error if instance for this Multiton key instance has already been constructed
+     *
+     */
+    Model *(*new)(const char *key);
 
-/**
- * Constructor.
- *
- * <P>
- * This <code>IModel</code> implementation is a Multiton,
- * so you should not call the constructor
- * directly, but instead call the static Multiton
- * Factory method <code>Model.getInstance( multitonKey )</code>
- *
- * @throws Error Error if instance for this Multiton key instance has already been constructed
- *
- */
-Model *NewModel(const char *key);
+    /** Initializer */
+    void (*init)(Model *model);
 
-/** Initializer */
-void InitModel(Model *model);
+    /** Remove Core */
+    void (*removeModel)(const char *key);
 
-/** Remove Core */
-void RemoveModel(const char *key);
+    /**
+     * <P><code>Model</code> Multiton Factory method.</P>
+     *
+     * @param key multitonKey
+     * @param factory factory that returns <code>Model</code>
+     * @return the Multiton instance of <code>Model</code>
+     */
+    Model *(*getInstance)(const char *key, Model *(factory)(const char *));
+};
+
+const struct $Model $Model;
 
 #endif //PUREMVC_MODEL_H

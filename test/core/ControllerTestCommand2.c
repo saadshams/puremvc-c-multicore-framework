@@ -21,7 +21,7 @@ static void execute(SimpleCommand *self, Notification *notification) {
  * @return
  */
 SimpleCommand *NewControllerTestCommand2() {
-    SimpleCommand *self = NewSimpleCommand();
+    SimpleCommand *self = $SimpleCommand.new();
     self->execute = execute;
     return self;
 }

@@ -15,7 +15,7 @@ static void initializeMacroCommand(MacroCommand *self) {
  * Constructor
  */
 MacroCommand* NewMacroCommandTestCommand() {
-    MacroCommand *self = NewMacroCommand();
+    MacroCommand *self = $MacroCommand.new();
     self->initializeMacroCommand = initializeMacroCommand;
     return self;
 }

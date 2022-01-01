@@ -45,7 +45,7 @@ void testMacroCommandExecute() {
     MacroCommandTestVO vo = {5, 0, 0};
 
     // Create the Notification (note)
-    Notification *notification = NewNotification("MacroCommandTest", &vo, NULL);
+    Notification *notification = $Notification.new("MacroCommandTest", &vo, NULL);
 
     // Create the SimpleCommand
     MacroCommand *command = NewMacroCommandTestCommand();
@@ -58,8 +58,8 @@ void testMacroCommandExecute() {
     assert(vo.result1 == 10);
     assert(vo.result2 == 25);
 
-    DeleteNotification(notification);
-    DeleteMacroCommand(command);
+    $Notification.delete(notification);
+    $MacroCommand.delete(command);
 }
 
 /**
@@ -77,14 +77,14 @@ void testMacroCommandExecute() {
  */
 void testRegisterAndExecuteCommand() {
     // Create the controller, register the ControllerTestCommand to handle 'ControllerTest' notes
-    Controller *controller = getControllerInstance("ControllerTestKey1", NewController);
+    Controller *controller = $Controller.getInstance("ControllerTestKey1", $Controller.new);
     controller->registerCommand(controller, "ControllerTest", (SimpleCommand *(*)(void)) NewMacroCommandTestCommand);
 
-    View *view = getViewInstance("ControllerTestKey1", NewView);
+    View *view = $View.getInstance("ControllerTestKey1", $View.new);
 
     // Create a 'ControllerTest' note
     MacroCommandTestVO vo = {5, 0, 0};
-    Notification *notification = NewNotification("ControllerTest", &vo, NULL);
+    Notification *notification = $Notification.new("ControllerTest", &vo, NULL);
 
     view->notifyObservers(view, notification);
 
@@ -93,7 +93,7 @@ void testRegisterAndExecuteCommand() {
     assert(vo.result2 == 25);
 
     controller->removeCommand(controller, "ControllerTest1");
-    DeleteNotification(notification);
-    RemoveController("ControllerTestKey2");
+    $Notification.delete(notification);
+    $Controller.removeController("ControllerTestKey2");
     controller = NULL;
 }

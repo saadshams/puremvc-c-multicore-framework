@@ -114,7 +114,7 @@ Data Fields</h2></td></tr>
 <tr class="separator:a3aed1debb2c66c6181dfc44f4ca9c0ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5bd60b516d6958054bca8688333607e4"><td class="memItemLeft" align="right" valign="top">bool(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_facade.html#a5bd60b516d6958054bca8688333607e4">hasCommand</a> )(<a class="el" href="struct_facade.html">Facade</a> *self, const char *notificationName)</td></tr>
 <tr class="separator:a5bd60b516d6958054bca8688333607e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a18cf5c867a4b458bcc30a906be3ae4c9"><td class="memItemLeft" align="right" valign="top">void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_facade.html#a18cf5c867a4b458bcc30a906be3ae4c9">registerProxy</a> )(<a class="el" href="struct_facade.html">Facade</a> *self, <a class="el" href="struct_proxy.html">Proxy</a> *proxy)</td></tr>
+<tr class="memitem:a18cf5c867a4b458bcc30a906be3ae4c9"><td class="memItemLeft" align="right" valign="top">void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_facade.html#a18cf5c867a4b458bcc30a906be3ae4c9">registerProxy</a> )(<a class="el" href="struct_facade.html">Facade</a> *self, <a class="el" href="struct_proxy.html">Proxy</a> *new)</td></tr>
 <tr class="separator:a18cf5c867a4b458bcc30a906be3ae4c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af05af0198ca69e9659abde72679aaca4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_proxy.html">Proxy</a> *(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_facade.html#af05af0198ca69e9659abde72679aaca4">retrieveProxy</a> )(<a class="el" href="struct_facade.html">Facade</a> *self, const char *proxyName)</td></tr>
 <tr class="separator:af05af0198ca69e9659abde72679aaca4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -223,7 +223,7 @@ Data Fields</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">self</td><td><a class="el" href="struct_facade.html">Facade</a> </td></tr>
-    <tr><td class="paramname">proxyName</td><td>proxy name </td></tr>
+    <tr><td class="paramname">proxyName</td><td>new name </td></tr>
   </table>
   </dd>
 </dl>
@@ -491,7 +491,7 @@ You have <code>Observers</code> to register with the <code><a class="el" href="s
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void(* registerProxy) (<a class="el" href="struct_facade.html">Facade</a> *self, <a class="el" href="struct_proxy.html">Proxy</a> *proxy)</td>
+          <td class="memname">void(* registerProxy) (<a class="el" href="struct_facade.html">Facade</a> *self, <a class="el" href="struct_proxy.html">Proxy</a> *new)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -499,7 +499,7 @@ You have <code>Observers</code> to register with the <code><a class="el" href="s
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">self</td><td><a class="el" href="struct_facade.html">Facade</a> </td></tr>
-    <tr><td class="paramname">proxy</td><td>the <code><a class="el" href="struct_proxy.html">Proxy</a></code> instance to be registered with the <code><a class="el" href="struct_model.html">Model</a></code>. </td></tr>
+    <tr><td class="paramname">new</td><td>the <code><a class="el" href="struct_proxy.html">Proxy</a></code> instance to be registered with the <code><a class="el" href="struct_model.html">Model</a></code>. </td></tr>
   </table>
   </dd>
 </dl>
@@ -622,7 +622,7 @@ You have <code>Observers</code> to register with the <code><a class="el" href="s
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">self</td><td><a class="el" href="struct_facade.html">Facade</a> </td></tr>
-    <tr><td class="paramname">proxyName</td><td>the name of the proxy to be retrieved. </td></tr>
+    <tr><td class="paramname">proxyName</td><td>the name of the new to be retrieved. </td></tr>
   </table>
   </dd>
 </dl>

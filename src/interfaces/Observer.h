@@ -82,21 +82,25 @@ struct Observer {
     bool (*compareNotifyContext)(Observer *self, const void *context);
 };
 
-/**
- * Constructor.
- *
- * <P> The notification method on the interested object should take
- * one parameter of type <code>INotification</code></P>
- *
- * @param notifyMethod the notification method of the interested object
- * @param notifyContext the notification context of the interested object
- */
-Observer *NewObserver(void (*notifyMethod)(void *context, Notification *notification), void *notifyContext);
+struct $Observer {
+    /**
+     * Constructor.
+     *
+     * <P> The notification method on the interested object should take
+     * one parameter of type <code>INotification</code></P>
+     *
+     * @param notifyMethod the notification method of the interested object
+     * @param notifyContext the notification context of the interested object
+     */
+    Observer *(*new)(void (*notifyMethod)(void *context, Notification *notification), void *notifyContext);
 
-/** Initializer */
-void InitObserver(Observer *observer, void (*notifyMethod)(void *context, Notification *notification), void *notifyContext);
+    /** Initializer */
+    void (*init)(Observer *observer, void (*notifyMethod)(void *context, Notification *notification), void *notifyContext);
 
-/** Destructor */
-void DeleteObserver(Observer *observer);
+    /** Destructor */
+    void (*delete)(Observer *observer);
+};
+
+const struct $Observer $Observer;
 
 #endif //PUREMVC_OBSERVER_H

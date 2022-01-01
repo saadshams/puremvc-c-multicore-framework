@@ -148,7 +148,7 @@ struct Facade {
      * <P>Retrieve an <code>Proxy</code> from the <code>Model</code> by name.</P>
      *
      * @param self Facade
-     * @param proxyName the name of the proxy to be retrieved.
+     * @param proxyName the name of the new to be retrieved.
      * @return the <code>Proxy</code> instance previously registered with the given <code>proxyName</code>.
      */
     Proxy *(*retrieveProxy)(Facade *self, const char *proxyName);
@@ -166,7 +166,7 @@ struct Facade {
      * <P>Check if a Proxy is registered</P>
      *
      * @param self Facade
-     * @param proxyName proxy name
+     * @param proxyName new name
      * @return whether a Proxy is currently registered with the given <code>proxyName</code>.
      */
     bool (*hasProxy)(Facade *self, const char *proxyName);
@@ -248,19 +248,23 @@ struct Facade {
     void (*initializeNotifier)(Facade *self, const char *key);
 };
 
-/** Facade Multiton Factory method */
-Facade *getFacadeInstance(const char *key, Facade *(*factory)(const char *));
+struct $Facade {
+    /** Constructor */
+    Facade *(*new)(const char *key);
 
-/** Constructor */
-Facade *NewFacade(const char *key);
+    /** Initializer */
+    void (*init)(Facade *facade);
 
-/** Initializer */
-void InitFacade(Facade *facade);
+    /** Facade Multiton Factory method */
+    Facade *(*getInstance)(const char *key, Facade *(*factory)(const char *));
 
-/** Check if a Core is registered or not */
-bool HasFacadeCore(const char *key);
+    /** Check if a Core is registered or not */
+    bool (*hasCore)(const char *key);
 
-/** Remove a Core. */
-void RemoveFacade(const char *key);
+    /** Remove a Core. */
+    void (*removeFacade)(const char *key);
+};
+
+const struct $Facade $Facade;
 
 #endif //PUREMVC_FACADE_H

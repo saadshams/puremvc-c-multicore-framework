@@ -35,18 +35,7 @@ static const char *toString(Notification *self) {
         return NULL;
 }
 
-Notification *NewNotification(const char *name, void *body, char *type) {
-    Notification *notification = malloc(sizeof(Notification));
-    if (notification == NULL) goto exception;
-    InitNotification(notification, name, body, type);
-    return notification;
-
-    exception:
-        fprintf(stderr, "Notification allocation failed.\n");
-        return NULL;
-}
-
-void InitNotification(Notification *notification, const char *name, void *body, char *type) {
+static void init(Notification *notification, const char *name, void *body, char *type) {
     notification->name = name;
     notification->body = body;
     notification->type = type;
@@ -58,7 +47,24 @@ void InitNotification(Notification *notification, const char *name, void *body, 
     notification->toString = toString;
 }
 
-void DeleteNotification(Notification *notification) {
+static Notification *new(const char *name, void *body, char *type) {
+    Notification *notification = malloc(sizeof(Notification));
+    if (notification == NULL) goto exception;
+    $Notification.init(notification, name, body, type);
+    return notification;
+
+    exception:
+        fprintf(stderr, "Notification allocation failed.\n");
+        return NULL;
+}
+
+static void delete(Notification *notification) {
     free(notification);
     notification = NULL;
 }
+
+const struct $Notification $Notification = {
+        .new = new,
+        .init = init,
+        .delete = delete
+};

@@ -23,12 +23,12 @@ int main() {
  */
 void testNameAccessor() {
     // Create a new Mediator and use accessors to set the mediator name
-    Mediator *mediator = NewMediator(NULL, NULL);
+    Mediator *mediator = $Mediator.new(NULL, NULL);
     mediator->notifier->initializeNotifier(mediator->notifier, "test");
 
     // test assertions
     assert(strcmp(mediator->getMediatorName(mediator), MEDIATOR_NAME) == 0);
-    DeleteMediator(mediator);
+    $Mediator.delete(mediator);
 }
 
 /**
@@ -37,12 +37,12 @@ void testNameAccessor() {
 void testViewAccessor() {
     // Create a view object
     struct View {} view;
-    Mediator *mediator = NewMediator(MEDIATOR_NAME, &view);
+    Mediator *mediator = $Mediator.new(MEDIATOR_NAME, &view);
     mediator->notifier->initializeNotifier(mediator->notifier, "test");
 
     // test assertions
     assert(mediator->getViewComponent(mediator) == &view);
-    DeleteMediator(mediator);
+    $Mediator.delete(mediator);
 }
 
 /**
@@ -53,7 +53,7 @@ void testListNotificationInterests() {
     struct View {} view;
 
     // Create a new Mediator and pass the view object
-    Mediator *mediator = NewMediator(MEDIATOR_NAME, &view);
+    Mediator *mediator = $Mediator.new(MEDIATOR_NAME, &view);
     mediator->notifier->initializeNotifier(mediator->notifier, "test");
 
     // retrieve notification list
@@ -67,5 +67,5 @@ void testListNotificationInterests() {
 
     // test assertions
     assert(i == 0);
-    DeleteMediator(mediator);
+    $Mediator.delete(mediator);
 }

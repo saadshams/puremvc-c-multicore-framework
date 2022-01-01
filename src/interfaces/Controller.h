@@ -115,34 +115,38 @@ struct Controller {
     void (*removeCommand)(Controller *self, const char *notificationName);
 };
 
-/**
- * <P><code>Controller</code> Multiton Factory method.</P>
- *
- * @param key multitonKey
- * @param factory factory that returns <code>Controller</code>
- * @return the Multiton instance of <code>Controller</code>
- */
-Controller *getControllerInstance(const char *key, Controller *(*factory)(const char *));
+struct $Controller {
+    /**
+     * <P><code>Controller</code> Multiton Factory method.</P>
+     *
+     * @param key multitonKey
+     * @param factory factory that returns <code>Controller</code>
+     * @return the Multiton instance of <code>Controller</code>
+     */
+    Controller *(*getInstance)(const char *key, Controller *(*factory)(const char *));
 
-/**
- * Constructor
- *
- * <P>This <code>Controller</code> implementation is a Multiton,
- * so you should not call the constructor
- * directly, but instead call the static Factory method,
- * passing the unique key and a supplier for this instance
- * <code>getControllerInstance(multitonKey, NewController)</code></P>
- *
- * @param key
- * @return instance of <code>Controller</code>
- * @throws Error if instance for this Multiton key has already been constructed
- */
-Controller *NewController(const char *key);
+    /**
+     * Constructor
+     *
+     * <P>This <code>Controller</code> implementation is a Multiton,
+     * so you should not call the constructor
+     * directly, but instead call the static Factory method,
+     * passing the unique key and a supplier for this instance
+     * <code>getControllerInstance(multitonKey, NewController)</code></P>
+     *
+     * @param key
+     * @return instance of <code>Controller</code>
+     * @throws Error if instance for this Multiton key has already been constructed
+     */
+    Controller *(*new)(const char *key);
 
-/** Initializer */
-void InitController(Controller *controller);
+    /** Initializer */
+    void (*init)(Controller *controller);
 
-/** Remove Core */
-void RemoveController(const char *key);
+    /** Remove Core */
+    void (*removeController)(const char *key);
+};
+
+const struct $Controller $Controller;
 
 #endif //PUREMVC_CONTROLLER_H

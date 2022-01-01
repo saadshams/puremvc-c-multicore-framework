@@ -36,7 +36,7 @@ void testSimpleCommandExecute() {
     SimpleCommandTestVO vo = {5, 0};
 
     // Create the Notification (note)
-    Notification *note = NewNotification("SimpleCommandTestNote", &vo, NULL);
+    Notification *note = $Notification.new("SimpleCommandTestNote", &vo, NULL);
 
     // Create the SimpleCommand
     SimpleCommandTestCommand *command = NewSimpleCommandTestCommand();
@@ -48,7 +48,7 @@ void testSimpleCommandExecute() {
     // test assertions
     assert(vo.result == 10);
 
-    DeleteNotification(note);
+    $Notification.delete(note);
     DeleteSimpleCommandTestCommand(command);
-    RemoveFacade("test");
+    $Facade.removeFacade("test");
 }

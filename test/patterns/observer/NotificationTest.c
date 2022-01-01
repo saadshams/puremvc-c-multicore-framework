@@ -23,11 +23,11 @@ int main() {
  */
 void testNameAccessors() {
     // Create a new Notification and use accessors to set the note name
-    Notification *notification = NewNotification("TestNote", NULL, NULL);
+    Notification *notification = $Notification.new("TestNote", NULL, NULL);
 
     // test assertions
     assert(strcmp(notification->getName(notification), "TestNote") == 0);
-    DeleteNotification(notification);
+    $Notification.delete(notification);
 }
 
 /**
@@ -38,12 +38,12 @@ void testBodyAccessors() {
     struct {int value;} test = {5};
 
     // Create a new Notification and use accessors to set the body
-    Notification *notification = NewNotification("TestNote", NULL, NULL);
+    Notification *notification = $Notification.new("TestNote", NULL, NULL);
     notification->setBody(notification, &test);
 
     // test assertions
     assert(notification->getBody(notification) == &test);
-    DeleteNotification(notification);
+    $Notification.delete(notification);
 }
 
 /**
@@ -52,19 +52,19 @@ void testBodyAccessors() {
 void testConstructor() {
     // Create a new Notification using the Constructor to set the note name and body
     struct {int value;} test = {5};
-    Notification *notification = NewNotification("TestNote", &test, "TestNoteType");
+    Notification *notification = $Notification.new("TestNote", &test, "TestNoteType");
 
     // test assertions
     assert(strcmp(notification->getName(notification), "TestNote") == 0);
     assert(notification->getBody(notification) == &test);
     assert(strcmp(notification->getType(notification), "TestNoteType") == 0);
-    DeleteNotification(notification);
+    $Notification.delete(notification);
 }
 
 /** Test Notifications */
 void testToString() {
     struct {int value;} test = {5};
-    Notification *notification = NewNotification("TestNote", &test, "TestNoteType");
+    Notification *notification = $Notification.new("TestNote", &test, "TestNoteType");
     const char *str = notification->toString(notification);
     assert(strcmp(str, "TestNoteTestNoteType") == 0);
 }

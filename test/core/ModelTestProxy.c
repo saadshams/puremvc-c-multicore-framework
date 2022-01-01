@@ -11,7 +11,7 @@ static void onRemove(Proxy *self) {
 
 ModelTestProxy *NewModelTestProxy(char *proxyName, void *data) {
     ModelTestProxy *self = malloc(sizeof(ModelTestProxy));
-    InitProxy(&self->proxy, proxyName, data);
+    $Proxy.init(&self->proxy, proxyName, data);
     self->proxy.onRegister = onRegister;
     self->proxy.onRemove = onRemove;
     return self;

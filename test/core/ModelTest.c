@@ -24,17 +24,17 @@ int main() {
  */
 void testGetInstance() {
     // Test Factory Method
-    Model *model = getModelInstance("ModelTestKey1", NewModel);
+    Model *model = $Model.getInstance("ModelTestKey1", $Model.new);
     assert(model != NULL);
 
     // test assertions
-    assert(model == getModelInstance("ModelTestKey1", NewModel));
-    RemoveModel("ModelTestKey1");
+    assert(model == $Model.getInstance("ModelTestKey1", $Model.new));
+    $Model.removeModel("ModelTestKey1");
     model = NULL;
 }
 
 /**
- * Tests the proxy registration and retrieval methods.
+ * Tests the new registration and retrieval methods.
  *
  * <P>Tests <code>registerProxy</code> and <code>retrieveProxy</code> in the same test.
  * These methods cannot currently be tested separately
@@ -42,9 +42,9 @@ void testGetInstance() {
  * methods do not throw exception when called. </P>
  */
 void testRegisterAndRetrieveProxy() {
-    // register a proxy and retrieve it.
-    Model *model = getModelInstance("ModelTestKey2", NewModel);
-    model->registerProxy(model, NewProxy("colors", (char *[]) {"red", "green", "blue", NULL}));
+    // register a new and retrieve it.
+    Model *model = $Model.getInstance("ModelTestKey2", $Model.new);
+    model->registerProxy(model, $Proxy.new("colors", (char *[]) {"red", "green", "blue", NULL}));
     Proxy *proxy = model->retrieveProxy(model, "colors");
 
     assert(proxy != NULL);
@@ -57,31 +57,31 @@ void testRegisterAndRetrieveProxy() {
 
     Proxy *removedProxy = model->removeProxy(model, "colors");
     assert(strcmp(removedProxy->proxyName, "colors") == 0);
-    DeleteProxy(removedProxy);
+    $Proxy.delete(removedProxy);
     assert(model->retrieveProxy(model, "colors") == NULL);
-    RemoveModel("ModelTestKey2");
+    $Model.removeModel("ModelTestKey2");
     model = NULL;
 }
 
 /**
- * Tests the proxy removal method.
+ * Tests the new removal method.
  */
 void testRegisterAndRemoveProxy() {
-    // register a proxy, remove it, then try to retrieve it
-    Model *model = getModelInstance("ModelTestKey4", NewModel);
-    model->registerProxy(model, NewProxy("sizes", (char *[]) {"7", "13", "21"}));
+    // register a new, remove it, then try to retrieve it
+    Model *model = $Model.getInstance("ModelTestKey4", $Model.new);
+    model->registerProxy(model, $Proxy.new("sizes", (char *[]) {"7", "13", "21"}));
 
-    // remove the proxy
+    // remove the new
     Proxy *removedProxy = model->removeProxy(model, "sizes");
 
-    // assert that we removed the appropriate proxy
+    // assert that we removed the appropriate new
     assert(strcmp(removedProxy->proxyName, "sizes") == 0);
 
-    // ensure that the proxy is no longer retrievable from the model
+    // ensure that the new is no longer retrievable from the model
     assert(model->retrieveProxy(model, "sizes") == NULL);
 
-    DeleteProxy(removedProxy);
-    RemoveModel("ModelTestKey4");
+    $Proxy.delete(removedProxy);
+    $Model.removeModel("ModelTestKey4");
     model = NULL;
 }
 
@@ -89,25 +89,25 @@ void testRegisterAndRemoveProxy() {
  * Tests the hasProxy Method
  */
 void testHasProxy() {
-    // register a proxy
-    Model *model = getModelInstance("ModelTestKey5", NewModel);
-    model->registerProxy(model, NewProxy("aces", (char *[]) {"clubs", "spades", "hearts", "diamonds"}));
+    // register a new
+    Model *model = $Model.getInstance("ModelTestKey5", $Model.new);
+    model->registerProxy(model, $Proxy.new("aces", (char *[]) {"clubs", "spades", "hearts", "diamonds"}));
 
     // assert that the model.hasProxy method returns true
-    // for that proxy name
+    // for that new name
     assert(model->hasProxy(model, "aces") == true);
 
-    // remove the proxy
+    // remove the new
     Proxy *proxy = model->removeProxy(model, "aces");
 
     assert(proxy != NULL);
-    DeleteProxy(proxy);
+    $Proxy.delete(proxy);
 
     // assert that the model.hasProxy method returns false
-    // for that proxy name
+    // for that new name
     assert(model->hasProxy(model, "aces") == false);
 
-    RemoveModel("ModelTestKey5");
+    $Model.removeModel("ModelTestKey5");
     model = NULL;
 }
 
@@ -116,38 +116,38 @@ void testHasProxy() {
  */
 void testOnRegisterAndOnRemove() {
     // Get a Multiton Model instance
-    Model *model = getModelInstance("ModelTestKey6", NewModel);
+    Model *model = $Model.getInstance("ModelTestKey6", $Model.new);
 
     // Create and register the test mediator
     ModelTestProxy *modelTestProxy = NewModelTestProxy("ModelTestProxy", NULL);
     model->registerProxy(model, (Proxy *)modelTestProxy);
 
-    // assert that onRegister was called, and the proxy responded by setting its data accordingly
+    // assert that onRegister was called, and the new responded by setting its data accordingly
     char *data = ON_REGISTER_CALLED;
     assert(strcmp(modelTestProxy->proxy.getData(&modelTestProxy->proxy), data) == 0);
 
     // Remove the component
     model->removeProxy(model, "ModelTestProxy");
 
-    // assert that onRemove was called, and the proxy responded by setting its data accordingly
+    // assert that onRemove was called, and the new responded by setting its data accordingly
     data = ON_REMOVE_CALLED;
     assert(strcmp(modelTestProxy->proxy.data, data) == 0);
-    DeleteProxy((Proxy *) modelTestProxy);
+    $Proxy.delete((Proxy *) modelTestProxy);
 
-    RemoveModel("ModelTestKey6");
+    $Model.removeModel("ModelTestKey6");
     model = NULL;
 }
 
 void testRemoveModel() {
     // Get a Multiton Model instance
-    getModelInstance("ModelTestKey6", NewModel);
+    $Model.getInstance("ModelTestKey6", $Model.new);
 
     // remove the model
-    RemoveModel("ModelTestKey6");
+    $Model.removeModel("ModelTestKey6");
 
     // re-create the model without throwing an exception
-    NewModel("ModelTestKey6");
+    $Model.new("ModelTestKey6");
 
     // cleanup
-    RemoveModel("ModelTestKey6");
+    $Model.removeModel("ModelTestKey6");
 }

@@ -16,7 +16,7 @@ void execute(SimpleCommand *self, Notification *notification) {
 
 FacadeTestCommand *NewFacadeTestCommand() {
     FacadeTestCommand *self = malloc(sizeof(FacadeTestCommand));
-    InitSimpleCommand(&self->simpleCommand);
+    $SimpleCommand.init(&self->simpleCommand);
     self->simpleCommand.execute = execute;
     return self;
 }
