@@ -16,6 +16,7 @@ int main() {
     testHasProxy();
     testOnRegisterAndOnRemove();
     testRemoveModel();
+    testMultipleModels();
     puts("ModelTest: Success");
     return 0;
 }
@@ -151,4 +152,25 @@ void testRemoveModel() {
 
     // cleanup
     $Model.removeModel("ModelTestKey6");
+}
+
+void testMultipleModels() {
+    // Get a Multiton Model instance
+    Model *model1 = $Model.getInstance("ModelTestKey7", $Model.new);
+    Model *model2 = $Model.getInstance("ModelTestKey8", $Model.new);
+
+    model1->registerProxy(model1, $Proxy.new("colors", (char *[]) {"red", "green", "blue", NULL}));
+    model2->registerProxy(model2, $Proxy.new("aces", (char *[]) {"clubs", "spades", "hearts", "diamonds"}));
+
+    assert(model1->hasProxy(model1, "colors"));
+    assert(!model2->hasProxy(model2, "colors"));
+
+    assert(!model1->hasProxy(model1, "aces"));
+    assert(model2->hasProxy(model2, "aces"));
+
+    $Proxy.delete(model1->removeProxy(model1, "colors"));
+    $Proxy.delete(model2->removeProxy(model2, "aces"));
+
+    $Model.removeModel("ModelTestKey7");
+    $Model.removeModel("ModelTestKey8");
 }

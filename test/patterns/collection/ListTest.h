@@ -11,6 +11,8 @@ void testContainsValue();
 
 void testClone();
 
+void testIsEmpty();
+
 void testSize();
 
 void testClear();

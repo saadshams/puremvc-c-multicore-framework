@@ -23,8 +23,6 @@ struct $List {
 
     bool (*isEmpty)(List **head);
 
-    int (*size)(List **head);
-
     const void *(*pop)(List **head);
 
     const void *(*push)(List **head, const void *data);
@@ -36,6 +34,8 @@ struct $List {
     const void *(*removeFirst)(List **head);
 
     const void *(*removeLast)(List **head);
+
+    int (*size)(List **head);
 
     const void *(*shift)(List **head);
 

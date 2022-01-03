@@ -10,6 +10,7 @@ int main() {
     testRemove();
     testContainsValue();
     testClone();
+    testIsEmpty();
     testSize();
     testClear();
     testPrint();
@@ -121,6 +122,22 @@ void testClone() {
     List *clone = $List.clone(&list);
 
     assert($List.size(&clone) == 3);
+}
+
+void testIsEmpty() {
+    static List *list;
+
+    assert($List.isEmpty(&list));
+
+    Test *test1 = &(Test) {"name1", 1};
+    Test *test2 = &(Test) {"name2", 2};
+    Test *test3 = &(Test) {"name3", 3};
+
+    assert($List.addFirst(&list, test1) == test1);
+    assert($List.addFirst(&list, test2) == test2);
+    assert($List.addFirst(&list, test3) == test3);
+
+    assert(!$List.isEmpty(&list));
 }
 
 void testSize() {

@@ -15,4 +15,6 @@ void testOnRegisterAndOnRemove();
 
 void testRemoveModel();
 
+void testMultipleModels();
+
 #endif //PUREMVC_MODELTEST_H
