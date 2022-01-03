@@ -63,8 +63,4 @@ static void delete(Notification *notification) {
     notification = NULL;
 }
 
-const struct $Notification $Notification = {
-        .new = new,
-        .init = init,
-        .delete = delete
-};
+const struct $Notification $Notification = {.new = new, .init = init, .delete = delete};

@@ -129,7 +129,7 @@ static void $print(List **head) {
 }
 
 // Pushes an element (add to the end of an array) onto the stack represented by this list.
-const void *$push(List **head, const void *data) {
+static const void *$push(List **head, const void *data) {
     return $addLast(head, data);
 }
 

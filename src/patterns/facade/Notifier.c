@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 
-Facade *getFacade(Notifier *self) {
+static Facade *getFacade(Notifier *self) {
     return $Facade.getInstance(self->multitonKey, $Facade.new);
 }
 
@@ -22,7 +22,7 @@ static void init(Notifier *notifier) {
     notifier->sendNotification = sendNotification;
 }
 
-Notifier *new(void) {
+static Notifier *new(void) {
     Notifier *notifier = malloc(sizeof(Notifier));
     if (notifier == NULL) goto exception;
     init(notifier);

@@ -116,23 +116,4 @@ struct $Model {
 
 const struct $Model $Model;
 
-// ModelNode LinkedList
-//typedef struct ModelNode ModelNode;
-//
-//struct ModelNode {
-//    const char *name;
-//    Model *model;
-//    ModelNode *next;
-//};
-//
-//struct $ModelNode {
-//    ModelNode *(*get)(ModelNode *head, const char *key);
-//
-//    ModelNode *(*put)(ModelNode **head, const char *key, Model *model);
-//
-//    void (*remove)(ModelNode **head, const char *key);
-//};
-//
-//const struct $ModelNode $ModelNode;
-
 #endif //PUREMVC_MODEL_H

@@ -18,7 +18,7 @@ static bool $containsKey(Map **head, const char *key) {
 }
 
 // Returns true if this maps a key to the specified value.
-bool containsValue(Map **head, const void *value) {
+static bool containsValue(Map **head, const void *value) {
     pthread_rwlock_rdlock(&mutex);
     Map *cursor = *head;
     while (cursor && cursor->value != value)

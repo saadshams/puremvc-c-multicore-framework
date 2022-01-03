@@ -26,10 +26,9 @@ static bool compareNotifyContext(Observer *self, const void *context) {
     return self->context == context;
 }
 
-static void
-init(Observer *observer, void (*notifyMethod)(void *context, Notification *notification), void *notifyContext) {
-    observer->notify = notifyMethod;
-    observer->context = notifyContext;
+static void init(Observer *observer, void (*notify)(void *context, Notification *notification), void *context) {
+    observer->notify = notify;
+    observer->context = context;
     observer->getNotifyContext = getNotifyContext;
     observer->setNotifyContext = setNotifyContext;
     observer->getNotifyMethod = getNotifyMethod;
