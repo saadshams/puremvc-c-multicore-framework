@@ -19,8 +19,8 @@ static SimpleCommand *new(void) {
     return simpleCommand;
 
     exception:
-        fprintf(stderr, "SimpleCommand allocation failed.\n");
-        return NULL;
+    fprintf(stderr, "SimpleCommand allocation failed.\n");
+    return NULL;
 }
 
 static void delete(SimpleCommand *simpleCommand) {
@@ -29,4 +29,4 @@ static void delete(SimpleCommand *simpleCommand) {
     simpleCommand = NULL;
 }
 
-const struct $SimpleCommand $SimpleCommand = { .new = new, .init = init, .delete = delete };
+const struct $SimpleCommand $SimpleCommand = {.new = new, .init = init, .delete = delete};

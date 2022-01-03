@@ -14,6 +14,6 @@
  */
 typedef struct MacroCommandTestCommand MacroCommandTestCommand;
 
-MacroCommand* NewMacroCommandTestCommand();
+MacroCommand *NewMacroCommandTestCommand();
 
 #endif //PUREMVC_MACROCOMMANDTESTCOMMAND_H

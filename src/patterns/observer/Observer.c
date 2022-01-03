@@ -26,7 +26,8 @@ static bool compareNotifyContext(Observer *self, const void *context) {
     return self->context == context;
 }
 
-static void init(Observer *observer, void (*notifyMethod)(void *context, Notification *notification), void *notifyContext) {
+static void
+init(Observer *observer, void (*notifyMethod)(void *context, Notification *notification), void *notifyContext) {
     observer->notify = notifyMethod;
     observer->context = notifyContext;
     observer->getNotifyContext = getNotifyContext;
@@ -53,5 +54,5 @@ static void delete(Observer *observer) {
     observer = NULL;
 }
 
-const struct $Observer $Observer = { .new = new, .init = init, .delete = delete };
+const struct $Observer $Observer = {.new = new, .init = init, .delete = delete};
 

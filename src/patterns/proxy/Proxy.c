@@ -51,4 +51,4 @@ static void delete(Proxy *proxy) {
     proxy = NULL;
 }
 
-const struct $Proxy $Proxy = { .new = new, .init = init, .delete = delete };
+const struct $Proxy $Proxy = {.new = new, .init = init, .delete = delete};

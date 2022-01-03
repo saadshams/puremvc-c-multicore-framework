@@ -43,7 +43,8 @@ static void handleNotification(void *context, Notification *notification) {
 void testObserverAccessors() {
     // Create observer with null args, then
     // use accessors to set notification method and context
-    struct Object {} object;
+    struct Object {
+    } object;
     Observer *observer = $Observer.new(NULL, NULL);
     observer->setNotifyMethod(observer, handleNotification);
     observer->setNotifyContext(observer, &object);
@@ -54,7 +55,7 @@ void testObserverAccessors() {
     // successful notification will result in our local
     // observerTestVar being set to the value we pass in
     // on the note body.
-    Notification *notification = $Notification.new("ObserverTestNote", &(ObserverTestVar){10}, NULL);
+    Notification *notification = $Notification.new("ObserverTestNote", &(ObserverTestVar) {10}, NULL);
     observer->notifyObserver(observer, notification);
 
     // test assertions
@@ -69,9 +70,10 @@ void testObserverAccessors() {
  */
 void testObserverConstructor() {
     // Create observer
-    struct Object {} object;
+    struct Object {
+    } object;
     Observer *observer = $Observer.new(handleNotification, &object);
-    Notification *notification = $Notification.new("ObserverTestNote", &(ObserverTestVar){5}, NULL);
+    Notification *notification = $Notification.new("ObserverTestNote", &(ObserverTestVar) {5}, NULL);
     observer->notifyObserver(observer, notification);
 
     // test assertions
@@ -86,7 +88,8 @@ void testObserverConstructor() {
  */
 void testCompareNotifyContext() {
     // Create observer passing in notification method and context
-    struct Object {} object, negTestObj;
+    struct Object {
+    } object, negTestObj;
     Observer *observer = $Observer.new(handleNotification, &object);
 
     // test assertions

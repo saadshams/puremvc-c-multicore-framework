@@ -7,7 +7,7 @@
  * @param notification the note carrying the ControllerTestVO
  */
 static void execute(SimpleCommand *self, Notification *notification) {
-    ControllerTestVO *vo = (ControllerTestVO *)notification->getBody(notification);
+    ControllerTestVO *vo = (ControllerTestVO *) notification->getBody(notification);
 
     // Fabricate a result
     vo->result = 2 * vo->input;

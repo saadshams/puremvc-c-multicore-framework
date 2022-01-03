@@ -4,6 +4,8 @@ project(PureMVC)
 set(CMAKE_C_STANDARD 99)
 
 set(SOURCES)
+list(APPEND SOURCES src/patterns/collection/List.c)
+list(APPEND SOURCES src/patterns/collection/Map.c)
 list(APPEND SOURCES src/core/Controller.c)
 list(APPEND SOURCES src/core/Model.c)
 list(APPEND SOURCES src/core/View.c)
@@ -81,3 +83,9 @@ target_link_libraries(TestObserver PureMVC)
 
 add_executable(TestProxy test/patterns/proxy/ProxyTest.c)
 target_link_libraries(TestProxy PureMVC)
+
+add_executable(TestMap test/patterns/collection/MapTest.c)
+target_link_libraries(TestMap PureMVC)
+
+add_executable(TestList test/patterns/collection/ListTest.c)
+target_link_libraries(TestList PureMVC)

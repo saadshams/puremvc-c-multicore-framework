@@ -1,69 +1,15 @@
 #include "interfaces/Facade.h"
+#include "interfaces/Map.h"
 #include <assert.h>
 #include <pthread.h>
 #include <stdio.h>
 #include <string.h>
 
-typedef struct FacadeNode FacadeNode;
-
-// FacadeNode LinkedList
-struct FacadeNode {
-    const char *name;
-    Facade *facade;
-    FacadeNode *next;
-};
-
 // The Multiton Facade instanceMap.
-static FacadeNode *instanceMap;
+static Map *instanceMap;
 
 // mutex for instanceMap
 static pthread_rwlock_t facade_mutex = PTHREAD_MUTEX_INITIALIZER;
-
-/** Construct a new instanceMap node */
-static FacadeNode *NewFacadeMap(const char *key, Facade *facade) {
-    FacadeNode *node = malloc(sizeof(FacadeNode));
-    if (node == NULL) goto exception;
-    node->name = key;
-    node->facade = facade;
-    node->next = NULL;
-    return node;
-
-    exception:
-        fprintf(stderr, "FacadeNode allocation failed.\n");
-        return NULL;
-}
-
-/** Retrieve a Node from instanceMap LinkedList */
-static Facade *GetFacadeMap(const char *key) {
-    FacadeNode *cursor = instanceMap;
-    while (cursor && strcmp(cursor->name, key) != 0)
-        cursor = cursor->next;
-    return cursor != NULL ? cursor->facade : NULL;
-}
-
-/** Add a Node to the instanceMap LinkedList */
-static void AddFacadeMap(const char *key, Facade *facade) {
-    FacadeNode **cursor = &instanceMap;
-    while (*cursor)
-        cursor = &(*cursor)->next;
-    *cursor = NewFacadeMap(key, facade);
-}
-
-/** Remove a node from instanceMap LinkedList */
-static void RemoveFacadeMap(const char *key) {
-    FacadeNode **cursor = &instanceMap;
-    while (*cursor) {
-        if (strcmp((*cursor)->name, key) == 0) {
-            FacadeNode *node = *cursor;
-            *cursor = (*cursor)->next;
-            free(node->facade);
-            free(node);
-            node = NULL;
-            break;
-        }
-        cursor = &(*cursor)->next;
-    }
-}
 
 static void initializeFacade(Facade *self) {
     self->initializeModel(self);
@@ -169,7 +115,8 @@ static void init(Facade *facade) {
 }
 
 static Facade *new(const char *key) {
-    assert(GetFacadeMap(key) == NULL);
+    assert($Map.get(&instanceMap, key) == NULL);
+
     Facade *facade = malloc(sizeof(Facade));
     if (facade == NULL) goto exception;
     init(facade);
@@ -177,16 +124,15 @@ static Facade *new(const char *key) {
     return facade;
 
     exception:
-        fprintf(stderr, "Facade allocation failed.\n");
-        return NULL;
+    fprintf(stderr, "Facade allocation failed.\n");
+    return NULL;
 }
 
 static Facade *getInstance(const char *key, Facade *(*factory)(const char *)) {
     pthread_rwlock_wrlock(&facade_mutex);
-    Facade *instance = GetFacadeMap(key);
+    Facade *instance = (Facade *) $Map.get(&instanceMap, key);
     if (instance == NULL) {
-        instance = factory(key);
-        AddFacadeMap(key, instance);
+        instance = (Facade *) $Map.put(&instanceMap, key, factory(key));
         instance->initializeFacade(instance);
     }
     pthread_rwlock_unlock(&facade_mutex);
@@ -195,7 +141,7 @@ static Facade *getInstance(const char *key, Facade *(*factory)(const char *)) {
 
 static bool hasCore(const char *key) {
     pthread_rwlock_rdlock(&facade_mutex);
-    bool result = GetFacadeMap(key) != NULL;
+    bool result = $Map.containsKey(&instanceMap, key);
     pthread_rwlock_unlock(&facade_mutex);
     return result;
 }
@@ -205,8 +151,9 @@ static void removeFacade(const char *key) {
     $Model.removeModel(key);
     $View.removeView(key);
     $Controller.removeController(key);
-    RemoveFacadeMap(key);
+    Facade *facade = (Facade *) $Map.remove(&instanceMap, key);
+    if (facade != NULL) free(facade);
     pthread_rwlock_unlock(&facade_mutex);
 }
 
-const struct $Facade $Facade = { .new = new, .init = init, .getInstance = getInstance, .hasCore = hasCore, .removeFacade = removeFacade };
+const struct $Facade $Facade = {.new = new, .init = init, .getInstance = getInstance, .hasCore = hasCore, .removeFacade = removeFacade};

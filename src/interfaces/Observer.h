@@ -95,7 +95,8 @@ struct $Observer {
     Observer *(*new)(void (*notifyMethod)(void *context, Notification *notification), void *notifyContext);
 
     /** Initializer */
-    void (*init)(Observer *observer, void (*notifyMethod)(void *context, Notification *notification), void *notifyContext);
+    void
+    (*init)(Observer *observer, void (*notifyMethod)(void *context, Notification *notification), void *notifyContext);
 
     /** Destructor */
     void (*delete)(Observer *observer);

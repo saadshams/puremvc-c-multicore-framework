@@ -17,7 +17,7 @@ static void execute(SimpleCommand *self, Notification *notification) {
 /**
  * Constructor
  */
-SimpleCommandTestCommand* NewSimpleCommandTestCommand() {
+SimpleCommandTestCommand *NewSimpleCommandTestCommand() {
     SimpleCommandTestCommand *self = malloc(sizeof(SimpleCommandTestCommand));
     $SimpleCommand.init(&self->simpleCommand);
     self->simpleCommand.execute = execute; // override implementation

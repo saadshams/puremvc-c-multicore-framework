@@ -8,11 +8,17 @@
  * @see ControllerTestCommand
  */
 void testGetInstance();
+
 void testRegisterAndExecuteCommand();
+
 void testRegisterAndRemoveCommand();
+
 void testHasCommand();
+
 void testReregisterAndExecuteCommand();
+
 void testRegisterAndUpdateCommand();
+
 void testRemoveController();
 
 #endif //PUREMVC_CONTROLLERTEST_H

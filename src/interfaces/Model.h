@@ -2,9 +2,8 @@
 #define PUREMVC_MODEL_H
 
 #include "Proxy.h"
+#include "Map.h"
 #include <stdbool.h>
-
-typedef struct ProxyNode ProxyNode;
 
 typedef struct Model Model;
 
@@ -32,7 +31,8 @@ typedef struct Model Model;
  */
 struct Model {
     const char *multitonKey;
-    ProxyNode *proxyMap;
+
+    Map *proxyMap;
 
     /**
      * <P>Initialize the <code>Model</code> instance.</P>
@@ -49,10 +49,11 @@ struct Model {
     /**
      * <P>Register an <code>Proxy</code> with the <code>Model</code>.</P>
      *
-     * @param self Model
-     * @param proxy an <code>Proxy</code> to be held by the <code>Model</code>.
+     * @param self
+     * @param proxy
+     * @return Proxy* returns the old version for it to be released from memory if the value gets replaced
      */
-    void (*registerProxy)(Model *self, Proxy *proxy);
+    Proxy *(*registerProxy)(Model *self, Proxy *proxy);
 
     /**
      * <P>Retrieve an <code>Proxy</code> from the <code>Model</code>.</P>
@@ -114,5 +115,24 @@ struct $Model {
 };
 
 const struct $Model $Model;
+
+// ModelNode LinkedList
+//typedef struct ModelNode ModelNode;
+//
+//struct ModelNode {
+//    const char *name;
+//    Model *model;
+//    ModelNode *next;
+//};
+//
+//struct $ModelNode {
+//    ModelNode *(*get)(ModelNode *head, const char *key);
+//
+//    ModelNode *(*put)(ModelNode **head, const char *key, Model *model);
+//
+//    void (*remove)(ModelNode **head, const char *key);
+//};
+//
+//const struct $ModelNode $ModelNode;
 
 #endif //PUREMVC_MODEL_H

@@ -1,15 +1,8 @@
 #ifndef PUREMVC_MACROCOMMAND_H
 #define PUREMVC_MACROCOMMAND_H
 
+#include "List.h"
 #include "SimpleCommand.h"
-
-typedef struct SubCommandNode SubCommandNode;
-
-/** A LinkedList of SimpleCommand factory nodes */
-struct SubCommandNode {
-    SimpleCommand *(*factory)(void);
-    SubCommandNode *next;
-};
 
 /**
  * <P>A base <code>Command</code> implementation that executes other <code>Command</code>s.</P>
@@ -39,7 +32,7 @@ struct MacroCommand {
 
     SimpleCommand simpleCommand;
 
-    SubCommandNode *SubCommands;
+    List *subCommands;
 
     /**
      * <P>Initialize the <code>MacroCommand</code>.</P>

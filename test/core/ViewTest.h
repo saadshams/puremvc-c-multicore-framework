@@ -20,16 +20,27 @@ struct ViewTest {
 #define NOTE6 "Notification6"
 
 void testGetInstance();
+
 void testRegisterAndNotifyObserver();
+
 void testRegisterAndRetrieveMediator();
+
 void testHasMediator();
+
 void testRegisterAndRemoveMediator();
+
 void testOnRegisterAndOnRemove();
+
 void testSuccessiveRegisterAndRemoveMediator();
+
 void testRemoveMediatorAndSubsequentNotify();
+
 void testRemoveOneOfTwoMediatorsAndSubsequentNotify();
+
 void testMediatorReregistration();
+
 void testModifyObserverListDuringNotification();
+
 void testRemoveView();
 
 #endif //PUREMVC_VIEWTEST_H

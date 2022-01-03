@@ -159,7 +159,8 @@ void testRegisterAndRemoveProxy() {
  */
 void testRegisterRetrieveAndRemoveMediator() {
     // register a mediator, remove it, then try to retrieve it
-    struct Object {} object;
+    struct Object {
+    } object;
     Facade *facade = $Facade.getInstance("FacadeTestKey6", $Facade.new);
     facade->registerMediator(facade, $Mediator.new(MEDIATOR_NAME, &object));
 
@@ -197,7 +198,8 @@ void testHasProxy() {
    */
 void testHasMediator() {
     // register a Mediator
-    struct Object {} object;
+    struct Object {
+    } object;
     Facade *facade = $Facade.getInstance("FacadeTestKey8", $Facade.new);
     facade->registerMediator(facade, $Mediator.new("facadeHasMediatorTest", &object));
 
@@ -269,14 +271,14 @@ void testGetInstancesThreaded() {
     pthread_t *thread_group = malloc(sizeof(pthread_t) * total);
 
     // start all threads to begin work
-    for (int i=0; i<total; i++) {
+    for (int i = 0; i < total; i++) {
         int error = pthread_create(&thread_group[i], NULL, getFacadeInstances, NULL);
         if (error != 0)
             printf("\nThread can't be created : [%s]", strerror(error));
     }
 
     // wait for all threads to finish
-    for (int i=0; i<total; i++) {
+    for (int i = 0; i < total; i++) {
         pthread_join(thread_group[i], NULL);
     }
 

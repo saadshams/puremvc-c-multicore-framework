@@ -3,8 +3,8 @@
 
 // be sure that the mediator has some Observers created
 // in order to test removeMediator
-static const char * const *listNotificationInterests(Mediator *self) {
-    static const char * const interests[] = {"ABC", "DEF", "GHI", NULL};
+static const char *const *listNotificationInterests(Mediator *self) {
+    static const char *const interests[] = {"ABC", "DEF", "GHI", NULL};
     return interests;
 }
 

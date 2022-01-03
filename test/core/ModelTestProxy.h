@@ -12,6 +12,6 @@ struct ModelTestProxy {
     Proxy proxy;
 };
 
-ModelTestProxy *NewModelTestProxy(char*, void*);
+ModelTestProxy *NewModelTestProxy(char *, void *);
 
 #endif //PUREMVC_MODELTESTPROXY_H

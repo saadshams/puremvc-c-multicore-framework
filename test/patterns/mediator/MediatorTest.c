@@ -36,7 +36,8 @@ void testNameAccessor() {
  */
 void testViewAccessor() {
     // Create a view object
-    struct View {} view;
+    struct View {
+    } view;
     Mediator *mediator = $Mediator.new(MEDIATOR_NAME, &view);
     mediator->notifier->initializeNotifier(mediator->notifier, "test");
 
@@ -50,18 +51,19 @@ void testViewAccessor() {
  */
 void testListNotificationInterests() {
     // Create a view object
-    struct View {} view;
+    struct View {
+    } view;
 
     // Create a new Mediator and pass the view object
     Mediator *mediator = $Mediator.new(MEDIATOR_NAME, &view);
     mediator->notifier->initializeNotifier(mediator->notifier, "test");
 
     // retrieve notification list
-    const char * const *interests = mediator->listNotificationInterests(mediator);
+    const char *const *interests = mediator->listNotificationInterests(mediator);
 
     // count notifications
     int i = 0;
-    for (const char * const *cursor = interests; *cursor != NULL; cursor++) {
+    for (const char *const *cursor = interests; *cursor != NULL; cursor++) {
         i++;
     }
 

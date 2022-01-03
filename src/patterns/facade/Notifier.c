@@ -18,7 +18,7 @@ static void initializeNotifier(Notifier *self, const char *key) {
 static void init(Notifier *notifier) {
     notifier->multitonKey = NULL;
     notifier->getFacade = getFacade;
-    notifier->initializeNotifier  = initializeNotifier;
+    notifier->initializeNotifier = initializeNotifier;
     notifier->sendNotification = sendNotification;
 }
 
@@ -29,8 +29,8 @@ Notifier *new(void) {
     return notifier;
 
     exception:
-        fprintf(stderr, "Notifier allocation failed.\n");
-        return NULL;
+    fprintf(stderr, "Notifier allocation failed.\n");
+    return NULL;
 }
 
 static void delete(Notifier *notifier) {
@@ -38,4 +38,4 @@ static void delete(Notifier *notifier) {
     notifier = NULL;
 }
 
-const struct $Notifier $Notifier = { .new = new, .init = init, .delete = delete };
+const struct $Notifier $Notifier = {.new = new, .init = init, .delete = delete};

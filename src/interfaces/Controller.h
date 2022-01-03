@@ -1,6 +1,7 @@
 #ifndef PUREMVC_CONTROLLER_H
 #define PUREMVC_CONTROLLER_H
 
+#include "Map.h"
 #include "SimpleCommand.h"
 #include "View.h"
 #include <stdbool.h>
@@ -47,7 +48,7 @@ struct Controller {
 
     View *view;
 
-    CommandNode *commandMap;
+    Map *commandMap;
 
     /**
      * <P>Initialize the Multiton <code>Controller</code> instance.</P>

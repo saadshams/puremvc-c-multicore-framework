@@ -2,11 +2,11 @@
 #include <stdlib.h>
 
 static void onRegister(Proxy *self) {
-    self->data = (void *)ON_REGISTER_CALLED;
+    self->data = (void *) ON_REGISTER_CALLED;
 }
 
 static void onRemove(Proxy *self) {
-    self->data = (void *)ON_REMOVE_CALLED;
+    self->data = (void *) ON_REMOVE_CALLED;
 }
 
 ModelTestProxy *NewModelTestProxy(char *proxyName, void *data) {

@@ -16,7 +16,7 @@ struct SimpleCommandTestCommand {
     SimpleCommand simpleCommand;
 };
 
-SimpleCommandTestCommand* NewSimpleCommandTestCommand();
+SimpleCommandTestCommand *NewSimpleCommandTestCommand();
 
 void DeleteSimpleCommandTestCommand(SimpleCommandTestCommand *self);
 

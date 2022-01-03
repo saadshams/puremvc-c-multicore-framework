@@ -16,8 +16,8 @@ static void *getViewComponent(Mediator *self) {
     return self->viewComponent;
 }
 
-static const char * const *listNotificationInterests(Mediator *self) {
-    static const char * const interests[] = {NULL};
+static const char *const *listNotificationInterests(Mediator *self) {
+    static const char *const interests[] = {NULL};
     return interests;
 }
 
@@ -53,8 +53,8 @@ static Mediator *new(const char *mediatorName, void *viewComponent) {
     return mediator;
 
     exception:
-        fprintf(stderr, "Mediator allocation failed.\n");
-        return NULL;
+    fprintf(stderr, "Mediator allocation failed.\n");
+    return NULL;
 }
 
 static void delete(Mediator *mediator) {
@@ -63,4 +63,4 @@ static void delete(Mediator *mediator) {
     mediator = NULL;
 }
 
-const struct $Mediator $Mediator = { .new = new, .init = init, .delete = delete };
+const struct $Mediator $Mediator = {.new = new, .init = init, .delete = delete};

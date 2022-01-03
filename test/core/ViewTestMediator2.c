@@ -3,10 +3,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-static const char * const *listNotificationInterests(Mediator *self) {
+static const char *const *listNotificationInterests(Mediator *self) {
     // be sure that the mediator has some Observers created
     // in order to test removeMediator
-    static const char * const interests[] = {NOTE1, NOTE2, NULL};
+    static const char *const interests[] = {NOTE1, NOTE2, NULL};
     return interests;
 }
 

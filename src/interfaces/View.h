@@ -1,6 +1,7 @@
 #ifndef PUREMVC_VIEW_H
 #define PUREMVC_VIEW_H
 
+#include "Map.h"
 #include "Mediator.h"
 #include "Observer.h"
 #include <stdbool.h>
@@ -19,7 +20,8 @@ typedef struct View View;
  * <P>In PureMVC, the <code>View</code> class assumes these responsibilities:</P>
  *
  * <UL>
- * <LI>Maintain a cache of <code>Mediator</code> instances.</LI>
+ * <LI>Maintain a cache of <code>Mediator</code> instance
+ * s.</LI>
  * <LI>Provide methods for registering, retrieving, and removing <code>Mediators</code>.</LI>
  * <LI>Notifiying <code>Mediators</code> when they are registered or removed.</LI>
  * <LI>Managing the observer lists for each <code>Notification</code> in the application.</LI>
@@ -36,9 +38,9 @@ struct View {
 
     const char *multitonKey;
 
-    MediatorNode *mediatorMap;
+    Map *mediatorMap;
 
-    ObserverMap *observerMap;
+    Map *observerMap;
 
     /**
      * <P>Initialize the Singleton View instance.</P>

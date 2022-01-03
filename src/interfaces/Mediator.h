@@ -45,7 +45,7 @@ struct Mediator {
      * @param self Mediator
      * @return Array the list of <code>Notification</code> names
      */
-    const char * const *(*listNotificationInterests)(Mediator *self);
+    const char *const *(*listNotificationInterests)(Mediator *self);
 
     /**
      * <P>Handle <code>Notification</code>s.</P>

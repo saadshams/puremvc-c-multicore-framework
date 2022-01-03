@@ -17,6 +17,6 @@ typedef struct {
  */
 #define ViewTestMediator3_NAME "ViewTestMediator3"
 
-ViewTestMediator3* NewViewTestMediator3(void *viewComponent);
+ViewTestMediator3 *NewViewTestMediator3(void *viewComponent);
 
 #endif //PUREMVC_VIEWTESTMEDIATOR3_H

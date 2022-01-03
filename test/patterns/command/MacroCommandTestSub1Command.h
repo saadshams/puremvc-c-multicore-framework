@@ -4,6 +4,6 @@
 #include "interfaces/SimpleCommand.h"
 #include "interfaces/Notification.h"
 
-SimpleCommand* NewMacroCommandTestSub1Command();
+SimpleCommand *NewMacroCommandTestSub1Command();
 
 #endif //PUREMVC_MACROCOMMANDTESTSUB1COMMAND_H

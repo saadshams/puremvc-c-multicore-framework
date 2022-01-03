@@ -12,7 +12,8 @@
 #include "ViewTestMediator5.h"
 #include "ViewTestMediator6.h"
 
-typedef struct {} ViewComponent;
+typedef struct {
+} ViewComponent;
 
 /**
  * A test variable that proves the viewTestMethod was
@@ -209,7 +210,7 @@ void testOnRegisterAndOnRemove() {
     ViewTest viewTest = {"", false, false, 0};
 
     // Create and register the test mediator
-    Mediator *mediator = (Mediator *)NewTestMediator4(&viewTest);
+    Mediator *mediator = (Mediator *) NewTestMediator4(&viewTest);
     view->registerMediator(view, mediator);
 
     // assert that onRegister was called, and the mediator responded by setting our boolean
@@ -330,7 +331,7 @@ void testRemoveOneOfTwoMediatorsAndSubsequentNotify() {
     view->registerMediator(view, mediator2);
 
     // Create and register that responds to notification 3
-    Mediator *mediator3 = (Mediator *)NewViewTestMediator3(&viewTest);
+    Mediator *mediator3 = (Mediator *) NewViewTestMediator3(&viewTest);
     view->registerMediator(view, mediator3);
 
     // test that all notifications work

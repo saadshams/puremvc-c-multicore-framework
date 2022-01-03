@@ -2,12 +2,12 @@
 #include <stdlib.h>
 
 void onRegister(Mediator *self) {
-    ViewTest *viewTest = (ViewTest *)self->getViewComponent(self);
+    ViewTest *viewTest = (ViewTest *) self->getViewComponent(self);
     viewTest->onRegisterCalled = true;
 }
 
 void onRemove(Mediator *self) {
-    ViewTest *viewTest = (ViewTest *)self->getViewComponent(self);
+    ViewTest *viewTest = (ViewTest *) self->getViewComponent(self);
     viewTest->onRemoveCalled = true;
 }
 

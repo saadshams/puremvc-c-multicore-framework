@@ -31,8 +31,8 @@ static const char *toString(Notification *self) {
     return msg;
 
     exception:
-        fprintf(stderr, "toString allocation failed.\n");
-        return NULL;
+    fprintf(stderr, "toString allocation failed.\n");
+    return NULL;
 }
 
 static void init(Notification *notification, const char *name, void *body, char *type) {
@@ -54,8 +54,8 @@ static Notification *new(const char *name, void *body, char *type) {
     return notification;
 
     exception:
-        fprintf(stderr, "Notification allocation failed.\n");
-        return NULL;
+    fprintf(stderr, "Notification allocation failed.\n");
+    return NULL;
 }
 
 static void delete(Notification *notification) {

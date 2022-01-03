@@ -35,7 +35,9 @@ void testNameAccessors() {
  */
 void testBodyAccessors() {
     // Create a new Notification and use accessors to set the body
-    struct {int value;} test = {5};
+    struct {
+        int value;
+    } test = {5};
 
     // Create a new Notification and use accessors to set the body
     Notification *notification = $Notification.new("TestNote", NULL, NULL);
@@ -51,7 +53,9 @@ void testBodyAccessors() {
  */
 void testConstructor() {
     // Create a new Notification using the Constructor to set the note name and body
-    struct {int value;} test = {5};
+    struct {
+        int value;
+    } test = {5};
     Notification *notification = $Notification.new("TestNote", &test, "TestNoteType");
 
     // test assertions
@@ -63,7 +67,9 @@ void testConstructor() {
 
 /** Test Notifications */
 void testToString() {
-    struct {int value;} test = {5};
+    struct {
+        int value;
+    } test = {5};
     Notification *notification = $Notification.new("TestNote", &test, "TestNoteType");
     const char *str = notification->toString(notification);
     assert(strcmp(str, "TestNoteTestNoteType") == 0);

@@ -1,5 +1,6 @@
 #include "ModelTest.h"
 #include "interfaces/Model.h"
+#include "interfaces/Proxy.h"
 #include "ModelTestProxy.h"
 #include <assert.h>
 #include <string.h>
@@ -120,7 +121,7 @@ void testOnRegisterAndOnRemove() {
 
     // Create and register the test mediator
     ModelTestProxy *modelTestProxy = NewModelTestProxy("ModelTestProxy", NULL);
-    model->registerProxy(model, (Proxy *)modelTestProxy);
+    model->registerProxy(model, (Proxy *) modelTestProxy);
 
     // assert that onRegister was called, and the new responded by setting its data accordingly
     char *data = ON_REGISTER_CALLED;

@@ -2,6 +2,7 @@
 #define PUREMVC_PROXY_H
 
 #include <stdlib.h>
+#include <stdbool.h>
 
 /** The name of the <code>Proxy</code>.*/
 #define PROXY_NAME "Proxy"

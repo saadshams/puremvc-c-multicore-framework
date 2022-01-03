@@ -20,7 +20,7 @@ static void execute(SimpleCommand *self, Notification *notification) {
  * @see MacroCommandTestCommand
  * @see MacroCommandTestVO
  */
-inline SimpleCommand* NewMacroCommandTestSub1Command() {
+inline SimpleCommand *NewMacroCommandTestSub1Command() {
     SimpleCommand *self = $SimpleCommand.new();
     self->execute = execute;
     return self;
