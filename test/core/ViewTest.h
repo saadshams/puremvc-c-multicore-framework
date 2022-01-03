@@ -19,6 +19,8 @@ struct ViewTest {
 #define NOTE5 "Notification5"
 #define NOTE6 "Notification6"
 
+int main(int argc, char *argv[]);
+
 void testGetInstance();
 
 void testRegisterAndNotifyObserver();

@@ -7,6 +7,8 @@
  * @see MacroCommandTestVO
  * @see MacroCommandTestCommand
  */
+int main(int argc, char *argv[]);
+
 void testMacroCommandExecute();
 
 void testRegisterAndExecuteCommand();

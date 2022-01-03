@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <assert.h>
 
-int main() {
+int main(int argc, char *argv[]) {
     testInstance();
     testRegisterCommandAndSendNotification();
     puts("NotifierTest: Success");

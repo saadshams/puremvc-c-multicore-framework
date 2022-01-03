@@ -37,7 +37,7 @@ void viewTestMethod2(void *context, Notification *notification) {
 /**
  * Test the PureMVC View class.
  */
-int main() {
+int main(int argc, char *argv[]) {
     testGetInstance();
     testRegisterAndNotifyObserver();
     testRegisterAndRetrieveMediator();

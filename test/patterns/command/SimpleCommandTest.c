@@ -12,7 +12,7 @@
  * @see SimpleCommandTestVO
  * @see SimpleCommandTestCommand
  */
-int main() {
+int main(int argc, char *argv[]) {
     testSimpleCommandExecute();
     puts("SimpleCommand: Success");
     return 0;

@@ -15,7 +15,7 @@
  * method.</P>
  *
  */
-int main() {
+int main(int argc, char *argv[]) {
     testObserverAccessors();
     testObserverConstructor();
     testCompareNotifyContext();

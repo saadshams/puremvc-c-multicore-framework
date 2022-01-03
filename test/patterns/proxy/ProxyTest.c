@@ -10,7 +10,7 @@
  *
  * @see Proxy
  */
-int main() {
+int main(int argc, char *argv[]) {
     testNameAccessor();
     testDataAccessors();
     testConstructor();

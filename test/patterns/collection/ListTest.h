@@ -1,7 +1,7 @@
 #ifndef PUREMVC_LISTTEST_H
 #define PUREMVC_LISTTEST_H
 
-int main();
+int main(int argc, char *argv[]);
 
 void testAddFirst();
 

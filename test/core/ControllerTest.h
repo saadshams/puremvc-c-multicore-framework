@@ -7,6 +7,9 @@
  * @see ControllerTestVO
  * @see ControllerTestCommand
  */
+
+int main(int argc, char *argv[]);
+
 void testGetInstance();
 
 void testRegisterAndExecuteCommand();

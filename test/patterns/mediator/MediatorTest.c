@@ -10,7 +10,7 @@
  *
  * @see Mediator
  */
-int main() {
+int main(int argc, char *argv[]) {
     testNameAccessor();
     testViewAccessor();
     testListNotificationInterests();

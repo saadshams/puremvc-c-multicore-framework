@@ -1,7 +1,7 @@
 #ifndef PUREMVC_MODELTEST_H
 #define PUREMVC_MODELTEST_H
 
-void testInstanceMap();
+int main(int argc, char *argv[]);
 
 void testGetInstance();
 

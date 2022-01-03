@@ -7,11 +7,11 @@ typedef struct {
     int value;
 } ObserverTestVar;
 
+int main(int argc, char *argv[]);
+
 void testObserverAccessors();
 
 void testObserverConstructor();
-
-void testCompareNotifyContext();
 
 void testCompareNotifyContext();
 

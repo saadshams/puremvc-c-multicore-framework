@@ -13,7 +13,7 @@
  * @see FacadeTestVO
  * @see FacadeTestCommand
  */
-int main() {
+int main(int argc, char *argv[]) {
     testGetInstance();
     testRegisterCommandAndSendNotification();
     testRegisterAndRemoveCommandAndSendNotification();

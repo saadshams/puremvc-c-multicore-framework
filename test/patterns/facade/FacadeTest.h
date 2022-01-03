@@ -1,6 +1,8 @@
 #ifndef PUREMVC_FACADETEST_H
 #define PUREMVC_FACADETEST_H
 
+int main(int argc, char *argv[]);
+
 void testGetInstance();
 
 void testRegisterCommandAndSendNotification();

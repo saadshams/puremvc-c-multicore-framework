@@ -9,7 +9,7 @@
 /**
  * Test the PureMVC Model class.
  */
-int main() {
+int main(int argc, char *argv[]) {
     testGetInstance();
     testRegisterAndRetrieveProxy();
     testRegisterAndRemoveProxy();

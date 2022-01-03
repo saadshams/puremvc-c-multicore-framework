@@ -1,7 +1,7 @@
 #ifndef PUREMVC_MAPTEST_H
 #define PUREMVC_MAPTEST_H
 
-int main();
+int main(int argc, char *argv[]);
 
 void testPut();
 
