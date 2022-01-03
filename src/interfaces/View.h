@@ -6,12 +6,6 @@
 #include "Observer.h"
 #include <stdbool.h>
 
-typedef struct MediatorNode MediatorNode;
-
-typedef struct ObserverNode ObserverNode;
-
-typedef struct ObserverMap ObserverMap;
-
 typedef struct View View;
 
 /**

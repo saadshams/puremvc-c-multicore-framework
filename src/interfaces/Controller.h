@@ -6,8 +6,6 @@
 #include "View.h"
 #include <stdbool.h>
 
-typedef struct CommandNode CommandNode;
-
 typedef struct Controller Controller;
 
 /**
