@@ -48,5 +48,4 @@ struct $SimpleCommand {
 
 const struct $SimpleCommand $SimpleCommand;
 
-
 #endif //PUREMVC_SIMPLECOMMAND_H

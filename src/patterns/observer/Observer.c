@@ -54,4 +54,3 @@ static void delete(Observer *observer) {
 }
 
 const struct $Observer $Observer = {.new = new, .init = init, .delete = delete};
-
