@@ -66,10 +66,10 @@ static const void *$replace(Map **head, const char *key, const void *value) {
     Map *cursor = *head;
     while (cursor) {
         if (strcmp(cursor->key, key) == 0) {
-            const void *v = cursor->value;
+            const void *oldValue = cursor->value;
             cursor->value = value;
             pthread_rwlock_unlock(&mutex);
-            return v;
+            return oldValue;
         }
         cursor = cursor->next;
     }
@@ -84,9 +84,11 @@ static const void *$remove(Map **head, const char *key) {
     while (*cursor) {
         if (strcmp((*cursor)->key, key) == 0) {
             Map *node = *cursor;
+            const void *value = (*cursor)->value;
             *cursor = (*cursor)->next;
+            free(node);
             pthread_rwlock_unlock(&mutex);
-            return node->value;
+            return value;
         }
         cursor = &(*cursor)->next;
     }

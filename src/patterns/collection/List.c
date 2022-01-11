@@ -138,10 +138,10 @@ static const void *$remove(List **head, const void *data) {
     List **cursor = head;
     while (*cursor) {
         if ((*cursor)->data == data) {
-            List *list = *cursor;
+            List *node = *cursor;
             *cursor = (*cursor)->next;
             pthread_rwlock_unlock(&mutex);
-            return list->data;
+            return node->data;
         }
         cursor = &(*cursor)->next;
     }
