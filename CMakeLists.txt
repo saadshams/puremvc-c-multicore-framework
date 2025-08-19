@@ -1,0 +1,49 @@
+# 1️⃣ Project setup
+cmake_minimum_required(VERSION 3.31)
+project(puremvc VERSION 1.0.0 LANGUAGES C)
+
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+
+# 2️⃣ Find dependencies
+find_package(collection REQUIRED CONFIG)
+
+# 3️⃣ Define targets
+add_library(puremvc STATIC
+        src/core/controller.c
+        src/core/model.c
+        src/core/view.c
+        src/patterns/command/SimpleCommand.c
+        src/patterns/command/MacroCommand.c
+        src/patterns/facade/facade.c
+        src/patterns/mediator/mediator.c
+        src/patterns/observer/notification.c
+        src/patterns/observer/notifier.c
+        src/patterns/observer/observer.c
+        src/patterns/proxy/Proxy.c)
+add_library(puremvc::puremvc ALIAS puremvc)
+
+# 4️⃣ Target properties
+target_include_directories(puremvc
+        PUBLIC
+            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+            $<INSTALL_INTERFACE:include>)
+target_link_libraries(puremvc PUBLIC collection::collection)
+
+# 5️⃣ Install rules
+include(GNUInstallDirs)
+
+install(TARGETS puremvc
+        EXPORT puremvc-config
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT PureMVCRunTime
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT PureMVCRunTime NAMELINK_COMPONENT PureMVCDevelopment
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT PureMVCDevelopment)
+
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+
+# 6️⃣ Tests
+option(BUILD_TESTS "Build Tests" OFF)
+if(BUILD_TESTS)
+    enable_testing()
+    add_subdirectory(test)
+endif()
