@@ -100,22 +100,22 @@ cmake -B build \
   -DCMAKE_SHARED_LINKER_FLAGS=""
 ```
 
-1. 
+## Installation
+
+1. vcpkg.json
 `{
     "name": "application",
     "version": "1.0.0",
     "dependencies": [
-        "PureMVC"
+        "puremvc"
     ]
 }`
 
 2. Configure CMake to use the vcpkg toolchain by passing this:
 `-DCMAKE_TOOLCHAIN_FILE=/path/to/vcpkg/scripts/buildsystems/vcpkg.cmake`
-3. 
-4. vcpkg install
 
+3. vcpkg install
 
-vcpkg install collection --overlay-ports=/Users/sshams/Documents/open-source-patterns/collection
 
 Reference:
 [Versioning reference](https://learn.microsoft.com/en-us/vcpkg/users/versioning)
