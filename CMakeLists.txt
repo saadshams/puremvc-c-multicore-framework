@@ -21,6 +21,7 @@ add_library(puremvc STATIC
         src/patterns/observer/notifier.c
         src/patterns/observer/observer.c
         src/patterns/proxy/Proxy.c)
+
 add_library(puremvc::puremvc ALIAS puremvc)
 
 # 4️⃣ Target properties
