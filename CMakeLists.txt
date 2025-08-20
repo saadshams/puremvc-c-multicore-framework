@@ -1,5 +1,5 @@
 # 1️⃣ Project setup
-cmake_minimum_required(VERSION 3.31)
+cmake_minimum_required(VERSION 3.23)
 project(puremvc VERSION 1.0.0 LANGUAGES C)
 
 set(CMAKE_C_STANDARD 11)
@@ -28,6 +28,7 @@ target_include_directories(puremvc
         PUBLIC
             $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
             $<INSTALL_INTERFACE:include>)
+
 target_link_libraries(puremvc PUBLIC collection::collection)
 
 # 5️⃣ Install rules
@@ -41,7 +42,13 @@ install(TARGETS puremvc
 
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
-# 6️⃣ Tests
+# 6️⃣ Export targets
+install(EXPORT puremvc-config
+        FILE puremvc-config.cmake
+        NAMESPACE puremvc::
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/puremvc)
+
+# 7️⃣ Tests
 option(BUILD_TESTS "Build Tests" OFF)
 if(BUILD_TESTS)
     enable_testing()
