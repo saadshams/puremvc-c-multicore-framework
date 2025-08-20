@@ -10,12 +10,9 @@ PureMVC is a lightweight framework for creating applications based upon the clas
 * [Internet of things](https://en.wikipedia.org/wiki/Internet_of_things)
 * [WebAssembly](https://en.wikipedia.org/wiki/WebAssembly)
 
-## Status
-Production - [Version 1.0](https://github.com/PureMVC/puremvc-c-standard-framework/blob/master/VERSION)
-
 ## License
-* PureMVC Multicore Framework for C - Copyright © 2021 [Saad Shams](https://www.linkedin.com/in/muizz/)
-* PureMVC - Copyright © 2021 [Futurescale, Inc](http://futurescale.com)
+* PureMVC Multicore Framework for C - Copyright © 2025 [Saad Shams](https://www.linkedin.com/in/muizz/)
+* PureMVC - Copyright © 2025 [Futurescale, Inc](http://futurescale.com)
 * All rights reserved.
 
 * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
