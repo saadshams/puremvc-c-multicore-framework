@@ -22,6 +22,7 @@ static void initializeController(struct IController *self) {
 static void executeCommand(const struct IController *self, struct INotification *notification) {
     struct Controller *this = (struct Controller *) self;
     mutex_lock_shared(&this->commandMapMutex);
+
     struct ICommand *(*factory)() = (struct ICommand *(*)()) this->commandMap->get(this->commandMap, notification->getName(notification));
     if (factory != NULL) {
         struct ICommand *command = factory();
@@ -29,12 +30,14 @@ static void executeCommand(const struct IController *self, struct INotification 
         command->execute(command, notification);
         puremvc_simple_command_free(&command);
     }
+
     mutex_unlock(&this->commandMapMutex);
 }
 
 static void registerCommand(const struct IController *self, const char *notificationName, struct ICommand *(factory)(void)) {
     struct Controller *this = (struct Controller *) self;
     mutex_lock(&this->commandMapMutex);
+
     if (this->commandMap->containsKey(this->commandMap, notificationName) == false) {
         const struct IObserver *observer = puremvc_observer_new((const void (*)(const void *, struct INotification *))executeCommand, this);
         this->view->registerObserver(this->view, notificationName, observer);
@@ -42,13 +45,16 @@ static void registerCommand(const struct IController *self, const char *notifica
     } else {
         this->commandMap->replace(this->commandMap, notificationName, factory);
     }
+
     mutex_unlock(&this->commandMapMutex);
 }
 
 static bool hasCommand(const struct IController *self, const char *notificationName) {
     struct Controller *this = (struct Controller *) self;
     mutex_lock_shared(&this->commandMapMutex);
+
     const bool exists = this->commandMap->containsKey(this->commandMap, notificationName);
+
     mutex_unlock(&this->commandMapMutex);
     return exists;
 }
@@ -56,11 +62,12 @@ static bool hasCommand(const struct IController *self, const char *notificationN
 static void removeCommand(const struct IController *self, const char *notificationName) {
     struct Controller *this = (struct Controller *) self;
     mutex_lock(&this->commandMapMutex);
+
     if (this->commandMap->containsKey(this->commandMap, notificationName)) {
         this->commandMap->removeItem(this->commandMap, notificationName);
-
         this->view->removeObserver(this->view, notificationName, this);
     }
+
     mutex_unlock(&this->commandMapMutex);
 }
 
@@ -82,10 +89,10 @@ static struct Controller *alloc(const char *key) {
         fprintf(stderr, "Controller allocation failed.\n");
         return NULL;
     }
-
     memset(controller, 0, sizeof(struct Controller));
 
     controller->multitonKey = strdup(key);
+    mutex_init(&controller->commandMapMutex);
     controller->commandMap = collection_dictionary_new();
     return controller;
 }
@@ -96,13 +103,14 @@ struct IController *puremvc_controller_new(const char *key) {
 
 void puremvc_controller_free(struct IController **controller) {
     if (controller == NULL || *controller == NULL) return;
-
     struct Controller *this = (struct Controller *) *controller;
+
     free((void *) this->multitonKey);
     this->commandMap->clear(this->commandMap, free);
     collection_dictionary_free(&this->commandMap);
-    free(this);
+    mutex_destroy(&this->commandMapMutex);
 
+    free(this);
     *controller = NULL;
 }
 
@@ -122,13 +130,16 @@ struct IController *puremvc_controller_getInstance(const char *key, struct ICont
         instanceMap->put(instanceMap, key, instance);
         instance->initializeController(instance);
     }
+
     mutex_unlock(&mutex);
     return instance;
 }
 
 void puremvc_controller_removeController(const char *key) {
     mutex_lock(&mutex);
+
     struct IController *controller = instanceMap->removeItem(instanceMap, key);
     if (controller != NULL) puremvc_controller_free(&controller);
+
     mutex_unlock(&mutex);
 }

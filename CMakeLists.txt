@@ -6,7 +6,7 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
 # 2️⃣ Find dependencies
-include(CMakeFindDependencyMacro)
+#include(CMakeFindDependencyMacro)
 find_package(collection REQUIRED CONFIG)
 
 # 3️⃣ Define targets

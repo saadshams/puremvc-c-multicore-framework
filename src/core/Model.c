@@ -60,7 +60,6 @@ static struct IProxy *removeProxy(const struct IModel *self, const char *proxyNa
 
 static struct Model *init(struct Model *model) {
     if (model == NULL) return NULL;
-    mutex_init(&model->proxyMapMutex);
     model->base.initializeModel = initializeModel;
     model->base.registerProxy = registerProxy;
     model->base.retrieveProxy = retrieveProxy;
@@ -77,10 +76,10 @@ static struct Model *alloc(const char *key) {
         fprintf(stderr, "Model allocation failed.\n");
         return NULL;
     }
-
     memset(model, 0, sizeof(struct Model));
 
     model->multitonKey = strdup(key);
+    mutex_init(&model->proxyMapMutex);
     model->proxyMap = collection_dictionary_new();
     return model;
 }
@@ -91,14 +90,14 @@ struct IModel *puremvc_model_new(const char *key) {
 
 void puremvc_model_free(struct IModel **model) {
     if (model == NULL || *model == NULL) return;
-
     struct Model *this = (struct Model *) *model;
-    free((void *)this->multitonKey);
+
+    free((void *) this->multitonKey);
     this->proxyMap->clear(this->proxyMap, free);
     collection_dictionary_free(&this->proxyMap);
     mutex_destroy(&this->proxyMapMutex);
-    free(this);
 
+    free(this);
     *model = NULL;
 }
 
@@ -118,13 +117,16 @@ struct IModel *puremvc_model_getInstance(const char *key, struct IModel *(*facto
         instanceMap->put(instanceMap, key, instance);
         instance->initializeModel(instance);
     }
+
     mutex_unlock(&mutex);
     return instance;
 }
 
 void puremvc_model_removeModel(const char *key) {
     mutex_lock(&mutex);
+
     struct IModel *model = instanceMap->removeItem(instanceMap, key);
     if (model != NULL) puremvc_model_free(&model);
+
     mutex_unlock(&mutex);
 }

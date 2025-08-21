@@ -56,7 +56,6 @@ static const char *toString(const struct INotification *self) {
     if (this->type)
         strcat(msg, this->type);
     return msg;
-
 }
 
 static struct Notification *init(struct Notification *notification) {
@@ -76,7 +75,6 @@ static struct Notification *alloc(const char *name, void *body, const char *type
         fprintf(stderr, "Notification allocation failed.\n");
         return NULL;
     }
-
     memset(notification, 0, sizeof(struct Notification));
 
     notification->name = name != NULL ? strdup(name) : NULL;
@@ -91,11 +89,11 @@ struct INotification *puremvc_notification_new(const char *name, void *body, con
 
 void puremvc_notification_free(struct INotification **notification) {
     if (notification == NULL || *notification == NULL) return;
-
     struct Notification *this = (struct Notification *) *notification;
-    free((void *)this->name);
-    free(this->type);
-    free(this);
 
+    free((void *) this->name);
+    free(this->type);
+
+    free(this);
     *notification = NULL;
 }

@@ -43,7 +43,6 @@ static struct MacroCommand *alloc() {
         fprintf(stderr, "MacroCommand allocation failed.\n");
         return NULL;
     }
-
     memset(command, 0, sizeof(struct MacroCommand));
 
     command->base.command.notifier = puremvc_notifier_new();
@@ -57,10 +56,11 @@ struct IMacroCommand *puremvc_macro_command_new() {
 
 void puremvc_macro_command_free(struct IMacroCommand **command) {
     if (command == NULL || *command == NULL) return;
-
     struct MacroCommand *this = (struct MacroCommand *) *command;
-    puremvc_notifier_free(&this->base.command.notifier);
-    free(this);
 
+    puremvc_notifier_free(&this->base.command.notifier);
+    collection_array_free(&this->subCommands);
+
+    free(this);
     *command = NULL;
 }

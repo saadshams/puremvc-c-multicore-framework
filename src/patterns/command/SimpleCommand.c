@@ -20,8 +20,8 @@ static struct SimpleCommand *alloc() {
         fprintf(stderr, "SimpleCommand allocation failed.\n");
         return NULL;
     }
-
     memset(command, 0, sizeof(struct SimpleCommand));
+
     command->base.notifier = puremvc_notifier_new();
     return command;
 }
@@ -32,10 +32,10 @@ struct ICommand *puremvc_simple_command_new() {
 
 void puremvc_simple_command_free(struct ICommand **command) {
     if (command == NULL || *command == NULL) return;
-
     struct SimpleCommand *this = (struct SimpleCommand *) *command;
-    puremvc_notifier_free(&this->base.notifier);
-    free(this);
 
+    puremvc_notifier_free(&this->base.notifier);
+
+    free(this);
     *command = NULL;
 }

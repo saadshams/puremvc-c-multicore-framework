@@ -84,12 +84,12 @@ static struct Mediator *alloc(const char *name, void *component) {
         fprintf(stderr, "Mediator allocation failed.\n");
         return NULL;
     };
-
     memset(mediator, 0, sizeof(struct Mediator));
+
     mediator->base.notifier = puremvc_notifier_new();
     mediator->name = strdup(name ? name : MEDIATOR_NAME);
     if (mediator->name == NULL) {
-        fprintf(stderr, "Proxy allocation failed: strdup failed\n");
+        fprintf(stderr, "Mediator allocation failed: strdup failed\n");
         free(mediator);
         return NULL;
     }
@@ -103,11 +103,11 @@ struct IMediator *puremvc_mediator_new(const char *name, void *component) {
 
 void puremvc_mediator_free(struct IMediator **mediator) {
     if (mediator == NULL || *mediator == NULL) return;
-
     struct Mediator *this = (struct Mediator *) *mediator;
+
     free((void *) this->name);
     puremvc_notifier_free(&this->base.notifier);
-    free(this);
 
+    free(this);
     *mediator = NULL;
 }

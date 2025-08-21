@@ -51,7 +51,6 @@ static struct Observer *alloc(const void (*notify)(const void *context, struct I
         fprintf(stderr, "Observer allocation failed.\n");
         return NULL;
     }
-
     memset(observer, 0, sizeof(struct Observer));
 
     observer->notify = (void *)notify;
@@ -65,9 +64,8 @@ struct IObserver *puremvc_observer_new(const void (*notify)(const void *context,
 
 void puremvc_observer_free(struct IObserver **observer) {
     if (observer == NULL || *observer == NULL) return;
-
     struct Observer *this = (struct Observer *) *observer;
-    free(this);
 
+    free(this);
     *observer = NULL;
 }

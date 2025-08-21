@@ -139,8 +139,6 @@ static struct IMediator *removeMediator(const struct IView *self, const char *me
 
 static struct View *init(struct View *view) {
     if (view == NULL) return NULL;
-    mutex_init(&view->mediatorMapMutex);
-    mutex_init(&view->observerMapMutex);
     view->base.initializeView = initializeView;
     view->base.registerObserver = registerObserver;
     view->base.notifyObservers = notifyObservers;
@@ -160,11 +158,12 @@ static struct View *alloc(const char *key) {
         fprintf(stderr, "View allocation failed.\n");
         return NULL;
     }
-
     memset(view, 0, sizeof(struct View));
 
     view->multitonKey = strdup(key);
+    mutex_init(&view->mediatorMapMutex);
     view->mediatorMap = collection_dictionary_new();
+    mutex_init(&view->observerMapMutex);
     view->observerMap = collection_dictionary_new();
     return view;
 }
@@ -175,17 +174,17 @@ struct IView *puremvc_view_new(const char *key) {
 
 void puremvc_view_free(struct IView **view) {
     if (view == NULL || *view == NULL) return;
-
     struct View *this = (struct View *) *view;
-    free((void *)this->multitonKey);
+
+    free((void *) this->multitonKey);
     this->mediatorMap->clear(this->mediatorMap, free);
     collection_dictionary_free(&this->mediatorMap);
     this->observerMap->clear(this->observerMap, free);
     collection_dictionary_free(&this->observerMap);
     mutex_destroy(&this->mediatorMapMutex);
     mutex_destroy(&this->observerMapMutex);
-    free(this);
 
+    free(this);
     *view = NULL;
 }
 
@@ -205,13 +204,16 @@ struct IView *puremvc_view_getInstance(const char *key, struct IView *(*factory)
         instanceMap->put(instanceMap, key, instance);
         instance->initializeView(instance);
     }
+
     mutex_unlock(&mutex);
     return instance;
 }
 
 void puremvc_view_removeView(const char *key) {
     mutex_lock(&mutex);
+
     struct IView *view = instanceMap->removeItem(instanceMap, key);
     if (view != NULL) puremvc_view_free(&view);
+
     mutex_unlock(&mutex);
 }

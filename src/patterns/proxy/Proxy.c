@@ -44,8 +44,8 @@ static struct Proxy *alloc(const char *name, void *data) {
         fprintf(stderr, "Proxy allocation failed.\n");
         return NULL;
     }
-
     memset(proxy, 0, sizeof(struct Proxy));
+
     proxy->base.notifier = puremvc_notifier_new();
     proxy->name = strdup(name ? name : PROXY_NAME);
     if (proxy->name == NULL) {
@@ -63,12 +63,12 @@ struct IProxy *puremvc_proxy_new(const char *name, void *data) {
 
 void puremvc_proxy_free(struct IProxy **proxy) {
     if (proxy == NULL || *proxy == NULL) return;
-
     struct Proxy *this = (struct Proxy *) *proxy;
-    free((void *)this->name);
+
+    free((void *) this->name);
     free(this->data);
     puremvc_notifier_free(&this->base.notifier);
-    free(this);
 
+    free(this);
     *proxy = NULL;
 }

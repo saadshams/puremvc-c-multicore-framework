@@ -153,11 +153,11 @@ struct IFacade *puremvc_facade_new(const char *key) {
 
 void puremvc_facade_free(struct IFacade **facade) {
     if (facade == NULL || *facade == NULL) return;
-
     struct Facade *this = (struct Facade *) *facade;
-    free((void *) this->multitonKey);
-    free(this);
 
+    free((void *) this->multitonKey);
+
+    free(this);
     *facade = NULL;
 }
 
@@ -177,6 +177,7 @@ struct IFacade *puremvc_facade_getInstance(const char *key, struct IFacade *(*fa
         instanceMap->put(instanceMap, key, instance);
         instance->initializeFacade(instance);
     }
+
     mutex_unlock(&mutex);
     return instance;
 }
@@ -197,5 +198,6 @@ void puremvc_facade_removeFacade(const char *key) {
 
     struct IFacade *facade = instanceMap->removeItem(instanceMap, key);
     puremvc_facade_free(&facade);
+
     mutex_unlock(&mutex);
 }
