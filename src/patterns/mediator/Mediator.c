@@ -98,7 +98,7 @@ static struct Mediator *alloc(const char *name, void *component) {
 }
 
 struct IMediator *puremvc_mediator_new(const char *name, void *component) {
-    return (struct IMediator *)init(alloc(name, component));
+    return (struct IMediator *) init(alloc(name, component));
 }
 
 void puremvc_mediator_free(struct IMediator **mediator) {

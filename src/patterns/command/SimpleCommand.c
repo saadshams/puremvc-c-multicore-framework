@@ -27,7 +27,7 @@ static struct SimpleCommand *alloc() {
 }
 
 struct ICommand *puremvc_simple_command_new() {
-    return (struct ICommand *)init(alloc());
+    return (struct ICommand *) init(alloc());
 }
 
 void puremvc_simple_command_free(struct ICommand **command) {

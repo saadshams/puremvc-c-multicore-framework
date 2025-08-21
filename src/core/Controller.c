@@ -91,7 +91,7 @@ static struct Controller *alloc(const char *key) {
 }
 
 struct IController *puremvc_controller_new(const char *key) {
-    return (struct IController *)init(alloc(key));
+    return (struct IController *) init(alloc(key));
 }
 
 void puremvc_controller_free(struct IController **controller) {

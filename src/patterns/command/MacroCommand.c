@@ -52,7 +52,7 @@ static struct MacroCommand *alloc() {
 }
 
 struct IMacroCommand *puremvc_macro_command_new() {
-    return (struct IMacroCommand *)init(alloc());
+    return (struct IMacroCommand *) init(alloc());
 }
 
 void puremvc_macro_command_free(struct IMacroCommand **command) {

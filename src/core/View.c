@@ -170,7 +170,7 @@ static struct View *alloc(const char *key) {
 }
 
 struct IView *puremvc_view_new(const char *key) {
-    return (struct IView *)init(alloc(key));
+    return (struct IView *) init(alloc(key));
 }
 
 void puremvc_view_free(struct IView **view) {

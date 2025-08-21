@@ -60,15 +60,13 @@ static struct Observer *alloc(const void (*notify)(const void *context, struct I
 }
 
 struct IObserver *puremvc_observer_new(const void (*notify)(const void *context, struct INotification *notification), const void *context) {
-    return (struct IObserver *)init(alloc(notify, context));
+    return (struct IObserver *) init(alloc(notify, context));
 }
 
 void puremvc_observer_free(struct IObserver **observer) {
     if (observer == NULL || *observer == NULL) return;
 
-    struct Observer *this = (struct Observer *)*observer;
-    this->notify = NULL;
-    this->context = NULL;
+    struct Observer *this = (struct Observer *) *observer;
     free(this);
 
     *observer = NULL;

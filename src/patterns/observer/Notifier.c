@@ -48,7 +48,7 @@ static struct Notifier *alloc() {
 }
 
 struct INotifier *puremvc_notifier_new() {
-    return (struct INotifier *)init(alloc());
+    return (struct INotifier *) init(alloc());
 }
 
 void puremvc_notifier_free(struct INotifier **notifier) {

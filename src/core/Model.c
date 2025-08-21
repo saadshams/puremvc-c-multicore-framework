@@ -86,7 +86,7 @@ static struct Model *alloc(const char *key) {
 }
 
 struct IModel *puremvc_model_new(const char *key) {
-    return (struct IModel *)init(alloc(key));
+    return (struct IModel *) init(alloc(key));
 }
 
 void puremvc_model_free(struct IModel **model) {

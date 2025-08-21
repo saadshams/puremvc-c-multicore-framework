@@ -58,7 +58,7 @@ static struct Proxy *alloc(const char *name, void *data) {
 }
 
 struct IProxy *puremvc_proxy_new(const char *name, void *data) {
-    return (struct IProxy *)init(alloc(name, data));
+    return (struct IProxy *) init(alloc(name, data));
 }
 
 void puremvc_proxy_free(struct IProxy **proxy) {

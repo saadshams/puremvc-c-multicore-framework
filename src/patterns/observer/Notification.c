@@ -86,7 +86,7 @@ static struct Notification *alloc(const char *name, void *body, const char *type
 }
 
 struct INotification *puremvc_notification_new(const char *name, void *body, const char *type) {
-    return (struct INotification *)init(alloc(name, body, type));
+    return (struct INotification *) init(alloc(name, body, type));
 }
 
 void puremvc_notification_free(struct INotification **notification) {

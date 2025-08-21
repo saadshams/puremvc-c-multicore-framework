@@ -151,7 +151,7 @@ static struct Facade *alloc(const char *key) {
 }
 
 struct IFacade *puremvc_facade_new(const char *key) {
-    return (struct IFacade *)init(alloc(key));
+    return (struct IFacade *) init(alloc(key));
 }
 
 void puremvc_facade_free(struct IFacade **facade) {
