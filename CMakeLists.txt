@@ -8,6 +8,7 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 # 2️⃣ Find dependencies
 #include(CMakeFindDependencyMacro)
 find_package(collection REQUIRED CONFIG)
+#find_dependency(collection REQUIRED CONFIG)
 
 # 3️⃣ Define targets
 add_library(puremvc STATIC

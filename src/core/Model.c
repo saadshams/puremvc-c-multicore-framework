@@ -53,9 +53,11 @@ static bool hasProxy(const struct IModel *self, const char *proxyName) {
 static struct IProxy *removeProxy(const struct IModel *self, const char *proxyName) {
     struct Model *this = (struct Model *) self;
     mutex_lock(&this->proxyMapMutex);
+
     struct IProxy *proxy = this->proxyMap->removeItem(this->proxyMap, proxyName);
     if (proxy != NULL)
         proxy->onRemove(proxy);
+
     mutex_unlock(&this->proxyMapMutex);
     return proxy;
 }
