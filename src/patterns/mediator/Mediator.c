@@ -106,7 +106,6 @@ void puremvc_mediator_free(struct IMediator **mediator) {
 
     struct Mediator *this = (struct Mediator *) *mediator;
     free((void *) this->name);
-    this->component = NULL;
     puremvc_notifier_free(&this->base.notifier);
     free(this);
 

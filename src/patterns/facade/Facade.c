@@ -144,9 +144,6 @@ static struct Facade *alloc(const char *key) {
     memset(facade, 0, sizeof(*facade));
 
     facade->multitonKey = strdup(key);
-    facade->controller = NULL;
-    facade->model = NULL;
-    facade->view = NULL;
     return facade;
 }
 

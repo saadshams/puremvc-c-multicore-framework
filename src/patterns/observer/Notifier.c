@@ -43,7 +43,6 @@ static struct Notifier *alloc() {
 
     memset(notifier, 0, sizeof(*notifier));
 
-    notifier->multitonKey = NULL;
     return notifier;
 }
 
