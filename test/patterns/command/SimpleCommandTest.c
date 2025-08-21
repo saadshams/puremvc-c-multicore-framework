@@ -17,8 +17,6 @@ int main() {
 void testConstructor() {
     struct ICommand *command = puremvc_simple_command_new();
 
-    command->notifier->initializeNotifier(command->notifier, "SimpleCommandTestKey1");
-
     assert(command != NULL);
     puremvc_simple_command_free(&command);
     assert(command == NULL);
@@ -46,7 +44,6 @@ void testSimpleCommandExecute() {
 
     // Create the SimpleCommand
     struct ICommand *command = test_simple_command_new();
-    // command->notifier->initializeNotifier(command->notifier, "test");
 
     // Execute the SimpleCommand
     command->execute(command, note);

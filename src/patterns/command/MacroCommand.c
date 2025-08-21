@@ -40,7 +40,7 @@ static struct MacroCommand *init(struct MacroCommand *command) {
 static struct MacroCommand *alloc() {
     struct MacroCommand *command = malloc(sizeof(struct MacroCommand));
     if (command == NULL) {
-        fprintf(stderr, "MacroCommand allocation failed.\n");
+        fprintf(stderr, "[PureMVC::MacroCommand::%s] Error: Failed to allocate MacroCommand.\n", __func__);
         return NULL;
     }
     memset(command, 0, sizeof(struct MacroCommand));

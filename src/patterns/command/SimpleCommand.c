@@ -17,7 +17,7 @@ static struct SimpleCommand *init(struct SimpleCommand *command) {
 static struct SimpleCommand *alloc() {
     struct SimpleCommand *command = malloc(sizeof(struct SimpleCommand));
     if (command == NULL) {
-        fprintf(stderr, "SimpleCommand allocation failed.\n");
+        fprintf(stderr, "[PureMVC::SimpleCommand::%s] Error: Failed to allocate SimpleCommand.\n", __func__);
         return NULL;
     }
     memset(command, 0, sizeof(struct SimpleCommand));

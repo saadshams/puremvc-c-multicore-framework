@@ -52,9 +52,7 @@ static void registerCommand(const struct IController *self, const char *notifica
 static bool hasCommand(const struct IController *self, const char *notificationName) {
     struct Controller *this = (struct Controller *) self;
     mutex_lock_shared(&this->commandMapMutex);
-
     const bool exists = this->commandMap->containsKey(this->commandMap, notificationName);
-
     mutex_unlock(&this->commandMapMutex);
     return exists;
 }
@@ -82,16 +80,23 @@ static struct Controller *init(struct Controller *controller) {
 }
 
 static struct Controller *alloc(const char *key) {
+    assert(key != NULL);
     assert(instanceMap->get(instanceMap, key) == NULL);
 
     struct Controller *controller = malloc(sizeof(struct Controller));
     if (controller == NULL) {
-        fprintf(stderr, "Controller allocation failed.\n");
+        fprintf(stderr, "[PureMVC::Controller::%s] Error: Failed to allocate Controller with key '%s'.\n", __func__, key);
         return NULL;
     }
     memset(controller, 0, sizeof(struct Controller));
 
     controller->multitonKey = strdup(key);
+    if (controller->multitonKey == NULL) {
+        fprintf(stderr, "[PureMVC::Controller::%s] Error: strdup failed for key '%s'.\n", __func__, key);
+        free(controller);
+        return NULL;
+    }
+
     mutex_init(&controller->commandMapMutex);
     controller->commandMap = collection_dictionary_new();
     return controller;

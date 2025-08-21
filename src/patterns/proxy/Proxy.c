@@ -41,7 +41,7 @@ static struct Proxy *init(struct Proxy *proxy) {
 static struct Proxy *alloc(const char *name, void *data) {
     struct Proxy *proxy = malloc(sizeof(struct Proxy));
     if (proxy == NULL) {
-        fprintf(stderr, "Proxy allocation failed.\n");
+        fprintf(stderr, "[PureMVC::Proxy::%s] Error: Failed to allocate Proxy.\n", __func__);
         return NULL;
     }
     memset(proxy, 0, sizeof(struct Proxy));
@@ -49,7 +49,7 @@ static struct Proxy *alloc(const char *name, void *data) {
     proxy->base.notifier = puremvc_notifier_new();
     proxy->name = strdup(name ? name : PROXY_NAME);
     if (proxy->name == NULL) {
-        fprintf(stderr, "Proxy allocation failed: strdup failed\n");
+        fprintf(stderr, "[PureMVC::Proxy::%s] Error: Failed to allocate proxy name (strdup).\n", __func__);
         free(proxy);
         return NULL;
     }

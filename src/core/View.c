@@ -21,6 +21,7 @@ static void initializeView(struct IView *self) {
 static void registerObserver(const struct IView *self, const char *notificationName, const struct IObserver *observer) {
     struct View *this = (struct View *) self;
     mutex_lock(&this->observerMapMutex);
+
     if (this->observerMap->containsKey(this->observerMap, notificationName)) {
         struct IArray *observers = (struct IArray *) this->observerMap->get(this->observerMap, notificationName);
         observers->push(observers, observer);
@@ -29,6 +30,7 @@ static void registerObserver(const struct IView *self, const char *notificationN
         observers->push(observers, observer);
         this->observerMap->put(this->observerMap, notificationName, observers);
     }
+
     mutex_unlock(&this->observerMapMutex);
 }
 
@@ -55,6 +57,7 @@ static void notifyObservers(const struct IView *self, const struct INotification
         collection_array_free(&copy);
         return;
     }
+
     mutex_unlock(&this->observerMapMutex);
 }
 
@@ -68,13 +71,11 @@ static void removeObserver(const struct IView *self, const char *notificationNam
     mutex_lock(&this->observerMapMutex);
 
     struct IArray *observers = (struct IArray *) this->observerMap->get(this->observerMap, notificationName);
-
     struct IObserver *observer = (struct IObserver *) observers->find(observers, compareNotifyContext, notifyContext);
     if (observer != NULL) {
         observers->removeItem(observers, observer);
         puremvc_observer_free(&observer);
     }
-
     if (observers->size(observers) == 0) {
         this->observerMap->removeItem(this->observerMap, notificationName);
     }
@@ -100,8 +101,8 @@ static void registerMediator(const struct IView *self, struct IMediator *mediato
         self->registerObserver(self, *cursor, observer);
     }
     mediator->freeNotificationInterests(mediator, interests);
-
     mediator->onRegister(mediator);
+
     mutex_unlock(&this->mediatorMapMutex);
 }
 
@@ -124,6 +125,7 @@ static bool hasMediator(const struct IView *self, const char *mediatorName) {
 static struct IMediator *removeMediator(const struct IView *self, const char *mediatorName) {
     struct View *this = (struct View *) self;
     mutex_lock(&this->mediatorMapMutex);
+
     struct IMediator *mediator = this->mediatorMap->removeItem(this->mediatorMap, mediatorName);
     if (mediator != NULL) {
         char **interests = mediator->listNotificationInterests(mediator);
@@ -133,6 +135,7 @@ static struct IMediator *removeMediator(const struct IView *self, const char *me
         mediator->freeNotificationInterests(mediator, interests);
         mediator->onRemove(mediator);
     }
+
     mutex_unlock(&this->mediatorMapMutex);
     return mediator;
 }
@@ -151,16 +154,23 @@ static struct View *init(struct View *view) {
 }
 
 static struct View *alloc(const char *key) {
+    assert(key != NULL);
     assert(instanceMap->get(instanceMap, key) == NULL);
 
     struct View *view = malloc(sizeof(struct View));
     if (view == NULL) {
-        fprintf(stderr, "View allocation failed.\n");
+        fprintf(stderr, "[PureMVC::View::%s] Error: Failed to allocate View with key '%s'.\n", __func__, key);
         return NULL;
     }
     memset(view, 0, sizeof(struct View));
 
     view->multitonKey = strdup(key);
+    if (view->multitonKey == NULL) {
+        fprintf(stderr, "[PureMVC::View::%s] Error: strdup failed for key '%s'.\n", __func__, key);
+        free(view);
+        return NULL;
+    }
+
     mutex_init(&view->mediatorMapMutex);
     view->mediatorMap = collection_dictionary_new();
     mutex_init(&view->observerMapMutex);

@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -16,8 +17,13 @@ const char *getMultitonKey(const struct INotifier *self) {
 }
 
 static void initializeNotifier(struct INotifier *self, const char *key) {
+    assert(key != NULL);
     struct Notifier *this = (struct Notifier *) self;
+
     this->multitonKey = strdup(key);
+    if (this->multitonKey == NULL) {
+        fprintf(stderr, "[PureMVC::Notifier::%s] Error: strdup failed for key '%s'.\n", __func__, key);
+    }
 }
 
 static void sendNotification(const struct INotifier *self, const char *notificationName, void *body, const char *type) {
@@ -37,7 +43,7 @@ static struct Notifier *init(struct Notifier *notifier) {
 static struct Notifier *alloc() {
     struct Notifier *notifier = malloc(sizeof(struct Notifier));
     if (notifier == NULL) {
-        fprintf(stderr, "Notifier allocation failed.\n");
+        fprintf(stderr, "[PureMVC::Notifier::%s] Error: Failed to allocate Notifier.\n", __func__);
         return NULL;
     }
     memset(notifier, 0, sizeof(*notifier));

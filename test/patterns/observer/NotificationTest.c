@@ -85,7 +85,8 @@ void testToString() {
     struct INotification *notification = puremvc_notification_new("TestNote", test, "TestNoteType");
 
     const char *str = notification->toString(notification);
-    assert(strcmp(str, "TestNoteTestNoteType") == 0);
+    const char *prefix = "TestNote : TestNoteType [body=";
+    assert(strncmp(str, prefix, strlen(prefix)) == 0);
 
     puremvc_notification_free(&notification);
     assert(notification == NULL);

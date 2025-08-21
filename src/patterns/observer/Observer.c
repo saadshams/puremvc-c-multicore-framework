@@ -48,7 +48,7 @@ static struct Observer *init(struct Observer *observer) {
 static struct Observer *alloc(const void (*notify)(const void *context, struct INotification *notification), const void *context) {
     struct Observer *observer = malloc(sizeof(struct Observer));
     if (observer == NULL) {
-        fprintf(stderr, "Observer allocation failed.\n");
+        fprintf(stderr, "[PureMVC::Observer::%s] Error: Failed to allocate Observer.\n", __func__);
         return NULL;
     }
     memset(observer, 0, sizeof(struct Observer));

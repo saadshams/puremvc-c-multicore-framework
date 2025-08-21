@@ -95,7 +95,11 @@ static bool hasMediator(const struct IFacade *self, const char *mediatorName) {
 
 static void initializeNotifier(struct IFacade *self, const char *key) {
     struct Facade *this = (struct Facade *) self;
+
     this->multitonKey = strdup(key);
+    if (this->multitonKey == NULL) {
+        fprintf(stderr, "[PureMVC::Facade::%s] Error: strdup failed for key '%s'.\n", __func__, key);
+    }
 }
 
 static void notifyObservers(const struct IFacade *self, const struct INotification *notification) {
@@ -133,17 +137,23 @@ static struct Facade *init(struct Facade *facade) {
 }
 
 static struct Facade *alloc(const char *key) {
+    assert(key != NULL);
     assert(instanceMap->get(instanceMap, key) == NULL);
 
     struct Facade *facade = malloc(sizeof(struct Facade));
     if (facade == NULL) {
-        fprintf(stderr, "Facade allocation failed.\n");
+        fprintf(stderr, "[PureMVC::Facade::%s] Error: Failed to allocate Facade with key '%s'.\n", __func__, key);
         return NULL;
     }
-
     memset(facade, 0, sizeof(*facade));
 
     facade->multitonKey = strdup(key);
+    if (facade->multitonKey == NULL) {
+        fprintf(stderr, "[PureMVC::Facade::%s] Error: strdup failed for key '%s'.\n", __func__, key);
+        free(facade);
+        return NULL;
+    }
+
     return facade;
 }
 

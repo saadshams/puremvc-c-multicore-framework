@@ -19,15 +19,15 @@ void testMacroCommandExecute() {
 
     struct INotification *notification = puremvc_notification_new("MacroCommandTest", vo, NULL);
 
-    struct IMacroCommand *command = macro_command_test_command_new();
-    command->command.notifier->initializeNotifier(command->command.notifier, "MacroCommandTestkey1");
-    command->command.execute(&command->command, notification);
+    struct IMacroCommand *macroCommand = macro_command_test_command_new();
+    macroCommand->command.notifier->initializeNotifier(macroCommand->command.notifier, "MacroCommandTestkey1");
+    macroCommand->command.execute(&macroCommand->command, notification);
 
     assert(vo->result1 == 10);
 
     assert(vo->result2 == 25);
 
-    puremvc_macro_command_free(&command);
+    puremvc_macro_command_free(&macroCommand);
 }
 
 void testRegisterAndExecuteCommand() {

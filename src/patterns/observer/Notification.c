@@ -27,9 +27,11 @@ static const char *getType(const struct INotification *self) {
 
 static void setType(struct INotification *self, const char *type) {
     struct Notification *this = (struct Notification *) self;
+
     char *copy = type ? strdup(type) : NULL;
-    if (type && copy == NULL) {
-        fprintf(stderr, "Notification: setType strdup failed.\n");
+    if (type != NULL && copy == NULL) {
+        fprintf(stderr, "[PureMVC::Notification::%s] Error: Failed to duplicate type string (name='%s'), (type='%s').\n",
+            __func__, this->name ? this->name : "NULL", this->type ? this->type : "NULL");
         return;
     }
 
@@ -43,18 +45,15 @@ static void setType(struct INotification *self, const char *type) {
 static const char *toString(const struct INotification *self) {
     const struct Notification *this = (struct Notification *) self;
 
-    const size_t len = strlen(this->name) + (this->type ? strlen(this->type) : 0) + 1;
+    const size_t len = (this->name ? strlen(this->name) : 0) + (this->type ? strlen(this->type) : 0) + 32; // 32 or 64 bit pointer + extra
     char *msg = malloc(len * sizeof(char));
-    // char *msg = malloc((strlen(self->name) + (self->type != NULL ? strlen(self->type) : 0) + 1) * sizeof(char));
     if (msg == NULL) {
-        fprintf(stderr, "Notification: toString allocation failed.\n");
+        fprintf(stderr, "[PureMVC::Notification::%s] Error: Failed to allocate string for Notification (name='%s', type='%s').\n",
+              __func__,this->name ? this->name : "NULL", this->type ? this->type : "NULL");
         return NULL;
     }
 
-    msg[0] = '\0'; // Initialize to empty string before strcat
-    strcat(msg, this->name);
-    if (this->type)
-        strcat(msg, this->type);
+    snprintf(msg, len, "%s : %s [body=%p]", this->name, this->type, this->body);
     return msg;
 }
 
@@ -72,14 +71,32 @@ static struct Notification *init(struct Notification *notification) {
 static struct Notification *alloc(const char *name, void *body, const char *type) {
     struct Notification *notification = malloc(sizeof(struct Notification));
     if (notification == NULL) {
-        fprintf(stderr, "Notification allocation failed.\n");
+        fprintf(stderr, "[PureMVC::Notification::%s] Error: Failed to allocate Notification with name '%s'.\n", __func__, name);
         return NULL;
     }
     memset(notification, 0, sizeof(struct Notification));
 
-    notification->name = name != NULL ? strdup(name) : NULL;
+    if (name != NULL) {
+        notification->name = strdup(name);
+        if (notification->name == NULL) {
+            fprintf(stderr, "[PureMVC::Notification::%s] Error: strdup failed for name '%s'.\n", __func__, name);
+            free(notification);
+            return NULL;
+        }
+    }
+
     notification->body = body;
-    notification->type = type != NULL ? strdup(type) : NULL;
+
+    if (type != NULL) {
+        notification->type = strdup(type);
+        if (notification->type == NULL) {
+            fprintf(stderr, "[PureMVC::Notification::%s] Error: strdup failed for type '%s'.\n", __func__, type);
+            free((void *) notification->name);
+            free(notification);
+            return NULL;
+        }
+    }
+
     return notification;
 }
 

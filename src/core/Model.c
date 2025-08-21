@@ -20,6 +20,7 @@ static void initializeModel(struct IModel *self) {
 static void registerProxy(const struct IModel *self, struct IProxy *proxy) {
     struct Model *this = (struct Model *) self;
     mutex_lock(&this->proxyMapMutex);
+
     proxy->notifier->initializeNotifier(proxy->notifier, this->multitonKey);
     if (this->proxyMap->containsKey(this->proxyMap, proxy->getName(proxy))) {
         struct IProxy *previous = (struct IProxy *) this->proxyMap->get(this->proxyMap, proxy->getName(proxy));
@@ -29,6 +30,7 @@ static void registerProxy(const struct IModel *self, struct IProxy *proxy) {
         this->proxyMap->put(this->proxyMap, proxy->getName(proxy), proxy);
     }
     proxy->onRegister(proxy);
+
     mutex_unlock(&this->proxyMapMutex);
 }
 
@@ -69,16 +71,23 @@ static struct Model *init(struct Model *model) {
 }
 
 static struct Model *alloc(const char *key) {
+    assert(key != NULL);
     assert(instanceMap->get(instanceMap, key) == NULL);
 
     struct Model *model = malloc(sizeof(struct Model));
     if (model == NULL) {
-        fprintf(stderr, "Model allocation failed.\n");
+        fprintf(stderr, "[PureMVC::Model::%s] Error: Failed to allocate Model with key '%s'.\n", __func__, key);
         return NULL;
     }
     memset(model, 0, sizeof(struct Model));
 
     model->multitonKey = strdup(key);
+    if (model->multitonKey == NULL) {
+        fprintf(stderr, "[PureMVC::Model::%s] Error: strdup failed for key '%s'.\n", __func__, key);
+        free(model);
+        return NULL;
+    }
+
     mutex_init(&model->proxyMapMutex);
     model->proxyMap = collection_dictionary_new();
     return model;

@@ -31,7 +31,6 @@ void testConstructor() {
  */
 void testNameAccessor() {
     struct IMediator *mediator = puremvc_mediator_new("TestMediator", NULL);
-    // mediator->notifier->initializeNotifier(mediator->notifier, "test");
 
     // test assertions
     assert(mediator != NULL);
@@ -56,7 +55,6 @@ void testViewAccessor() {
     // Create a view object
     struct Component {} component;
     struct IMediator *mediator = puremvc_mediator_new(MEDIATOR_NAME, &component);
-    // mediator->notifier->initializeNotifier(mediator->notifier, "test");
 
     // test assertions
     assert(mediator->getComponent(mediator) == &component);
