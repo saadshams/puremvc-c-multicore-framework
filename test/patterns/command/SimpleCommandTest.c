@@ -3,19 +3,14 @@
 
 #include "puremvc/puremvc.h"
 
-typedef struct { int input; int result; } SimpleCommandTestVO;
+#include "SimpleCommandTest.h"
+#include "SimpleCommandTestCommand.h"
+#include "SimpleCommandTestVO.h"
 
-/**
- * Fabricate a result by multiplying the input by 2
- *
- * @param self
- * @param notification the <code>INotification</code> carrying the <code>SimpleCommandTestVO</code>
- */
-static void execute(const struct ICommand *self, struct INotification *notification) {
-    SimpleCommandTestVO *vo = (SimpleCommandTestVO *)notification->getBody(notification);
-
-    // Fabricate a result
-    vo->result = 2 * vo->input;
+int main() {
+    testConstructor();
+    testSimpleCommandExecute();
+    return 0;
 }
 
 /**
@@ -45,15 +40,14 @@ void testConstructor() {
  */
 void testSimpleCommandExecute() {
     // Create the VO
-    SimpleCommandTestVO *vo = malloc(sizeof(SimpleCommandTestVO));
+    struct SimpleCommandTestVO *vo = malloc(sizeof(struct SimpleCommandTestVO));
     if (vo) vo->input = 5;
 
     // Create the Notification (note)
     struct INotification *note = puremvc_notification_new("SimpleCommandTestNote", vo, NULL);
 
     // Create the SimpleCommand
-    struct ICommand *command = puremvc_simple_command_new();
-    command->execute = execute;
+    struct ICommand *command = test_simple_command_new();
     // command->notifier->initializeNotifier(command->notifier, "test");
 
     // Execute the SimpleCommand
@@ -66,10 +60,4 @@ void testSimpleCommandExecute() {
     assert(note == NULL);
     puremvc_simple_command_free(&command);
     assert(command == NULL);
-}
-
-int main() {
-    testConstructor();
-    testSimpleCommandExecute();
-    return 0;
 }

@@ -3,51 +3,15 @@
 
 #include "puremvc/puremvc.h"
 
-struct MacroCommandTestVO {
-    int input;
-    int result1;
-    int result2;
-};
+#include "MacroCommandTest.h"
+#include "MacroCommandTestCommand.h"
+#include "MacroCommandTestVO.h"
 
-static void macro_command_execute(const struct ICommand *self, struct INotification *notification) {
-    struct MacroCommandTestVO *vo = (struct MacroCommandTestVO *)notification->getBody(notification);
-
-    // Fabricate a result
-    vo->result1 = 2 * vo->input;
+int main() {
+    testMacroCommandExecute();
+    testRegisterAndExecuteCommand();
+    return 0;
 }
-
-struct ICommand *macro_command_test_sub1command_new() {
-    struct ICommand *command = puremvc_simple_command_new();
-    command->execute = macro_command_execute;
-    return command;
-}
-
-
-static void macro_command_execute2(const struct ICommand *self, struct INotification *notification) {
-    struct MacroCommandTestVO *vo = (struct MacroCommandTestVO *)notification->getBody(notification);
-
-    // Fabricate a result
-    vo->result2 = vo->input * vo->input;
-}
-
-struct ICommand *macro_command_test_sub2command_new() {
-    struct ICommand *command = puremvc_simple_command_new();
-    command->execute = macro_command_execute2;
-    return command;
-}
-
-
-static void initializeMacroCommand(const struct IMacroCommand *self) {
-    self->addSubCommand(self, macro_command_test_sub1command_new);
-    self->addSubCommand(self, macro_command_test_sub2command_new);
-}
-
-struct IMacroCommand *macro_command_test_command_new() {
-    struct IMacroCommand *command = puremvc_macro_command_new();
-    command->initializeMacroCommand = initializeMacroCommand;
-    return command;
-}
-
 
 void testMacroCommandExecute() {
     struct MacroCommandTestVO *vo = malloc(sizeof(struct MacroCommandTestVO));
@@ -87,10 +51,4 @@ void testRegisterAndExecuteCommand() {
     puremvc_controller_removeController("ControllerTest1");
     puremvc_view_removeView("ControllerTest1");
     controller = NULL;
-}
-
-int main() {
-    testMacroCommandExecute();
-    testRegisterAndExecuteCommand();
-    return 0;
 }

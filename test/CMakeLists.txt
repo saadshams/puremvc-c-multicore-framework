@@ -7,18 +7,23 @@ add_executable(ModelTest core/ModelTest.c core/ModelTestProxy.c)
 target_link_libraries(ModelTest PRIVATE puremvc)
 add_test(NAME PureMVC.ModelTest COMMAND ModelTest)
 
-add_executable(ViewTest core/ViewTest.c core/ViewTestMediator.c
-        core/ViewTestMediator2.c core/ViewTestMediator3.c
-        core/ViewTestMediator4.c core/ViewTestMediator5.c
-        core/ViewTestMediator6.c)
+add_executable(ViewTest core/ViewTest.c
+        core/ViewTestMediator.c core/ViewTestMediator2.c
+        core/ViewTestMediator3.c core/ViewTestMediator4.c
+        core/ViewTestMediator5.c core/ViewTestMediator6.c)
 target_link_libraries(ViewTest PRIVATE puremvc)
 add_test(NAME PureMVC.ViewTest COMMAND ViewTest)
 
-add_executable(SimpleCommandTest patterns/command/SimpleCommandTest.c)
+add_executable(SimpleCommandTest
+        patterns/command/SimpleCommandTest.c
+        patterns/command/SimpleCommandTestCommand.c)
 target_link_libraries(SimpleCommandTest PRIVATE puremvc)
 add_test(NAME PureMVC.SimpleCommandTest COMMAND SimpleCommandTest)
 
-add_executable(MacroCommandTest patterns/command/MacroCommandTest.c)
+add_executable(MacroCommandTest patterns/command/MacroCommandTest.c
+        patterns/command/MacroCommandTestCommand.c
+        patterns/command/MacroCommandTestSub1Command.c
+        patterns/command/MacroCommandTestSub2Command.c)
 target_link_libraries(MacroCommandTest PRIVATE puremvc)
 add_test(NAME PureMVC.MacroCommandTest COMMAND MacroCommandTest)
 
