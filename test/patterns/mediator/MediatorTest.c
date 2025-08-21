@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "puremvc/IMediator.h"
+#include "puremvc/puremvc.h"
 #include "MediatorTest.h"
 
 int main() {

@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "puremvc/IProxy.h"
+#include "puremvc/puremvc.h"
 #include "ProxyTest.h"
 
 int main(void) {

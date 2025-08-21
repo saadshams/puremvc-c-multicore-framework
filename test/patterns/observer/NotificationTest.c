@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "puremvc/INotification.h"
+#include "puremvc/puremvc.h"
 #include "NotificationTest.h"
 
 int main() {
