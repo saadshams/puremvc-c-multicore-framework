@@ -26,11 +26,19 @@ static void setNotify(struct IObserver *self, void (*notify)(const void *context
 
 static void notifyObserver(const struct IObserver *self, struct INotification *notification) {
     const struct Observer *this = (struct Observer *) self;
+    if (this->notify == NULL && this->context == NULL) {
+        fprintf(stderr, "[PureMVC::Observer::%s] Error: Notify and Context are NULL.\n", __func__);
+        return;
+    }
     this->notify(this->context, notification);
 }
 
 static bool compareNotifyContext(const struct IObserver *self, const void *context) {
     const struct Observer *this = (struct Observer *) self;
+    if (this->context == NULL || context == NULL) {
+        fprintf(stderr, "[PureMVC::Observer::%s] Error: Notify and Context are NULL.\n", __func__);
+        return false;
+    }
     return this->context == context;
 }
 

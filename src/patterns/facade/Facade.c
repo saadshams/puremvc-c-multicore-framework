@@ -137,7 +137,6 @@ static struct Facade *init(struct Facade *facade) {
 }
 
 static struct Facade *alloc(const char *key) {
-    assert(key != NULL);
     assert(instanceMap->get(instanceMap, key) == NULL);
 
     struct Facade *facade = malloc(sizeof(struct Facade));
@@ -158,6 +157,7 @@ static struct Facade *alloc(const char *key) {
 }
 
 struct IFacade *puremvc_facade_new(const char *key) {
+    assert(key != NULL);
     return (struct IFacade *) init(alloc(key));
 }
 
@@ -176,6 +176,8 @@ static void dispatchOnce() {
 }
 
 struct IFacade *puremvc_facade_getInstance(const char *key, struct IFacade *(*factory)(const char *)) {
+    assert(key != NULL);
+    assert(factory != NULL);
     mutex_once(&token, dispatchOnce);
     mutex_lock(&mutex);
 
@@ -193,6 +195,7 @@ struct IFacade *puremvc_facade_getInstance(const char *key, struct IFacade *(*fa
 }
 
 bool puremvc_facade_hasCore(const char *key) {
+    assert(key != NULL);
     mutex_lock_shared(&mutex);
     const bool result = instanceMap->containsKey(instanceMap, key);
     mutex_unlock(&mutex);
@@ -200,6 +203,7 @@ bool puremvc_facade_hasCore(const char *key) {
 }
 
 void puremvc_facade_removeFacade(const char *key) {
+    assert(key != NULL);
     mutex_lock(&mutex);
 
     puremvc_model_removeModel(key);

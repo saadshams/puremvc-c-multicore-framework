@@ -73,7 +73,6 @@ static struct Model *init(struct Model *model) {
 }
 
 static struct Model *alloc(const char *key) {
-    assert(key != NULL);
     assert(instanceMap->get(instanceMap, key) == NULL);
 
     struct Model *model = malloc(sizeof(struct Model));
@@ -96,6 +95,7 @@ static struct Model *alloc(const char *key) {
 }
 
 struct IModel *puremvc_model_new(const char *key) {
+    assert(key != NULL);
     return (struct IModel *) init(alloc(key));
 }
 
@@ -117,6 +117,8 @@ static void dispatchOnce() {
 }
 
 struct IModel *puremvc_model_getInstance(const char *key, struct IModel *(*factory)(const char *)) {
+    assert(key != NULL);
+    assert(factory != NULL);
     mutex_once(&token, dispatchOnce);
     mutex_lock(&mutex);
 
@@ -134,6 +136,7 @@ struct IModel *puremvc_model_getInstance(const char *key, struct IModel *(*facto
 }
 
 void puremvc_model_removeModel(const char *key) {
+    assert(key != NULL);
     mutex_lock(&mutex);
 
     struct IModel *model = instanceMap->removeItem(instanceMap, key);

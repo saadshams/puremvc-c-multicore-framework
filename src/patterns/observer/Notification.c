@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -76,13 +77,11 @@ static struct Notification *alloc(const char *name, void *body, const char *type
     }
     memset(notification, 0, sizeof(struct Notification));
 
-    if (name != NULL) {
-        notification->name = strdup(name);
-        if (notification->name == NULL) {
-            fprintf(stderr, "[PureMVC::Notification::%s] Error: strdup failed for name '%s'.\n", __func__, name);
-            free(notification);
-            return NULL;
-        }
+    notification->name = strdup(name);
+    if (notification->name == NULL) {
+        fprintf(stderr, "[PureMVC::Notification::%s] Error: strdup failed for name '%s'.\n", __func__, name);
+        free(notification);
+        return NULL;
     }
 
     notification->body = body;
@@ -101,6 +100,7 @@ static struct Notification *alloc(const char *name, void *body, const char *type
 }
 
 struct INotification *puremvc_notification_new(const char *name, void *body, const char *type) {
+    assert(name != NULL);
     return (struct INotification *) init(alloc(name, body, type));
 }
 

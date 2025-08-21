@@ -154,7 +154,6 @@ static struct View *init(struct View *view) {
 }
 
 static struct View *alloc(const char *key) {
-    assert(key != NULL);
     assert(instanceMap->get(instanceMap, key) == NULL);
 
     struct View *view = malloc(sizeof(struct View));
@@ -179,6 +178,7 @@ static struct View *alloc(const char *key) {
 }
 
 struct IView *puremvc_view_new(const char *key) {
+    assert(key != NULL);
     return (struct IView *) init(alloc(key));
 }
 
@@ -203,6 +203,8 @@ static void dispatchOnce() {
 }
 
 struct IView *puremvc_view_getInstance(const char *key, struct IView *(*factory)(const char *)) {
+    assert(key != NULL);
+    assert(factory != NULL);
     mutex_once(&token, dispatchOnce);
     mutex_lock(&mutex);
 
@@ -220,6 +222,7 @@ struct IView *puremvc_view_getInstance(const char *key, struct IView *(*factory)
 }
 
 void puremvc_view_removeView(const char *key) {
+    assert(key != NULL);
     mutex_lock(&mutex);
 
     struct IView *view = instanceMap->removeItem(instanceMap, key);

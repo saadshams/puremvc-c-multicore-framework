@@ -80,7 +80,6 @@ static struct Controller *init(struct Controller *controller) {
 }
 
 static struct Controller *alloc(const char *key) {
-    assert(key != NULL);
     assert(instanceMap->get(instanceMap, key) == NULL);
 
     struct Controller *controller = malloc(sizeof(struct Controller));
@@ -103,6 +102,7 @@ static struct Controller *alloc(const char *key) {
 }
 
 struct IController *puremvc_controller_new(const char *key) {
+    assert(key != NULL);
     return (struct IController *) init(alloc(key));
 }
 
@@ -124,6 +124,8 @@ static void dispatchOnce() {
 }
 
 struct IController *puremvc_controller_getInstance(const char *key, struct IController *(*factory)(const char *)) {
+    assert(key != NULL);
+    assert(factory != NULL);
     mutex_once(&token, dispatchOnce);
     mutex_lock(&mutex);
 
@@ -141,6 +143,7 @@ struct IController *puremvc_controller_getInstance(const char *key, struct ICont
 }
 
 void puremvc_controller_removeController(const char *key) {
+    assert(key != NULL);
     mutex_lock(&mutex);
 
     struct IController *controller = instanceMap->removeItem(instanceMap, key);
