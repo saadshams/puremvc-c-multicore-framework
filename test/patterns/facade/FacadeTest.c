@@ -5,6 +5,7 @@
 #include <assert.h>
 
 #include "puremvc/puremvc.h"
+
 #include "FacadeTest.h"
 #include "FacadeTestCommand.h"
 #include "FacadeTestVO.h"
