@@ -16,10 +16,10 @@ static void addSubCommand(const struct IMacroCommand *self, struct ICommand *(*f
 
 static void execute(const struct ICommand *self, struct INotification *notification) {
     struct MacroCommand *this = (struct MacroCommand *) self;
-    this->base.initializeMacroCommand((struct IMacroCommand *)this);
+    this->base.initializeMacroCommand((struct IMacroCommand *) this);
 
     while (this->subCommands->size(this->subCommands) > 0) {
-        struct ICommand *(*factory)(void) = (struct ICommand *(*)(void))this->subCommands->shift(this->subCommands);
+        struct ICommand *(*factory)(void) = (struct ICommand *(*)(void)) this->subCommands->shift(this->subCommands);
         struct ICommand *command = factory();
         command->notifier->initializeNotifier(command->notifier, self->notifier->getMultitonKey(self->notifier));
         command->execute(command, notification);

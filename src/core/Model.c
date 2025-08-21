@@ -22,7 +22,7 @@ static void registerProxy(const struct IModel *self, struct IProxy *proxy) {
     mutex_lock(&this->proxyMapMutex);
     proxy->notifier->initializeNotifier(proxy->notifier, this->multitonKey);
     if (this->proxyMap->containsKey(this->proxyMap, proxy->getName(proxy))) {
-        struct IProxy *previous = (struct IProxy *)this->proxyMap->get(this->proxyMap, proxy->getName(proxy));
+        struct IProxy *previous = (struct IProxy *) this->proxyMap->get(this->proxyMap, proxy->getName(proxy));
         this->proxyMap->replace(this->proxyMap, proxy->getName(proxy), proxy);
         puremvc_proxy_free(&previous);
     } else {
