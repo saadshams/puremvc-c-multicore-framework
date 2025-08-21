@@ -58,7 +58,7 @@ struct IMacroCommand *puremvc_macro_command_new() {
 void puremvc_macro_command_free(struct IMacroCommand **command) {
     if (command == NULL || *command == NULL) return;
 
-    struct MacroCommand *this = (struct MacroCommand *)*command;
+    struct MacroCommand *this = (struct MacroCommand *) *command;
     puremvc_notifier_free(&this->base.command.notifier);
     free(this);
 

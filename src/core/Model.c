@@ -92,7 +92,7 @@ struct IModel *puremvc_model_new(const char *key) {
 void puremvc_model_free(struct IModel **model) {
     if (model == NULL || *model == NULL) return;
 
-    struct Model *this = (struct Model *)*model;
+    struct Model *this = (struct Model *) *model;
     free((void *)this->multitonKey);
     this->proxyMap->clear(this->proxyMap, free);
     collection_dictionary_free(&this->proxyMap);

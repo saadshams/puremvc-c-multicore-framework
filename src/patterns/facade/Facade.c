@@ -157,7 +157,7 @@ struct IFacade *puremvc_facade_new(const char *key) {
 void puremvc_facade_free(struct IFacade **facade) {
     if (facade == NULL || *facade == NULL) return;
 
-    struct Facade *this = (struct Facade *)*facade;
+    struct Facade *this = (struct Facade *) *facade;
     free((void *) this->multitonKey);
     free(this);
 

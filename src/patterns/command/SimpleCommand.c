@@ -33,7 +33,7 @@ struct ICommand *puremvc_simple_command_new() {
 void puremvc_simple_command_free(struct ICommand **command) {
     if (command == NULL || *command == NULL) return;
 
-    struct SimpleCommand *this = (struct SimpleCommand *)*command;
+    struct SimpleCommand *this = (struct SimpleCommand *) *command;
     puremvc_notifier_free(&this->base.notifier);
     free(this);
 

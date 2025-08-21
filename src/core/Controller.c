@@ -97,7 +97,7 @@ struct IController *puremvc_controller_new(const char *key) {
 void puremvc_controller_free(struct IController **controller) {
     if (controller == NULL || *controller == NULL) return;
 
-    struct Controller *this = (struct Controller *)*controller;
+    struct Controller *this = (struct Controller *) *controller;
     free((void *) this->multitonKey);
     this->commandMap->clear(this->commandMap, free);
     collection_dictionary_free(&this->commandMap);

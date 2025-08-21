@@ -64,7 +64,7 @@ struct IProxy *puremvc_proxy_new(const char *name, void *data) {
 void puremvc_proxy_free(struct IProxy **proxy) {
     if (proxy == NULL || *proxy == NULL) return;
 
-    struct Proxy *this = (struct Proxy *)*proxy;
+    struct Proxy *this = (struct Proxy *) *proxy;
     free((void *)this->name);
     free(this->data);
     puremvc_notifier_free(&this->base.notifier);

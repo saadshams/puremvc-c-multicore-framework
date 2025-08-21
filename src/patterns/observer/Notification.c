@@ -92,8 +92,8 @@ struct INotification *puremvc_notification_new(const char *name, void *body, con
 void puremvc_notification_free(struct INotification **notification) {
     if (notification == NULL || *notification == NULL) return;
 
-    struct Notification *this = (struct Notification *)*notification;
-    free((void *)this->name); // body is not owned (borrowed) by Notification; do not free it.
+    struct Notification *this = (struct Notification *) *notification;
+    free((void *)this->name);
     free(this->type);
     free(this);
 

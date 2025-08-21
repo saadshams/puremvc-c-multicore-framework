@@ -176,7 +176,7 @@ struct IView *puremvc_view_new(const char *key) {
 void puremvc_view_free(struct IView **view) {
     if (view == NULL || *view == NULL) return;
 
-    struct View *this = (struct View *)*view;
+    struct View *this = (struct View *) *view;
     free((void *)this->multitonKey);
     this->mediatorMap->clear(this->mediatorMap, free);
     collection_dictionary_free(&this->mediatorMap);

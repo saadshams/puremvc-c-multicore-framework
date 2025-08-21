@@ -54,7 +54,7 @@ struct INotifier *puremvc_notifier_new() {
 void puremvc_notifier_free(struct INotifier **notifier) {
     if (notifier == NULL || *notifier == NULL) return;
 
-    struct Notifier *this = (struct Notifier *)*notifier;
+    struct Notifier *this = (struct Notifier *) *notifier;
     free((void *)this->multitonKey);
     free(this);
 
