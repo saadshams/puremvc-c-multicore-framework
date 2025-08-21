@@ -3,9 +3,22 @@
 #include <stdlib.h>
 
 #include "puremvc/puremvc.h"
-#include "ControllerTestCommand.c"
-#include "ControllerTestCommand2.c"
-#include "ControllerTestVO.c"
+
+#include "ControllerTest.h"
+#include "ControllerTestCommand.h"
+#include "ControllerTestCommand2.h"
+#include "ControllerTestVO.h"
+
+int main() {
+    testGetInstance();
+    testRegisterAndExecuteCommand();
+    testRegisterAndRemoveCommand();
+    testHasCommand();
+    testReregisterAndExecuteCommand();
+    testRegisterAndUpdateCommand();
+    testRemoveController();
+    return 0;
+}
 
 void testGetInstance() {
     // Test Factory Method
@@ -168,15 +181,4 @@ void testRemoveController() {
 
     // cleanup
     puremvc_controller_removeController("ControllerTestKey4");
-}
-
-int main() {
-    testGetInstance();
-    testRegisterAndExecuteCommand();
-    testRegisterAndRemoveCommand();
-    testHasCommand();
-    testReregisterAndExecuteCommand();
-    testRegisterAndUpdateCommand();
-    testRemoveController();
-    return 0;
 }

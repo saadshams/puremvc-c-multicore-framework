@@ -1,11 +1,9 @@
 #pragma once
 
-#include <_string.h>
+#include <string.h>
 
 #include "puremvc/puremvc.h"
-
-#define ON_REGISTER_CALLED "onRegister Called"
-#define ON_REMOVE_CALLED "onRemove Called"
+#include "ModelTestProxy.h"
 
 static void onRegister(struct IProxy *self) {
     self->setData(self, strdup(ON_REGISTER_CALLED));

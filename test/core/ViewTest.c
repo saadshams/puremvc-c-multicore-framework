@@ -3,17 +3,29 @@
 #include <string.h>
 
 #include "puremvc/puremvc.h"
-#include "ViewTestComponent.c"
-#include "ViewTestMediator.c"
-#include "ViewTestMediator2.c"
-#include "ViewTestMediator3.c"
-#include "ViewTestMediator4.c"
-#include "ViewTestMediator5.c"
-#include "ViewTestMediator6.c"
 
-struct ViewTestVar {
-    int value;
-};
+#include "ViewTest.h"
+#include "ViewTestMediator.h"
+#include "ViewTestMediator2.h"
+#include "ViewTestMediator3.h"
+#include "ViewTestMediator4.h"
+#include "ViewTestMediator5.h"
+#include "ViewTestMediator6.h"
+
+int main() {
+    testGetInstance();
+    testRegisterAndNotifyObserver();
+    testRegisterAndRetrieveMediator();
+    testHasMediator();
+    testRegisterAndRemoveMediator();
+    testOnRegisterAndOnRemove();
+    testSuccessiveRegisterAndRemoveMediator();
+    testRemoveMediatorAndSubsequentNotify();
+    testRemoveOneOfTwoMediatorsAndSubsequentNotify();
+    testMediatorReregistration();
+    testModifyObserverListDuringNotification();
+    testRemoveView();
+}
 
 struct ViewTestVar *viewTestVar;
 
@@ -308,7 +320,7 @@ void testMediatorReregistration() {
 
     // Create and register that responds to notification 5
     struct ViewTest viewTest = {};
-    const struct IMediator *mediator = test_mediator5_new(&viewTest);
+    struct IMediator *mediator = test_mediator5_new(&viewTest);
 
     // try to register another instance of that mediator (uses the same NAME constant).
     view->registerMediator(view, mediator);
@@ -387,19 +399,4 @@ void testRemoveView() {
 
     // cleanup
     puremvc_view_removeView("ViewTestKey12");
-}
-
-int main() {
-    testGetInstance();
-    testRegisterAndNotifyObserver();
-    testRegisterAndRetrieveMediator();
-    testHasMediator();
-    testRegisterAndRemoveMediator();
-    testOnRegisterAndOnRemove();
-    testSuccessiveRegisterAndRemoveMediator();
-    testRemoveMediatorAndSubsequentNotify();
-    testRemoveOneOfTwoMediatorsAndSubsequentNotify();
-    testMediatorReregistration();
-    testModifyObserverListDuringNotification();
-    testRemoveView();
 }

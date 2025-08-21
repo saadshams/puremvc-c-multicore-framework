@@ -1,7 +1,7 @@
 #pragma once
 
-#include "puremvc/puremvc.h"
-#include "ControllerTestVO.c"
+#include "ControllerTestCommand.h"
+#include "ControllerTestVO.h"
 
 static void controller_execute(const struct ICommand *self, struct INotification *notification) {
     struct ControllerTestVO *vo = (struct ControllerTestVO *) notification->getBody(notification);

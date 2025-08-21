@@ -3,7 +3,19 @@
 #include <string.h>
 
 #include "puremvc/puremvc.h"
-#include "ModelTestProxy.c"
+#include "ModelTest.h"
+#include "ModelTestProxy.h"
+
+int main() {
+    testGetInstance();
+    testRegisterAndRetrieveProxy();
+    testRegisterAndRemoveProxy();
+    testHasProxy();
+    testOnRegisterAndOnRemove();
+    testRemoveModel();
+    testMultipleModels();
+    return 0;
+}
 
 void testGetInstance() {
     // Test Factory Method
@@ -170,15 +182,4 @@ void testMultipleModels() {
 
     puremvc_model_removeModel("ModelTestKey7");
     puremvc_model_removeModel("ModelTestKey8");
-}
-
-int main() {
-    testGetInstance();
-    testRegisterAndRetrieveProxy();
-    testRegisterAndRemoveProxy();
-    testHasProxy();
-    testOnRegisterAndOnRemove();
-    testRemoveModel();
-    testMultipleModels();
-    return 0;
 }

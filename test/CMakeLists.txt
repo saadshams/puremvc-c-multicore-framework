@@ -1,12 +1,16 @@
-add_executable(ControllerTest core/ControllerTest.c)
+add_executable(ControllerTest core/ControllerTest.c core/ControllerTestCommand.c
+        core/ControllerTestCommand2.c)
 target_link_libraries(ControllerTest PRIVATE puremvc)
 add_test(NAME PureMVC.ControllerTest COMMAND ControllerTest)
 
-add_executable(ModelTest core/ModelTest.c)
+add_executable(ModelTest core/ModelTest.c core/ModelTestProxy.c)
 target_link_libraries(ModelTest PRIVATE puremvc)
 add_test(NAME PureMVC.ModelTest COMMAND ModelTest)
 
-add_executable(ViewTest core/ViewTest.c)
+add_executable(ViewTest core/ViewTest.c core/ViewTestMediator.c
+        core/ViewTestMediator2.c core/ViewTestMediator3.c
+        core/ViewTestMediator4.c core/ViewTestMediator5.c
+        core/ViewTestMediator6.c)
 target_link_libraries(ViewTest PRIVATE puremvc)
 add_test(NAME PureMVC.ViewTest COMMAND ViewTest)
 
