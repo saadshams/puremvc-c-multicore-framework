@@ -5,8 +5,24 @@
 #include <assert.h>
 
 #include "puremvc/puremvc.h"
-#include "FacadeTestCommand.c"
-#include "FacadeTestVO.c"
+#include "FacadeTest.h"
+#include "FacadeTestCommand.h"
+#include "FacadeTestVO.h"
+
+int main() {
+    testGetInstance();
+    testRegisterCommandAndSendNotification();
+    testRegisterAndRemoveCommandAndSendNotification();
+    testRegisterAndRetrieveProxy();
+    testRegisterAndRemoveProxy();
+    testRegisterRetrieveAndRemoveMediator();
+    testHasProxy();
+    testHasMediator();
+    testHasCommand();
+    testHasCoreAndRemoveCore();
+    testGetInstancesThreaded();
+    return 0;
+}
 
 void testGetInstance() {
     // Test Factory Method
@@ -230,19 +246,4 @@ void testGetInstancesThreaded() {
 
     // cleanup
     puremvc_facade_removeFacade("FacadeTestKey11");
-}
-
-int main() {
-    testGetInstance();
-    testRegisterCommandAndSendNotification();
-    testRegisterAndRemoveCommandAndSendNotification();
-    testRegisterAndRetrieveProxy();
-    testRegisterAndRemoveProxy();
-    testRegisterRetrieveAndRemoveMediator();
-    testHasProxy();
-    testHasMediator();
-    testHasCommand();
-    testHasCoreAndRemoveCore();
-    testGetInstancesThreaded();
-    return 0;
 }

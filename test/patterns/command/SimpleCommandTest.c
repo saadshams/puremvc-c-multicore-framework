@@ -1,8 +1,6 @@
 #include <assert.h>
 #include <stdlib.h>
 
-#include "puremvc/puremvc.h"
-
 #include "SimpleCommandTest.h"
 #include "SimpleCommandTestCommand.h"
 #include "SimpleCommandTestVO.h"

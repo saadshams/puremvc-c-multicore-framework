@@ -3,6 +3,16 @@
 #include <stdlib.h>
 
 #include "puremvc/INotification.h"
+#include "NotificationTest.h"
+
+int main() {
+    testConstructor();
+    testNameAccessors();
+    testBodyAccessors();
+    testTypeAccessors();
+    testToString();
+    return 0;
+}
 
 /**
  * Tests setting the name and body using the Notification class Constructor.
@@ -79,13 +89,4 @@ void testToString() {
 
     puremvc_notification_free(&notification);
     assert(notification == NULL);
-}
-
-int main() {
-    testConstructor();
-    testNameAccessors();
-    testBodyAccessors();
-    testTypeAccessors();
-    testToString();
-    return 0;
 }

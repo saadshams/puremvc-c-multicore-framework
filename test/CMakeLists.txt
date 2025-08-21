@@ -27,7 +27,8 @@ add_executable(MacroCommandTest patterns/command/MacroCommandTest.c
 target_link_libraries(MacroCommandTest PRIVATE puremvc)
 add_test(NAME PureMVC.MacroCommandTest COMMAND MacroCommandTest)
 
-add_executable(FacadeTest patterns/facade/FacadeTest.c)
+add_executable(FacadeTest patterns/facade/FacadeTest.c
+        patterns/facade/FacadeTestCommand.c)
 target_link_libraries(FacadeTest PRIVATE puremvc)
 add_test(NAME PureMVC.FacadeTest COMMAND FacadeTest)
 

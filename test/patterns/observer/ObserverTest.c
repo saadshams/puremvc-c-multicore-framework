@@ -1,11 +1,15 @@
 #include <assert.h>
 #include <stdlib.h>
 
-#include "puremvc/IObserver.h"
+#include "puremvc/puremvc.h"
+#include "ObserverTest.h"
 
-struct ObserverTestVar {
-    int value;
-};
+int main() {
+    testObserverConstructor();
+    testObserverAccessors();
+    testCompareNotifyContext();
+    return 0;
+}
 
 /**
  * A test variable that proves the notify method was
@@ -90,11 +94,4 @@ void testCompareNotifyContext() {
 
     puremvc_observer_free(&observer);
     assert(observer == NULL);
-}
-
-int main() {
-    testObserverConstructor();
-    testObserverAccessors();
-    testCompareNotifyContext();
-    return 0;
 }

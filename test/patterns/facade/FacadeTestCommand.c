@@ -1,7 +1,7 @@
 #pragma once
 
-#include "puremvc/puremvc.h"
-#include "FacadeTestVO.c"
+#include "FacadeTestCommand.h"
+#include "FacadeTestVO.h"
 
 static void execute(const struct ICommand *self, struct INotification *notification) {
     struct FacadeTestVO *vo = (struct FacadeTestVO *)notification->getBody(notification);

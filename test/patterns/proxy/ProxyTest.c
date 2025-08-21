@@ -3,11 +3,20 @@
 #include <string.h>
 
 #include "puremvc/IProxy.h"
+#include "ProxyTest.h"
+
+int main(void) {
+    testConstructor();
+    testNameAccessors();
+    testDataAccessors();
+    testDataAccessors2();
+    return 0;
+}
 
 /**
  * Test Constructor
  */
-static void testConstructor() {
+void testConstructor() {
     struct IProxy* proxy = puremvc_proxy_new(NULL, NULL);
 
     // test assertions
@@ -78,12 +87,4 @@ void testDataAccessors2() {
     data = NULL; // avoid dangling pointer
 
     assert(proxy == NULL);
-}
-
-int main(void) {
-    testConstructor();
-    testNameAccessors();
-    testDataAccessors();
-    testDataAccessors2();
-    return 0;
 }

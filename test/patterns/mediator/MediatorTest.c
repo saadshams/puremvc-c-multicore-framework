@@ -2,7 +2,15 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "puremvc/puremvc.h"
+#include "puremvc/IMediator.h"
+#include "MediatorTest.h"
+
+int main() {
+    testConstructor();
+    testNameAccessor();
+    testViewAccessor();
+    return 0;
+}
 
 /**
  * Test Constructor
@@ -56,11 +64,4 @@ void testViewAccessor() {
     assert(mediator->getComponent(mediator) == NULL);
     puremvc_mediator_free(&mediator);
     assert(mediator == NULL);
-}
-
-int main() {
-    testConstructor();
-    testNameAccessor();
-    testViewAccessor();
-    return 0;
 }

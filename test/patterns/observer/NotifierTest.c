@@ -2,6 +2,13 @@
 #include <stdio.h>
 
 #include "puremvc/puremvc.h"
+#include "NotifierTest.h"
+
+int main() {
+    testInstance();
+    testRegisterCommandAndSendNotification();
+    return 0;
+}
 
 struct Object {
     int value;
@@ -58,10 +65,4 @@ void testRegisterCommandAndSendNotification() {
     facade->removeCommand(facade, "TestNote");
     puremvc_facade_removeFacade("Test2");
     puremvc_notifier_free(&notifier);
-}
-
-int main() {
-    testInstance();
-    testRegisterCommandAndSendNotification();
-    return 0;
 }
