@@ -11,16 +11,16 @@ find_package(collection REQUIRED CONFIG)
 
 # 3️⃣ Define targets
 add_library(puremvc STATIC
-        src/core/controller.c
-        src/core/model.c
-        src/core/view.c
+        src/core/Controller.c
+        src/core/Model.c
+        src/core/View.c
         src/patterns/command/SimpleCommand.c
         src/patterns/command/MacroCommand.c
-        src/patterns/facade/facade.c
-        src/patterns/mediator/mediator.c
-        src/patterns/observer/notification.c
-        src/patterns/observer/notifier.c
-        src/patterns/observer/observer.c
+        src/patterns/facade/Facade.c
+        src/patterns/mediator/Mediator.c
+        src/patterns/observer/Notification.c
+        src/patterns/observer/Notifier.c
+        src/patterns/observer/Observer.c
         src/patterns/proxy/Proxy.c)
 
 add_library(puremvc::puremvc ALIAS puremvc)
