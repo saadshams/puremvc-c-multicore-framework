@@ -1,6 +1,5 @@
 #include <stdlib.h>
 
-#include "puremvc/IMediator.h"
 #include "ViewTestMediator.h"
 
 static char **listNotificationInterests(const struct IMediator *self) {

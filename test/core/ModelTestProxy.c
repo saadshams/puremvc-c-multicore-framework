@@ -1,8 +1,6 @@
 #pragma once
 
 #include <string.h>
-
-#include "puremvc/puremvc.h"
 #include "ModelTestProxy.h"
 
 static void onRegister(struct IProxy *self) {

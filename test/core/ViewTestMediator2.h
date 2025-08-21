@@ -1,5 +1,6 @@
 #pragma once
 
+#include "puremvc/puremvc.h"
 #include "ViewTest.h"
 
 #define ViewTestMediator2_NAME "Mediator2"

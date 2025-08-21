@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "puremvc/puremvc.h"
+
 #include "ModelTest.h"
 #include "ModelTestProxy.h"
 

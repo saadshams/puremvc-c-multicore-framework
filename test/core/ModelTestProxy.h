@@ -1,5 +1,7 @@
 #pragma once
 
+#include "puremvc/puremvc.h"
+
 #define ON_REGISTER_CALLED "onRegister Called"
 #define ON_REMOVE_CALLED "onRemove Called"
 
