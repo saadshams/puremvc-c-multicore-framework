@@ -27,7 +27,6 @@ struct IFacade {
     bool (*hasMediator)(const struct IFacade *self, const char *mediatorName);
     struct IMediator *(*removeMediator)(const struct IFacade *self, const char *mediatorName);
 
-    void (*initializeNotifier)(struct IFacade *self, const char *key);
     void (*notifyObservers)(const struct IFacade *self, const struct INotification *notification);
     void (*sendNotification)(const struct IFacade *self, const char *notificationName, void *body, const char *type);
 };

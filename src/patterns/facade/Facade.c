@@ -93,15 +93,6 @@ static bool hasMediator(const struct IFacade *self, const char *mediatorName) {
     return this->view->hasMediator(this->view, mediatorName);
 }
 
-static void initializeNotifier(struct IFacade *self, const char *key) {
-    struct Facade *this = (struct Facade *) self;
-
-    this->multitonKey = strdup(key);
-    if (this->multitonKey == NULL) {
-        fprintf(stderr, "[PureMVC::Facade::%s] Error: strdup failed for key '%s'.\n", __func__, key);
-    }
-}
-
 static void notifyObservers(const struct IFacade *self, const struct INotification *notification) {
     const struct Facade *this = (struct Facade *) self;
     this->view->notifyObservers(this->view, notification);
@@ -130,7 +121,6 @@ static struct Facade *init(struct Facade *facade) {
     facade->base.retrieveMediator = retrieveMediator;
     facade->base.removeMediator = removeMediator;
     facade->base.hasMediator = hasMediator;
-    facade->base.initializeNotifier = initializeNotifier;
     facade->base.notifyObservers = notifyObservers;
     facade->base.sendNotification = sendNotification;
     return facade;

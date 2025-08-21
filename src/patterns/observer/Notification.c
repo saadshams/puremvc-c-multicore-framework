@@ -32,7 +32,7 @@ static void setType(struct INotification *self, const char *type) {
     char *copy = type ? strdup(type) : NULL;
     if (type != NULL && copy == NULL) {
         fprintf(stderr, "[PureMVC::Notification::%s] Error: Failed to duplicate type string (name='%s'), (type='%s').\n",
-            __func__, this->name ? this->name : "NULL", this->type ? this->type : "NULL");
+            __func__, this->name, this->type ? this->type : "NULL");
         return;
     }
 
@@ -46,11 +46,11 @@ static void setType(struct INotification *self, const char *type) {
 static const char *toString(const struct INotification *self) {
     const struct Notification *this = (struct Notification *) self;
 
-    const size_t len = (this->name ? strlen(this->name) : 0) + (this->type ? strlen(this->type) : 0) + 32; // 32 or 64 bit pointer + extra
+    const size_t len = strlen(this->name) + (this->type ? strlen(this->type) : 0) + 32; // 32 or 64 bit pointer + extra
     char *msg = malloc(len * sizeof(char));
     if (msg == NULL) {
         fprintf(stderr, "[PureMVC::Notification::%s] Error: Failed to allocate string for Notification (name='%s', type='%s').\n",
-              __func__,this->name ? this->name : "NULL", this->type ? this->type : "NULL");
+              __func__, this->name, this->type ? this->type : "NULL");
         return NULL;
     }
 
