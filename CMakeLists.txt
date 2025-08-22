@@ -36,6 +36,11 @@ target_link_libraries(puremvc PUBLIC collection::collection)
 
 # 5️⃣ Install rules
 include(GNUInstallDirs)
+#include(CMakePackageConfigHelpers)
+#
+#file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/collectionConfig.cmake.in"
+#        "@PACKAGE_INIT@\n\
+#include(\"\${CMAKE_CURRENT_LIST_DIR}/collectionTargets.cmake\")\n")
 
 install(TARGETS puremvc
         EXPORT puremvc-config
