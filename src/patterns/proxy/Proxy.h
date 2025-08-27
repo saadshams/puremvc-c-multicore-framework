@@ -6,8 +6,8 @@
  * and clean up resources used in data processing.
  *
  * @author Saad Shams
+ * @copyright BSD 3-Clause License
  */
-
 #pragma once
 
 #include "puremvc/IProxy.h"
