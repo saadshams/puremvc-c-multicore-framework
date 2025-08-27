@@ -4,6 +4,13 @@
 
 #define PROXY_NAME "Proxy"
 
+/**
+ * @struct IProxy
+ * @brief Represents the state of a data processor.
+ *
+ * This structure keeps track of memory allocation,
+ * current processing index, and results.
+ */
 struct IProxy {
     struct INotifier *notifier;
 
@@ -15,5 +22,23 @@ struct IProxy {
     void (*onRemove)(struct IProxy* self);
 };
 
+/**
+ * @brief Initializes the data processor.
+ *
+ * Allocates memory and sets up internal state needed for data processing.
+ *
+ * @param name The number of elements to allocate.
+ * @param data
+ * @return A pointer to the initialized processor, or NULL on failure.
+ */
 struct IProxy* puremvc_proxy_new(const char* name, void* data);
+
+/**
+ * @brief Initializes the data processor.
+ *
+ * Allocates memory and sets up internal state needed for data processing.
+ *
+ * @param proxy
+ * @return A pointer to the initialized processor, or NULL on failure.
+ */
 void puremvc_proxy_free(struct IProxy** proxy);

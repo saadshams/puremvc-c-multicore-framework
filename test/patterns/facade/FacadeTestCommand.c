@@ -1,5 +1,3 @@
-#pragma once
-
 #include "FacadeTestCommand.h"
 #include "FacadeTestVO.h"
 

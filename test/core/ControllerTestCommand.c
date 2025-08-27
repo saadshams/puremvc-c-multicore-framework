@@ -1,5 +1,3 @@
-#pragma once
-
 #include "ControllerTestCommand.h"
 #include "ControllerTestVO.h"
 

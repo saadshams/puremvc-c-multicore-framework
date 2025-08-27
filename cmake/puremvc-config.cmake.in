@@ -1,0 +1,9 @@
+@PACKAGE_INIT@
+
+include(CMakeFindDependencyMacro)
+
+# Declare dependency so users automatically get it
+find_dependency(collection CONFIG)
+
+# Pull in the auto-generated targets
+include("${CMAKE_CURRENT_LIST_DIR}/puremvc-targets.cmake")

@@ -36,14 +36,9 @@ target_link_libraries(puremvc PUBLIC collection::collection)
 
 # 5️⃣ Install rules
 include(GNUInstallDirs)
-#include(CMakePackageConfigHelpers)
-#
-#file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/collectionConfig.cmake.in"
-#        "@PACKAGE_INIT@\n\
-#include(\"\${CMAKE_CURRENT_LIST_DIR}/collectionTargets.cmake\")\n")
 
 install(TARGETS puremvc
-        EXPORT puremvc-config
+        EXPORT puremvc-targets
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT PureMVCRunTime
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT PureMVCRunTime NAMELINK_COMPONENT PureMVCDevelopment
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT PureMVCDevelopment)
@@ -51,10 +46,27 @@ install(TARGETS puremvc
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 # 6️⃣ Export targets
-install(EXPORT puremvc-config
-        FILE puremvc-config.cmake
+install(EXPORT puremvc-targets
+        FILE puremvc-targets.cmake
         NAMESPACE puremvc::
         DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/puremvc)
+
+# Write our own puremvc-config.cmake wrapper
+include(CMakePackageConfigHelpers)
+#file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/collectionConfig.cmake.in"
+#        "@PACKAGE_INIT@\n\
+#include(\"\${CMAKE_CURRENT_LIST_DIR}/collectionTargets.cmake\")\n")
+
+configure_file(
+        ${CMAKE_CURRENT_SOURCE_DIR}/cmake/puremvc-config.cmake.in
+        ${CMAKE_CURRENT_BINARY_DIR}/puremvc-config.cmake
+        @ONLY
+)
+
+install(FILES
+        ${CMAKE_CURRENT_BINARY_DIR}/puremvc-config.cmake
+        DESTINATION share/puremvc
+)
 
 # 7️⃣ Tests
 option(BUILD_TESTS "Build Tests" OFF)

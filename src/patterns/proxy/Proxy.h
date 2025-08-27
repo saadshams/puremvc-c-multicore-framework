@@ -1,3 +1,13 @@
+/**
+ * @file Proxy.h
+ * @brief Implements core logic for data processing.
+ *
+ * This module provides functions to initialize, process,
+ * and clean up resources used in data processing.
+ *
+ * @author Saad Shams
+ */
+
 #pragma once
 
 #include "puremvc/IProxy.h"
