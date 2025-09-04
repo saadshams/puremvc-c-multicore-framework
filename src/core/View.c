@@ -20,8 +20,8 @@ static void initializeView(struct IView *self) {
 
 static void registerObserver(const struct IView *self, const char *notificationName, const struct IObserver *observer) {
     struct View *this = (struct View *) self;
-    mutex_lock(&this->observerMapMutex);
 
+    mutex_lock(&this->observerMapMutex);
     if (this->observerMap->containsKey(this->observerMap, notificationName)) {
         struct IArray *observers = (struct IArray *) this->observerMap->get(this->observerMap, notificationName);
         observers->push(observers, observer);
@@ -30,7 +30,6 @@ static void registerObserver(const struct IView *self, const char *notificationN
         observers->push(observers, observer);
         this->observerMap->put(this->observerMap, notificationName, observers);
     }
-
     mutex_unlock(&this->observerMapMutex);
 }
 
@@ -60,7 +59,6 @@ static void notifyObservers(const struct IView *self, const struct INotification
         collection_array_free(&copy);
     }
 }
-
 
 static bool compareNotifyContext(const void *element, const void *notifyContext) {
     const struct IObserver *observer = (struct IObserver *) element;
@@ -123,6 +121,7 @@ static bool hasMediator(const struct IView *self, const char *mediatorName) {
 
 static struct IMediator *removeMediator(const struct IView *self, const char *mediatorName) {
     struct View *this = (struct View *) self;
+
     mutex_lock(&this->mediatorMapMutex);
     struct IMediator *mediator = this->mediatorMap->removeItem(this->mediatorMap, mediatorName);
     mutex_unlock(&this->mediatorMapMutex);
