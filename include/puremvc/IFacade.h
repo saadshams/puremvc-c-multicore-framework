@@ -7,7 +7,9 @@
 #include "IProxy.h"
 #include "INotification.h"
 
-struct IFacade {
+struct IFacade { // todo inherit from Notifier
+    struct INotifier *notifier;
+
     void (*initializeFacade)(struct IFacade *self);
     void (*initializeController)(struct IFacade *self);
     void (*initializeModel)(struct IFacade *self);

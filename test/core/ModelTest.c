@@ -11,8 +11,10 @@ int main() {
     testGetInstance();
     testRegisterAndRetrieveProxy();
     testRegisterAndRemoveProxy();
+    testRegisterAndReplaceProxy();
     testHasProxy();
     testOnRegisterAndOnRemove();
+
     testRemoveModel();
     testMultipleModels();
     return 0;
@@ -183,4 +185,41 @@ void testMultipleModels() {
 
     puremvc_model_removeModel("ModelTestKey7");
     puremvc_model_removeModel("ModelTestKey8");
+}
+
+void testRegisterAndReplaceProxy() {
+    const struct IModel *model = puremvc_model_getInstance("ModelTestKey8", puremvc_model_new);
+
+    int *sizes = malloc(sizeof(int) * 2);
+    memset(sizes, 0, sizeof(int) * 2);
+    for(int *data = (int []) {1, 0}, *cursor = sizes; *data != 0; data++, cursor++) // 0 as terminator, or use -1
+        *cursor = *data;
+
+    model->registerProxy(model, puremvc_proxy_new("sizes", sizes));
+
+    const char **colors = malloc(sizeof(char*) * 4);
+    memset(colors, 0, sizeof(char*) * 4);
+    for(const char **data = (const char *[]) {"red", "green", "blue", NULL}, **cursor = colors; *data; data++, cursor++) {
+        *cursor = strdup(*data);
+    }
+
+    model->registerProxy(model, puremvc_proxy_new("sizes", colors));
+
+    const struct IProxy *proxy = model->retrieveProxy(model, "sizes");
+
+    assert(proxy != NULL);
+    const char **data = proxy->getData(proxy);
+
+    // test assertions
+    assert(strcmp(*data, "red") == 0);
+    assert(strcmp(*(data + 1), "green") == 0);
+    assert(strcmp(*(data + 2), "blue") == 0);
+
+    struct IProxy *removedProxy = model->removeProxy(model, "sizes");
+    assert(strcmp(removedProxy->getName(removedProxy), "sizes") == 0);
+    puremvc_proxy_free(&removedProxy);
+
+    assert(model->retrieveProxy(model, "sizes") == NULL);
+    puremvc_model_removeModel("ModelTestKey8");
+    model = NULL;
 }

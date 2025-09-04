@@ -41,25 +41,26 @@ static void notifyObserver(const void *element, int index, const void *notificat
 
 static void notifyObservers(const struct IView *self, const struct INotification *notification) {
     struct View *this = (struct View *) self;
-    mutex_lock_shared(&this->observerMapMutex);
+    struct IArray *copy = NULL;
 
+    mutex_lock_shared(&this->observerMapMutex);
     if (this->observerMap->containsKey(this->observerMap, notification->getName(notification))) {
         // Get a reference to the clone list for this notification name
         const struct IArray *observers = (struct IArray *) this->observerMap->get(this->observerMap, notification->getName(notification));
 
         // Copy observers from reference array to working array,
         // since the reference array may change during the notification loop
-        struct IArray *copy = observers->clone(observers);
-        mutex_unlock(&this->observerMapMutex);
+        copy = observers->clone(observers);
+    }
+    mutex_unlock(&this->observerMapMutex);
 
+    if (copy != NULL) {
         copy->forEach(copy, notifyObserver, notification);
         copy->clear(copy, NULL);
         collection_array_free(&copy);
-        return;
     }
-
-    mutex_unlock(&this->observerMapMutex);
 }
+
 
 static bool compareNotifyContext(const void *element, const void *notifyContext) {
     const struct IObserver *observer = (struct IObserver *) element;
@@ -68,8 +69,8 @@ static bool compareNotifyContext(const void *element, const void *notifyContext)
 
 static void removeObserver(const struct IView *self, const char *notificationName, const void *notifyContext) {
     struct View *this = (struct View *) self;
-    mutex_lock(&this->observerMapMutex);
 
+    mutex_lock(&this->observerMapMutex);
     struct IArray *observers = (struct IArray *) this->observerMap->get(this->observerMap, notificationName);
     struct IObserver *observer = (struct IObserver *) observers->find(observers, compareNotifyContext, notifyContext);
     if (observer != NULL) {
@@ -79,14 +80,13 @@ static void removeObserver(const struct IView *self, const char *notificationNam
     if (observers->size(observers) == 0) {
         this->observerMap->removeItem(this->observerMap, notificationName);
     }
-
     mutex_unlock(&this->observerMapMutex);
 }
 
 static void registerMediator(const struct IView *self, struct IMediator *mediator) {
     struct View *this = (struct View *) self;
-    mutex_lock(&this->mediatorMapMutex);
 
+    mutex_lock(&this->mediatorMapMutex);
     if (this->mediatorMap->containsKey(this->mediatorMap, mediator->getName(mediator))) {
         mutex_unlock(&this->mediatorMapMutex);
         return;
@@ -94,6 +94,7 @@ static void registerMediator(const struct IView *self, struct IMediator *mediato
 
     mediator->notifier->initializeNotifier(mediator->notifier, this->multitonKey);
     this->mediatorMap->put(this->mediatorMap, mediator->getName(mediator), mediator);
+    mutex_unlock(&this->mediatorMapMutex);
 
     char **interests = mediator->listNotificationInterests(mediator);
     for(char **cursor = interests; *cursor; cursor++) {
@@ -102,8 +103,6 @@ static void registerMediator(const struct IView *self, struct IMediator *mediato
     }
     mediator->freeNotificationInterests(mediator, interests);
     mediator->onRegister(mediator);
-
-    mutex_unlock(&this->mediatorMapMutex);
 }
 
 static struct IMediator *retrieveMediator(const struct IView *self, const char *mediatorName) {
@@ -125,8 +124,9 @@ static bool hasMediator(const struct IView *self, const char *mediatorName) {
 static struct IMediator *removeMediator(const struct IView *self, const char *mediatorName) {
     struct View *this = (struct View *) self;
     mutex_lock(&this->mediatorMapMutex);
-
     struct IMediator *mediator = this->mediatorMap->removeItem(this->mediatorMap, mediatorName);
+    mutex_unlock(&this->mediatorMapMutex);
+
     if (mediator != NULL) {
         char **interests = mediator->listNotificationInterests(mediator);
         for (char **cursor = interests; *cursor; cursor++) {
@@ -136,7 +136,6 @@ static struct IMediator *removeMediator(const struct IView *self, const char *me
         mediator->onRemove(mediator);
     }
 
-    mutex_unlock(&this->mediatorMapMutex);
     return mediator;
 }
 

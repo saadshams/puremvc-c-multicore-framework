@@ -21,23 +21,23 @@ static void initializeController(struct IController *self) {
 
 static void executeCommand(const struct IController *self, struct INotification *notification) {
     struct Controller *this = (struct Controller *) self;
-    mutex_lock_shared(&this->commandMapMutex);
 
+    mutex_lock_shared(&this->commandMapMutex);
     struct ICommand *(*factory)() = (struct ICommand *(*)()) this->commandMap->get(this->commandMap, notification->getName(notification));
+    mutex_unlock(&this->commandMapMutex);
+
     if (factory != NULL) {
         struct ICommand *command = factory();
         command->notifier->initializeNotifier(command->notifier, this->multitonKey);
         command->execute(command, notification);
         puremvc_simple_command_free(&command);
     }
-
-    mutex_unlock(&this->commandMapMutex);
 }
 
 static void registerCommand(const struct IController *self, const char *notificationName, struct ICommand *(factory)(void)) {
     struct Controller *this = (struct Controller *) self;
-    mutex_lock(&this->commandMapMutex);
 
+    mutex_lock(&this->commandMapMutex);
     if (this->commandMap->containsKey(this->commandMap, notificationName) == false) {
         const struct IObserver *observer = puremvc_observer_new((const void (*)(const void *, struct INotification *))executeCommand, this);
         this->view->registerObserver(this->view, notificationName, observer);
@@ -45,7 +45,6 @@ static void registerCommand(const struct IController *self, const char *notifica
     } else {
         this->commandMap->replace(this->commandMap, notificationName, factory);
     }
-
     mutex_unlock(&this->commandMapMutex);
 }
 
@@ -59,13 +58,12 @@ static bool hasCommand(const struct IController *self, const char *notificationN
 
 static void removeCommand(const struct IController *self, const char *notificationName) {
     struct Controller *this = (struct Controller *) self;
-    mutex_lock(&this->commandMapMutex);
 
+    mutex_lock(&this->commandMapMutex);
     if (this->commandMap->containsKey(this->commandMap, notificationName)) {
         this->commandMap->removeItem(this->commandMap, notificationName);
         this->view->removeObserver(this->view, notificationName, this);
     }
-
     mutex_unlock(&this->commandMapMutex);
 }
 

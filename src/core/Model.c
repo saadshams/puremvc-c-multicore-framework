@@ -19,19 +19,18 @@ static void initializeModel(struct IModel *self) {
 
 static void registerProxy(const struct IModel *self, struct IProxy *proxy) {
     struct Model *this = (struct Model *) self;
-    mutex_lock(&this->proxyMapMutex);
 
+    mutex_lock(&this->proxyMapMutex);
     proxy->notifier->initializeNotifier(proxy->notifier, this->multitonKey);
-    if (this->proxyMap->containsKey(this->proxyMap, proxy->getName(proxy))) {
-        struct IProxy *previous = (struct IProxy *) this->proxyMap->get(this->proxyMap, proxy->getName(proxy));
-        this->proxyMap->replace(this->proxyMap, proxy->getName(proxy), proxy);
+    if (this->proxyMap->containsKey(this->proxyMap, proxy->getName(proxy))) { // todo test
+        struct IProxy *previous = this->proxyMap->replace(this->proxyMap, proxy->getName(proxy), proxy);
         puremvc_proxy_free(&previous);
     } else {
         this->proxyMap->put(this->proxyMap, proxy->getName(proxy), proxy);
     }
-    proxy->onRegister(proxy);
-
     mutex_unlock(&this->proxyMapMutex);
+
+    proxy->onRegister(proxy);
 }
 
 static struct IProxy *retrieveProxy(const struct IModel *self, const char *proxyName) {
