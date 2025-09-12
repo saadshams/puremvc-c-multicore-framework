@@ -54,10 +54,10 @@ Proxies receive heap-allocated data from providers and become the **owners** of 
 Once a Proxy takes ownership, the provider must not free the data—it's the Proxy’s responsibility 
 to manage and free it.
 This clear ownership prevents memory errors and defines unambiguous lifecycles.
-removeProxy (called becomes the owner and is responsible to free)
+removeProxy (caller becomes the owner and is responsible to free)
 
 **Mediator**
-Mediators hold **weak (non-owning) references** to UI components, which the operating system may create or destroy dynamically based on user interaction.
+Mediators hold **(non-owning) references** to UI components, which the operating system may create or destroy dynamically based on user interaction.
 Because Mediators do not own these components, they do **not** free or manage their lifetimes.
 This avoids dangling pointers and keeps the interaction with UI safe and stable.
 
