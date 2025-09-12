@@ -21,6 +21,7 @@ void testConstructor() {
 
     // test assertions
     assert(proxy != NULL);
+    assert(proxy->notifier != NULL);
     assert(strcmp(proxy->getName(proxy), PROXY_NAME) == 0);
 
     puremvc_proxy_free(&proxy);
@@ -33,7 +34,6 @@ void testConstructor() {
 void testNameAccessors() {
     struct IProxy* proxy = puremvc_proxy_new("TestProxy", NULL);
     assert(proxy != NULL);
-    // assert_non_null(proxy->notifier != NULL);
 
     // test assertions
     assert(strcmp(proxy->getName(proxy), "TestProxy") == 0);

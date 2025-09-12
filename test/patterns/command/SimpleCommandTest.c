@@ -18,6 +18,7 @@ void testConstructor() {
     struct ICommand *command = puremvc_simple_command_new();
 
     assert(command != NULL);
+    assert(command->notifier != NULL);
     puremvc_simple_command_free(&command);
     assert(command == NULL);
 }

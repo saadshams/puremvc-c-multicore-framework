@@ -20,7 +20,7 @@ void testConstructor() {
 
     // test assertions
     assert(mediator != NULL);
-    // assert(mediator->notifier != NULL);
+    assert(mediator->notifier != NULL);
     assert(strcmp(mediator->getName(mediator), MEDIATOR_NAME) == 0);
     puremvc_mediator_free(&mediator);
     assert(mediator == NULL);
@@ -34,7 +34,6 @@ void testNameAccessor() {
 
     // test assertions
     assert(mediator != NULL);
-    // assert(mediator->notifier != NULL);
     assert(strcmp(mediator->getName(mediator), "TestMediator") == 0);
     puremvc_mediator_free(&mediator);
     assert(mediator == NULL);
