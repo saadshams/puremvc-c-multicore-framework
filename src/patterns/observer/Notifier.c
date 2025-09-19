@@ -8,20 +8,20 @@
 
 static struct IFacade *getFacade(const struct INotifier *self) {
     const struct Notifier *this = (struct Notifier *) self;
-    return puremvc_facade_getInstance(this->multitonKey, puremvc_facade_new);
+    return puremvc_facade_getInstance(this->key, puremvc_facade_new);
 }
 
 const char *getMultitonKey(const struct INotifier *self) {
     const struct Notifier *this = (struct Notifier *) self;
-    return this->multitonKey;
+    return this->key;
 }
 
 static void initializeNotifier(struct INotifier *self, const char *key) {
     assert(key != NULL);
     struct Notifier *this = (struct Notifier *) self;
 
-    this->multitonKey = strdup(key);
-    if (this->multitonKey == NULL) {
+    this->key = strdup(key);
+    if (this->key == NULL) {
         fprintf(stderr, "[PureMVC::Notifier::%s] Error: strdup failed for key '%s'.\n", __func__, key);
     }
 }
@@ -34,7 +34,7 @@ static void sendNotification(const struct INotifier *self, const char *notificat
 static struct Notifier *init(struct Notifier *notifier) {
     if (notifier == NULL) return NULL;
     notifier->base.getFacade = getFacade;
-    notifier->base.getMultitonKey = getMultitonKey;
+    notifier->base.getKey = getMultitonKey;
     notifier->base.initializeNotifier = initializeNotifier;
     notifier->base.sendNotification = sendNotification;
     return notifier;
@@ -59,7 +59,7 @@ void puremvc_notifier_free(struct INotifier **notifier) {
     if (notifier == NULL || *notifier == NULL) return;
     struct Notifier *this = (struct Notifier *) *notifier;
 
-    free((void *) this->multitonKey);
+    free((void *) this->key);
 
     free(this);
     *notifier = NULL;

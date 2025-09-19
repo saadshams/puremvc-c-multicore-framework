@@ -5,5 +5,5 @@
 struct Notifier {
     struct INotifier base;
 
-    const char *multitonKey;
+    const char *key;
 };

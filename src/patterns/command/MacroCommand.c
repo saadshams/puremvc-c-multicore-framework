@@ -21,7 +21,7 @@ static void execute(const struct ICommand *self, struct INotification *notificat
     while (this->subCommands->size(this->subCommands) > 0) {
         struct ICommand *(*factory)(void) = (struct ICommand *(*)(void)) this->subCommands->shift(this->subCommands);
         struct ICommand *command = factory();
-        command->notifier->initializeNotifier(command->notifier, self->notifier->getMultitonKey(self->notifier));
+        command->notifier->initializeNotifier(command->notifier, self->notifier->getKey(self->notifier));
         command->execute(command, notification);
         puremvc_simple_command_free(&command);
     }
