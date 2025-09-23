@@ -10,7 +10,7 @@ int main(void) {
     testNameAccessors();
     testDataAccessors();
     testDataAccessors2();
-    testDataReset();
+    testDataReassign();
     return 0;
 }
 
@@ -90,7 +90,7 @@ void testDataAccessors2() {
     assert(proxy == NULL);
 }
 
-void testDataReset() {
+void testDataReassign() {
     const char **colors = malloc(sizeof(char*) * 4);
     memset(colors, 0, sizeof(char*) * 4);
     for(const char **data = (const char *[]) {"red", "green", "blue", NULL}, **cursor = colors; *data; data++, cursor++) {
