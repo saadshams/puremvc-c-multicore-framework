@@ -17,8 +17,10 @@ static void *getData(const struct IProxy *self) {
 
 static void setData(struct IProxy *self, void *data) {
     struct Proxy *this = (struct Proxy *) self;
-    free(this->data);
-    this->data = data;
+    if (this->data != data) {
+        free(this->data);
+        this->data = data;
+    }
 }
 
 static void onRegister(struct IProxy *self) {
