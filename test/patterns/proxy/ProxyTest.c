@@ -10,6 +10,7 @@ int main(void) {
     testNameAccessors();
     testDataAccessors();
     testDataAccessors2();
+    testDataReset();
     return 0;
 }
 
@@ -84,6 +85,31 @@ void testDataAccessors2() {
     assert(strcmp(data, str) == 0);
 
     puremvc_proxy_free(&proxy); // owner: releases proxy and its data
+    data = NULL; // avoid dangling pointer
+
+    assert(proxy == NULL);
+}
+
+void testDataReset() {
+    const char **colors = malloc(sizeof(char*) * 4);
+    memset(colors, 0, sizeof(char*) * 4);
+    for(const char **data = (const char *[]) {"red", "green", "blue", NULL}, **cursor = colors; *data; data++, cursor++) {
+        *cursor = strdup(*data);
+    }
+
+    struct IProxy *proxy = puremvc_proxy_new("colors", colors);
+
+    // Re-assign the same data to ensure the proxy does not free it
+    proxy->setData(proxy, colors);
+
+    const char **data = proxy->getData(proxy);
+
+    assert(strcmp(*data, "red") == 0);
+    assert(strcmp(*(data + 1), "green") == 0);
+    assert(strcmp(*(data + 2), "blue") == 0);
+    assert(*(data + 3) == NULL);
+
+    puremvc_proxy_free(&proxy);
     data = NULL; // avoid dangling pointer
 
     assert(proxy == NULL);
