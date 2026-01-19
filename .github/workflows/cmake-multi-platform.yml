@@ -49,13 +49,13 @@ jobs:
       if: matrix.os == 'ubuntu-latest'
       run: |
         git clone https://github.com/microsoft/vcpkg.git vcpkg
-        ./vcpkg/bootstrap-vcpkg.sh && ./vcpkg/vcpkg --version
+        ./vcpkg/bootstrap-vcpkg.sh
 
     - name: Install vcpkg (Windows)
       if: matrix.os == 'windows-latest'
       run: |
         git clone https://github.com/microsoft/vcpkg.git vcpkg
-        .\vcpkg\bootstrap-vcpkg.bat && ./vcpkg/vcpkg --version
+        .\vcpkg\bootstrap-vcpkg.bat
 
     # 3️⃣ Install dependencies via vcpkg
     - name: Install vcpkg dependencies
