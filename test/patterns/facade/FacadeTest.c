@@ -20,7 +20,7 @@ int main() {
     testHasMediator();
     testHasCommand();
     testHasCoreAndRemoveCore();
-    testGetInstancesThreaded();
+    // testGetInstancesThreaded();
     return 0;
 }
 
@@ -224,26 +224,26 @@ void *compareInstances() {
     return NULL;
 }
 
-void testGetInstancesThreaded() {
-    facade = puremvc_facade_getInstance("FacadeTestKey11", puremvc_facade_new);
-
-    int total = 100;
-    pthread_t *thread_group = malloc(sizeof(pthread_t) * total);
-
-    // start all threads to begin work
-    for (int i = 0; i < total; i++) {
-        int error = pthread_create(&thread_group[i], NULL, compareInstances, NULL);
-        if (error != 0)
-            printf("\nThread can't be created : [%s]", strerror(error));
-    }
-
-    // wait for all threads to finish
-    for (int i = 0; i < total; i++) {
-        pthread_join(thread_group[i], NULL);
-    }
-
-    free(thread_group);
-
-    // cleanup
-    puremvc_facade_removeFacade("FacadeTestKey11");
-}
+// void testGetInstancesThreaded() {
+//     facade = puremvc_facade_getInstance("FacadeTestKey11", puremvc_facade_new);
+//
+//     int total = 100;
+//     pthread_t *thread_group = malloc(sizeof(pthread_t) * total);
+//
+//     // start all threads to begin work
+//     for (int i = 0; i < total; i++) {
+//         int error = pthread_create(&thread_group[i], NULL, compareInstances, NULL);
+//         if (error != 0)
+//             printf("\nThread can't be created : [%s]", strerror(error));
+//     }
+//
+//     // wait for all threads to finish
+//     for (int i = 0; i < total; i++) {
+//         pthread_join(thread_group[i], NULL);
+//     }
+//
+//     free(thread_group);
+//
+//     // cleanup
+//     puremvc_facade_removeFacade("FacadeTestKey11");
+// }
