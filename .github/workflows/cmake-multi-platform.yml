@@ -45,6 +45,31 @@ jobs:
             c_compiler: cl
 
     steps:
+    - name: Install vcpkg
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        git clone https://github.com/microsoft/vcpkg.git vcpkg
+        ./vcpkg/bootstrap-vcpkg.sh
+
+    - name: Install vcpkg (Windows)
+      if: matrix.os == 'windows-latest'
+      run: |
+        git clone https://github.com/microsoft/vcpkg.git vcpkg
+        .\vcpkg\bootstrap-vcpkg.bat
+
+    # 3️⃣ Install dependencies via vcpkg
+    - name: Install vcpkg dependencies
+      run: |
+        ./vcpkg/vcpkg install puremvc
+      shell: bash
+      if: matrix.os == 'ubuntu-latest'
+
+    - name: Install vcpkg dependencies (Windows)
+      run: |
+        .\vcpkg\vcpkg install puremvc
+      shell: powershell
+      if: matrix.os == 'windows-latest'
+
     - uses: actions/checkout@v4
 
     - name: Set reusable strings
