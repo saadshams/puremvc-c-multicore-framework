@@ -216,13 +216,13 @@ void testHasCoreAndRemoveCore() {
     assert(puremvc_facade_hasCore("FacadeTestKey11") == false);
 }
 
-const struct IFacade *facade;
+// const struct IFacade *facade;
 
-void *compareInstances() {
-    assert(facade == puremvc_facade_getInstance("FacadeTestKey11", puremvc_facade_new));
-    assert(puremvc_facade_hasCore("FacadeTestKey11") == true);
-    return NULL;
-}
+// void *compareInstances() {
+//     assert(facade == puremvc_facade_getInstance("FacadeTestKey11", puremvc_facade_new));
+//     assert(puremvc_facade_hasCore("FacadeTestKey11") == true);
+//     return NULL;
+// }
 
 // void testGetInstancesThreaded() {
 //     facade = puremvc_facade_getInstance("FacadeTestKey11", puremvc_facade_new);
