@@ -60,13 +60,13 @@ jobs:
     # 3️⃣ Install dependencies via vcpkg
     - name: Install vcpkg dependencies
       run: |
-        ./vcpkg/vcpkg install puremvc
+        ./vcpkg/vcpkg install osp-collection
       shell: bash
       if: matrix.os == 'ubuntu-latest'
 
     - name: Install vcpkg dependencies (Windows)
       run: |
-        .\vcpkg\vcpkg install puremvc
+        .\vcpkg\vcpkg install osp-collection
       shell: powershell
       if: matrix.os == 'windows-latest'
 
