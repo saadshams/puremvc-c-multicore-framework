@@ -30,10 +30,9 @@ ctest -C Release
 ```
 ### Documentation
 ```shell
-brew install doxygen # Installation and setup
-brew upgrade doxygen
+brew install doxygen # Installation
 doxygen -g # Create Doxyfile
-doxygen && open docs/index.html # To re-generate docs
+doxygen && open docs/index.html # To generate docs
 ```
 
 ### CI / Sanitizer Flags
