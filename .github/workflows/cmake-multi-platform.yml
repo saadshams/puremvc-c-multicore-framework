@@ -60,13 +60,13 @@ jobs:
     # 3️⃣ Install dependencies via vcpkg
     - name: Install vcpkg dependencies
       run: |
-        ./vcpkg/vcpkg install --manifest-root .
+        ./vcpkg/vcpkg install puremvc
       shell: bash
       if: matrix.os == 'ubuntu-latest'
 
     - name: Install vcpkg dependencies (Windows)
       run: |
-        .\vcpkg\vcpkg install --manifest-root .
+        .\vcpkg\vcpkg install puremvc
       shell: powershell
       if: matrix.os == 'windows-latest'
 
