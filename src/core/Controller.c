@@ -34,7 +34,7 @@ static void executeCommand(const struct IController *self, struct INotification 
     }
 }
 
-static void registerCommand(const struct IController *self, const char *notificationName, struct ICommand *(factory)(void)) {
+static void registerCommand(const struct IController *self, const char *notificationName, struct ICommand *(*factory)(void)) {
     struct Controller *this = (struct Controller *) self;
 
     mutex_lock(&this->commandMapMutex);

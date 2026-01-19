@@ -26,7 +26,7 @@ static struct SimpleCommand *alloc() {
     return command;
 }
 
-struct ICommand *puremvc_simple_command_new(void) {
+struct ICommand *puremvc_simple_command_new() {
     return (struct ICommand *) init(alloc());
 }
 
