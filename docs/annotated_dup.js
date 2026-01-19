@@ -1,0 +1,25 @@
+var annotated_dup =
+[
+    [ "Controller", "struct_controller.html", "struct_controller" ],
+    [ "Facade", "struct_facade.html", "struct_facade" ],
+    [ "ICommand", "struct_i_command.html", "struct_i_command" ],
+    [ "IController", "struct_i_controller.html", "struct_i_controller" ],
+    [ "IFacade", "struct_i_facade.html", "struct_i_facade" ],
+    [ "IMacroCommand", "struct_i_macro_command.html", "struct_i_macro_command" ],
+    [ "IMediator", "struct_i_mediator.html", "struct_i_mediator" ],
+    [ "IModel", "struct_i_model.html", "struct_i_model" ],
+    [ "INotification", "struct_i_notification.html", "struct_i_notification" ],
+    [ "INotifier", "struct_i_notifier.html", "struct_i_notifier" ],
+    [ "IObserver", "struct_i_observer.html", "struct_i_observer" ],
+    [ "IProxy", "struct_i_proxy.html", "struct_i_proxy" ],
+    [ "IView", "struct_i_view.html", "struct_i_view" ],
+    [ "MacroCommand", "struct_macro_command.html", "struct_macro_command" ],
+    [ "Mediator", "struct_mediator.html", "struct_mediator" ],
+    [ "Model", "struct_model.html", "struct_model" ],
+    [ "Notification", "struct_notification.html", "struct_notification" ],
+    [ "Notifier", "struct_notifier.html", "struct_notifier" ],
+    [ "Observer", "struct_observer.html", "struct_observer" ],
+    [ "Proxy", "struct_proxy.html", "struct_proxy" ],
+    [ "SimpleCommand", "struct_simple_command.html", "struct_simple_command" ],
+    [ "View", "struct_view.html", "struct_view" ]
+];

@@ -6,9 +6,7 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
 # 2️⃣ Find dependencies
-#include(CMakeFindDependencyMacro)
 find_package(collection REQUIRED CONFIG)
-#find_dependency(collection REQUIRED CONFIG)
 
 # 3️⃣ Define targets
 add_library(puremvc STATIC
@@ -51,17 +49,20 @@ install(EXPORT puremvc-targets
         NAMESPACE puremvc::
         DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/puremvc)
 
-# Write our own puremvc-config.cmake wrapper
+# 7️⃣Package config
 include(CMakePackageConfigHelpers)
-#file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/collectionConfig.cmake.in"
-#        "@PACKAGE_INIT@\n\
-#include(\"\${CMAKE_CURRENT_LIST_DIR}/collectionTargets.cmake\")\n")
 
 configure_file(
         ${CMAKE_CURRENT_SOURCE_DIR}/cmake/puremvc-config.cmake.in
         ${CMAKE_CURRENT_BINARY_DIR}/puremvc-config.cmake
         @ONLY
 )
+
+#configure_package_config_file(
+#        ${CMAKE_CURRENT_LIST_DIR}/cmake/puremvc-config.cmake.in
+#        ${CMAKE_CURRENT_BINARY_DIR}/puremvc-config.cmake
+#        INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/puremvc
+#)
 
 install(FILES
         ${CMAKE_CURRENT_BINARY_DIR}/puremvc-config.cmake
