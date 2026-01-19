@@ -64,6 +64,12 @@ jobs:
       shell: bash
       if: matrix.os == 'ubuntu-latest'
 
+    - name: Show current directory
+      run: |
+        echo "Current directory: $(pwd)"
+        ls -al
+      shell: bash
+
     - name: Install vcpkg dependencies (Windows)
       run: |
         .\vcpkg\vcpkg install
