@@ -14,8 +14,8 @@
 static struct IDictionary *instanceMap;
 
 // mutex for instanceMap
-static MutexOnce token = MUTEX_ONCE_INIT;
 static Mutex mutex;
+static MutexOnce token = MUTEX_ONCE_INIT;
 
 static void initializeFacade(struct IFacade *self) {
     self->initializeModel(self);

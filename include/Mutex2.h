@@ -35,24 +35,32 @@ typedef struct { CRITICAL_SECTION cs; } Mutex;
 #define mutex_unlock(m) LeaveCriticalSection(&(m)->cs)
 #define mutex_lock_shared(m) mutex_lock(m) // Windows doesn't support rwlock natively, so read/write distinction is the same
 
-typedef struct {
-    void (*fn)(void);
-} MutexOnceThunk;
+/* ---------- once support ---------- */
 
 typedef INIT_ONCE MutexOnce;
 #define MUTEX_ONCE_INIT INIT_ONCE_STATIC_INIT
 
+typedef struct {
+    void (*fn)(void);
+} MutexOnceThunk;
+
 static BOOL CALLBACK dispatchOnceWin(PINIT_ONCE InitOnce, PVOID Parameter, PVOID *Context) {
     (void)InitOnce; (void)Context;
-    MutexOnceThunk *thunk = (MutexOnceThunk *)Parameter;
-    thunk->fn();
+    ((MutexOnceThunk *)Parameter)->fn();
     return TRUE;
 }
 
-#define mutex_once(mutexOncePtr, fn) do { \
-    static MutexOnceThunk thunk = { fn }; \
-    InitOnceExecuteOnce((mutexOncePtr), dispatchOnceWin, &thunk, NULL); \
+#define mutex_once(mutexOncePtr, fn) do {                    \
+    static MutexOnceThunk _thunk = { fn };                   \
+    BOOL _ok = InitOnceExecuteOnce(                          \
+        (mutexOncePtr),                                      \
+        dispatchOnceWin,                                     \
+        &_thunk,                                             \
+        NULL                                                 \
+    );                                                       \
+    assert(_ok);                                             \
 } while (0)
+
 #else
 #include <pthread.h>
 typedef pthread_rwlock_t Mutex;
