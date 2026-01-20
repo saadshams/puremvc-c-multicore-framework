@@ -52,7 +52,7 @@ void testNameAccessor() {
  */
 void testViewAccessor() {
     // Create a view object
-    struct Component {} component;
+    struct Component {int x;} component;
     struct IMediator *mediator = puremvc_mediator_new(MEDIATOR_NAME, &component);
 
     // test assertions

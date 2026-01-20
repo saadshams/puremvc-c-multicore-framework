@@ -9,7 +9,7 @@ static void initializeMacroCommand(const struct IMacroCommand *self) {
 
 }
 
-static void addSubCommand(const struct IMacroCommand *self, struct ICommand *(*factory)(void)) {
+static void addSubCommand(const struct IMacroCommand *self, struct ICommand *(*factory)()) {
     const struct MacroCommand *this = (struct MacroCommand *) self;
     this->subCommands->push(this->subCommands, factory);
 }
