@@ -4,7 +4,18 @@
 #include "puremvc/puremvc.h"
 #include "NotifierTest.h"
 
+#include <signal.h>
+#include <stdio.h>
+
+void crash_handler(int sig) {
+    printf("CRASHED with signal %d\n", sig);
+    fflush(stdout);
+    //abort();
+}
+
 int main() {
+    signal(SIGSEGV, crash_handler);
+
     testInstance();
     testRegisterCommandAndSendNotification();
     return 0;
@@ -40,7 +51,7 @@ void testInstance() {
     assert(notifier->getFacade(notifier) != NULL);
 
     puremvc_facade_removeFacade("NotifierTest1");
-    // puremvc_notifier_free(&notifier);
+    puremvc_notifier_free(&notifier);
 }
 
 void testRegisterCommandAndSendNotification() {
