@@ -39,7 +39,7 @@ void testInstance() {
     assert(notifier != NULL);
     assert(notifier->getFacade(notifier) != NULL);
 
-    puremvc_facade_removeFacade("NotifierTest1");
+    // puremvc_facade_removeFacade("NotifierTest1");
     puremvc_notifier_free(&notifier);
 }
 
