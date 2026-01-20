@@ -12,7 +12,39 @@ This guide explains how core components interact, how memory ownership is transf
 
 ---
 
-### 🚀 VCPKG
+### C Environment
+
+Install Visual Studio Build Tools (MSVC)
+👉 https://visualstudio.microsoft.com/downloads/
+
+Select:
+
+✅ C++ build tools
+✅ MSVC v143
+✅ Windows 10/11 SDK
+✅ CMake
+✅ Ninja
+
+Add cl.exe and link.exe to the path
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\<VERSION>\bin\Hostx64\x64
+
+cl
+link
+cmake --version
+ninja --version
+
+macOS
+Install Xcode Command Line Tools
+
+clang --version
+make --version
+
+Install Brew
+install cmake
+
+brew install cmake
+
+### 🚀 Install VCPKG
 
 * **Setup vcpkg:**  
   Clone vcpkg Repository: `git clone https://github.com/microsoft/vcpkg`
