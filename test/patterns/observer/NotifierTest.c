@@ -33,13 +33,13 @@ void testInstance() {
     struct INotifier *notifier = puremvc_notifier_new();
 
     // initialize facade
-    notifier->initializeNotifier(notifier, "Test1");
+    notifier->initializeNotifier(notifier, "NotifierTest1");
 
     // assert
     assert(notifier != NULL);
     assert(notifier->getFacade(notifier) != NULL);
 
-    // puremvc_facade_removeFacade("Test1");
+    // puremvc_facade_removeFacade("NotifierTest1");
     // puremvc_notifier_free(&notifier);
 }
 
@@ -48,7 +48,7 @@ void testRegisterCommandAndSendNotification() {
     struct INotifier *notifier = puremvc_notifier_new();
 
     // initialize facade
-    notifier->initializeNotifier(notifier, "Test2");
+    notifier->initializeNotifier(notifier, "NotifierTest2");
 
     struct Object temp = {4};
 
@@ -63,6 +63,6 @@ void testRegisterCommandAndSendNotification() {
     assert(temp.result == 16);
 
     facade->removeCommand(facade, "TestNote");
-    puremvc_facade_removeFacade("Test2");
+    puremvc_facade_removeFacade("NotifierTest2");
     puremvc_notifier_free(&notifier);
 }
