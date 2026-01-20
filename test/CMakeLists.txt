@@ -41,9 +41,9 @@ add_executable(NotificationTest patterns/observer/NotificationTest.c)
 target_link_libraries(NotificationTest PRIVATE puremvc)
 add_test(NAME PureMVC.NotificationTest COMMAND NotificationTest)
 
-#add_executable(NotifierTest patterns/observer/NotifierTest.c)
-#target_link_libraries(NotifierTest PRIVATE puremvc)
-#add_test(NAME PureMVC.NotifierTest COMMAND NotifierTest)
+add_executable(NotifierTest patterns/observer/NotifierTest.c)
+target_link_libraries(NotifierTest PRIVATE puremvc)
+add_test(NAME PureMVC.NotifierTest COMMAND NotifierTest)
 
 add_executable(ObserverTest patterns/observer/ObserverTest.c)
 target_link_libraries(ObserverTest PRIVATE puremvc)
