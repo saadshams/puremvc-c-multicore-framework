@@ -12,6 +12,24 @@ This guide explains how core components interact, how memory ownership is transf
 
 ---
 
+### 🚀 VCPKG
+
+* **Setup vcpkg:**  
+  Clone vcpkg Repository: `git clone https://github.com/microsoft/vcpkg`
+
+  ```shell
+  ./bootstrap-vcpkg.sh  # Linux/macOS  
+  .\bootstrap-vcpkg.bat # Windows
+  .\vcpkg integrate install # it's only useful for Visual Studio integration on Windows.
+  
+  echo 'export VCPKG_ROOT="/path/to/vcpkg"' >> ~/.zshrc # Set VCPKG_ROOT (adjust the path as needed)
+  echo 'export PATH="$VCPKG_ROOT:$PATH"' >> ~/.zshrc # Add VCPKG to your PATH
+  source ~/.zshrc && vcpkg --version # reload and check the version
+  ```
+
+* Pass to CMake: `-DCMAKE_TOOLCHAIN_FILE=/path/to/vcpkg/scripts/buildsystems/vcpkg.cmake` |
+  `\path\to\vcpkg\scripts\buildsystems\vcpkg.cmake`
+
 ## 🛠️ Build
 ### Debug
 ```shell
