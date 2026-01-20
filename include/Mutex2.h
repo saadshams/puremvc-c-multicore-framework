@@ -40,14 +40,17 @@ typedef INIT_ONCE MutexOnce;
 #define MUTEX_ONCE_INIT INIT_ONCE_STATIC_INIT
 
 // This helper bridges the Windows InitOnce callback to a standard void function
-static BOOL CALLBACK _mutex_win_once_wrapper(PINIT_ONCE InitOnce, PVOID Parameter, PVOID* Context) {
+static BOOL CALLBACK mutex_win_once_wrapper(PINIT_ONCE InitOnce, PVOID Parameter, PVOID* Context) {
+    (void)InitOnce;
+    (void)Context;
+
     void (*func)(void) = (void (*)(void))Parameter;
     func();
     return TRUE;
 }
 
 #define mutex_once(once_ptr, fn) \
-    InitOnceExecuteOnce(once_ptr, _mutex_win_once_wrapper, (PVOID)fn, NULL)
+    InitOnceExecuteOnce(once_ptr, mutex_win_once_wrapper, (PVOID)fn, NULL)
 
 #else
 #include <pthread.h>
