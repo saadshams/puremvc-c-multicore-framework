@@ -13,7 +13,7 @@ struct IFacade {
     void (*initializeModel)(struct IFacade *self);
     void (*initializeView)(struct IFacade *self);
 
-    void (*registerCommand)(const struct IFacade *self, const char *notificationName, struct ICommand *(*factory)(void));
+    void (*registerCommand)(const struct IFacade *self, const char *notificationName, struct ICommand *(*factory)());
     bool (*hasCommand)(const struct IFacade *self, const char *notificationName);
     void (*removeCommand)(const struct IFacade *self, const char *notificationName);
 

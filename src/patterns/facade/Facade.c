@@ -38,7 +38,7 @@ static void initializeView(struct IFacade *self) {
     this->view = puremvc_view_getInstance(this->multitonKey, puremvc_view_new);
 }
 
-static void registerCommand(const struct IFacade *self, const char *notificationName, struct ICommand *(*factory)(void)) {
+static void registerCommand(const struct IFacade *self, const char *notificationName, struct ICommand *(*factory)()) {
     const struct Facade *this = (struct Facade *) self;
     this->controller->registerCommand(this->controller, notificationName, factory);
 }
