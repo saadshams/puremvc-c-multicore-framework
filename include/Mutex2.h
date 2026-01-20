@@ -40,26 +40,15 @@ typedef struct { CRITICAL_SECTION cs; } Mutex;
 typedef INIT_ONCE MutexOnce;
 #define MUTEX_ONCE_INIT INIT_ONCE_STATIC_INIT
 
-typedef struct {
-    void (*fn)(void);
-} MutexOnceThunk;
-
-static BOOL CALLBACK dispatchOnceWin(PINIT_ONCE InitOnce, PVOID Parameter, PVOID *Context) {
-    (void)InitOnce; (void)Context;
-    ((MutexOnceThunk *)Parameter)->fn();
+// This helper bridges the Windows InitOnce callback to a standard void function
+static BOOL CALLBACK _mutex_win_once_wrapper(PINIT_ONCE InitOnce, PVOID Parameter, PVOID* Context) {
+    void (*func)(void) = (void (*)(void))Parameter;
+    func();
     return TRUE;
 }
 
-#define mutex_once(mutexOncePtr, fn) do {                    \
-    static MutexOnceThunk _thunk = { fn };                   \
-    BOOL _ok = InitOnceExecuteOnce(                          \
-        (mutexOncePtr),                                      \
-        dispatchOnceWin,                                     \
-        &_thunk,                                             \
-        NULL                                                 \
-    );                                                       \
-    assert(_ok);                                             \
-} while (0)
+#define mutex_once(once_ptr, fn) \
+InitOnceExecuteOnce(once_ptr, _mutex_win_once_wrapper, (PVOID)fn, NULL)
 
 #else
 #include <pthread.h>
