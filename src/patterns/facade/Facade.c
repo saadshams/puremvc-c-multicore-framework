@@ -201,7 +201,7 @@ void puremvc_facade_removeFacade(const char *key) {
     // puremvc_controller_removeController(key);
 
     struct IFacade *facade = instanceMap->removeItem(instanceMap, key);
-    puremvc_facade_free(&facade);
+    // puremvc_facade_free(&facade);
 
     // mutex_unlock(&mutex);
 }
