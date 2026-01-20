@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <Mutex2.h>
+#include <collection/Mutex.h>
 #include <collection/IDictionary.h>
 
 #include "Facade.h"
