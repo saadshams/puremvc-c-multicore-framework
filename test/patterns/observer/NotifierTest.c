@@ -5,8 +5,8 @@
 #include "NotifierTest.h"
 
 int main() {
-    testInstance();
-    // testRegisterCommandAndSendNotification();
+    // testInstance();
+    testRegisterCommandAndSendNotification();
     return 0;
 }
 
