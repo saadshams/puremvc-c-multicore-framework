@@ -36,7 +36,6 @@ typedef struct { CRITICAL_SECTION cs; } Mutex;
 #define mutex_lock_shared(m) mutex_lock(m) // Windows doesn't support rwlock natively, so read/write distinction is the same
 
 /* ---------- once support ---------- */
-
 typedef INIT_ONCE MutexOnce;
 #define MUTEX_ONCE_INIT INIT_ONCE_STATIC_INIT
 
@@ -48,7 +47,7 @@ static BOOL CALLBACK _mutex_win_once_wrapper(PINIT_ONCE InitOnce, PVOID Paramete
 }
 
 #define mutex_once(once_ptr, fn) \
-InitOnceExecuteOnce(once_ptr, _mutex_win_once_wrapper, (PVOID)fn, NULL)
+    InitOnceExecuteOnce(once_ptr, _mutex_win_once_wrapper, (PVOID)fn, NULL)
 
 #else
 #include <pthread.h>
