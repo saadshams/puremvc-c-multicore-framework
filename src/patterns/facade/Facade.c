@@ -194,7 +194,7 @@ bool puremvc_facade_hasCore(const char *key) {
 
 void puremvc_facade_removeFacade(const char *key) {
     assert(key != NULL);
-    mutex_lock(&mutex);
+    // mutex_lock(&mutex);
 
     // puremvc_model_removeModel(key);
     // puremvc_view_removeView(key);
@@ -203,5 +203,5 @@ void puremvc_facade_removeFacade(const char *key) {
     // struct IFacade *facade = instanceMap->removeItem(instanceMap, key);
     // puremvc_facade_free(&facade);
 
-    mutex_unlock(&mutex);
+    // mutex_unlock(&mutex);
 }
