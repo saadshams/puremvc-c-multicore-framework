@@ -46,7 +46,7 @@ static BOOL CALLBACK dispatchOnceWin(PINIT_ONCE InitOnce, PVOID Parameter, PVOID
 }
 
 #define mutex_once(mutexOncePtr, fn) \
-    InitOnceExecuteOnce(mutexOncePtr, dispatchOnceWin, &(mutex), NULL)
+    InitOnceExecuteOnce((mutexOncePtr), dispatchOnceWin, (PVOID)(fn), NULL)
 #else
 #include <pthread.h>
 typedef pthread_rwlock_t Mutex;
