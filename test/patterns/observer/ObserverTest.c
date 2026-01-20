@@ -30,7 +30,7 @@ static void handleNotification(const void *context, struct INotification *notifi
  */
 void testObserverConstructor() {
     // Create observer
-    struct Object {} object;
+    struct Object {int x;} object;
     struct IObserver *observer = puremvc_observer_new((const void (*)(const void *, struct INotification *))handleNotification, &object);
 
     struct ObserverTestVar *var = malloc(sizeof(struct ObserverTestVar));
@@ -53,7 +53,7 @@ void testObserverConstructor() {
 void testObserverAccessors() {
     // Create observer with null args, then
     // use accessors to set notification method and context
-    struct Object {} object;
+    struct Object {int x;} object;
     struct IObserver *observer = puremvc_observer_new(NULL, NULL);
     observer->setContext(observer, &object);
     observer->setNotify(observer, handleNotification);

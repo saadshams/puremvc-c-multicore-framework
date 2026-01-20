@@ -127,7 +127,7 @@ void testRegisterAndRemoveProxy() {
 
 void testRegisterRetrieveAndRemoveMediator() {
     // register a mediator, remove it, then try to retrieve it
-    struct Object {} object;
+    struct Object {int x;} object;
     const struct IFacade *facade = puremvc_facade_getInstance("FacadeTestKey6", puremvc_facade_new);
     facade->registerMediator(facade, puremvc_mediator_new(MEDIATOR_NAME, &object));
 
@@ -167,7 +167,7 @@ void testHasProxy() {
 
 void testHasMediator() {
     // register a Mediator
-    struct Object {} object;
+    struct Object {int x;} object;
     const struct IFacade *facade = puremvc_facade_getInstance("FacadeTestKey8", puremvc_facade_new);
     facade->registerMediator(facade, puremvc_mediator_new("facadeHasMediatorTest", &object));
 

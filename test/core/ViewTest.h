@@ -34,5 +34,5 @@ struct ViewTestVar {
 };
 
 struct ViewComponent {
-
+    int x;
 };
