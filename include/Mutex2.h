@@ -49,8 +49,13 @@ static BOOL CALLBACK mutex_win_once_wrapper(PINIT_ONCE InitOnce, PVOID Parameter
     return TRUE;
 }
 
-#define mutex_once(once_ptr, fn) \
-    InitOnceExecuteOnce(once_ptr, mutex_win_once_wrapper, (PVOID)fn, NULL)
+#define mutex_once(once_ptr, fn)                                  \
+    InitOnceExecuteOnce(                                         \
+        (once_ptr),                                              \
+        mutex_win_once_wrapper,                                  \
+        (PVOID)(void (*)(void))(fn),                              \
+        NULL                                                      \
+    )
 
 #else
 #include <pthread.h>
