@@ -34,7 +34,7 @@ static void executeCommand(const struct IController *self, struct INotification 
     }
 }
 
-static void registerCommand(const struct IController *self, const char *notificationName, struct ICommand *(*factory)(void)) {
+static void registerCommand(const struct IController *self, const char *notificationName, struct ICommand *(*factory)()) {
     struct Controller *this = (struct Controller *) self;
 
     mutex_lock(&this->commandMapMutex);
@@ -71,8 +71,7 @@ static struct Controller *init(struct Controller *controller) {
     if (controller == NULL) return NULL;
     controller->base.initializeController = initializeController;
     controller->base.executeCommand = executeCommand;
-    // controller->base.registerCommand = registerCommand;
-    controller->base.registerCommand = (void(*)(const struct IController *, const char *, struct ICommand *(*)(void))) registerCommand;
+    controller->base.registerCommand = registerCommand;
     controller->base.hasCommand = hasCommand;
     controller->base.removeCommand = removeCommand;
     return controller;

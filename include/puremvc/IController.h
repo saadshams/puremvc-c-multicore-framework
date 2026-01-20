@@ -7,7 +7,7 @@
 struct IController {
     void (*initializeController)(struct IController *self);
 
-    void (*registerCommand)(const struct IController *self, const char *notificationName, struct ICommand *(*factory)(void));
+    void (*registerCommand)(const struct IController *self, const char *notificationName, struct ICommand *(*factory)());
     void (*executeCommand)(const struct IController *self, struct INotification *notification);
     bool (*hasCommand)(const struct IController *self, const char *notificationName);
     void (*removeCommand)(const struct IController *self, const char *notificationName);
