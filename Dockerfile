@@ -1,6 +1,6 @@
 FROM gcc:latest
 
-# Install required tools
+# Install Dependencies
 RUN apt update && apt install -y cmake git zip
 
 # Install VCPKG
