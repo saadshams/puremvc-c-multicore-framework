@@ -7,7 +7,7 @@
 
 int main() {
     testInstance();
-    // testRegisterCommandAndSendNotification();
+    testRegisterCommandAndSendNotification();
     return 0;
 }
 
