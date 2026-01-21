@@ -1,0 +1,18 @@
+version: "3.9"
+
+services:
+  puremvc:
+    image: puremvc-dev
+    build: .
+    working_dir: /app
+    volumes:
+      - ./:/app
+    stdin_open: true
+    tty: true
+    command: >
+      /bin/bash -c "rm -rf /app/cmake-build-debug/* && \
+      /opt/vcpkg/vcpkg install && \
+      mkdir -p /app/cmake-build-debug && cd /app/cmake-build-debug && \
+      cmake -DBUILD_TESTS=ON -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE=/opt/vcpkg/scripts/buildsystems/vcpkg.cmake .. && \
+      cmake --build . && \
+      ctest -C Debug --output-on-failure"

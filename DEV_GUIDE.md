@@ -12,85 +12,94 @@ This guide explains how core components interact, how memory ownership is transf
 
 ---
 
-### C Environment
+### C Development Environment Setup
 
-Install Visual Studio Build Tools (MSVC)
-👉 https://visualstudio.microsoft.com/downloads/
+#### Windows (MSVC Toolchain)
 
-Select:
+Install Visual Studio Build Tools (MSVC): https://visualstudio.microsoft.com/downloads
 
-✅ C++ build tools
-✅ MSVC v143
-✅ Windows 10/11 SDK
-✅ CMake
-✅ Ninja
+**Select:** C++ build tools, MSVC v143, Windows 10/11 SDK, CMake, Ninja
 
-Add cl.exe and link.exe to the path
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\<VERSION>\bin\Hostx64\x64
+#### Add MSVC tools to PATH
 
+`C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\<VERSION>\bin\Hostx64\x64`
+
+#### Verify Installation
+
+```shell
 cl
 link
 cmake --version
 ninja --version
+```
 
-macOS
-Install Xcode Command Line Tools
+#### macOS (Clang Toolchain)
 
+**Install Xcode Command Line Tools**
+
+`xcode-select --install`
+
+#### Verify compiler tools
+```shell
 clang --version
 make --version
+```
 
-Install Brew
-install cmake
+**Install CMake**
 
+```shell
 brew install cmake
+cmake --version
+```
 
 ### 🚀 Install VCPKG
 
-* **Setup vcpkg:**  
-  Clone vcpkg Repository: `git clone https://github.com/microsoft/vcpkg`
+* **Clone the repository:**  
+  ```shell
+  git clone https://github.com/microsoft/vcpkg.git
+  cd vcpkg
+  ```
+
+* **Bootstrap vcpkg:**  
+  Linux / macOS: `./bootstrap-vcpkg.sh`  
+  Windows (PowerShell or CMD): `.\bootstrap-vcpkg.bat`  
+  Optional (Visual Studio integration on Windows): `.\vcpkg integrate install`  
+
+
+* Set environment variables (Linux / macOS)
 
   ```shell
-  ./bootstrap-vcpkg.sh  # Linux/macOS  
-  .\bootstrap-vcpkg.bat # Windows
-  .\vcpkg integrate install # it's only useful for Visual Studio integration on Windows.
-  
-  echo 'export VCPKG_ROOT="/path/to/vcpkg"' >> ~/.zshrc # Set VCPKG_ROOT (adjust the path as needed)
+  echo 'export VCPKG_ROOT="/path/to/vcpkg"' >> ~/.zshrc # Set VCPKG_ROOT
   echo 'export PATH="$VCPKG_ROOT:$PATH"' >> ~/.zshrc # Add VCPKG to your PATH
   source ~/.zshrc && vcpkg --version # reload and check the version
   ```
-
-* Pass to CMake: `-DCMAKE_TOOLCHAIN_FILE=/path/to/vcpkg/scripts/buildsystems/vcpkg.cmake` |
-  `\path\to\vcpkg\scripts\buildsystems\vcpkg.cmake`
 
 ## 🛠️ Build
 ### Debug
 ```shell
 mkdir -p build && cd build
-cmake -DBUILD_TESTS=ON -DCMAKE_BUILD_TYPE=Debug ..
+cmake -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTS=ON -DCMAKE_TOOLCHAIN_FILE=/path/to/vcpkg/scripts/buildsystems/vcpkg.cmake ..
 cmake --build .
 ctest -C Debug
+```
+
+### Debug + Sanitizer
+```shell
+cmake -B build \
+ -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTS=ON -DCMAKE_TOOLCHAIN_FILE=/path/to/vcpkg/scripts/buildsystems/vcpkg.cmake \
+ -DCMAKE_C_FLAGS="-Wall -Werror -fsanitize=address,undefined -fno-sanitize-recover=all -fno-omit-frame-pointer" \
+ -DCMAKE_EXE_LINKER_FLAGS="-fsanitize=address,undefined" 
+
+cmake --build build
+ctest --test-dir build --output-on-failure
 ```
 
 ### Release
 ```shell
 mkdir -p build-release && cd build-release
-cmake -DBUILD_TESTS=ON -DCMAKE_BUILD_TYPE=Release ..
+cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=ON -DCMAKE_TOOLCHAIN_FILE=/path/to/vcpkg/scripts/buildsystems/vcpkg.cmake ..
 cmake --build .
 ctest -C Release
-```
-### Documentation
-```shell
-brew install doxygen # Installation
-doxygen -g # Create Doxyfile
-doxygen && open docs/index.html # To generate docs
-```
-
-### CI / Sanitizer Flags
-```shell
-cmake -B build \
- -DCMAKE_C_FLAGS="-Wall -Werror -fsanitize=address,undefined -fno-sanitize-recover=all -fno-omit-frame-pointer" \
- -DCMAKE_EXE_LINKER_FLAGS="-fsanitize=address,undefined" \
- -DCMAKE_BUILD_TYPE=Debug
 ```
 
 Windows
@@ -99,10 +108,21 @@ cmake -B build \
   -G "Visual Studio 17 2022" \
   -A x64 \
   -DCMAKE_BUILD_TYPE=Debug \
+  -DBUILD_TESTS=ON \
+  -DCMAKE_TOOLCHAIN_FILE=C:/path/to/vcpkg/scripts/buildsystems/vcpkg.cmake \
   -DCMAKE_C_FLAGS="/W4 /WX /std:c11" \
   -DCMAKE_EXE_LINKER_FLAGS="" \
   -DCMAKE_SHARED_LINKER_FLAGS=""
 ```
+
+### Documentation
+```shell
+brew install doxygen # Installation
+doxygen -g # Create Doxyfile
+doxygen && open docs/index.html # To generate docs
+```
+
+
 ---
 
 ## Ownership Model
