@@ -102,7 +102,7 @@ cmake --build .
 ctest -C Release
 ```
 
-Windows
+### Debug (Windows)
 ```shell
 cmake -B build \
   -G "Visual Studio 17 2022" \

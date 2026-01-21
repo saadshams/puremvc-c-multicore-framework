@@ -1,7 +1,7 @@
-FROM gcc:latest
+FROM ubuntu:22.04
 
 # Install Dependencies
-RUN apt update && apt install -y cmake git zip
+RUN apt update && apt install -y gcc g++ cmake git curl zip
 
 # Install VCPKG
 WORKDIR /opt

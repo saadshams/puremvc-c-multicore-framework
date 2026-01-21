@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   puremvc:
-    image: puremvc-dev
+    image: puremvc
     build: .
     working_dir: /app
     volumes:
