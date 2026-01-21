@@ -35,6 +35,7 @@ void testInstance() {
 
     // initialize facade
     notifier->initializeNotifier(notifier, "NotifierTest1");
+    notifier->getFacade(notifier);
 
     assert(notifier != NULL);
     assert(notifier->getFacade(notifier) != NULL);
