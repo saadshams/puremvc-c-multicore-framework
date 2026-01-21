@@ -122,7 +122,6 @@ doxygen -g # Create Doxyfile
 doxygen && open docs/index.html # To generate docs
 ```
 
-
 ---
 
 ## Ownership Model
