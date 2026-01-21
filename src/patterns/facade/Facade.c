@@ -194,7 +194,13 @@ bool puremvc_facade_hasCore(const char *key) {
 
 void puremvc_facade_removeFacade(const char *key) {
     assert(key != NULL);
+
     mutex_lock(&mutex);
+    if (!instanceMap) {
+        mutex_unlock(&mutex);
+        fprintf(stderr, "[PureMVC::facade::%s] Error: strdup failed for key '%s'.\n", __func__, key);
+        return;
+    }
 
     puremvc_model_removeModel(key);
     puremvc_view_removeView(key);
@@ -204,4 +210,18 @@ void puremvc_facade_removeFacade(const char *key) {
     puremvc_facade_free(&facade);
 
     mutex_unlock(&mutex);
+}
+
+void puremvc_facade_removeFacade2(const char *key) {
+    // assert(key != NULL);
+    // mutex_lock(&mutex);
+
+    // puremvc_model_removeModel(key);
+    // puremvc_view_removeView(key);
+    // puremvc_controller_removeController(key);
+
+    struct IFacade *facade = instanceMap->removeItem(instanceMap, key);
+    if (facade != NULL) puremvc_facade_free(&facade);
+
+    // mutex_unlock(&mutex);
 }

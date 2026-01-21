@@ -78,9 +78,46 @@ cmake --version
 ### Debug
 ```shell
 mkdir -p build && cd build
-cmake -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTS=ON -DCMAKE_TOOLCHAIN_FILE=/path/to/vcpkg/scripts/buildsystems/vcpkg.cmake ..
+cmake -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTS=ON -DCMAKE_TOOLCHAIN_FILE=/path/to/vcpkg/scripts/buildsystems/vcpkg.cmake
 cmake --build .
 ctest -C Debug
+```
+
+### Debug GDB
+
+```shell
+mkdir -p build && cd build
+
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=gcc -DCMAKE_TOOLCHAIN_FILE=/path/to/vcpkg/scripts/buildsystems/vcpkg.cmake ..
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=gcc -DCMAKE_TOOLCHAIN_FILE=/Users/sshams/Documents/microsoft/vcpkg/scripts/buildsystems/vcpkg.cmake
+cmake --build . --parallel
+ctest --test-dir build --output-on-failure --verbose
+
+rm -rf build
+
+cmake -S . -B build-gcc \
+-DCMAKE_TOOLCHAIN_FILE=/Users/sshams/Documents/microsoft/vcpkg/scripts/buildsystems/vcpkg.cmake \
+-DCMAKE_C_COMPILER=gcc \
+-DCMAKE_CXX_COMPILER=g++-14 \
+-DCMAKE_BUILD_TYPE=Release \
+-DBUILD_TESTS=ON \
+-DEXAMPLE_TESTS=ON \
+&& cmake --build build-gcc \
+&& ctest --test-dir build-gcc --output-on-failure --verbose
+
+cmake -S . -B build-gcc \
+-DCMAKE_TOOLCHAIN_FILE=/Users/sshams/Documents/microsoft/vcpkg/scripts/buildsystems/vcpkg.cmake \
+-DCMAKE_C_COMPILER=gcc \
+-DCMAKE_CXX_COMPILER=g++ \
+-DCMAKE_BUILD_TYPE=Release \
+-DCMAKE_C_FLAGS="-g" \
+-DBUILD_TESTS=ON \
+-DEXAMPLE_TESTS=ON \
+&& cmake --build build-gcc \
+&& ctest --test-dir build-gcc --output-on-failure --verbose
+
+cd build-gcc/test
+gdb ./ControllerTest
 ```
 
 ### Debug + Sanitizer
@@ -97,7 +134,7 @@ ctest --test-dir build --output-on-failure
 ### Release
 ```shell
 mkdir -p build-release && cd build-release
-cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=ON -DCMAKE_TOOLCHAIN_FILE=/path/to/vcpkg/scripts/buildsystems/vcpkg.cmake ..
+cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=ON -DCMAKE_TOOLCHAIN_FILE=/path/to/vcpkg/scripts/buildsystems/vcpkg.cmake
 cmake --build .
 ctest -C Release
 ```
@@ -114,6 +151,8 @@ cmake -B build \
   -DCMAKE_EXE_LINKER_FLAGS="" \
   -DCMAKE_SHARED_LINKER_FLAGS=""
 ```
+
+
 
 ### Documentation
 ```shell

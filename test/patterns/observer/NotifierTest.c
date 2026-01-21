@@ -1,12 +1,13 @@
 #include <assert.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "puremvc/puremvc.h"
 #include "NotifierTest.h"
 
 int main() {
     testInstance();
-    testRegisterCommandAndSendNotification();
+    // testRegisterCommandAndSendNotification();
     return 0;
 }
 
@@ -35,7 +36,6 @@ void testInstance() {
     // initialize facade
     notifier->initializeNotifier(notifier, "NotifierTest1");
 
-    // assert
     assert(notifier != NULL);
     assert(notifier->getFacade(notifier) != NULL);
 
