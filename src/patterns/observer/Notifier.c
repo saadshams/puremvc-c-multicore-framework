@@ -1,4 +1,3 @@
-#include <assert.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -17,7 +16,11 @@ const char *getMultitonKey(const struct INotifier *self) {
 }
 
 static void initializeNotifier(struct INotifier *self, const char *key) {
-    assert(key != NULL);
+    if (key == NULL) {
+        fprintf(stderr, "[PureMVC::Notifier::initializeNotifier] Error: key must not be NULL.\n");
+        exit(EXIT_FAILURE);
+    }
+
     struct Notifier *this = (struct Notifier *) self;
 
     this->key = strdup(key);
