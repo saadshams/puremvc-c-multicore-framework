@@ -1,6 +1,7 @@
 /**
  * @file INotifier.h
  * @ingroup PureMVC
+ * @brief INotifier Interface
  *
  * @author Saad Shams <saad.shams@puremvc.org>
  * @copyright BSD 3-Clause License

@@ -1,6 +1,7 @@
 /**
  * @file IMacroCommand.h
  * @ingroup PureMVC
+ * @brief IMacroCommand Interface
  *
  * @author Saad Shams <saad.shams@puremvc.org>
  * @copyright BSD 3-Clause License

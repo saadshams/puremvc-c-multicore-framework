@@ -1,6 +1,7 @@
 /**
  * @file IModel.h
  * @ingroup PureMVC
+ * @brief IModel Interface
  *
  * @author Saad Shams <saad.shams@puremvc.org>
  * @copyright BSD 3-Clause License

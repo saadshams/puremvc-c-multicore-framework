@@ -1,6 +1,7 @@
 /**
  * @file IFacade.h
  * @ingroup PureMVC
+ * @brief IFacade Interface
  *
  * @author Saad Shams <saad.shams@puremvc.org>
  * @copyright BSD 3-Clause License

@@ -1,6 +1,7 @@
 /**
  * @file IView.h
  * @ingroup PureMVC
+ * @brief IView Interface
  *
  * @author Saad Shams <saad.shams@puremvc.org>
  * @copyright BSD 3-Clause License

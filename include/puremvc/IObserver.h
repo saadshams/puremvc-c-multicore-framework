@@ -1,6 +1,7 @@
 /**
  * @file IObserver.h
  * @ingroup PureMVC
+ * @brief IObserver Interface
  *
  * @author Saad Shams <saad.shams@puremvc.org>
  * @copyright BSD 3-Clause License

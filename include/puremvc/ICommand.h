@@ -1,6 +1,7 @@
 /**
  * @file ICommand.h
  * @ingroup PureMVC
+ * @brief ICommand Interface
  *
  * @author Saad Shams <saad.shams@puremvc.org>
  * @copyright BSD 3-Clause License

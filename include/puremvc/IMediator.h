@@ -1,6 +1,7 @@
 /**
  * @file IMediator.h
  * @ingroup PureMVC
+ * @brief IMediator Interface
  *
  * @author Saad Shams <saad.shams@puremvc.org>
  * @copyright BSD 3-Clause License

@@ -13,7 +13,8 @@
 
 /**
  * @struct IController
- * @brief Represents the Controller in the PureMVC framework.
+ * @ingroup PureMVC
+ * @brief IController Interface
  *
  * The Controller maps notifications to command factories and
  * is responsible for executing commands in response to notifications.

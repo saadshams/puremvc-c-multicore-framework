@@ -1,6 +1,7 @@
 /**
  * @file IProxy.h
- * @brief Proxy Interface
+ * @ingroup PureMVC
+ * @brief IProxy Interface
  *
  * @author Saad Shams <saad.shams@puremvc.org>
  * @copyright BSD 3-Clause License
