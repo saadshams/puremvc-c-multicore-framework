@@ -24,25 +24,25 @@ static struct IDictionary *instanceMap;
 static Mutex mutex;
 static MutexOnce token = MUTEX_ONCE_INIT;
 
-static void initializeFacade(struct IFacade *self) {
-    self->initializeModel(self);
-    self->initializeController(self);
-    self->initializeView(self);
+static void initializeFacade(struct IFacade *self, const char **error) {
+    self->initializeModel(self, error);
+    self->initializeController(self, error);
+    self->initializeView(self, error);
 }
 
-static void initializeController(struct IFacade *self) {
+static void initializeController(struct IFacade *self, const char **error) {
     struct Facade *this = (struct Facade *) self;
-    this->controller = puremvc_controller_getInstance(this->multitonKey, puremvc_controller_new);
+    this->controller = puremvc_controller_getInstance(this->multitonKey, puremvc_controller_new, error);
 }
 
-static void initializeModel(struct IFacade *self) {
+static void initializeModel(struct IFacade *self, const char **error) {
     struct Facade *this = (struct Facade *) self;
-    this->model = puremvc_model_getInstance(this->multitonKey, puremvc_model_new);
+    this->model = puremvc_model_getInstance(this->multitonKey, puremvc_model_new, error);
 }
 
-static void initializeView(struct IFacade *self) {
+static void initializeView(struct IFacade *self, const char **error) {
     struct Facade *this = (struct Facade *) self;
-    this->view = puremvc_view_getInstance(this->multitonKey, puremvc_view_new);
+    this->view = puremvc_view_getInstance(this->multitonKey, puremvc_view_new, error);
 }
 
 static void registerCommand(const struct IFacade *self, const char *notificationName, struct ICommand *(*factory)()) {
@@ -172,7 +172,7 @@ static void dispatchOnce() {
     mutex_init(&mutex);
 }
 
-struct IFacade *puremvc_facade_getInstance(const char *key, struct IFacade *(*factory)(const char *, const char **error)) {
+struct IFacade *puremvc_facade_getInstance(const char *key, struct IFacade *(*factory)(const char *, const char **error), const char **error) {
     if (key == NULL || factory == NULL) return NULL;
     mutex_once(&token, dispatchOnce);
     mutex_lock(&mutex);
@@ -181,10 +181,13 @@ struct IFacade *puremvc_facade_getInstance(const char *key, struct IFacade *(*fa
 
     struct IFacade *instance = (struct IFacade *) instanceMap->get(instanceMap, key);
     if (instance == NULL) {
-        const char *error = NULL;
-        instance = factory(key, &error);
+        instance = factory(key, error);
+        if (instance == NULL) return NULL;
+
+        instance->initializeFacade(instance, error);
+        if (*error != NULL) return NULL;
+
         instanceMap->put(instanceMap, key, instance);
-        instance->initializeFacade(instance);
     }
 
     mutex_unlock(&mutex);

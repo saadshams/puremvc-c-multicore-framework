@@ -37,7 +37,7 @@ void testInstance() {
 
     // initialize facade
     notifier->initializeNotifier(notifier, "NotifierTest1");
-    notifier->getFacade(notifier);
+    notifier->getFacade(notifier, &error);
 
     assert(notifier != NULL);
     assert(notifier->getFacade(notifier) != NULL);
@@ -57,11 +57,11 @@ void testRegisterCommandAndSendNotification() {
     struct Object temp = {4};
 
     // get facade instance
-    const struct IFacade *facade = notifier->getFacade(notifier);
+    const struct IFacade *facade = notifier->getFacade(notifier, &error);
 
     // register a command and send notification
     facade->registerCommand(facade, "TestNote", command_new);
-    notifier->sendNotification(notifier, "TestNote", &temp, NULL);
+    notifier->sendNotification(notifier, "TestNote", &temp, NULL, &error);
 
     // assert result
     assert(temp.result == 16);

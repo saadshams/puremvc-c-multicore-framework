@@ -22,7 +22,8 @@ int main() {
 
 void testGetInstance() {
     // Test Factory Method
-    const struct IModel *model = puremvc_model_getInstance("ModelTestKey1", puremvc_model_new);
+    const char *error = NULL;
+    const struct IModel *model = puremvc_model_getInstance("ModelTestKey1", puremvc_model_new, &error);
     assert(model != NULL);
 
     // test assertions
@@ -33,7 +34,8 @@ void testGetInstance() {
 
 void testRegisterAndRetrieveProxy() {
     // register a new and retrieve it.
-    const struct IModel *model = puremvc_model_getInstance("ModelTestKey2", puremvc_model_new);
+    const char *error = NULL;
+    const struct IModel *model = puremvc_model_getInstance("ModelTestKey2", puremvc_model_new, &error);
 
     const char **colors = malloc(sizeof(char*) * 4);
     memset(colors, 0, sizeof(char*) * 4);
@@ -41,7 +43,6 @@ void testRegisterAndRetrieveProxy() {
         *cursor = strdup(*data);
     }
 
-    const char *error = NULL;
     model->registerProxy(model, puremvc_proxy_new("colors", colors, &error));
     const struct IProxy *proxy = model->retrieveProxy(model, "colors");
 
@@ -64,14 +65,14 @@ void testRegisterAndRetrieveProxy() {
 
 void testRegisterAndRemoveProxy() {
     // register a new, remove it, then try to retrieve it
-    const struct IModel *model = puremvc_model_getInstance("ModelTestKey4", puremvc_model_new);
+    const char *error = NULL;
+    const struct IModel *model = puremvc_model_getInstance("ModelTestKey4", puremvc_model_new, &error);
 
     int *sizes = malloc(sizeof(int) * 4), *cursor = sizes;
     memset(sizes, 0, sizeof(int) * 4);
     for(const int *data = (int []) {1, 2, 3, 0}; *data != 0; data++, cursor++) // 0 as terminator, or use -1
         *cursor = *data;
 
-    const char *error = NULL;
     model->registerProxy(model, puremvc_proxy_new("sizes", sizes, &error));
 
     // remove the new
@@ -90,7 +91,8 @@ void testRegisterAndRemoveProxy() {
 
 void testHasProxy() {
     // register a new
-    const struct IModel *model = puremvc_model_getInstance("ModelTestKey5", puremvc_model_new);
+    const char *error = NULL;
+    const struct IModel *model = puremvc_model_getInstance("ModelTestKey5", puremvc_model_new, &error);
 
     const char **aces = malloc(sizeof(char*) * 5), **cursor = aces;
     memset(aces, 0, sizeof(char*) * 5);
@@ -98,7 +100,6 @@ void testHasProxy() {
         *cursor = strdup(*data);
     }
 
-    const char *error = NULL;
     model->registerProxy(model, puremvc_proxy_new("aces", aces, &error));
 
     // assert that the model.hasProxy method returns true
@@ -121,7 +122,8 @@ void testHasProxy() {
 
 void testOnRegisterAndOnRemove() {
     // Get a Multiton Model instance
-    const struct IModel *model = puremvc_model_getInstance("ModelTestKey6", puremvc_model_new);
+    const char *error = NULL;
+    const struct IModel *model = puremvc_model_getInstance("ModelTestKey6", puremvc_model_new, &error);
 
     // Create and register the test mediator
     struct IProxy *modelTestProxy = model_test_proxy_new("ModelTestProxy", NULL);
@@ -143,13 +145,13 @@ void testOnRegisterAndOnRemove() {
 
 void testRemoveModel() {
     // Get a Multiton Model instance
-    puremvc_model_getInstance("ModelTestKey6", puremvc_model_new);
+    const char *error = NULL;
+    puremvc_model_getInstance("ModelTestKey6", puremvc_model_new, &error);
 
     // remove the model
     puremvc_model_removeModel("ModelTestKey6");
 
     // re-create the model without throwing an exception
-    const char *error = NULL;
     puremvc_model_new("ModelTestKey6", &error);
 
     // cleanup
@@ -158,8 +160,9 @@ void testRemoveModel() {
 
 void testMultipleModels() {
     // Get a Multiton Model instance
-    const struct IModel *model1 = puremvc_model_getInstance("ModelTestKey7", puremvc_model_new);
-    const struct IModel *model2 = puremvc_model_getInstance("ModelTestKey8", puremvc_model_new);
+    const char *error = NULL;
+    const struct IModel *model1 = puremvc_model_getInstance("ModelTestKey7", puremvc_model_new, &error);
+    const struct IModel *model2 = puremvc_model_getInstance("ModelTestKey8", puremvc_model_new, &error);
 
     const char **colors = malloc(sizeof(char*) * 4);
     memset(colors, 0, sizeof(char*) * 4);
@@ -173,7 +176,6 @@ void testMultipleModels() {
         *cursor = strdup(*data);
     }
 
-    const char *error = NULL;
     model1->registerProxy(model1, puremvc_proxy_new("colors", colors, &error));
     model2->registerProxy(model2, puremvc_proxy_new("aces", aces, &error));
 
@@ -193,14 +195,14 @@ void testMultipleModels() {
 }
 
 void testRegisterAndReplaceProxy() {
-    const struct IModel *model = puremvc_model_getInstance("ModelTestKey8", puremvc_model_new);
+    const char *error = NULL;
+    const struct IModel *model = puremvc_model_getInstance("ModelTestKey8", puremvc_model_new, &error);
 
     int *sizes = malloc(sizeof(int) * 2);
     memset(sizes, 0, sizeof(int) * 2);
     for(int *data = (int []) {1, 0}, *cursor = sizes; *data != 0; data++, cursor++) // 0 as terminator, or use -1
         *cursor = *data;
 
-    const char *error = NULL;
     model->registerProxy(model, puremvc_proxy_new("sizes", sizes, &error));
 
     const char **colors = malloc(sizeof(char*) * 4);

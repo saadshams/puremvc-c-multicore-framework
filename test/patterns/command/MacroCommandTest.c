@@ -35,14 +35,14 @@ void testMacroCommandExecute() {
 }
 
 void testRegisterAndExecuteCommand() {
-    const struct IController *controller = puremvc_controller_getInstance("ControllerTestKey1", puremvc_controller_new);
+    const char *error = NULL;
+    const struct IController *controller = puremvc_controller_getInstance("ControllerTestKey1", puremvc_controller_new, &error);
     controller->registerCommand(controller, "MacroCommandTest", (struct ICommand *(*)(void)) macro_command_test_command_new);
 
-    const struct IView *view = puremvc_view_getInstance("ControllerTestKey1", puremvc_view_new);
+    const struct IView *view = puremvc_view_getInstance("ControllerTestKey1", puremvc_view_new, &error);
 
     struct MacroCommandTestVO *vo = malloc(sizeof(struct MacroCommandTestVO));
     vo->input = 5;
-    const char *error = NULL;
     struct INotification *notification = puremvc_notification_new("MacroCommandTest", vo, NULL, &error);
 
     view->notifyObservers(view, notification);

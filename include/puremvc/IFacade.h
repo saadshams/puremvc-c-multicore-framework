@@ -23,17 +23,29 @@
  * and notification dispatching for a given multiton key.
  */
 struct IFacade {
-    /** @brief Initializes the facade and its internal components. */
-    void (*initializeFacade)(struct IFacade *self);
+    /** @brief Initializes the facade and its internal components.
+     * @param self Pointer to the Facade instance.
+     * @param error Out-param for a static error string on failure (NULL on success).
+     */
+    void (*initializeFacade)(struct IFacade *self, const char **error);
 
-    /** @brief Initializes the controller. */
-    void (*initializeController)(struct IFacade *self);
+    /** @brief Initializes the controller.
+     * @param self Pointer to the Facade instance.
+     * @param error Out-param for a static error string on failure (NULL on success).
+     */
+    void (*initializeController)(struct IFacade *self, const char **error);
 
-    /** @brief Initializes the model. */
-    void (*initializeModel)(struct IFacade *self);
+    /** @brief Initializes the model.
+     * @param self Pointer to the Facade instance.
+     * @param error Out-param for a static error string on failure (NULL on success).
+     */
+    void (*initializeModel)(struct IFacade *self, const char **error);
 
-    /** @brief Initializes the view. */
-    void (*initializeView)(struct IFacade *self);
+    /** @brief Initializes the view.
+     * @param self Pointer to the Facade instance.
+     * @param error Out-param for a static error string on failure (NULL on success).
+     */
+    void (*initializeView)(struct IFacade *self, const char **error);
 
     /** @brief Registers a command factory for a notification name. */
     void (*registerCommand)(const struct IFacade *self, const char *notificationName, struct ICommand *(*factory)());
@@ -96,9 +108,10 @@ void puremvc_facade_free(struct IFacade **facade);
  *
  * @param key Multiton key.
  * @param factory Factory function used to create the facade if it does not exist.
+ * @param error Out-param for a static error string on failure (NULL on success).
  * @return Pointer to the IFacade instance.
  */
-struct IFacade *puremvc_facade_getInstance(const char *key, struct IFacade *(*factory)(const char *key, const char **error));
+struct IFacade *puremvc_facade_getInstance(const char *key, struct IFacade *(*factory)(const char *key, const char **error), const char **error);
 
 /**
  * @brief Checks whether a facade core exists for a multiton key.

@@ -22,9 +22,10 @@ struct INotifier {
      * @brief Gets the facade instance associated with this notifier.
      *
      * @param self Pointer to this notifier instance.
+     * @param error Out-param for a static error string on failure (NULL on success).
      * @return Pointer to the IFacade instance.
      */
-    struct IFacade *(*getFacade)(const struct INotifier *self);
+    struct IFacade *(*getFacade)(const struct INotifier *self, const char **error);
 
     /**
     * @brief Gets the multiton key for this notifier.
@@ -51,8 +52,9 @@ struct INotifier {
      * @param notificationName Name of the notification.
      * @param body Optional pointer to the notification body.
      * @param type Optional type string for the notification.
+     * @param error Out-param for a static error string on failure (NULL on success).
      */
-    void (*sendNotification)(const struct INotifier *self, const char *notificationName, void *body, const char *type);
+    void (*sendNotification)(const struct INotifier *self, const char *notificationName, void *body, const char *type, const char **error);
 };
 
 /**

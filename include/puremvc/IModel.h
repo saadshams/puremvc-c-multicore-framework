@@ -30,8 +30,9 @@ struct IModel {
      * Typically, invoked internally during construction.
      *
      * @param self Pointer to the Model instance.
+     * @param error Out-param for a static error string on failure (NULL on success).
      */
-    void (*initializeModel)(struct IModel *self);
+    void (*initializeModel)(struct IModel *self, const char **error);
 
     /**
      * @brief Registers a Proxy with the Model.
@@ -109,12 +110,12 @@ void puremvc_model_free(struct IModel **model);
  * using the provided factory function.
  *
  * @param key     Unique identifier for the Model instance.
- * @param factory Factory function used to create the Model
- *                if it does not already exist.
+ * @param factory Factory function used to create the Model if it does not exist.
+ * @param error Out-param for a static error string on failure (NULL on success).
  *
  * @return Pointer to the Model instance.
  */
-struct IModel *puremvc_model_getInstance(const char *key, struct IModel *(*factory)(const char *key, const char **error));
+struct IModel *puremvc_model_getInstance(const char *key, struct IModel *(*factory)(const char *key, const char **error), const char **error);
 
 /**
  * @brief Removes a Model instance associated with a key.

@@ -20,7 +20,7 @@ static struct IDictionary *instanceMap;
 static MutexOnce token = MUTEX_ONCE_INIT;
 static Mutex mutex;
 
-static void initializeModel(struct IModel *self) {
+static void initializeModel(struct IModel *self, const char **error) {
 
 }
 
@@ -122,8 +122,8 @@ static void dispatchOnce() {
     mutex_init(&mutex);
 }
 
-struct IModel *puremvc_model_getInstance(const char *key, struct IModel *(*factory)(const char *key, const char **error)) {
-    if (key == NULL || factory == NULL) return NULL;
+struct IModel *puremvc_model_getInstance(const char *key, struct IModel *(*factory)(const char *key, const char **error), const char **error) {
+    if (key == NULL) return *error = "[PureMVC::Model::getInstance] Error: key or factory must not be NULL.", NULL;
     mutex_once(&token, dispatchOnce);
     mutex_lock(&mutex);
 
@@ -131,10 +131,13 @@ struct IModel *puremvc_model_getInstance(const char *key, struct IModel *(*facto
 
     struct IModel *instance = (struct IModel *) instanceMap->get(instanceMap, key);
     if (instance == NULL) {
-        const char *error = NULL;
-        instance = factory(key, &error);
+        instance = factory(key, error);
+        if (instance == NULL) return NULL;
+
+        instance->initializeModel(instance, error);
+        if (*error != NULL) return NULL;
+
         instanceMap->put(instanceMap, key, instance);
-        instance->initializeModel(instance);
     }
 
     mutex_unlock(&mutex);

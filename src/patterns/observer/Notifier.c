@@ -13,9 +13,9 @@
 #include "Notifier.h"
 #include "puremvc/IFacade.h"
 
-static struct IFacade *getFacade(const struct INotifier *self) {
+static struct IFacade *getFacade(const struct INotifier *self, const char **error) {
     const struct Notifier *this = (struct Notifier *) self;
-    return puremvc_facade_getInstance(this->key, puremvc_facade_new);
+    return puremvc_facade_getInstance(this->key, puremvc_facade_new, error);
 }
 
 const char *getMultitonKey(const struct INotifier *self) {
@@ -37,8 +37,8 @@ static void initializeNotifier(struct INotifier *self, const char *key) {
     }
 }
 
-static void sendNotification(const struct INotifier *self, const char *notificationName, void *body, const char *type) {
-    const struct IFacade *facade = self->getFacade(self);
+static void sendNotification(const struct INotifier *self, const char *notificationName, void *body, const char *type, const char **error) {
+    const struct IFacade *facade = self->getFacade(self, error);
     facade->sendNotification(facade, notificationName, body, type);
 }
 

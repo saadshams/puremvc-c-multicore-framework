@@ -21,8 +21,11 @@
  * for delivering notifications to interested parties.
  */
 struct IView {
-    /** @brief Initializes the view. */
-    void (*initializeView)(struct IView *self);
+    /** @brief Initializes the view.
+     * @param self Pointer to the View instance.
+     * @param error Out-param for a static error string on failure (NULL on success).
+     */
+    void (*initializeView)(struct IView *self, const char **error);
 
     /** @brief Registers an observer for a notification name. */
     void (*registerObserver)(const struct IView *self, const char *notificationName, const struct IObserver *observer);
@@ -67,9 +70,10 @@ void puremvc_view_free(struct IView **view);
  *
  * @param key Multiton key.
  * @param factory Factory function used to create the view if it does not exist.
+ * @param error Out-param for a static error string on failure (NULL on success).
  * @return Pointer to the IView instance.
  */
-struct IView *puremvc_view_getInstance(const char *key, struct IView *(*factory)(const char *key, const char **error));
+struct IView *puremvc_view_getInstance(const char *key, struct IView *(*factory)(const char *key, const char **error), const char **error);
 
 /**
  * @brief Removes the view instance for a multiton key.

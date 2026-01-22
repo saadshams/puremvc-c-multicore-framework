@@ -8,7 +8,8 @@ static char **listNotificationInterests(const struct IMediator *self) {
 }
 
 static void handleNotification(const struct IMediator *self, struct INotification *notification) {
-    const struct IFacade *facade = self->notifier->getFacade(self->notifier);
+    const char *error = NULL;
+    const struct IFacade *facade = self->notifier->getFacade(self->notifier, &error);
     struct IMediator *mediator = facade->removeMediator(facade, self->getName(self));
     puremvc_mediator_free(&mediator);
 }

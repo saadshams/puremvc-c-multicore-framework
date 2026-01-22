@@ -21,7 +21,7 @@ static struct IDictionary *instanceMap;
 static MutexOnce token = MUTEX_ONCE_INIT;
 static Mutex mutex;
 
-static void initializeView(struct IView *self) {
+static void initializeView(struct IView *self, const char **error) {
 
 }
 
@@ -207,8 +207,8 @@ static void dispatchOnce() {
     mutex_init(&mutex);
 }
 
-struct IView *puremvc_view_getInstance(const char *key, struct IView *(*factory)(const char *key, const char **error)) {
-    if (key == NULL || factory == NULL) return NULL;
+struct IView *puremvc_view_getInstance(const char *key, struct IView *(*factory)(const char *key, const char **error), const char **error) {
+    if (key == NULL) return *error = "[PureMVC::View::getInstance] Error: key or factory must not be NULL.", NULL;
     mutex_once(&token, dispatchOnce);
     mutex_lock(&mutex);
 
@@ -216,10 +216,13 @@ struct IView *puremvc_view_getInstance(const char *key, struct IView *(*factory)
 
     struct IView *instance = (struct IView *) instanceMap->get(instanceMap, key);
     if (instance == NULL) {
-        const char *error = NULL;
-        instance = factory(key, &error);
+        instance = factory(key, error);
+        if (instance == NULL) return NULL;
+
+        instance->initializeView(instance, error);
+        if (*error != NULL) return NULL;
+
         instanceMap->put(instanceMap, key, instance);
-        instance->initializeView(instance);
     }
 
     mutex_unlock(&mutex);

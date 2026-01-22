@@ -22,7 +22,8 @@ int main() {
 
 void testGetInstance() {
     // Test Factory Method
-    const struct IController *controller = puremvc_controller_getInstance("ControllerTestKey1", puremvc_controller_new);
+    const char *error = NULL;
+    const struct IController *controller = puremvc_controller_getInstance("ControllerTestKey1", puremvc_controller_new, &error);
 
     // test assertions
     assert(controller != NULL);
@@ -33,13 +34,13 @@ void testGetInstance() {
 
 void testRegisterAndExecuteCommand() {
     // Create the controller, register the ControllerTestCommand to handle 'ControllerTest' notes
-    const struct IController *controller = puremvc_controller_getInstance("ControllerTestKey2", puremvc_controller_new);
+    const char *error = NULL;
+    const struct IController *controller = puremvc_controller_getInstance("ControllerTestKey2", puremvc_controller_new, &error);
     controller->registerCommand(controller, "ControllerTest1", test_controller_command_new);
 
     // Create a 'ControllerTest' note
     struct ControllerTestVO *vo = malloc(sizeof(struct ControllerTestVO));
     *vo = (struct ControllerTestVO){12, 0};
-    const char *error = NULL;
     struct INotification *notification = puremvc_notification_new("ControllerTest1", vo, NULL, &error);
 
     // Tell the controller to execute the Command associated with the note
@@ -58,13 +59,13 @@ void testRegisterAndExecuteCommand() {
 
 void testRegisterAndRemoveCommand() {
     // Create the controller, register the ControllerTestCommand to handle 'ControllerTest' notes
-    const struct IController *controller = puremvc_controller_getInstance("ControllerTestKey3", puremvc_controller_new);
+    const char *error = NULL;
+    const struct IController *controller = puremvc_controller_getInstance("ControllerTestKey3", puremvc_controller_new, &error);
     controller->registerCommand(controller, "ControllerRemoveTest", test_controller_command_new);
 
     // Create a 'ControllerTest' note
     struct ControllerTestVO *vo = malloc(sizeof(struct ControllerTestVO));
     *vo = (struct ControllerTestVO){12, 0};
-    const char *error = NULL;
     struct INotification *notification = puremvc_notification_new("ControllerRemoveTest", vo, NULL, &error);
 
     // Tell the controller to execute the Command associated with the note
@@ -95,7 +96,8 @@ void testRegisterAndRemoveCommand() {
 
 void testHasCommand() {
     // register the ControllerTestCommand to handle 'hasCommandTest' notes
-    const struct IController *controller = puremvc_controller_getInstance("ControllerTestKey4", puremvc_controller_new);
+    const char *error = NULL;
+    const struct IController *controller = puremvc_controller_getInstance("ControllerTestKey4", puremvc_controller_new, &error);
 
     // test that hasCommand returns true for hasCommandTest notifications
     controller->registerCommand(controller, "hasCommandTest", test_controller_command_new);
@@ -113,7 +115,8 @@ void testHasCommand() {
 
 void testReregisterAndExecuteCommand() {
     // Fetch the controller, register the ControllerTestCommand2 to handle 'ControllerTest2' notes
-    const struct IController *controller = puremvc_controller_getInstance("ControllerTestKey5", puremvc_controller_new);
+    const char *error = NULL;
+    const struct IController *controller = puremvc_controller_getInstance("ControllerTestKey5", puremvc_controller_new, &error);
     controller->registerCommand(controller, "ControllerTest2", test_controller_command2_new);
 
     // Remove the Command from the Controller
@@ -125,11 +128,10 @@ void testReregisterAndExecuteCommand() {
     // Create a 'ControllerTest2' note
     struct ControllerTestVO *vo = malloc(sizeof(struct ControllerTestVO));
     *vo = (struct ControllerTestVO){12, 0};
-    const char *error = NULL;
     struct INotification *notification = puremvc_notification_new("ControllerTest2", vo, NULL, &error);
 
     // retrieve a reference to the View from the same core.
-    struct IView *view = puremvc_view_getInstance("ControllerTestKey5", puremvc_view_new);
+    struct IView *view = puremvc_view_getInstance("ControllerTestKey5", puremvc_view_new, &error);
     view->notifyObservers(view, notification);
 
     // test assertions
@@ -150,7 +152,8 @@ void testReregisterAndExecuteCommand() {
 }
 
 void testRegisterAndUpdateCommand() {
-    const struct IController *controller = puremvc_controller_getInstance("ControllerTestKey3_2", puremvc_controller_new);
+    const char *error = NULL;
+    const struct IController *controller = puremvc_controller_getInstance("ControllerTestKey3_2", puremvc_controller_new, &error);
 
     // first registration
     controller->registerCommand(controller, "ControllerTest2", test_controller_command_new);
@@ -160,7 +163,6 @@ void testRegisterAndUpdateCommand() {
 
     struct ControllerTestVO *vo = malloc(sizeof(struct ControllerTestVO));
     *vo = (struct ControllerTestVO){12, 10};
-    const char *error = NULL;
     struct INotification *notification = puremvc_notification_new("ControllerTest2", vo, NULL, &error);
     controller->executeCommand(controller, notification);
 
@@ -175,13 +177,13 @@ void testRegisterAndUpdateCommand() {
 
 void testRemoveController() {
     // Get a Multiton Controller instance
-    puremvc_controller_getInstance("ControllerTestKey4", puremvc_controller_new);
+    const char *error = NULL;
+    puremvc_controller_getInstance("ControllerTestKey4", puremvc_controller_new, &error);
 
     // remove the controller
     puremvc_controller_removeController("ControllerTestKey4");
 
     // re-create the controller without throwing an exception
-    const char *error = NULL;
     puremvc_controller_new("ControllerTestKey4", &error);
 
     // cleanup

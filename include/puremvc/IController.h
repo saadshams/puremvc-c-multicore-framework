@@ -19,8 +19,11 @@
  * is responsible for executing commands in response to notifications.
  */
 struct IController {
-    /** @brief Initializes the controller. */
-    void (*initializeController)(struct IController *self);
+    /** @brief Initializes the controller.
+     * @param self Pointer to the Controller instance.
+     * @param error Out-param for a static error string on failure (NULL on success).
+     */
+    void (*initializeController)(struct IController *self, const char **error);
 
     /** @brief Registers a command factory for a notification name. */
     void (*registerCommand)(const struct IController *self, const char *notificationName, struct ICommand *(*factory)());
@@ -56,9 +59,10 @@ void puremvc_controller_free(struct IController **controller);
  *
  * @param key Multiton key.
  * @param factory Factory function used to create the controller if it does not exist.
+ * @param error Out-param for a static error string on failure (NULL on success).
  * @return Pointer to the IController instance, or NULL on failure.
  */
-struct IController *puremvc_controller_getInstance(const char *key, struct IController *(*factory)(const char *key, const char **error));
+struct IController *puremvc_controller_getInstance(const char *key, struct IController *(*factory)(const char *key, const char **error), const char **error);
 
 /**
  * @brief Removes the controller instance for a multiton key.

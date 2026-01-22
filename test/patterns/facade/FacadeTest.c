@@ -25,7 +25,8 @@ int main() {
 
 void testGetInstance() {
     // Test Factory Method
-    const struct IFacade *facade = puremvc_facade_getInstance("FacadeTestKey1", puremvc_facade_new);
+    const char *error = NULL;
+    const struct IFacade *facade = puremvc_facade_getInstance("FacadeTestKey1", puremvc_facade_new, &error);
 
     // test assertions
     assert(facade != NULL);
@@ -35,7 +36,8 @@ void testGetInstance() {
 void testRegisterCommandAndSendNotification() {
     // Create the Facade, register the FacadeTestCommand to
     // handle 'FacadeTest' notifications
-    const struct IFacade *facade = puremvc_facade_getInstance("FacadeTestKey2", puremvc_facade_new);
+    const char *error = NULL;
+    const struct IFacade *facade = puremvc_facade_getInstance("FacadeTestKey2", puremvc_facade_new, &error);
     facade->registerCommand(facade, "FacadeTestNote", test_facade_command_new);
 
     // Send notification. The Command associated with the event
@@ -54,7 +56,8 @@ void testRegisterCommandAndSendNotification() {
 void testRegisterAndRemoveCommandAndSendNotification() {
     // Create the Facade, register the FacadeTestCommand to
     // handle 'FacadeTest' events
-    const struct IFacade *facade = puremvc_facade_getInstance("FacadeTestKey3", puremvc_facade_new);
+    const char *error = NULL;
+    const struct IFacade *facade = puremvc_facade_getInstance("FacadeTestKey3", puremvc_facade_new, &error);
     facade->registerCommand(facade, "FacadeTestNote", test_facade_command_new);
     facade->removeCommand(facade, "FacadeTestNote");
 
@@ -72,7 +75,8 @@ void testRegisterAndRemoveCommandAndSendNotification() {
 
 void testRegisterAndRetrieveProxy() {
     // register a new and retrieve it.
-    const struct IFacade *facade = puremvc_facade_getInstance("FacadeTestKey4", puremvc_facade_new);
+    const char *error = NULL;
+    const struct IFacade *facade = puremvc_facade_getInstance("FacadeTestKey4", puremvc_facade_new, &error);
 
     const char **colors = malloc(sizeof(char*) * 4);
     memset(colors, 0, sizeof(char*) * 4);
@@ -80,7 +84,6 @@ void testRegisterAndRetrieveProxy() {
         *cursor = strdup(*data);
     }
 
-    const char *error = NULL;
     facade->registerProxy(facade, puremvc_proxy_new("colors", colors, &error));
     const struct IProxy *proxy = facade->retrieveProxy(facade, "colors");
 
@@ -105,14 +108,14 @@ void testRegisterAndRetrieveProxy() {
 
 void testRegisterAndRemoveProxy() {
     // register a new, remove it, then try to retrieve it
-    const struct IFacade *facade = puremvc_facade_getInstance("FacadeTestKey5", puremvc_facade_new);
+    const char *error = NULL;
+    const struct IFacade *facade = puremvc_facade_getInstance("FacadeTestKey5", puremvc_facade_new, &error);
     const char **sizes = malloc(sizeof(char*) * 4);
     memset(sizes, 0, sizeof(char*) * 4);
     for(const char **data = (const char *[]) {"7", "13", "21", NULL}, **cursor = sizes; *data; data++, cursor++) {
         *cursor = strdup(*data);
     }
 
-    const char *error = NULL;
     facade->registerProxy(facade, puremvc_proxy_new("sizes", sizes, &error));
 
     // remove the new
@@ -130,10 +133,10 @@ void testRegisterAndRemoveProxy() {
 
 void testRegisterRetrieveAndRemoveMediator() {
     // register a mediator, remove it, then try to retrieve it
-    struct Object {int x;} object;
-    const struct IFacade *facade = puremvc_facade_getInstance("FacadeTestKey6", puremvc_facade_new);
-
     const char *error = NULL;
+    struct Object {int x;} object;
+    const struct IFacade *facade = puremvc_facade_getInstance("FacadeTestKey6", puremvc_facade_new, &error);
+
     facade->registerMediator(facade, puremvc_mediator_new(MEDIATOR_NAME, &object, &error));
 
     // retrieve the mediator
@@ -153,13 +156,13 @@ void testRegisterRetrieveAndRemoveMediator() {
 
 void testHasProxy() {
     // register a Proxy
-    const struct IFacade *facade = puremvc_facade_getInstance("FacadeTestKey7", puremvc_facade_new);
+    const char *error = NULL;
+    const struct IFacade *facade = puremvc_facade_getInstance("FacadeTestKey7", puremvc_facade_new, &error);
     int *sizes = malloc(sizeof(int) * 4), *cursor = sizes;
     memset(sizes, 0, sizeof(int) * 4);
     for(const int *data = (int []) {1, 2, 3, 0}; *data != 0; data++, cursor++) // 0 as terminator, or use -1
         *cursor = *data;
 
-    const char *error = NULL;
     facade->registerProxy(facade, puremvc_proxy_new("hasProxyTest", sizes, &error));
 
     // assert that the model.hasProxy method returns true
@@ -174,10 +177,10 @@ void testHasProxy() {
 
 void testHasMediator() {
     // register a Mediator
-    struct Object {int x;} object;
-    const struct IFacade *facade = puremvc_facade_getInstance("FacadeTestKey8", puremvc_facade_new);
-
     const char *error = NULL;
+    struct Object {int x;} object;
+    const struct IFacade *facade = puremvc_facade_getInstance("FacadeTestKey8", puremvc_facade_new, &error);
+
     facade->registerMediator(facade, puremvc_mediator_new("facadeHasMediatorTest", &object, &error));
 
     // assert that the facade.hasMediator method returns true
@@ -195,7 +198,8 @@ void testHasMediator() {
 
 void testHasCommand() {
     // register the ControllerTestCommand to handle 'hasCommandTest' notes
-    const struct IFacade *facade = puremvc_facade_getInstance("FacadeTestKey10", puremvc_facade_new);
+    const char *error = NULL;
+    const struct IFacade *facade = puremvc_facade_getInstance("FacadeTestKey10", puremvc_facade_new, &error);
     facade->registerCommand(facade, "facadeHasCommandTest", test_facade_command_new);
 
     // test that hasCommand returns true for hasCommandTest notifications
@@ -214,7 +218,8 @@ void testHasCoreAndRemoveCore() {
     assert(puremvc_facade_hasCore("FacadeTestKey11") == false);
 
     // register a Core
-    puremvc_facade_getInstance("FacadeTestKey11", puremvc_facade_new);
+    const char *error = NULL;
+    puremvc_facade_getInstance("FacadeTestKey11", puremvc_facade_new, &error);
 
     assert(puremvc_facade_hasCore("FacadeTestKey11") == true);
 

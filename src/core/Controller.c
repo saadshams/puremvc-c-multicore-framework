@@ -21,9 +21,9 @@ static struct IDictionary *instanceMap;
 static MutexOnce token = MUTEX_ONCE_INIT;
 static Mutex mutex;
 
-static void initializeController(struct IController *self) {
+static void initializeController(struct IController *self, const char **error) {
     struct Controller *this = (struct Controller *) self;
-    this->view = puremvc_view_getInstance(this->multitonKey, puremvc_view_new);
+    this->view = puremvc_view_getInstance(this->multitonKey, puremvc_view_new, error);
 }
 
 static void executeCommand(const struct IController *self, struct INotification *notification) {
@@ -128,8 +128,8 @@ static void dispatchOnce() {
     mutex_init(&mutex);
 }
 
-struct IController *puremvc_controller_getInstance(const char *key, struct IController *(*factory)(const char *key, const char **error)) {
-    if (key == NULL || factory == NULL) return NULL;
+struct IController *puremvc_controller_getInstance(const char *key, struct IController *(*factory)(const char *key, const char **error), const char **error) {
+    if (key == NULL) return *error = "[PureMVC::Controller::getInstance] Error: key or factory must not be NULL.", NULL;
     mutex_once(&token, dispatchOnce);
     mutex_lock(&mutex);
 
@@ -137,10 +137,13 @@ struct IController *puremvc_controller_getInstance(const char *key, struct ICont
 
     struct IController *instance = (struct IController *) instanceMap->get(instanceMap, key);
     if (instance == NULL) {
-        const char *error = NULL;
-        instance = factory(key, &error);
+        instance = factory(key, error);
+        if (instance == NULL) return NULL;
+
+        instance->initializeController(instance, error);
+        if (*error != NULL) return NULL;
+
         instanceMap->put(instanceMap, key, instance);
-        instance->initializeController(instance);
     }
 
     mutex_unlock(&mutex);
