@@ -14,20 +14,20 @@ static struct SimpleCommand *init(struct SimpleCommand *command) {
     return command;
 }
 
-static struct SimpleCommand *alloc() {
+static struct SimpleCommand *alloc(const char **error) {
     struct SimpleCommand *command = malloc(sizeof(struct SimpleCommand));
-    if (command == NULL) {
-        fprintf(stderr, "[PureMVC::SimpleCommand::%s] Error: Failed to allocate SimpleCommand.\n", __func__);
-        return NULL;
-    }
+    if (command == NULL) return *error = "[PureMVC::SimpleCommand::alloc] Error: Failed to allocate SimpleCommand.", NULL;
+
     memset(command, 0, sizeof(struct SimpleCommand));
 
-    command->base.notifier = puremvc_notifier_new();
+    command->base.notifier = puremvc_notifier_new(error);
+    if (command->base.notifier == NULL) return free(command), NULL;
+
     return command;
 }
 
-struct ICommand *puremvc_simple_command_new() {
-    return (struct ICommand *) init(alloc());
+struct ICommand *puremvc_simple_command_new(const char **error) {
+    return (struct ICommand *) init(alloc(error));
 }
 
 void puremvc_simple_command_free(struct ICommand **command) {

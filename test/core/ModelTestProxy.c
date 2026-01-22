@@ -10,7 +10,8 @@ static void onRemove(struct IProxy *self) {
 }
 
 struct IProxy *model_test_proxy_new(const char *name, void *data) {
-    struct IProxy *proxy = puremvc_proxy_new(name, data);
+    const char *error = NULL;
+    struct IProxy *proxy = puremvc_proxy_new(name, data, &error);
     proxy->onRegister = onRegister;
     proxy->onRemove = onRemove;
     return proxy;

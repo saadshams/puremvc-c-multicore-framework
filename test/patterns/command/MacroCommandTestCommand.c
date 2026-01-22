@@ -1,3 +1,5 @@
+#include <stdlib.h>
+
 #include "MacroCommandTestCommand.h"
 #include "MacroCommandTestSub1Command.h"
 #include "MacroCommandTestSub2Command.h"
@@ -8,7 +10,8 @@ static void initializeMacroCommand(const struct IMacroCommand *self) {
 }
 
 struct IMacroCommand *macro_command_test_command_new() {
-    struct IMacroCommand *command = puremvc_macro_command_new();
+    const char *error = NULL;
+    struct IMacroCommand *command = puremvc_macro_command_new(&error);
     command->initializeMacroCommand = initializeMacroCommand;
     return command;
 }

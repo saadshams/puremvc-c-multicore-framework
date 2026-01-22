@@ -17,7 +17,8 @@ void testMacroCommandExecute() {
     struct MacroCommandTestVO *vo = malloc(sizeof(struct MacroCommandTestVO));
     if (vo) *vo = (struct MacroCommandTestVO){5, 0, 0};
 
-    struct INotification *notification = puremvc_notification_new("MacroCommandTest", vo, NULL);
+    const char *error = NULL;
+    struct INotification *notification = puremvc_notification_new("MacroCommandTest", vo, NULL, &error);
 
     struct IMacroCommand *macroCommand = macro_command_test_command_new();
     assert(macroCommand != NULL);
@@ -41,7 +42,8 @@ void testRegisterAndExecuteCommand() {
 
     struct MacroCommandTestVO *vo = malloc(sizeof(struct MacroCommandTestVO));
     vo->input = 5;
-    struct INotification *notification = puremvc_notification_new("MacroCommandTest", vo, NULL);
+    const char *error = NULL;
+    struct INotification *notification = puremvc_notification_new("MacroCommandTest", vo, NULL, &error);
 
     view->notifyObservers(view, notification);
 

@@ -1,4 +1,5 @@
 #include <assert.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -18,7 +19,9 @@ int main(void) {
  * Test Constructor
  */
 void testConstructor() {
-    struct IProxy* proxy = puremvc_proxy_new(NULL, NULL);
+    const char *error = NULL;
+    struct IProxy* proxy = puremvc_proxy_new(NULL, NULL, &error);
+    if (proxy == NULL) fprintf(stderr, "%s\n", error);
 
     // test assertions
     assert(proxy != NULL);
@@ -33,7 +36,8 @@ void testConstructor() {
  * Tests getting the name using Proxy class accessor method. Setting can only be done in constructor.
  */
 void testNameAccessors() {
-    struct IProxy* proxy = puremvc_proxy_new("TestProxy", NULL);
+    const char *error = NULL;
+    struct IProxy* proxy = puremvc_proxy_new("TestProxy", NULL, &error);
     assert(proxy != NULL);
 
     // test assertions
@@ -41,7 +45,7 @@ void testNameAccessors() {
     puremvc_proxy_free(&proxy);
     assert(proxy == NULL);
 
-    struct IProxy* proxy2 = puremvc_proxy_new(NULL, NULL);
+    struct IProxy* proxy2 = puremvc_proxy_new(NULL, NULL, &error);
     assert(strcmp(proxy2->getName(proxy2), PROXY_NAME) == 0);
     puremvc_proxy_free(&proxy2);
     assert(proxy2 == NULL);
@@ -57,7 +61,8 @@ void testDataAccessors() {
         *cursor = strdup(*data);
     }
 
-    struct IProxy *proxy = puremvc_proxy_new("colors", colors);
+    const char *error = NULL;
+    struct IProxy *proxy = puremvc_proxy_new("colors", colors, &error);
 
     const char **data = proxy->getData(proxy);
 
@@ -77,7 +82,8 @@ void testDataAccessors2() {
     const char *str = "{red, green, blue}";
 
     // Create a new Proxy and use accessors to set the item
-    struct IProxy* proxy = puremvc_proxy_new("colors", strcpy(malloc(strlen(str) + 1), str)); // owner: takes ownership of data
+    const char *error = NULL;
+    struct IProxy* proxy = puremvc_proxy_new("colors", strcpy(malloc(strlen(str) + 1), str), &error); // owner: takes ownership of data
 
     const char *data = proxy->getData(proxy); // borrower: non-owning access
 
@@ -97,7 +103,8 @@ void testDataReassign() {
         *cursor = strdup(*data);
     }
 
-    struct IProxy *proxy = puremvc_proxy_new("colors", colors);
+    const char *error = NULL;
+    struct IProxy *proxy = puremvc_proxy_new("colors", colors, &error);
 
     // Re-assign the same data to ensure the proxy does not free it
     proxy->setData(proxy, colors);

@@ -1,4 +1,3 @@
-#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -99,7 +98,8 @@ static void notifyObservers(const struct IFacade *self, const struct INotificati
 }
 
 static void sendNotification(const struct IFacade *self, const char *notificationName, void *body, const char *type) {
-    struct INotification *notification = puremvc_notification_new(notificationName, body, type);
+    const char *error = NULL;
+    struct INotification *notification = puremvc_notification_new(notificationName, body, type, &error);
     self->notifyObservers(self, notification);
     puremvc_notification_free(&notification);
 }
@@ -126,29 +126,28 @@ static struct Facade *init(struct Facade *facade) {
     return facade;
 }
 
-static struct Facade *alloc(const char *key) {
-    assert(instanceMap->get(instanceMap, key) == NULL);
+static struct Facade *alloc(const char *key, const char **error) {
+    if (instanceMap->containsKey(instanceMap, key)) {
+        fprintf(stderr, "[PureMVC::Facade::alloc] Facade instance with key '%s' already exists!\n", key);
+        exit(EXIT_FAILURE);
+    }
 
     struct Facade *facade = malloc(sizeof(struct Facade));
-    if (facade == NULL) {
-        fprintf(stderr, "[PureMVC::Facade::%s] Error: Failed to allocate Facade with key '%s'.\n", __func__, key);
-        return NULL;
-    }
+    if (facade == NULL)
+        return *error = "[PureMVC::Facade::alloc] Error: Failed to allocate Facade", NULL;
+
     memset(facade, 0, sizeof(*facade));
 
     facade->multitonKey = strdup(key);
-    if (facade->multitonKey == NULL) {
-        fprintf(stderr, "[PureMVC::Facade::%s] Error: strdup failed for key '%s'.\n", __func__, key);
-        free(facade);
-        return NULL;
-    }
+    if (facade->multitonKey == NULL)
+        return *error = "[PureMVC::Facade::alloc] Error: Failed to allocate Facade key (strdup).", free(facade), NULL;
 
     return facade;
 }
 
-struct IFacade *puremvc_facade_new(const char *key) {
-    assert(key != NULL);
-    return (struct IFacade *) init(alloc(key));
+struct IFacade *puremvc_facade_new(const char *key, const char **error) {
+    if (key == NULL) return *error = "[PureMVC::Facade::new] Error: key must not be NULL.", NULL;
+    return (struct IFacade *) init(alloc(key, error));
 }
 
 void puremvc_facade_free(struct IFacade **facade) {
@@ -165,9 +164,8 @@ static void dispatchOnce() {
     mutex_init(&mutex);
 }
 
-struct IFacade *puremvc_facade_getInstance(const char *key, struct IFacade *(*factory)(const char *)) {
-    assert(key != NULL);
-    assert(factory != NULL);
+struct IFacade *puremvc_facade_getInstance(const char *key, struct IFacade *(*factory)(const char *, const char **error)) {
+    if (key == NULL || factory == NULL) return NULL;
     mutex_once(&token, dispatchOnce);
     mutex_lock(&mutex);
 
@@ -175,7 +173,8 @@ struct IFacade *puremvc_facade_getInstance(const char *key, struct IFacade *(*fa
 
     struct IFacade *instance = (struct IFacade *) instanceMap->get(instanceMap, key);
     if (instance == NULL) {
-        instance = factory(key);
+        const char *error = NULL;
+        instance = factory(key, &error);
         instanceMap->put(instanceMap, key, instance);
         instance->initializeFacade(instance);
     }
@@ -185,35 +184,15 @@ struct IFacade *puremvc_facade_getInstance(const char *key, struct IFacade *(*fa
 }
 
 bool puremvc_facade_hasCore(const char *key) {
-    assert(key != NULL);
+    if (key == NULL) return false;
     mutex_lock_shared(&mutex);
     const bool result = instanceMap->containsKey(instanceMap, key);
     mutex_unlock(&mutex);
     return result;
 }
 
-void puremvc_facade_removeFacade2(const char *key) {
-    assert(key != NULL);
-
-    mutex_lock(&mutex);
-    if (instanceMap == NULL) {
-        mutex_unlock(&mutex);
-        fprintf(stdin, "[PureMVC::facade::%s] Error: strdup failed for key '%s'.\n", __func__, key);
-        // return;
-    }
-
-    puremvc_model_removeModel(key);
-    puremvc_view_removeView(key);
-    puremvc_controller_removeController(key);
-
-    struct IFacade *facade = instanceMap->removeItem(instanceMap, key);
-    puremvc_facade_free(&facade);
-
-    mutex_unlock(&mutex);
-}
-
 void puremvc_facade_removeFacade(const char *key) {
-    assert(key != NULL);
+    if (key == NULL) return;
     mutex_lock(&mutex);
 
     puremvc_model_removeModel(key);

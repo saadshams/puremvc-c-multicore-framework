@@ -1,4 +1,5 @@
 #include <assert.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "SimpleCommandTest.h"
@@ -15,7 +16,9 @@ int main() {
  * Test Constructor
  */
 void testConstructor() {
-    struct ICommand *command = puremvc_simple_command_new();
+    const char *error = NULL;
+    struct ICommand *command = puremvc_simple_command_new(&error);
+    if (command == NULL) fprintf(stderr, "%s\n", error);
 
     assert(command != NULL);
     assert(command->notifier != NULL);
@@ -41,7 +44,8 @@ void testSimpleCommandExecute() {
     if (vo) vo->input = 5;
 
     // Create the Notification (note)
-    struct INotification *note = puremvc_notification_new("SimpleCommandTestNote", vo, NULL);
+    const char *error = NULL;
+    struct INotification *note = puremvc_notification_new("SimpleCommandTestNote", vo, NULL, &error);
 
     // Create the SimpleCommand
     struct ICommand *command = test_simple_command_new();

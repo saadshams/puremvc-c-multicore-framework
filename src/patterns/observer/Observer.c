@@ -53,12 +53,10 @@ static struct Observer *init(struct Observer *observer) {
     return observer;
 }
 
-static struct Observer *alloc(const void (*notify)(const void *context, struct INotification *notification), const void *context) {
+static struct Observer *alloc(const void (*notify)(const void *context, struct INotification *notification), const void *context, const char **error) {
     struct Observer *observer = malloc(sizeof(struct Observer));
-    if (observer == NULL) {
-        fprintf(stderr, "[PureMVC::Observer::%s] Error: Failed to allocate Observer.\n", __func__);
-        return NULL;
-    }
+    if (observer == NULL) return *error = "[PureMVC::Observer::alloc] Error: Failed to allocate Observer.", NULL;
+
     memset(observer, 0, sizeof(struct Observer));
 
     observer->notify = (void *)notify;
@@ -66,8 +64,8 @@ static struct Observer *alloc(const void (*notify)(const void *context, struct I
     return observer;
 }
 
-struct IObserver *puremvc_observer_new(const void (*notify)(const void *context, struct INotification *notification), const void *context) {
-    return (struct IObserver *) init(alloc(notify, context));
+struct IObserver *puremvc_observer_new(const void (*notify)(const void *context, struct INotification *notification), const void *context, const char **error) {
+    return (struct IObserver *) init(alloc(notify, context, error));
 }
 
 void puremvc_observer_free(struct IObserver **observer) {

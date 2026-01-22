@@ -79,27 +79,24 @@ static struct Mediator *init(struct Mediator *mediator) {
     return mediator;
 }
 
-static struct Mediator *alloc(const char *name, void *component) {
+static struct Mediator *alloc(const char *name, void *component, const char **error) {
     struct Mediator *mediator = malloc(sizeof(struct Mediator));
-    if (mediator == NULL) {
-        fprintf(stderr, "[PureMVC::Mediator::%s] Error: Failed to allocate Mediator.\n", __func__);
-        return NULL;
-    };
+    if (mediator == NULL) return *error = "[PureMVC::Mediator::alloc] Error: Failed to allocate Mediator.", NULL;
+
     memset(mediator, 0, sizeof(struct Mediator));
 
-    mediator->base.notifier = puremvc_notifier_new();
+    mediator->base.notifier = puremvc_notifier_new(error);
+    if (mediator->base.notifier == NULL) return free(mediator), NULL;
+
     mediator->name = strdup(name ? name : MEDIATOR_NAME);
-    if (mediator->name == NULL) {
-        fprintf(stderr, "[PureMVC::Mediator::%s] Error: Failed to allocate mediator name (strdup).\n", __func__);
-        free(mediator);
-        return NULL;
-    }
+    if (mediator->name == NULL) return *error = "[PureMVC::Mediator::alloc] Error: Failed to allocate mediator name (strdup)", free(mediator), NULL;
+
     mediator->component = component;
     return mediator;
 }
 
-struct IMediator *puremvc_mediator_new(const char *name, void *component) {
-    return (struct IMediator *) init(alloc(name, component));
+struct IMediator *puremvc_mediator_new(const char *name, void *component, const char **error) {
+    return (struct IMediator *) init(alloc(name, component, error));
 }
 
 void puremvc_mediator_free(struct IMediator **mediator) {

@@ -1,3 +1,5 @@
+#include <stdlib.h>
+
 #include "ControllerTestCommand.h"
 #include "ControllerTestVO.h"
 
@@ -9,7 +11,8 @@ static void controller_execute(const struct ICommand *self, struct INotification
 }
 
 struct ICommand *test_controller_command_new() {
-    struct ICommand *command = puremvc_simple_command_new();
+    const char *error = NULL;
+    struct ICommand *command = puremvc_simple_command_new(&error);
     command->execute = controller_execute;
     return command;
 }

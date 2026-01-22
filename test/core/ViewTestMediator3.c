@@ -13,7 +13,8 @@ static void handleNotification(const struct IMediator *self, struct INotificatio
 }
 
 struct IMediator *test_mediator3_new(struct ViewTest *component) {
-    struct IMediator *mediator = puremvc_mediator_new(ViewTestMediator3_NAME, component);
+    const char *error = NULL;
+    struct IMediator *mediator = puremvc_mediator_new(ViewTestMediator3_NAME, component, &error);
     mediator->listNotificationInterests = listNotificationInterests;
     mediator->handleNotification = handleNotification;
     return mediator;

@@ -51,7 +51,8 @@ void testRegisterAndNotifyObserver() {
     const struct IView *view = puremvc_view_getInstance("ViewTestKey2", puremvc_view_new);
 
     // Create observer, passing in notification method and context
-    const struct IObserver *observer = puremvc_observer_new((const void (*)(const void *, struct INotification *))viewTestMethod, &viewComponent);
+    const char *error = NULL;
+    const struct IObserver *observer = puremvc_observer_new((const void (*)(const void *, struct INotification *))viewTestMethod, &viewComponent, &error);
 
     // Register Observer's interest in a particular Notification with the View
     view->registerObserver(view, "ViewTestNote1", observer);
@@ -65,7 +66,7 @@ void testRegisterAndNotifyObserver() {
     // on the note body.
     struct ViewTestVar *vo = malloc(sizeof(struct ViewTestVar));
     vo->value = 10;
-    struct INotification *note = puremvc_notification_new("ViewTestNote1", vo, NULL);
+    struct INotification *note = puremvc_notification_new("ViewTestNote1", vo, NULL, &error);
     view->notifyObservers(view, note);
 
     // test assertions
@@ -88,7 +89,8 @@ void testRegisterAndRetrieveMediator() {
 
     // Create and register the test mediator
     struct ViewComponent viewComponent = {};
-    view->registerMediator(view, puremvc_mediator_new("testing", &viewComponent));
+    const char *error = NULL;
+    view->registerMediator(view, puremvc_mediator_new("testing", &viewComponent, &error));
 
     // Retrieve the component
     struct IMediator *mediator = view->retrieveMediator(view, "testing");
@@ -111,7 +113,8 @@ void testHasMediator() {
 
     // Create and register the test mediator
     struct ViewComponent viewComponent = {};
-    struct IMediator *mediator = puremvc_mediator_new("hasMediatorTest", &viewComponent);
+    const char *error = NULL;
+    struct IMediator *mediator = puremvc_mediator_new("hasMediatorTest", &viewComponent, &error);
     view->registerMediator(view, mediator);
 
     // assert that the view.hasMediator method returns true
@@ -135,7 +138,8 @@ void testRegisterAndRemoveMediator() {
 
     // Create and register the test mediator
     struct ViewComponent viewComponent = {};
-    struct IMediator *mediator = puremvc_mediator_new("testing", &viewComponent);
+    const char *error = NULL;
+    struct IMediator *mediator = puremvc_mediator_new("testing", &viewComponent, &error);
     view->registerMediator(view, mediator);
 
     // Remove the component
@@ -203,7 +207,8 @@ void testSuccessiveRegisterAndRemoveMediator() {
     assert(view->removeMediator(view, ViewTestMediator_NAME) == NULL);
 
     // Create and register another instance of the test mediator,
-    struct IMediator *mediator2 = puremvc_mediator_new(ViewTestMediator_NAME, &viewComponent);
+    const char *error = NULL;
+    struct IMediator *mediator2 = puremvc_mediator_new(ViewTestMediator_NAME, &viewComponent, &error);
     view->registerMediator(view, mediator2);
 
     assert(view->retrieveMediator(view, ViewTestMediator_NAME) == mediator2);
@@ -230,11 +235,12 @@ void testRemoveMediatorAndSubsequentNotify() {
     view->registerMediator(view, mediator);
 
     // test that notifications work
-    struct INotification *notification1 = puremvc_notification_new(NOTE1, NULL, NULL);
+    const char *error = NULL;
+    struct INotification *notification1 = puremvc_notification_new(NOTE1, NULL, NULL, &error);
     view->notifyObservers(view, notification1);
     assert(strcmp(viewTest.lastNotification, NOTE1) == 0);
 
-    struct INotification *notification2 = puremvc_notification_new(NOTE2, NULL, NULL);
+    struct INotification *notification2 = puremvc_notification_new(NOTE2, NULL, NULL, &error);
     view->notifyObservers(view, notification2);
     assert(strcmp(viewTest.lastNotification, NOTE2) == 0);
 
@@ -271,15 +277,16 @@ void testRemoveOneOfTwoMediatorsAndSubsequentNotify() {
     view->registerMediator(view, mediator3);
 
     // test that all notifications work
-    struct INotification *notification1 = puremvc_notification_new(NOTE1, NULL, NULL);
+    const char *error = NULL;
+    struct INotification *notification1 = puremvc_notification_new(NOTE1, NULL, NULL, &error);
     view->notifyObservers(view, notification1);
     assert(strcmp(viewTest.lastNotification, NOTE1) == 0);
 
-    struct INotification *notification2 = puremvc_notification_new(NOTE2, NULL, NULL);
+    struct INotification *notification2 = puremvc_notification_new(NOTE2, NULL, NULL, &error);
     view->notifyObservers(view, notification2);
     assert(strcmp(viewTest.lastNotification, NOTE2) == 0);
 
-    struct INotification *notification3 = puremvc_notification_new(NOTE3, NULL, NULL);
+    struct INotification *notification3 = puremvc_notification_new(NOTE3, NULL, NULL, &error);
     view->notifyObservers(view, notification3);
     assert(strcmp(viewTest.lastNotification, NOTE3) == 0);
 
@@ -327,7 +334,8 @@ void testMediatorReregistration() {
 
     // test that the counter is only incremented once (mediator 5's response)
     viewTest.counter = 0;
-    struct INotification *notification = puremvc_notification_new(NOTE5, NULL, NULL);
+    const char *error = NULL;
+    struct INotification *notification = puremvc_notification_new(NOTE5, NULL, NULL, &error);
     view->notifyObservers(view, notification);
     assert(viewTest.counter == 1);
 
@@ -369,7 +377,8 @@ void testModifyObserverListDuringNotification() {
     // send the notification. each of the above mediators will respond by removing
     // themselves and incrementing the counter by 1. This should leave us with a
     // count of 8, since 8 mediators will respond.
-    struct INotification *notification = puremvc_notification_new(NOTE6, NULL, NULL);
+    const char *error = NULL;
+    struct INotification *notification = puremvc_notification_new(NOTE6, NULL, NULL, &error);
     view->notifyObservers(view, notification);
 
     // verify the count is correct
@@ -395,7 +404,8 @@ void testRemoveView() {
     puremvc_view_removeView("ViewTestKey12");
 
     // re-create the view without throwing an exception
-    puremvc_view_new("ViewTestKey12");
+    const char *error = NULL;
+    puremvc_view_new("ViewTestKey12", &error);
 
     // cleanup
     puremvc_view_removeView("ViewTestKey12");

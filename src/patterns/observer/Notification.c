@@ -69,39 +69,31 @@ static struct Notification *init(struct Notification *notification) {
     return notification;
 }
 
-static struct Notification *alloc(const char *name, void *body, const char *type) {
+static struct Notification *alloc(const char *name, void *body, const char *type, const char **error) {
     struct Notification *notification = malloc(sizeof(struct Notification));
-    if (notification == NULL) {
-        fprintf(stderr, "[PureMVC::Notification::%s] Error: Failed to allocate Notification with name '%s'.\n", __func__, name);
-        return NULL;
-    }
+    if (notification == NULL)
+        return *error = "[PureMVC::Notification::alloc] Error: Failed to allocate Notification", NULL;
+
     memset(notification, 0, sizeof(struct Notification));
 
     notification->name = strdup(name);
-    if (notification->name == NULL) {
-        fprintf(stderr, "[PureMVC::Notification::%s] Error: strdup failed for name '%s'.\n", __func__, name);
-        free(notification);
-        return NULL;
-    }
+    if (notification->name == NULL)
+        return *error = "[PureMVC::Notification::alloc] Error: Failed to allocate Notification name", free(notification), NULL;
 
     notification->body = body;
 
     if (type != NULL) {
         notification->type = strdup(type);
-        if (notification->type == NULL) {
-            fprintf(stderr, "[PureMVC::Notification::%s] Error: strdup failed for type '%s'.\n", __func__, type);
-            free((void *) notification->name);
-            free(notification);
-            return NULL;
-        }
+        if (notification->type == NULL)
+            return *error = "[PureMVC::Notification::alloc] Error: Failed to allocate Notification type", free((void *) notification->name), free(notification), NULL;
     }
 
     return notification;
 }
 
-struct INotification *puremvc_notification_new(const char *name, void *body, const char *type) {
-    assert(name != NULL);
-    return (struct INotification *) init(alloc(name, body, type));
+struct INotification *puremvc_notification_new(const char *name, void *body, const char *type, const char **error) {
+    if (name == NULL) return *error = "[PureMVC::Notification::new] Error: name must not be NULL.", NULL;
+    return (struct INotification *) init(alloc(name, body, type, error));
 }
 
 void puremvc_notification_free(struct INotification **notification) {

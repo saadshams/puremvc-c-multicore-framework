@@ -1,4 +1,3 @@
-#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -39,7 +38,8 @@ static void registerCommand(const struct IController *self, const char *notifica
 
     mutex_lock(&this->commandMapMutex);
     if (this->commandMap->containsKey(this->commandMap, notificationName) == false) {
-        const struct IObserver *observer = puremvc_observer_new((const void (*)(const void *, struct INotification *))executeCommand, this);
+        const char *error = NULL;
+        const struct IObserver *observer = puremvc_observer_new((const void (*)(const void *, struct INotification *))executeCommand, this, &error);
         this->view->registerObserver(this->view, notificationName, observer);
         this->commandMap->put(this->commandMap, notificationName, factory);
     } else {
@@ -77,31 +77,30 @@ static struct Controller *init(struct Controller *controller) {
     return controller;
 }
 
-static struct Controller *alloc(const char *key) {
-    assert(instanceMap->get(instanceMap, key) == NULL);
+static struct Controller *alloc(const char *key, const char **error) {
+    if (instanceMap->containsKey(instanceMap, key)) {
+        fprintf(stderr, "[PureMVC::Controller::alloc] Controller instance with key '%s' already exists!\n", key);
+        exit(EXIT_FAILURE);
+    }
 
     struct Controller *controller = malloc(sizeof(struct Controller));
-    if (controller == NULL) {
-        fprintf(stderr, "[PureMVC::Controller::%s] Error: Failed to allocate Controller with key '%s'.\n", __func__, key);
-        return NULL;
-    }
+    if (controller == NULL)
+        return *error = "[PureMVC::Controller::alloc] Error: Failed to allocate Controller", NULL;
+
     memset(controller, 0, sizeof(struct Controller));
 
     controller->multitonKey = strdup(key);
-    if (controller->multitonKey == NULL) {
-        fprintf(stderr, "[PureMVC::Controller::%s] Error: strdup failed for key '%s'.\n", __func__, key);
-        free(controller);
-        return NULL;
-    }
+    if (controller->multitonKey == NULL)
+        return *error = "[PureMVC::Facade::alloc] Error: Failed to allocate Controller key (strdup).", free(controller), NULL;
 
     mutex_init(&controller->commandMapMutex);
     controller->commandMap = collection_dictionary_new();
     return controller;
 }
 
-struct IController *puremvc_controller_new(const char *key) {
-    assert(key != NULL);
-    return (struct IController *) init(alloc(key));
+struct IController *puremvc_controller_new(const char *key, const char **error) {
+    if (key == NULL) return *error = "[PureMVC::Controller::new] Error: key must not be NULL.", NULL;
+    return (struct IController *) init(alloc(key, error));
 }
 
 void puremvc_controller_free(struct IController **controller) {
@@ -121,9 +120,8 @@ static void dispatchOnce() {
     mutex_init(&mutex);
 }
 
-struct IController *puremvc_controller_getInstance(const char *key, struct IController *(*factory)(const char *)) {
-    assert(key != NULL);
-    assert(factory != NULL);
+struct IController *puremvc_controller_getInstance(const char *key, struct IController *(*factory)(const char *key, const char **error)) {
+    if (key == NULL || factory == NULL) return NULL;
     mutex_once(&token, dispatchOnce);
     mutex_lock(&mutex);
 
@@ -131,7 +129,8 @@ struct IController *puremvc_controller_getInstance(const char *key, struct ICont
 
     struct IController *instance = (struct IController *) instanceMap->get(instanceMap, key);
     if (instance == NULL) {
-        instance = factory(key);
+        const char *error = NULL;
+        instance = factory(key, &error);
         instanceMap->put(instanceMap, key, instance);
         instance->initializeController(instance);
     }
@@ -141,7 +140,7 @@ struct IController *puremvc_controller_getInstance(const char *key, struct ICont
 }
 
 void puremvc_controller_removeController(const char *key) {
-    assert(key != NULL);
+    if (key == NULL) return;
     mutex_lock(&mutex);
 
     struct IController *controller = instanceMap->removeItem(instanceMap, key);

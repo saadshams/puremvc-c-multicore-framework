@@ -41,7 +41,8 @@ void testRegisterAndRetrieveProxy() {
         *cursor = strdup(*data);
     }
 
-    model->registerProxy(model, puremvc_proxy_new("colors", colors));
+    const char *error = NULL;
+    model->registerProxy(model, puremvc_proxy_new("colors", colors, &error));
     const struct IProxy *proxy = model->retrieveProxy(model, "colors");
 
     assert(proxy != NULL);
@@ -70,7 +71,8 @@ void testRegisterAndRemoveProxy() {
     for(const int *data = (int []) {1, 2, 3, 0}; *data != 0; data++, cursor++) // 0 as terminator, or use -1
         *cursor = *data;
 
-    model->registerProxy(model, puremvc_proxy_new("sizes", sizes));
+    const char *error = NULL;
+    model->registerProxy(model, puremvc_proxy_new("sizes", sizes, &error));
 
     // remove the new
     struct IProxy *removedProxy = model->removeProxy(model, "sizes");
@@ -96,7 +98,8 @@ void testHasProxy() {
         *cursor = strdup(*data);
     }
 
-    model->registerProxy(model, puremvc_proxy_new("aces", aces));
+    const char *error = NULL;
+    model->registerProxy(model, puremvc_proxy_new("aces", aces, &error));
 
     // assert that the model.hasProxy method returns true
     // for that new name
@@ -146,7 +149,8 @@ void testRemoveModel() {
     puremvc_model_removeModel("ModelTestKey6");
 
     // re-create the model without throwing an exception
-    puremvc_model_new("ModelTestKey6");
+    const char *error = NULL;
+    puremvc_model_new("ModelTestKey6", &error);
 
     // cleanup
     puremvc_model_removeModel("ModelTestKey6");
@@ -169,8 +173,9 @@ void testMultipleModels() {
         *cursor = strdup(*data);
     }
 
-    model1->registerProxy(model1, puremvc_proxy_new("colors", colors));
-    model2->registerProxy(model2, puremvc_proxy_new("aces", aces));
+    const char *error = NULL;
+    model1->registerProxy(model1, puremvc_proxy_new("colors", colors, &error));
+    model2->registerProxy(model2, puremvc_proxy_new("aces", aces, &error));
 
     assert(model1->hasProxy(model1, "colors"));
     assert(!model2->hasProxy(model2, "colors"));
@@ -195,7 +200,8 @@ void testRegisterAndReplaceProxy() {
     for(int *data = (int []) {1, 0}, *cursor = sizes; *data != 0; data++, cursor++) // 0 as terminator, or use -1
         *cursor = *data;
 
-    model->registerProxy(model, puremvc_proxy_new("sizes", sizes));
+    const char *error = NULL;
+    model->registerProxy(model, puremvc_proxy_new("sizes", sizes, &error));
 
     const char **colors = malloc(sizeof(char*) * 4);
     memset(colors, 0, sizeof(char*) * 4);
@@ -203,7 +209,7 @@ void testRegisterAndReplaceProxy() {
         *cursor = strdup(*data);
     }
 
-    model->registerProxy(model, puremvc_proxy_new("sizes", colors));
+    model->registerProxy(model, puremvc_proxy_new("sizes", colors, &error));
 
     const struct IProxy *proxy = model->retrieveProxy(model, "sizes");
 

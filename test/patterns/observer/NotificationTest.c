@@ -19,7 +19,8 @@ int main() {
  */
 void testConstructor() {
     // Create a new Notification using the Constructor to set the note name and body
-    struct INotification *notification = puremvc_notification_new("TestNote", NULL, NULL);
+    const char *error = NULL;
+    struct INotification *notification = puremvc_notification_new("TestNote", NULL, NULL, &error);
 
     // test assertions
     assert(strcmp(notification->getName(notification), "TestNote") == 0);
@@ -35,7 +36,8 @@ void testConstructor() {
  */
 void testNameAccessors() {
     // Create a new Notification and use accessors to set the note name
-    struct INotification *notification = puremvc_notification_new("TestNote", NULL, NULL);
+    const char *error = NULL;
+    struct INotification *notification = puremvc_notification_new("TestNote", NULL, NULL, &error);
 
     // test assertions
     assert(strcmp(notification->getName(notification), "TestNote") == 0);
@@ -53,7 +55,8 @@ void testBodyAccessors() {
     if (vo) vo->value = 5;
 
     // Create a new Notification and use accessors to set the body
-    struct INotification *notification = puremvc_notification_new("TestNote", NULL, NULL);
+    const char *error = NULL;
+    struct INotification *notification = puremvc_notification_new("TestNote", NULL, NULL, &error);
     notification->setBody(notification, vo);
 
     // test assertions
@@ -66,7 +69,8 @@ void testBodyAccessors() {
  * Tests setting and getting the type using Notification class accessor methods.
  */
 void testTypeAccessors() {
-    struct INotification *notification = puremvc_notification_new("TestNote", NULL, "TestNoteType");
+    const char *error = NULL;
+    struct INotification *notification = puremvc_notification_new("TestNote", NULL, "TestNoteType", &error);
 
     // test assertions
     assert(strcmp(notification->getType(notification), "TestNoteType") == 0);
@@ -82,7 +86,8 @@ void testToString() {
     struct { int value; } *test = malloc(sizeof(*test));
     if (test) test->value = 5;
 
-    struct INotification *notification = puremvc_notification_new("TestNote", test, "TestNoteType");
+    const char *error = NULL;
+    struct INotification *notification = puremvc_notification_new("TestNote", test, "TestNoteType", &error);
 
     const char *str = notification->toString(notification);
     const char *prefix = "TestNote : TestNoteType [body=";

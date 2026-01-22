@@ -1,3 +1,5 @@
+#include <stdlib.h>
+
 #include "MacroCommandTestSub2Command.h"
 #include "MacroCommandTestVO.h"
 
@@ -9,7 +11,8 @@ static void execute(const struct ICommand *self, struct INotification *notificat
 }
 
 struct ICommand *macro_command_test_sub2command_new() {
-    struct ICommand *command = puremvc_simple_command_new();
+    const char *error = NULL;
+    struct ICommand *command = puremvc_simple_command_new(&error);
     command->execute = execute;
     return command;
 }

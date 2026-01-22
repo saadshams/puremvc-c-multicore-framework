@@ -1,4 +1,3 @@
-#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -72,31 +71,30 @@ static struct Model *init(struct Model *model) {
     return model;
 }
 
-static struct Model *alloc(const char *key) {
-    assert(instanceMap->get(instanceMap, key) == NULL);
+static struct Model *alloc(const char *key, const char **error) {
+    if (instanceMap->containsKey(instanceMap, key)) {
+        fprintf(stderr, "[PureMVC::Model::alloc] Model instance with key '%s' already exists!\n", key);
+        exit(EXIT_FAILURE);
+    }
 
     struct Model *model = malloc(sizeof(struct Model));
-    if (model == NULL) {
-        fprintf(stderr, "[PureMVC::Model::%s] Error: Failed to allocate Model with key '%s'.\n", __func__, key);
-        return NULL;
-    }
+    if (model == NULL)
+        return *error = "[PureMVC::Model::alloc] Error: Failed to allocate Model", NULL;
+
     memset(model, 0, sizeof(struct Model));
 
     model->multitonKey = strdup(key);
-    if (model->multitonKey == NULL) {
-        fprintf(stderr, "[PureMVC::Model::%s] Error: strdup failed for key '%s'.\n", __func__, key);
-        free(model);
-        return NULL;
-    }
+    if (model->multitonKey == NULL)
+        return *error = "[PureMVC::Model::alloc] Error: Failed to allocate Model key (strdup).", free(model), NULL;
 
     mutex_init(&model->proxyMapMutex);
     model->proxyMap = collection_dictionary_new();
     return model;
 }
 
-struct IModel *puremvc_model_new(const char *key) {
-    assert(key != NULL);
-    return (struct IModel *) init(alloc(key));
+struct IModel *puremvc_model_new(const char *key, const char **error) {
+    if (key == NULL) return *error = "[PureMVC::Model::new] Error: key must not be NULL.", NULL;
+    return (struct IModel *) init(alloc(key, error));
 }
 
 void puremvc_model_free(struct IModel **model) {
@@ -116,9 +114,8 @@ static void dispatchOnce() {
     mutex_init(&mutex);
 }
 
-struct IModel *puremvc_model_getInstance(const char *key, struct IModel *(*factory)(const char *)) {
-    assert(key != NULL);
-    assert(factory != NULL);
+struct IModel *puremvc_model_getInstance(const char *key, struct IModel *(*factory)(const char *key, const char **error)) {
+    if (key == NULL || factory == NULL) return NULL;
     mutex_once(&token, dispatchOnce);
     mutex_lock(&mutex);
 
@@ -126,7 +123,8 @@ struct IModel *puremvc_model_getInstance(const char *key, struct IModel *(*facto
 
     struct IModel *instance = (struct IModel *) instanceMap->get(instanceMap, key);
     if (instance == NULL) {
-        instance = factory(key);
+        const char *error = NULL;
+        instance = factory(key, &error);
         instanceMap->put(instanceMap, key, instance);
         instance->initializeModel(instance);
     }
@@ -136,7 +134,7 @@ struct IModel *puremvc_model_getInstance(const char *key, struct IModel *(*facto
 }
 
 void puremvc_model_removeModel(const char *key) {
-    assert(key != NULL);
+    if (key == NULL) return;
     mutex_lock(&mutex);
 
     struct IModel *model = instanceMap->removeItem(instanceMap, key);

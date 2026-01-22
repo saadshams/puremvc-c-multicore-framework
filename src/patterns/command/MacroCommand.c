@@ -37,21 +37,21 @@ static struct MacroCommand *init(struct MacroCommand *command) {
     return command;
 }
 
-static struct MacroCommand *alloc() {
+static struct MacroCommand *alloc(const char **error) {
     struct MacroCommand *command = malloc(sizeof(struct MacroCommand));
-    if (command == NULL) {
-        fprintf(stderr, "[PureMVC::MacroCommand::%s] Error: Failed to allocate MacroCommand.\n", __func__);
-        return NULL;
-    }
+    if (command == NULL) return *error = "[PureMVC::MacroCommand::alloc] Error: Failed to allocate MacroCommand.", NULL;
+
     memset(command, 0, sizeof(struct MacroCommand));
 
-    command->base.command.notifier = puremvc_notifier_new();
+    command->base.command.notifier = puremvc_notifier_new(error);
+    if (command->base.command.notifier == NULL) return free(command), NULL;
+
     command->subCommands = collection_array_new();
     return command;
 }
 
-struct IMacroCommand *puremvc_macro_command_new() {
-    return (struct IMacroCommand *) init(alloc());
+struct IMacroCommand *puremvc_macro_command_new(const char **error) {
+    return (struct IMacroCommand *) init(alloc(error));
 }
 
 void puremvc_macro_command_free(struct IMacroCommand **command) {

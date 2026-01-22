@@ -39,7 +39,8 @@ void testRegisterAndExecuteCommand() {
     // Create a 'ControllerTest' note
     struct ControllerTestVO *vo = malloc(sizeof(struct ControllerTestVO));
     *vo = (struct ControllerTestVO){12, 0};
-    struct INotification *notification = puremvc_notification_new("ControllerTest1", vo, NULL);
+    const char *error = NULL;
+    struct INotification *notification = puremvc_notification_new("ControllerTest1", vo, NULL, &error);
 
     // Tell the controller to execute the Command associated with the note
     // the ControllerTestCommand invoked will multiply the vo.input value
@@ -63,7 +64,8 @@ void testRegisterAndRemoveCommand() {
     // Create a 'ControllerTest' note
     struct ControllerTestVO *vo = malloc(sizeof(struct ControllerTestVO));
     *vo = (struct ControllerTestVO){12, 0};
-    struct INotification *notification = puremvc_notification_new("ControllerRemoveTest", vo, NULL);
+    const char *error = NULL;
+    struct INotification *notification = puremvc_notification_new("ControllerRemoveTest", vo, NULL, &error);
 
     // Tell the controller to execute the Command associated with the note
     // the ControllerTestCommand invoked will multiply the vo.input value
@@ -123,7 +125,8 @@ void testReregisterAndExecuteCommand() {
     // Create a 'ControllerTest2' note
     struct ControllerTestVO *vo = malloc(sizeof(struct ControllerTestVO));
     *vo = (struct ControllerTestVO){12, 0};
-    struct INotification *notification = puremvc_notification_new("ControllerTest2", vo, NULL);
+    const char *error = NULL;
+    struct INotification *notification = puremvc_notification_new("ControllerTest2", vo, NULL, &error);
 
     // retrieve a reference to the View from the same core.
     struct IView *view = puremvc_view_getInstance("ControllerTestKey5", puremvc_view_new);
@@ -157,7 +160,8 @@ void testRegisterAndUpdateCommand() {
 
     struct ControllerTestVO *vo = malloc(sizeof(struct ControllerTestVO));
     *vo = (struct ControllerTestVO){12, 10};
-    struct INotification *notification = puremvc_notification_new("ControllerTest2", vo, NULL);
+    const char *error = NULL;
+    struct INotification *notification = puremvc_notification_new("ControllerTest2", vo, NULL, &error);
     controller->executeCommand(controller, notification);
 
     // second command result
@@ -177,7 +181,8 @@ void testRemoveController() {
     puremvc_controller_removeController("ControllerTestKey4");
 
     // re-create the controller without throwing an exception
-    puremvc_controller_new("ControllerTestKey4");
+    const char *error = NULL;
+    puremvc_controller_new("ControllerTestKey4", &error);
 
     // cleanup
     puremvc_controller_removeController("ControllerTestKey4");

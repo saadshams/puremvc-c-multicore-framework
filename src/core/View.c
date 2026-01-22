@@ -1,4 +1,3 @@
-#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -96,7 +95,8 @@ static void registerMediator(const struct IView *self, struct IMediator *mediato
 
     char **interests = mediator->listNotificationInterests(mediator);
     for(char **cursor = interests; *cursor; cursor++) {
-        const struct IObserver *observer = puremvc_observer_new((const void (*)(const void *, struct INotification *)) mediator->handleNotification, mediator);
+        const char *error = NULL;
+        const struct IObserver *observer = puremvc_observer_new((const void (*)(const void *, struct INotification *)) mediator->handleNotification, mediator, &error);
         self->registerObserver(self, *cursor, observer);
     }
     mediator->freeNotificationInterests(mediator, interests);
@@ -151,22 +151,21 @@ static struct View *init(struct View *view) {
     return view;
 }
 
-static struct View *alloc(const char *key) {
-    assert(instanceMap->get(instanceMap, key) == NULL);
+static struct View *alloc(const char *key, const char **error) {
+    if (instanceMap->containsKey(instanceMap, key)) {
+        fprintf(stderr, "[PureMVC::View::alloc] View instance with key '%s' already exists!\n", key);
+        exit(EXIT_FAILURE);
+    }
 
     struct View *view = malloc(sizeof(struct View));
-    if (view == NULL) {
-        fprintf(stderr, "[PureMVC::View::%s] Error: Failed to allocate View with key '%s'.\n", __func__, key);
-        return NULL;
-    }
+    if (view == NULL)
+        return *error = "[PureMVC::View::alloc] Error: Failed to allocate View", NULL;
+
     memset(view, 0, sizeof(struct View));
 
     view->multitonKey = strdup(key);
-    if (view->multitonKey == NULL) {
-        fprintf(stderr, "[PureMVC::View::%s] Error: strdup failed for key '%s'.\n", __func__, key);
-        free(view);
-        return NULL;
-    }
+    if (view->multitonKey == NULL)
+        return *error = "[PureMVC::View::alloc] Error: Failed to allocate View key (strdup).", free(view), NULL;
 
     mutex_init(&view->mediatorMapMutex);
     view->mediatorMap = collection_dictionary_new();
@@ -175,9 +174,9 @@ static struct View *alloc(const char *key) {
     return view;
 }
 
-struct IView *puremvc_view_new(const char *key) {
-    assert(key != NULL);
-    return (struct IView *) init(alloc(key));
+struct IView *puremvc_view_new(const char *key, const char **error) {
+    if (key == NULL) return *error = "[PureMVC::View::new] Error: key must not be NULL.", NULL;
+    return (struct IView *) init(alloc(key, error));
 }
 
 void puremvc_view_free(struct IView **view) {
@@ -200,9 +199,8 @@ static void dispatchOnce() {
     mutex_init(&mutex);
 }
 
-struct IView *puremvc_view_getInstance(const char *key, struct IView *(*factory)(const char *)) {
-    assert(key != NULL);
-    assert(factory != NULL);
+struct IView *puremvc_view_getInstance(const char *key, struct IView *(*factory)(const char *key, const char **error)) {
+    if (key == NULL || factory == NULL) return NULL;
     mutex_once(&token, dispatchOnce);
     mutex_lock(&mutex);
 
@@ -210,7 +208,8 @@ struct IView *puremvc_view_getInstance(const char *key, struct IView *(*factory)
 
     struct IView *instance = (struct IView *) instanceMap->get(instanceMap, key);
     if (instance == NULL) {
-        instance = factory(key);
+        const char *error = NULL;
+        instance = factory(key, &error);
         instanceMap->put(instanceMap, key, instance);
         instance->initializeView(instance);
     }
@@ -220,7 +219,7 @@ struct IView *puremvc_view_getInstance(const char *key, struct IView *(*factory)
 }
 
 void puremvc_view_removeView(const char *key) {
-    assert(key != NULL);
+    if (key == NULL) return;
     mutex_lock(&mutex);
 
     struct IView *view = instanceMap->removeItem(instanceMap, key);

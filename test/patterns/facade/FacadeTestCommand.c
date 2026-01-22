@@ -1,3 +1,5 @@
+#include <stdlib.h>
+
 #include "FacadeTestCommand.h"
 #include "FacadeTestVO.h"
 
@@ -9,7 +11,8 @@ static void execute(const struct ICommand *self, struct INotification *notificat
 }
 
 struct ICommand *test_facade_command_new() {
-    struct ICommand *command = puremvc_simple_command_new();
+    const char *error = NULL;
+    struct ICommand *command = puremvc_simple_command_new(&error);
     command->execute = execute;
     return command;
 }

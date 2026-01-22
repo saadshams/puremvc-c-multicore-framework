@@ -38,10 +38,11 @@ struct IProxy {
  * Allocates memory and sets up internal state needed for data processing.
  *
  * @param name The number of elements to allocate.
- * @param data
+ * @param data Initial data pointer.
+ * @param error Out-param for static error string on failure (NULL on success).
  * @return A pointer to the initialized processor, or NULL on failure.
  */
-struct IProxy* puremvc_proxy_new(const char* name, void* data);
+struct IProxy* puremvc_proxy_new(const char* name, void* data, const char **error);
 
 /**
  * @brief Initializes the data processor.

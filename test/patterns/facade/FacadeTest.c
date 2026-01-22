@@ -20,7 +20,6 @@ int main() {
     testHasMediator();
     testHasCommand();
     testHasCoreAndRemoveCore();
-    // testGetInstancesThreaded();
     return 0;
 }
 
@@ -80,7 +79,9 @@ void testRegisterAndRetrieveProxy() {
     for(const char **data = (const char *[]) {"red", "green", "blue", NULL}, **cursor = colors; *data; data++, cursor++) {
         *cursor = strdup(*data);
     }
-    facade->registerProxy(facade, puremvc_proxy_new("colors", colors));
+
+    const char *error = NULL;
+    facade->registerProxy(facade, puremvc_proxy_new("colors", colors, &error));
     const struct IProxy *proxy = facade->retrieveProxy(facade, "colors");
 
     // test assertions
@@ -110,7 +111,9 @@ void testRegisterAndRemoveProxy() {
     for(const char **data = (const char *[]) {"7", "13", "21", NULL}, **cursor = sizes; *data; data++, cursor++) {
         *cursor = strdup(*data);
     }
-    facade->registerProxy(facade, puremvc_proxy_new("sizes", sizes));
+
+    const char *error = NULL;
+    facade->registerProxy(facade, puremvc_proxy_new("sizes", sizes, &error));
 
     // remove the new
     struct IProxy *removedProxy = facade->removeProxy(facade, "sizes");
@@ -129,7 +132,9 @@ void testRegisterRetrieveAndRemoveMediator() {
     // register a mediator, remove it, then try to retrieve it
     struct Object {int x;} object;
     const struct IFacade *facade = puremvc_facade_getInstance("FacadeTestKey6", puremvc_facade_new);
-    facade->registerMediator(facade, puremvc_mediator_new(MEDIATOR_NAME, &object));
+
+    const char *error = NULL;
+    facade->registerMediator(facade, puremvc_mediator_new(MEDIATOR_NAME, &object, &error));
 
     // retrieve the mediator
     assert(facade->retrieveMediator(facade, MEDIATOR_NAME) != NULL);
@@ -153,7 +158,9 @@ void testHasProxy() {
     memset(sizes, 0, sizeof(int) * 4);
     for(const int *data = (int []) {1, 2, 3, 0}; *data != 0; data++, cursor++) // 0 as terminator, or use -1
         *cursor = *data;
-    facade->registerProxy(facade, puremvc_proxy_new("hasProxyTest", sizes));
+
+    const char *error = NULL;
+    facade->registerProxy(facade, puremvc_proxy_new("hasProxyTest", sizes, &error));
 
     // assert that the model.hasProxy method returns true
     // for that new name
@@ -169,7 +176,9 @@ void testHasMediator() {
     // register a Mediator
     struct Object {int x;} object;
     const struct IFacade *facade = puremvc_facade_getInstance("FacadeTestKey8", puremvc_facade_new);
-    facade->registerMediator(facade, puremvc_mediator_new("facadeHasMediatorTest", &object));
+
+    const char *error = NULL;
+    facade->registerMediator(facade, puremvc_mediator_new("facadeHasMediatorTest", &object, &error));
 
     // assert that the facade.hasMediator method returns true
     // for that mediator name
@@ -215,35 +224,3 @@ void testHasCoreAndRemoveCore() {
     // assert that the Facade.hasCore method returns false now that the core has been removed.
     assert(puremvc_facade_hasCore("FacadeTestKey11") == false);
 }
-
-// const struct IFacade *facade;
-
-// void *compareInstances() {
-//     assert(facade == puremvc_facade_getInstance("FacadeTestKey11", puremvc_facade_new));
-//     assert(puremvc_facade_hasCore("FacadeTestKey11") == true);
-//     return NULL;
-// }
-
-// void testGetInstancesThreaded() {
-//     facade = puremvc_facade_getInstance("FacadeTestKey11", puremvc_facade_new);
-//
-//     int total = 100;
-//     pthread_t *thread_group = malloc(sizeof(pthread_t) * total);
-//
-//     // start all threads to begin work
-//     for (int i = 0; i < total; i++) {
-//         int error = pthread_create(&thread_group[i], NULL, compareInstances, NULL);
-//         if (error != 0)
-//             printf("\nThread can't be created : [%s]", strerror(error));
-//     }
-//
-//     // wait for all threads to finish
-//     for (int i = 0; i < total; i++) {
-//         pthread_join(thread_group[i], NULL);
-//     }
-//
-//     free(thread_group);
-//
-//     // cleanup
-//     puremvc_facade_removeFacade("FacadeTestKey11");
-// }

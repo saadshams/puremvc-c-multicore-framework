@@ -24,14 +24,16 @@ static void execute(const struct ICommand *self, struct INotification *notificat
 }
 
 static struct ICommand *command_new() {
-    struct ICommand *command = puremvc_simple_command_new();
+    const char *error = NULL;
+    struct ICommand *command = puremvc_simple_command_new(&error);
     command->execute = execute;
     return command;
 }
 
 void testInstance() {
     // create notifier instance
-    struct INotifier *notifier = puremvc_notifier_new();
+    const char *error = NULL;
+    struct INotifier *notifier = puremvc_notifier_new(&error);
 
     // initialize facade
     notifier->initializeNotifier(notifier, "NotifierTest1");
@@ -46,7 +48,8 @@ void testInstance() {
 
 void testRegisterCommandAndSendNotification() {
     // create a notifier
-    struct INotifier *notifier = puremvc_notifier_new();
+    const char *error = NULL;
+    struct INotifier *notifier = puremvc_notifier_new(&error);
 
     // initialize facade
     notifier->initializeNotifier(notifier, "NotifierTest2");

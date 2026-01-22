@@ -1,4 +1,3 @@
-#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -41,27 +40,24 @@ static struct Proxy *init(struct Proxy *proxy) {
     return proxy;
 }
 
-static struct Proxy *alloc(const char *name, void *data) {
+static struct Proxy *alloc(const char *name, void *data, const char **error) {
     struct Proxy *proxy = malloc(sizeof(struct Proxy));
-    if (proxy == NULL) {
-        fprintf(stderr, "[PureMVC::Proxy::%s] Error: Failed to allocate Proxy.\n", __func__);
-        return NULL;
-    }
+    if (proxy == NULL) return *error = "[PureMVC::Proxy::alloc] Error: Failed to allocate Proxy.", NULL;
+
     memset(proxy, 0, sizeof(struct Proxy));
 
-    proxy->base.notifier = puremvc_notifier_new();
+    proxy->base.notifier = puremvc_notifier_new(error);
+    if (proxy->base.notifier == NULL) return free(proxy), NULL;
+
     proxy->name = strdup(name ? name : PROXY_NAME);
-    if (proxy->name == NULL) {
-        fprintf(stderr, "[PureMVC::Proxy::%s] Error: Failed to allocate proxy name (strdup).\n", __func__);
-        free(proxy);
-        return NULL;
-    }
+    if (!proxy->name) return *error = "[PureMVC::Proxy::alloc] Error: Failed to allocate proxy name (strdup).", free(proxy), NULL;
+
     proxy->data = data;
     return proxy;
 }
 
-struct IProxy *puremvc_proxy_new(const char *name, void *data) {
-    return (struct IProxy *) init(alloc(name, data));
+struct IProxy *puremvc_proxy_new(const char *name, void *data, const char **error) {
+    return (struct IProxy *) init(alloc(name, data, error));
 }
 
 void puremvc_proxy_free(struct IProxy **proxy) {

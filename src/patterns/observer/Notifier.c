@@ -40,19 +40,17 @@ static struct Notifier *init(struct Notifier *notifier) {
     return notifier;
 }
 
-static struct Notifier *alloc() {
+static struct Notifier *alloc(const char **error) {
     struct Notifier *notifier = malloc(sizeof(struct Notifier));
-    if (notifier == NULL) {
-        fprintf(stderr, "[PureMVC::Notifier::%s] Error: Failed to allocate Notifier.\n", __func__);
-        return NULL;
-    }
+    if (notifier == NULL) return *error = "[PureMVC::Notifier::alloc] Error: Failed to allocate Notifier.", NULL;
+
     memset(notifier, 0, sizeof(*notifier));
 
     return notifier;
 }
 
-struct INotifier *puremvc_notifier_new() {
-    return (struct INotifier *) init(alloc());
+struct INotifier *puremvc_notifier_new(const char **error) {
+    return (struct INotifier *) init(alloc(error));
 }
 
 void puremvc_notifier_free(struct INotifier **notifier) {
