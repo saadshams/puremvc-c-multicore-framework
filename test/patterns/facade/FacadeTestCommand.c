@@ -3,7 +3,7 @@
 #include "FacadeTestCommand.h"
 #include "FacadeTestVO.h"
 
-static void execute(const struct ICommand *self, struct INotification *notification) {
+static void execute(const struct ICommand *self, struct INotification *notification, const char **error) {
     struct FacadeTestVO *vo = (struct FacadeTestVO *)notification->getBody(notification);
 
     // Fabricate a result

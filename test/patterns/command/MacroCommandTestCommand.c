@@ -9,9 +9,8 @@ static void initializeMacroCommand(const struct IMacroCommand *self) {
     self->addSubCommand(self, macro_command_test_sub2command_new);
 }
 
-struct IMacroCommand *macro_command_test_command_new() {
-    const char *error = NULL;
-    struct IMacroCommand *command = puremvc_macro_command_new(&error);
+struct IMacroCommand *macro_command_test_command_new(const char **error) {
+    struct IMacroCommand *command = puremvc_macro_command_new(error);
     command->initializeMacroCommand = initializeMacroCommand;
     return command;
 }

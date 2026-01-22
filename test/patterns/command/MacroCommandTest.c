@@ -24,8 +24,8 @@ void testMacroCommandExecute() {
     assert(macroCommand != NULL);
     assert(macroCommand->command.notifier != NULL);
 
-    macroCommand->command.notifier->initializeNotifier(macroCommand->command.notifier, "MacroCommandTestkey1");
-    macroCommand->command.execute(&macroCommand->command, notification);
+    macroCommand->command.notifier->initializeNotifier(macroCommand->command.notifier, "MacroCommandTestkey1", &error);
+    macroCommand->command.execute(&macroCommand->command, notification, &error);
 
     assert(vo->result1 == 10);
 
@@ -37,7 +37,7 @@ void testMacroCommandExecute() {
 void testRegisterAndExecuteCommand() {
     const char *error = NULL;
     const struct IController *controller = puremvc_controller_getInstance("ControllerTestKey1", puremvc_controller_new, &error);
-    controller->registerCommand(controller, "MacroCommandTest", (struct ICommand *(*)(void)) macro_command_test_command_new);
+    controller->registerCommand(controller, "MacroCommandTest", (struct ICommand *(*)(const char **)) macro_command_test_command_new, &error);
 
     const struct IView *view = puremvc_view_getInstance("ControllerTestKey1", puremvc_view_new, &error);
 

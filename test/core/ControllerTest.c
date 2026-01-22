@@ -36,7 +36,7 @@ void testRegisterAndExecuteCommand() {
     // Create the controller, register the ControllerTestCommand to handle 'ControllerTest' notes
     const char *error = NULL;
     const struct IController *controller = puremvc_controller_getInstance("ControllerTestKey2", puremvc_controller_new, &error);
-    controller->registerCommand(controller, "ControllerTest1", test_controller_command_new);
+    controller->registerCommand(controller, "ControllerTest1", test_controller_command_new, &error);
 
     // Create a 'ControllerTest' note
     struct ControllerTestVO *vo = malloc(sizeof(struct ControllerTestVO));
@@ -46,7 +46,7 @@ void testRegisterAndExecuteCommand() {
     // Tell the controller to execute the Command associated with the note
     // the ControllerTestCommand invoked will multiply the vo.input value
     // by 2 and set the result on vo.result
-    controller->executeCommand(controller, notification);
+    controller->executeCommand(controller, notification, &error);
 
     // test assertions
     assert(vo->result == 24);
@@ -61,7 +61,7 @@ void testRegisterAndRemoveCommand() {
     // Create the controller, register the ControllerTestCommand to handle 'ControllerTest' notes
     const char *error = NULL;
     const struct IController *controller = puremvc_controller_getInstance("ControllerTestKey3", puremvc_controller_new, &error);
-    controller->registerCommand(controller, "ControllerRemoveTest", test_controller_command_new);
+    controller->registerCommand(controller, "ControllerRemoveTest", test_controller_command_new, &error);
 
     // Create a 'ControllerTest' note
     struct ControllerTestVO *vo = malloc(sizeof(struct ControllerTestVO));
@@ -71,7 +71,7 @@ void testRegisterAndRemoveCommand() {
     // Tell the controller to execute the Command associated with the note
     // the ControllerTestCommand invoked will multiply the vo.input value
     // by 2 and set the result on vo.result
-    controller->executeCommand(controller, notification);
+    controller->executeCommand(controller, notification, &error);
 
     // test assertions
     assert(vo->result == 24);
@@ -85,7 +85,7 @@ void testRegisterAndRemoveCommand() {
     // Tell the controller to execute the Command associated with the
     // note. This time, it should not be registered, and our vo result
     // will not change
-    controller->executeCommand(controller, notification);
+    controller->executeCommand(controller, notification, &error);
 
     // test assertions
     assert(vo->result == 0);
@@ -100,7 +100,7 @@ void testHasCommand() {
     const struct IController *controller = puremvc_controller_getInstance("ControllerTestKey4", puremvc_controller_new, &error);
 
     // test that hasCommand returns true for hasCommandTest notifications
-    controller->registerCommand(controller, "hasCommandTest", test_controller_command_new);
+    controller->registerCommand(controller, "hasCommandTest", test_controller_command_new, &error);
     assert(controller->hasCommand(controller, "hasCommandTest"));
 
     // Remove the Command from the Controller
@@ -117,13 +117,13 @@ void testReregisterAndExecuteCommand() {
     // Fetch the controller, register the ControllerTestCommand2 to handle 'ControllerTest2' notes
     const char *error = NULL;
     const struct IController *controller = puremvc_controller_getInstance("ControllerTestKey5", puremvc_controller_new, &error);
-    controller->registerCommand(controller, "ControllerTest2", test_controller_command2_new);
+    controller->registerCommand(controller, "ControllerTest2", test_controller_command2_new, &error);
 
     // Remove the Command from the Controller
     controller->removeCommand(controller, "ControllerTest2");
 
     // Re-register the Command with the Controller
-    controller->registerCommand(controller, "ControllerTest2", test_controller_command2_new);
+    controller->registerCommand(controller, "ControllerTest2", test_controller_command2_new, &error);
 
     // Create a 'ControllerTest2' note
     struct ControllerTestVO *vo = malloc(sizeof(struct ControllerTestVO));
@@ -156,15 +156,15 @@ void testRegisterAndUpdateCommand() {
     const struct IController *controller = puremvc_controller_getInstance("ControllerTestKey3_2", puremvc_controller_new, &error);
 
     // first registration
-    controller->registerCommand(controller, "ControllerTest2", test_controller_command_new);
+    controller->registerCommand(controller, "ControllerTest2", test_controller_command_new, &error);
 
     // update command
-    controller->registerCommand(controller, "ControllerTest2", test_controller_command2_new);
+    controller->registerCommand(controller, "ControllerTest2", test_controller_command2_new, &error);
 
     struct ControllerTestVO *vo = malloc(sizeof(struct ControllerTestVO));
     *vo = (struct ControllerTestVO){12, 10};
     struct INotification *notification = puremvc_notification_new("ControllerTest2", vo, NULL, &error);
-    controller->executeCommand(controller, notification);
+    controller->executeCommand(controller, notification, &error);
 
     // second command result
     assert(vo->result == 34);

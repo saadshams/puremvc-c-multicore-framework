@@ -51,7 +51,7 @@ void testSimpleCommandExecute() {
     struct ICommand *command = test_simple_command_new();
 
     // Execute the SimpleCommand
-    command->execute(command, note);
+    command->execute(command, note, &error);
 
     // test assertions
     assert(vo->result == 10);

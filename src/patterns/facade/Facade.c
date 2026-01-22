@@ -45,9 +45,9 @@ static void initializeView(struct IFacade *self, const char **error) {
     this->view = puremvc_view_getInstance(this->multitonKey, puremvc_view_new, error);
 }
 
-static void registerCommand(const struct IFacade *self, const char *notificationName, struct ICommand *(*factory)()) {
+static void registerCommand(const struct IFacade *self, const char *notificationName, struct ICommand *(*factory)(), const char **error) {
     const struct Facade *this = (struct Facade *) self;
-    this->controller->registerCommand(this->controller, notificationName, factory);
+    this->controller->registerCommand(this->controller, notificationName, factory, error);
 }
 
 static void removeCommand(const struct IFacade *self, const char *notificationName) {
@@ -60,9 +60,9 @@ static bool hasCommand(const struct IFacade *self, const char *notificationName)
     return this->controller->hasCommand(this->controller, notificationName);
 }
 
-static void registerProxy(const struct IFacade *self, struct IProxy *proxy) {
+static void registerProxy(const struct IFacade *self, struct IProxy *proxy, const char **error) {
     const struct Facade *this = (struct Facade *) self;
-    this->model->registerProxy(this->model, proxy);
+    this->model->registerProxy(this->model, proxy, error);
 }
 
 static struct IProxy *retrieveProxy(const struct IFacade *self, const char *proxyName) {
@@ -80,9 +80,9 @@ static bool hasProxy(const struct IFacade *self, const char *proxyName) {
     return this->model->hasProxy(this->model, proxyName);
 }
 
-static void registerMediator(const struct IFacade *self, struct IMediator *mediator) {
+static void registerMediator(const struct IFacade *self, struct IMediator *mediator, const char **error) {
     const struct Facade *this = (struct Facade *) self;
-    this->view->registerMediator(this->view, mediator);
+    this->view->registerMediator(this->view, mediator, error);
 }
 
 static struct IMediator *retrieveMediator(const struct IFacade *self, const char *mediatorName) {

@@ -43,8 +43,9 @@ struct IModel {
      *
      * @param self  Pointer to the Model instance.
      * @param proxy Pointer to the Proxy to register.
+     * @param error Out-param for a static error string on failure (NULL on success).
      */
-    void (*registerProxy)(const struct IModel *self, struct IProxy *proxy);
+    void (*registerProxy)(const struct IModel *self, struct IProxy *proxy, const char **error);
 
     /**
      * @brief Retrieves a registered Proxy by name.

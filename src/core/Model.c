@@ -24,12 +24,12 @@ static void initializeModel(struct IModel *self, const char **error) {
 
 }
 
-static void registerProxy(const struct IModel *self, struct IProxy *proxy) {
+static void registerProxy(const struct IModel *self, struct IProxy *proxy, const char **error) {
     struct Model *this = (struct Model *) self;
 
     mutex_lock(&this->proxyMapMutex);
-    proxy->notifier->initializeNotifier(proxy->notifier, this->multitonKey);
-    if (this->proxyMap->containsKey(this->proxyMap, proxy->getName(proxy))) { // todo test
+    proxy->notifier->initializeNotifier(proxy->notifier, this->multitonKey, error);
+    if (this->proxyMap->containsKey(this->proxyMap, proxy->getName(proxy))) {
         struct IProxy *previous = this->proxyMap->replace(this->proxyMap, proxy->getName(proxy), proxy);
         puremvc_proxy_free(&previous);
     } else {

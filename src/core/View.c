@@ -88,7 +88,7 @@ static void removeObserver(const struct IView *self, const char *notificationNam
     mutex_unlock(&this->observerMapMutex);
 }
 
-static void registerMediator(const struct IView *self, struct IMediator *mediator) {
+static void registerMediator(const struct IView *self, struct IMediator *mediator, const char **error) {
     struct View *this = (struct View *) self;
 
     mutex_lock(&this->mediatorMapMutex);
@@ -97,13 +97,12 @@ static void registerMediator(const struct IView *self, struct IMediator *mediato
         return;
     }
 
-    mediator->notifier->initializeNotifier(mediator->notifier, this->multitonKey);
+    mediator->notifier->initializeNotifier(mediator->notifier, this->multitonKey, error);
     this->mediatorMap->put(this->mediatorMap, mediator->getName(mediator), mediator);
     mutex_unlock(&this->mediatorMapMutex);
 
     char **interests = mediator->listNotificationInterests(mediator);
     for(char **cursor = interests; *cursor; cursor++) {
-        const char *error = NULL;
         const struct IObserver *observer = puremvc_observer_new((const void (*)(const void *, struct INotification *)) mediator->handleNotification, mediator, &error);
         self->registerObserver(self, *cursor, observer);
     }

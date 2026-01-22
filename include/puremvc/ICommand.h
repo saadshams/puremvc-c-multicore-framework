@@ -26,8 +26,9 @@ struct ICommand {
      *
      * @param self Pointer to this command instance.
      * @param notification Pointer to the notification triggering this command.
+     * @param error Out-param for a static error string on failure (NULL on success).
      */
-    void (*execute)(const struct ICommand *self, struct INotification *notification);
+    void (*execute)(const struct ICommand *self, struct INotification *notification, const char **error);
 };
 
 /**

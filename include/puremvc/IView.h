@@ -37,8 +37,12 @@ struct IView {
     /** @brief Removes an observer by notification name and context. */
     void (*removeObserver)(const struct IView *self, const char *notificationName, const void *notifyContext);
 
-    /** @brief Registers a mediator with the view. */
-    void (*registerMediator)(const struct IView *self, struct IMediator *mediator);
+    /** @brief Registers a mediator with the view.
+     * @param self Pointer to the View instance.
+     * @param mediator Pointer to the Mediator to register.
+     * @param error Out-param for a static error string on failure (NULL on success).
+     */
+    void (*registerMediator)(const struct IView *self, struct IMediator *mediator, const char **error);
 
     /** @brief Retrieves a mediator by name. */
     struct IMediator *(*retrieveMediator)(const struct IView *self, const char *mediatorName);

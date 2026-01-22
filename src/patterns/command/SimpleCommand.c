@@ -12,7 +12,7 @@
 
 #include "SimpleCommand.h"
 
-static void execute(const struct ICommand *self, struct INotification *notification) {
+static void execute(const struct ICommand *self, struct INotification *notification, const char **error) {
 
 }
 

@@ -17,20 +17,26 @@ static void initializeMacroCommand(const struct IMacroCommand *self) {
 
 }
 
-static void addSubCommand(const struct IMacroCommand *self, struct ICommand *(*factory)()) {
+static void addSubCommand(const struct IMacroCommand *self, struct ICommand *(*factory)(const char **error)) {
     const struct MacroCommand *this = (struct MacroCommand *) self;
     this->subCommands->push(this->subCommands, factory);
 }
 
-static void execute(const struct ICommand *self, struct INotification *notification) {
+static void execute(const struct ICommand *self, struct INotification *notification, const char **error) {
     struct MacroCommand *this = (struct MacroCommand *) self;
 
     this->base.initializeMacroCommand((struct IMacroCommand *) this);
     while (this->subCommands->size(this->subCommands) > 0) {
-        struct ICommand *(*factory)(void) = (struct ICommand *(*)(void)) this->subCommands->shift(this->subCommands);
-        struct ICommand *command = factory();
-        command->notifier->initializeNotifier(command->notifier, self->notifier->getKey(self->notifier));
-        command->execute(command, notification);
+        struct ICommand *(*factory)(const char **error) = (struct ICommand *(*)(const char **)) this->subCommands->shift(this->subCommands);
+        struct ICommand *command = factory(error);
+        if (*error != NULL) return;
+
+        command->notifier->initializeNotifier(command->notifier, self->notifier->getKey(self->notifier), error);
+        if (*error != NULL) return puremvc_simple_command_free(&command);
+
+        command->execute(command, notification, error);
+        if (*error != NULL) return puremvc_simple_command_free(&command);
+
         puremvc_simple_command_free(&command);
     }
 

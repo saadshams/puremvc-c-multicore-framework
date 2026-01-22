@@ -43,8 +43,9 @@ struct INotifier {
      *
      * @param self Pointer to this notifier instance.
      * @param key Multiton key to associate with this notifier.
+     * @param error Out-param for a static error string on failure (NULL on success).
      */
-    void (*initializeNotifier)(struct INotifier *self, const char *key);
+    void (*initializeNotifier)(struct INotifier *self, const char *key, const char **error);
 
     /**
      * @brief Sends a notification through the PureMVC framework.

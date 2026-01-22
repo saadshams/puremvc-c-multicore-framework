@@ -23,18 +23,14 @@ const char *getMultitonKey(const struct INotifier *self) {
     return this->key;
 }
 
-static void initializeNotifier(struct INotifier *self, const char *key) {
-    if (key == NULL) {
-        fprintf(stderr, "[PureMVC::Notifier::initializeNotifier] Error: key must not be NULL.\n");
-        exit(EXIT_FAILURE);
-    }
+static void initializeNotifier(struct INotifier *self, const char *key, const char **error) {
+    if (key == NULL) return *error = "[PureMVC::Notifier::initializeNotifier] Error: key must not be NULL.", (void)0;
 
     struct Notifier *this = (struct Notifier *) self;
 
     this->key = strdup(key);
-    if (this->key == NULL) {
-        fprintf(stderr, "[PureMVC::Notifier::%s] Error: strdup failed for key '%s'.\n", __func__, key);
-    }
+    if (this->key == NULL)
+        return *error = "[PureMVC::Notifier::initializeNotifier] Error: Failed to allocate Model key (strdup).", (void)0;
 }
 
 static void sendNotification(const struct INotifier *self, const char *notificationName, void *body, const char *type, const char **error) {

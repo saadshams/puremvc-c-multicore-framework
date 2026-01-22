@@ -48,17 +48,29 @@ struct IFacade {
      */
     void (*initializeView)(struct IFacade *self, const char **error);
 
-    /** @brief Registers a command factory for a notification name. */
-    void (*registerCommand)(const struct IFacade *self, const char *notificationName, struct ICommand *(*factory)());
+    /** @brief Registers a command factory for a notification name.
+     * @param self Pointer to the Facade instance.
+     * @param notificationName Pointer to the notification triggering this command.
+     * @param factory Factory function that creates a command instance.
+     * @param error Out-param for a static error string on failure (NULL on success).
+     */
+    void (*registerCommand)(const struct IFacade *self, const char *notificationName, struct ICommand *(*factory)(), const char **error);
 
-    /** @brief Checks if a command is registered for a notification. */
+    /** @brief Checks if a command is registered for a notification.
+     * @param self Pointer to the Facade instance.
+     * @param notificationName Pointer to the notification triggering this command.
+     */
     bool (*hasCommand)(const struct IFacade *self, const char *notificationName);
 
     /** @brief Removes a command mapping for a notification. */
     void (*removeCommand)(const struct IFacade *self, const char *notificationName);
 
-    /** @brief Registers a proxy with the facade. */
-    void (*registerProxy)(const struct IFacade *self, struct IProxy *proxy);
+    /** @brief Registers a proxy with the facade.
+     * @param self Pointer to the Facade instance.
+     * @param proxy Pointer to the Proxy to register.
+     * @param error Out-param for a static error string on failure (NULL on success).
+     */
+    void (*registerProxy)(const struct IFacade *self, struct IProxy *proxy, const char **error);
 
     /** @brief Retrieves a proxy by name. */
     struct IProxy *(*retrieveProxy)(const struct IFacade *self, const char *proxyName);
@@ -69,8 +81,12 @@ struct IFacade {
     /** @brief Removes and returns a proxy by name. */
     struct IProxy *(*removeProxy)(const struct IFacade *self, const char *proxyName);
 
-    /** @brief Registers a mediator with the facade. */
-    void (*registerMediator)(const struct IFacade *self, struct IMediator *mediator);
+    /** @brief Registers a mediator with the facade.
+     * @param self Pointer to the Facade instance.
+     * @param mediator Pointer to the Mediator to register.
+     * @param error Out-param for a static error string on failure (NULL on success).
+     */
+    void (*registerMediator)(const struct IFacade *self, struct IMediator *mediator, const char **error);
 
     /** @brief Retrieves a mediator by name. */
     struct IMediator *(*retrieveMediator)(const struct IFacade *self, const char *mediatorName);

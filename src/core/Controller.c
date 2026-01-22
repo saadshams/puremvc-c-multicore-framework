@@ -26,28 +26,35 @@ static void initializeController(struct IController *self, const char **error) {
     this->view = puremvc_view_getInstance(this->multitonKey, puremvc_view_new, error);
 }
 
-static void executeCommand(const struct IController *self, struct INotification *notification) {
+static void executeCommand(const struct IController *self, struct INotification *notification, const char **error) {
     struct Controller *this = (struct Controller *) self;
 
     mutex_lock_shared(&this->commandMapMutex);
-    struct ICommand *(*factory)() = (struct ICommand *(*)()) this->commandMap->get(this->commandMap, notification->getName(notification));
+    struct ICommand *(*factory)(const char **error) = (struct ICommand *(*)(const char **)) this->commandMap->get(this->commandMap, notification->getName(notification));
     mutex_unlock(&this->commandMapMutex);
 
     if (factory != NULL) {
-        struct ICommand *command = factory();
-        command->notifier->initializeNotifier(command->notifier, this->multitonKey);
-        command->execute(command, notification);
+        struct ICommand *command = factory(error);
+        if (*error != NULL) return;
+
+        command->notifier->initializeNotifier(command->notifier, this->multitonKey, error);
+        if (*error != NULL) return puremvc_simple_command_free(&command);
+
+        command->execute(command, notification, error);
+        if (*error != NULL) return puremvc_simple_command_free(&command);
+
         puremvc_simple_command_free(&command);
     }
 }
 
-static void registerCommand(const struct IController *self, const char *notificationName, struct ICommand *(*factory)()) {
+static void registerCommand(const struct IController *self, const char *notificationName, struct ICommand *(*factory)(const char **error), const char **error) {
     struct Controller *this = (struct Controller *) self;
 
     mutex_lock(&this->commandMapMutex);
     if (this->commandMap->containsKey(this->commandMap, notificationName) == false) {
-        const char *error = NULL;
-        const struct IObserver *observer = puremvc_observer_new((const void (*)(const void *, struct INotification *))executeCommand, this, &error);
+        const struct IObserver *observer = puremvc_observer_new((const void (*)(const void *, struct INotification *))executeCommand, this, error);
+        if (*error != NULL) return mutex_unlock(&this->commandMapMutex), (void)0;
+
         this->view->registerObserver(this->view, notificationName, observer);
         this->commandMap->put(this->commandMap, notificationName, factory);
     } else {

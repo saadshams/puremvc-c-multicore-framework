@@ -90,7 +90,7 @@ void testRegisterAndRetrieveMediator() {
 
     // Create and register the test mediator
     struct ViewComponent viewComponent = {};
-    view->registerMediator(view, puremvc_mediator_new("testing", &viewComponent, &error));
+    view->registerMediator(view, puremvc_mediator_new("testing", &viewComponent, &error), &error);
 
     // Retrieve the component
     struct IMediator *mediator = view->retrieveMediator(view, "testing");
@@ -115,7 +115,7 @@ void testHasMediator() {
     // Create and register the test mediator
     struct ViewComponent viewComponent = {};
     struct IMediator *mediator = puremvc_mediator_new("hasMediatorTest", &viewComponent, &error);
-    view->registerMediator(view, mediator);
+    view->registerMediator(view, mediator, &error);
 
     // assert that the view.hasMediator method returns true
     // for that mediator name
@@ -140,7 +140,7 @@ void testRegisterAndRemoveMediator() {
     // Create and register the test mediator
     struct ViewComponent viewComponent = {};
     struct IMediator *mediator = puremvc_mediator_new("testing", &viewComponent, &error);
-    view->registerMediator(view, mediator);
+    view->registerMediator(view, mediator, &error);
 
     // Remove the component
     const struct IMediator *removedMediator = view->removeMediator(view, "testing");
@@ -164,7 +164,7 @@ void testOnRegisterAndOnRemove() {
 
     // Create and register the test mediator
     struct IMediator *mediator = test_mediator4_new(&viewTest);
-    view->registerMediator(view, mediator);
+    view->registerMediator(view, mediator, &error);
 
     // assert that onRegister was called, and the mediator responded by setting our boolean
     assert(viewTest.onRegisterCalled);
@@ -194,7 +194,7 @@ void testSuccessiveRegisterAndRemoveMediator() {
     struct ViewComponent viewComponent = {};
     struct IMediator *mediator = test_mediator_new(&viewComponent);
 
-    view->registerMediator(view, mediator);
+    view->registerMediator(view, mediator, &error);
 
     // test that we can retrieve it
     assert(view->retrieveMediator(view, ViewTestMediator_NAME) == mediator);
@@ -210,7 +210,7 @@ void testSuccessiveRegisterAndRemoveMediator() {
 
     // Create and register another instance of the test mediator,
     struct IMediator *mediator2 = puremvc_mediator_new(ViewTestMediator_NAME, &viewComponent, &error);
-    view->registerMediator(view, mediator2);
+    view->registerMediator(view, mediator2, &error);
 
     assert(view->retrieveMediator(view, ViewTestMediator_NAME) == mediator2);
 
@@ -234,7 +234,7 @@ void testRemoveMediatorAndSubsequentNotify() {
     // Create and register the test mediator to be removed.
     struct ViewTest viewTest = {.lastNotification = NULL };
     struct IMediator *mediator = test_mediator2_new(&viewTest);
-    view->registerMediator(view, mediator);
+    view->registerMediator(view, mediator, &error);
 
     // test that notifications work
     struct INotification *notification1 = puremvc_notification_new(NOTE1, NULL, NULL, &error);
@@ -272,11 +272,11 @@ void testRemoveOneOfTwoMediatorsAndSubsequentNotify() {
 
     // Create and register that responds to notifications 1 and 2
     struct IMediator *mediator2 = test_mediator2_new(&viewTest);
-    view->registerMediator(view, mediator2);
+    view->registerMediator(view, mediator2, &error);
 
     // Create and register that responds to notification 3
     struct IMediator *mediator3 = test_mediator3_new(&viewTest);
-    view->registerMediator(view, mediator3);
+    view->registerMediator(view, mediator3, &error);
 
     // test that all notifications work
     struct INotification *notification1 = puremvc_notification_new(NOTE1, NULL, NULL, &error);
@@ -332,7 +332,7 @@ void testMediatorReregistration() {
     struct IMediator *mediator = test_mediator5_new(&viewTest);
 
     // try to register another instance of that mediator (uses the same NAME constant).
-    view->registerMediator(view, mediator);
+    view->registerMediator(view, mediator, &error);
 
     // test that the counter is only incremented once (mediator 5's response)
     viewTest.counter = 0;
@@ -367,14 +367,14 @@ void testModifyObserverListDuringNotification() {
     // Create and register several mediator instances that respond to notification 6
     // by removing themselves, which will cause the observer list for that notification
     // to change.
-    view->registerMediator(view, test_mediator6_new("ViewTestMediator6/1", &viewTest));
-    view->registerMediator(view, test_mediator6_new("ViewTestMediator6/2", &viewTest));
-    view->registerMediator(view, test_mediator6_new("ViewTestMediator6/3", &viewTest));
-    view->registerMediator(view, test_mediator6_new("ViewTestMediator6/4", &viewTest));
-    view->registerMediator(view, test_mediator6_new("ViewTestMediator6/5", &viewTest));
-    view->registerMediator(view, test_mediator6_new("ViewTestMediator6/6", &viewTest));
-    view->registerMediator(view, test_mediator6_new("ViewTestMediator6/7", &viewTest));
-    view->registerMediator(view, test_mediator6_new("ViewTestMediator6/8", &viewTest));
+    view->registerMediator(view, test_mediator6_new("ViewTestMediator6/1", &viewTest), &error);
+    view->registerMediator(view, test_mediator6_new("ViewTestMediator6/2", &viewTest), &error);
+    view->registerMediator(view, test_mediator6_new("ViewTestMediator6/3", &viewTest), &error);
+    view->registerMediator(view, test_mediator6_new("ViewTestMediator6/4", &viewTest), &error);
+    view->registerMediator(view, test_mediator6_new("ViewTestMediator6/5", &viewTest), &error);
+    view->registerMediator(view, test_mediator6_new("ViewTestMediator6/6", &viewTest), &error);
+    view->registerMediator(view, test_mediator6_new("ViewTestMediator6/7", &viewTest), &error);
+    view->registerMediator(view, test_mediator6_new("ViewTestMediator6/8", &viewTest), &error);
 
     // send the notification. each of the above mediators will respond by removing
     // themselves and incrementing the counter by 1. This should leave us with a
