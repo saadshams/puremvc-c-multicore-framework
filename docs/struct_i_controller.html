@@ -92,19 +92,29 @@ $(function(){initNavTree('struct_i_controller.html','',''); });
 </div><!--header-->
 <div class="contents">
 
+<p>Represents the <a class="el" href="struct_controller.html">Controller</a> in the PureMVC framework.  
+ <a href="#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="_i_controller_8h_source.html">IController.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
 <tr class="memitem:a0f8c1fbd96fc5463842866bb8eb814b4" id="r_a0f8c1fbd96fc5463842866bb8eb814b4"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#a0f8c1fbd96fc5463842866bb8eb814b4">initializeController</a> )(struct <a class="el" href="struct_i_controller.html">IController</a> *self)</td></tr>
-<tr class="memitem:ae290b9c471ed2939c4dcc5ed6591db19" id="r_ae290b9c471ed2939c4dcc5ed6591db19"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#ae290b9c471ed2939c4dcc5ed6591db19">registerCommand</a> )(const struct <a class="el" href="struct_i_controller.html">IController</a> *self, const char *notificationName, struct <a class="el" href="struct_i_command.html">ICommand</a> *(*factory)(void))</td></tr>
+<tr class="memdesc:a0f8c1fbd96fc5463842866bb8eb814b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the controller.  <br /></td></tr>
+<tr class="memitem:af58bb647486510a47649be6e562bb003" id="r_af58bb647486510a47649be6e562bb003"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#af58bb647486510a47649be6e562bb003">registerCommand</a> )(const struct <a class="el" href="struct_i_controller.html">IController</a> *self, const char *notificationName, struct <a class="el" href="struct_i_command.html">ICommand</a> *(*factory)())</td></tr>
+<tr class="memdesc:af58bb647486510a47649be6e562bb003"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a command factory for a notification name.  <br /></td></tr>
 <tr class="memitem:a79216dad11324928def9d1a4768f1c5b" id="r_a79216dad11324928def9d1a4768f1c5b"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#a79216dad11324928def9d1a4768f1c5b">executeCommand</a> )(const struct <a class="el" href="struct_i_controller.html">IController</a> *self, struct <a class="el" href="struct_i_notification.html">INotification</a> *notification)</td></tr>
+<tr class="memdesc:a79216dad11324928def9d1a4768f1c5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Executes a command for the given notification.  <br /></td></tr>
 <tr class="memitem:a57497a5f0271a70ddd7a3123cfc1efa1" id="r_a57497a5f0271a70ddd7a3123cfc1efa1"><td class="memItemLeft">bool(*&#160;</td><td class="memItemRight"><a class="el" href="#a57497a5f0271a70ddd7a3123cfc1efa1">hasCommand</a> )(const struct <a class="el" href="struct_i_controller.html">IController</a> *self, const char *notificationName)</td></tr>
+<tr class="memdesc:a57497a5f0271a70ddd7a3123cfc1efa1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if a command is registered for a notification.  <br /></td></tr>
 <tr class="memitem:aee3e0705f18b389b3d7bb0214a4aeda5" id="r_aee3e0705f18b389b3d7bb0214a4aeda5"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#aee3e0705f18b389b3d7bb0214a4aeda5">removeCommand</a> )(const struct <a class="el" href="struct_i_controller.html">IController</a> *self, const char *notificationName)</td></tr>
+<tr class="memdesc:aee3e0705f18b389b3d7bb0214a4aeda5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a command mapping for a notification.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="_i_controller_8h_source.html#l00007">7</a> of file <a class="el" href="_i_controller_8h_source.html">IController.h</a>.</p>
+<div class="textblock"><p>Represents the <a class="el" href="struct_controller.html">Controller</a> in the PureMVC framework. </p>
+<p>The <a class="el" href="struct_controller.html">Controller</a> maps notifications to command factories and is responsible for executing commands in response to notifications. </p>
+
+<p class="definition">Definition at line <a class="el" href="_i_controller_8h_source.html#l00021">21</a> of file <a class="el" href="_i_controller_8h_source.html">IController.h</a>.</p>
 </div><a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Field Documentation</h2>
 <a id="a79216dad11324928def9d1a4768f1c5b" name="a79216dad11324928def9d1a4768f1c5b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a79216dad11324928def9d1a4768f1c5b">&#9670;&#160;</a></span>executeCommand</h2>
@@ -118,7 +128,9 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_i_controller_8h_source.html#l00011">11</a> of file <a class="el" href="_i_controller_8h_source.html">IController.h</a>.</p>
+<p>Executes a command for the given notification. </p>
+
+<p class="definition">Definition at line <a class="el" href="_i_controller_8h_source.html#l00029">29</a> of file <a class="el" href="_i_controller_8h_source.html">IController.h</a>.</p>
 
 </div>
 </div>
@@ -134,7 +146,9 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_i_controller_8h_source.html#l00012">12</a> of file <a class="el" href="_i_controller_8h_source.html">IController.h</a>.</p>
+<p>Checks if a command is registered for a notification. </p>
+
+<p class="definition">Definition at line <a class="el" href="_i_controller_8h_source.html#l00032">32</a> of file <a class="el" href="_i_controller_8h_source.html">IController.h</a>.</p>
 
 </div>
 </div>
@@ -150,23 +164,27 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_i_controller_8h_source.html#l00008">8</a> of file <a class="el" href="_i_controller_8h_source.html">IController.h</a>.</p>
+<p>Initializes the controller. </p>
+
+<p class="definition">Definition at line <a class="el" href="_i_controller_8h_source.html#l00023">23</a> of file <a class="el" href="_i_controller_8h_source.html">IController.h</a>.</p>
 
 </div>
 </div>
-<a id="ae290b9c471ed2939c4dcc5ed6591db19" name="ae290b9c471ed2939c4dcc5ed6591db19"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae290b9c471ed2939c4dcc5ed6591db19">&#9670;&#160;</a></span>registerCommand</h2>
+<a id="af58bb647486510a47649be6e562bb003" name="af58bb647486510a47649be6e562bb003"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af58bb647486510a47649be6e562bb003">&#9670;&#160;</a></span>registerCommand</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void(* registerCommand) (const struct <a class="el" href="struct_i_controller.html">IController</a> *self, const char *notificationName, struct <a class="el" href="struct_i_command.html">ICommand</a> *(*factory)(void))</td>
+          <td class="memname">void(* registerCommand) (const struct <a class="el" href="struct_i_controller.html">IController</a> *self, const char *notificationName, struct <a class="el" href="struct_i_command.html">ICommand</a> *(*factory)())</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_i_controller_8h_source.html#l00010">10</a> of file <a class="el" href="_i_controller_8h_source.html">IController.h</a>.</p>
+<p>Registers a command factory for a notification name. </p>
+
+<p class="definition">Definition at line <a class="el" href="_i_controller_8h_source.html#l00026">26</a> of file <a class="el" href="_i_controller_8h_source.html">IController.h</a>.</p>
 
 </div>
 </div>
@@ -182,7 +200,9 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_i_controller_8h_source.html#l00013">13</a> of file <a class="el" href="_i_controller_8h_source.html">IController.h</a>.</p>
+<p>Removes a command mapping for a notification. </p>
+
+<p class="definition">Definition at line <a class="el" href="_i_controller_8h_source.html#l00035">35</a> of file <a class="el" href="_i_controller_8h_source.html">IController.h</a>.</p>
 
 </div>
 </div>

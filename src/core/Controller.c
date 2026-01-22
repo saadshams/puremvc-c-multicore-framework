@@ -1,3 +1,11 @@
+/**
+* @file Controller.c
+* @internal
+* @brief Controller Implementation
+*
+* @author Saad Shams <saad.shams@puremvc.org>
+* @copyright BSD 3-Clause License
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

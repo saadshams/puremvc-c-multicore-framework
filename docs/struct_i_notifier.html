@@ -92,18 +92,27 @@ $(function(){initNavTree('struct_i_notifier.html','',''); });
 </div><!--header-->
 <div class="contents">
 
+<p>Represents a notifier in the PureMVC framework.  
+ <a href="#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="_i_notifier_8h_source.html">INotifier.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
 <tr class="memitem:ab05dbbfffc64fb1e64bb5d4c0d001ba2" id="r_ab05dbbfffc64fb1e64bb5d4c0d001ba2"><td class="memItemLeft">struct <a class="el" href="struct_i_facade.html">IFacade</a> *(*&#160;</td><td class="memItemRight"><a class="el" href="#ab05dbbfffc64fb1e64bb5d4c0d001ba2">getFacade</a> )(const struct <a class="el" href="struct_i_notifier.html">INotifier</a> *self)</td></tr>
+<tr class="memdesc:ab05dbbfffc64fb1e64bb5d4c0d001ba2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the facade instance associated with this notifier.  <br /></td></tr>
 <tr class="memitem:acbdb46e58461b5def9409a4373b3c4d6" id="r_acbdb46e58461b5def9409a4373b3c4d6"><td class="memItemLeft">const char *(*&#160;</td><td class="memItemRight"><a class="el" href="#acbdb46e58461b5def9409a4373b3c4d6">getKey</a> )(const struct <a class="el" href="struct_i_notifier.html">INotifier</a> *self)</td></tr>
+<tr class="memdesc:acbdb46e58461b5def9409a4373b3c4d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the multiton key for this notifier.  <br /></td></tr>
 <tr class="memitem:af639631e64bb6ecfeee3f7dfa638b394" id="r_af639631e64bb6ecfeee3f7dfa638b394"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#af639631e64bb6ecfeee3f7dfa638b394">initializeNotifier</a> )(struct <a class="el" href="struct_i_notifier.html">INotifier</a> *self, const char *key)</td></tr>
+<tr class="memdesc:af639631e64bb6ecfeee3f7dfa638b394"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the notifier with a multiton key.  <br /></td></tr>
 <tr class="memitem:a15cce2d9be13f915725000800ea7cb5b" id="r_a15cce2d9be13f915725000800ea7cb5b"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#a15cce2d9be13f915725000800ea7cb5b">sendNotification</a> )(const struct <a class="el" href="struct_i_notifier.html">INotifier</a> *self, const char *notificationName, void *body, const char *type)</td></tr>
+<tr class="memdesc:a15cce2d9be13f915725000800ea7cb5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends a notification through the PureMVC framework.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="_i_notifier_8h_source.html#l00005">5</a> of file <a class="el" href="_i_notifier_8h_source.html">INotifier.h</a>.</p>
+<div class="textblock"><p>Represents a notifier in the PureMVC framework. </p>
+<p>This structure provides an interface for sending notifications to the framework. It holds function pointers for accessing the facade, retrieving the multiton key, initializing the notifier, and sending notifications. </p>
+
+<p class="definition">Definition at line <a class="el" href="_i_notifier_8h_source.html#l00020">20</a> of file <a class="el" href="_i_notifier_8h_source.html">INotifier.h</a>.</p>
 </div><a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Field Documentation</h2>
 <a id="ab05dbbfffc64fb1e64bb5d4c0d001ba2" name="ab05dbbfffc64fb1e64bb5d4c0d001ba2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab05dbbfffc64fb1e64bb5d4c0d001ba2">&#9670;&#160;</a></span>getFacade</h2>
@@ -117,7 +126,16 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_i_notifier_8h_source.html#l00014">14</a> of file <a class="el" href="_i_notifier_8h_source.html">INotifier.h</a>.</p>
+<p>Gets the facade instance associated with this notifier. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">self</td><td>Pointer to this notifier instance. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Pointer to the <a class="el" href="struct_i_facade.html" title="Represents the Facade in the PureMVC framework.">IFacade</a> instance. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_i_notifier_8h_source.html#l00075">75</a> of file <a class="el" href="_i_notifier_8h_source.html">INotifier.h</a>.</p>
 
 </div>
 </div>
@@ -133,7 +151,16 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_i_notifier_8h_source.html#l00007">7</a> of file <a class="el" href="_i_notifier_8h_source.html">INotifier.h</a>.</p>
+<p>Gets the multiton key for this notifier. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">self</td><td>Pointer to this notifier instance. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Static string representing the key. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_i_notifier_8h_source.html#l00035">35</a> of file <a class="el" href="_i_notifier_8h_source.html">INotifier.h</a>.</p>
 
 </div>
 </div>
@@ -149,7 +176,17 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_i_notifier_8h_source.html#l00009">9</a> of file <a class="el" href="_i_notifier_8h_source.html">INotifier.h</a>.</p>
+<p>Initializes the notifier with a multiton key. </p>
+<p>Must be called before sending notifications.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">self</td><td>Pointer to this notifier instance. </td></tr>
+    <tr><td class="paramname">key</td><td>Multiton key to associate with this notifier. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_i_notifier_8h_source.html#l00045">45</a> of file <a class="el" href="_i_notifier_8h_source.html">INotifier.h</a>.</p>
 
 </div>
 </div>
@@ -165,7 +202,18 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_i_notifier_8h_source.html#l00010">10</a> of file <a class="el" href="_i_notifier_8h_source.html">INotifier.h</a>.</p>
+<p>Sends a notification through the PureMVC framework. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">self</td><td>Pointer to this notifier instance. </td></tr>
+    <tr><td class="paramname">notificationName</td><td>Name of the notification. </td></tr>
+    <tr><td class="paramname">body</td><td>Optional pointer to the notification body. </td></tr>
+    <tr><td class="paramname">type</td><td>Optional type string for the notification. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_i_notifier_8h_source.html#l00055">55</a> of file <a class="el" href="_i_notifier_8h_source.html">INotifier.h</a>.</p>
 
 </div>
 </div>

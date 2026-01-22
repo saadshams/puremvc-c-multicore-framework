@@ -99,11 +99,13 @@ Data Fields</h2></td></tr>
 <tr class="memitem:af81b3af688e6327282830b4b6f40389e" id="r_af81b3af688e6327282830b4b6f40389e"><td class="memItemLeft">struct <a class="el" href="struct_i_view.html">IView</a>&#160;</td><td class="memItemRight"><a class="el" href="#af81b3af688e6327282830b4b6f40389e">base</a></td></tr>
 <tr class="memitem:a19fdedbf1c3f543f4358255f0ca4269d" id="r_a19fdedbf1c3f543f4358255f0ca4269d"><td class="memItemLeft">const char *&#160;</td><td class="memItemRight"><a class="el" href="#a19fdedbf1c3f543f4358255f0ca4269d">multitonKey</a></td></tr>
 <tr class="memitem:a7a1deeb8f0f616b4cc80392ffeefb490" id="r_a7a1deeb8f0f616b4cc80392ffeefb490"><td class="memItemLeft">Mutex&#160;</td><td class="memItemRight"><a class="el" href="#a7a1deeb8f0f616b4cc80392ffeefb490">mediatorMapMutex</a></td></tr>
+<tr class="memitem:a21e8effdf1b3d7ab82137ccef0cda0f2" id="r_a21e8effdf1b3d7ab82137ccef0cda0f2"><td class="memItemLeft">struct IDictionary *&#160;</td><td class="memItemRight"><a class="el" href="#a21e8effdf1b3d7ab82137ccef0cda0f2">mediatorMap</a></td></tr>
 <tr class="memitem:ac1ff339635075bf796b7c21421b9251c" id="r_ac1ff339635075bf796b7c21421b9251c"><td class="memItemLeft">Mutex&#160;</td><td class="memItemRight"><a class="el" href="#ac1ff339635075bf796b7c21421b9251c">observerMapMutex</a></td></tr>
+<tr class="memitem:ad8a75ddfdef78152c688eadcfb61bcda" id="r_ad8a75ddfdef78152c688eadcfb61bcda"><td class="memItemLeft">struct IDictionary *&#160;</td><td class="memItemRight"><a class="el" href="#ad8a75ddfdef78152c688eadcfb61bcda">observerMap</a></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="_view_8h_source.html#l00007">7</a> of file <a class="el" href="_view_8h_source.html">View.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_view_8h_source.html#l00015">15</a> of file <a class="el" href="_view_8h_source.html">View.h</a>.</p>
 </div><a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Field Documentation</h2>
 <a id="af81b3af688e6327282830b4b6f40389e" name="af81b3af688e6327282830b4b6f40389e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af81b3af688e6327282830b4b6f40389e">&#9670;&#160;</a></span>base</h2>
@@ -117,7 +119,23 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_view_8h_source.html#l00008">8</a> of file <a class="el" href="_view_8h_source.html">View.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_view_8h_source.html#l00016">16</a> of file <a class="el" href="_view_8h_source.html">View.h</a>.</p>
+
+</div>
+</div>
+<a id="a21e8effdf1b3d7ab82137ccef0cda0f2" name="a21e8effdf1b3d7ab82137ccef0cda0f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a21e8effdf1b3d7ab82137ccef0cda0f2">&#9670;&#160;</a></span>mediatorMap</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct IDictionary* mediatorMap</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_view_8h_source.html#l00022">22</a> of file <a class="el" href="_view_8h_source.html">View.h</a>.</p>
 
 </div>
 </div>
@@ -133,7 +151,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_view_8h_source.html#l00013">13</a> of file <a class="el" href="_view_8h_source.html">View.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_view_8h_source.html#l00021">21</a> of file <a class="el" href="_view_8h_source.html">View.h</a>.</p>
 
 </div>
 </div>
@@ -149,7 +167,23 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_view_8h_source.html#l00010">10</a> of file <a class="el" href="_view_8h_source.html">View.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_view_8h_source.html#l00018">18</a> of file <a class="el" href="_view_8h_source.html">View.h</a>.</p>
+
+</div>
+</div>
+<a id="ad8a75ddfdef78152c688eadcfb61bcda" name="ad8a75ddfdef78152c688eadcfb61bcda"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad8a75ddfdef78152c688eadcfb61bcda">&#9670;&#160;</a></span>observerMap</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct IDictionary* observerMap</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_view_8h_source.html#l00026">26</a> of file <a class="el" href="_view_8h_source.html">View.h</a>.</p>
 
 </div>
 </div>
@@ -165,7 +199,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_view_8h_source.html#l00017">17</a> of file <a class="el" href="_view_8h_source.html">View.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_view_8h_source.html#l00025">25</a> of file <a class="el" href="_view_8h_source.html">View.h</a>.</p>
 
 </div>
 </div>

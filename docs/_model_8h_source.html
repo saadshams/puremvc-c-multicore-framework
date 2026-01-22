@@ -91,27 +91,30 @@ $(function(){initNavTree('_model_8h_source.html','',''); });
   <div class="headertitle"><div class="title">Model.h</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;collection/Mutex.h&gt;</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;puremvc/IModel.h&quot;</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
-<div class="foldopen" id="foldopen00007" data-start="{" data-end="};">
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno"><a class="line" href="struct_model.html">    7</a></span><span class="keyword">struct </span><a class="code hl_struct" href="struct_model.html">Model</a> {</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno"><a class="line" href="struct_model.html#ab1b57059feb856b004cd92d8c817333d">    8</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="struct_i_model.html">IModel</a> <a class="code hl_variable" href="struct_model.html#ab1b57059feb856b004cd92d8c817333d">base</a>;</div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="struct_model.html#a19fdedbf1c3f543f4358255f0ca4269d">   10</a></span>    <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code hl_variable" href="struct_model.html#a19fdedbf1c3f543f4358255f0ca4269d">multitonKey</a>;</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="struct_model.html#a907fa03c332362d1c357dfc26c72d224">   12</a></span>    Mutex <a class="code hl_variable" href="struct_model.html#a907fa03c332362d1c357dfc26c72d224">proxyMapMutex</a>;</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    <span class="keyword">struct </span>IDictionary *proxyMap;</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>};</div>
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &lt;collection/Mutex.h&gt;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &quot;<a class="code" href="_i_model_8h.html">puremvc/IModel.h</a>&quot;</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="foldopen" id="foldopen00015" data-start="{" data-end="};">
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="struct_model.html">   15</a></span><span class="keyword">struct </span><a class="code hl_struct" href="struct_model.html">Model</a> {</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="struct_model.html#ab1b57059feb856b004cd92d8c817333d">   16</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="struct_i_model.html">IModel</a> <a class="code hl_variable" href="struct_model.html#ab1b57059feb856b004cd92d8c817333d">base</a>;</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="struct_model.html#a19fdedbf1c3f543f4358255f0ca4269d">   18</a></span>    <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code hl_variable" href="struct_model.html#a19fdedbf1c3f543f4358255f0ca4269d">multitonKey</a>;</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="struct_model.html#a907fa03c332362d1c357dfc26c72d224">   20</a></span>    Mutex <a class="code hl_variable" href="struct_model.html#a907fa03c332362d1c357dfc26c72d224">proxyMapMutex</a>;</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="struct_model.html#a2af45b99b16dfe2b5efbf8103655ccff">   21</a></span>    <span class="keyword">struct </span>IDictionary *<a class="code hl_variable" href="struct_model.html#a2af45b99b16dfe2b5efbf8103655ccff">proxyMap</a>;</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>};</div>
 </div>
-<div class="ttc" id="astruct_i_model_html"><div class="ttname"><a href="struct_i_model.html">IModel</a></div><div class="ttdef"><b>Definition</b> <a href="_i_model_8h_source.html#l00007">IModel.h:7</a></div></div>
-<div class="ttc" id="astruct_model_html"><div class="ttname"><a href="struct_model.html">Model</a></div><div class="ttdef"><b>Definition</b> <a href="#l00007">Model.h:7</a></div></div>
-<div class="ttc" id="astruct_model_html_a19fdedbf1c3f543f4358255f0ca4269d"><div class="ttname"><a href="struct_model.html#a19fdedbf1c3f543f4358255f0ca4269d">Model::multitonKey</a></div><div class="ttdeci">const char * multitonKey</div><div class="ttdef"><b>Definition</b> <a href="#l00010">Model.h:10</a></div></div>
-<div class="ttc" id="astruct_model_html_a907fa03c332362d1c357dfc26c72d224"><div class="ttname"><a href="struct_model.html#a907fa03c332362d1c357dfc26c72d224">Model::proxyMapMutex</a></div><div class="ttdeci">Mutex proxyMapMutex</div><div class="ttdef"><b>Definition</b> <a href="#l00012">Model.h:12</a></div></div>
-<div class="ttc" id="astruct_model_html_ab1b57059feb856b004cd92d8c817333d"><div class="ttname"><a href="struct_model.html#ab1b57059feb856b004cd92d8c817333d">Model::base</a></div><div class="ttdeci">struct IModel base</div><div class="ttdef"><b>Definition</b> <a href="#l00008">Model.h:8</a></div></div>
+<div class="ttc" id="a_i_model_8h_html"><div class="ttname"><a href="_i_model_8h.html">IModel.h</a></div></div>
+<div class="ttc" id="astruct_i_model_html"><div class="ttname"><a href="struct_i_model.html">IModel</a></div><div class="ttdoc">Interface for the PureMVC Model component.</div><div class="ttdef"><b>Definition</b> <a href="_i_model_8h_source.html#l00025">IModel.h:25</a></div></div>
+<div class="ttc" id="astruct_model_html"><div class="ttname"><a href="struct_model.html">Model</a></div><div class="ttdef"><b>Definition</b> <a href="#l00015">Model.h:15</a></div></div>
+<div class="ttc" id="astruct_model_html_a19fdedbf1c3f543f4358255f0ca4269d"><div class="ttname"><a href="struct_model.html#a19fdedbf1c3f543f4358255f0ca4269d">Model::multitonKey</a></div><div class="ttdeci">const char * multitonKey</div><div class="ttdef"><b>Definition</b> <a href="#l00018">Model.h:18</a></div></div>
+<div class="ttc" id="astruct_model_html_a2af45b99b16dfe2b5efbf8103655ccff"><div class="ttname"><a href="struct_model.html#a2af45b99b16dfe2b5efbf8103655ccff">Model::proxyMap</a></div><div class="ttdeci">struct IDictionary * proxyMap</div><div class="ttdef"><b>Definition</b> <a href="#l00021">Model.h:21</a></div></div>
+<div class="ttc" id="astruct_model_html_a907fa03c332362d1c357dfc26c72d224"><div class="ttname"><a href="struct_model.html#a907fa03c332362d1c357dfc26c72d224">Model::proxyMapMutex</a></div><div class="ttdeci">Mutex proxyMapMutex</div><div class="ttdef"><b>Definition</b> <a href="#l00020">Model.h:20</a></div></div>
+<div class="ttc" id="astruct_model_html_ab1b57059feb856b004cd92d8c817333d"><div class="ttname"><a href="struct_model.html#ab1b57059feb856b004cd92d8c817333d">Model::base</a></div><div class="ttdeci">struct IModel base</div><div class="ttdef"><b>Definition</b> <a href="#l00016">Model.h:16</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 </div><!-- container -->

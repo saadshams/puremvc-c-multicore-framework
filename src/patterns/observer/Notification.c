@@ -1,3 +1,11 @@
+/**
+* @file Notification.c
+* @internal
+* @brief Notification Implementation
+*
+* @author Saad Shams <saad.shams@puremvc.org>
+* @copyright BSD 3-Clause License
+*/
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>

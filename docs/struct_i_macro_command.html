@@ -92,31 +92,47 @@ $(function(){initNavTree('struct_i_macro_command.html','',''); });
 </div><!--header-->
 <div class="contents">
 
+<p>Represents a <a class="el" href="struct_macro_command.html">MacroCommand</a> in the PureMVC framework.  
+ <a href="#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="_i_macro_command_8h_source.html">IMacroCommand.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
 <tr class="memitem:a60657991148f4a534c33a23e22925fee" id="r_a60657991148f4a534c33a23e22925fee"><td class="memItemLeft">struct <a class="el" href="struct_i_command.html">ICommand</a>&#160;</td><td class="memItemRight"><a class="el" href="#a60657991148f4a534c33a23e22925fee">command</a></td></tr>
 <tr class="memitem:a1d287d2bc85cc9ec9fda3f8003ec0946" id="r_a1d287d2bc85cc9ec9fda3f8003ec0946"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#a1d287d2bc85cc9ec9fda3f8003ec0946">initializeMacroCommand</a> )(const struct <a class="el" href="struct_i_macro_command.html">IMacroCommand</a> *self)</td></tr>
-<tr class="memitem:a3b7ffdbe405ff167b0b31a97fccc16bb" id="r_a3b7ffdbe405ff167b0b31a97fccc16bb"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#a3b7ffdbe405ff167b0b31a97fccc16bb">addSubCommand</a> )(const struct <a class="el" href="struct_i_macro_command.html">IMacroCommand</a> *self, struct <a class="el" href="struct_i_command.html">ICommand</a> *(*factory)(void))</td></tr>
+<tr class="memdesc:a1d287d2bc85cc9ec9fda3f8003ec0946"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the macro command.  <br /></td></tr>
+<tr class="memitem:a63a8cf6a4bca18c46e8139fe933d747f" id="r_a63a8cf6a4bca18c46e8139fe933d747f"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#a63a8cf6a4bca18c46e8139fe933d747f">addSubCommand</a> )(const struct <a class="el" href="struct_i_macro_command.html">IMacroCommand</a> *self, struct <a class="el" href="struct_i_command.html">ICommand</a> *(*factory)())</td></tr>
+<tr class="memdesc:a63a8cf6a4bca18c46e8139fe933d747f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a sub-command to this macro command.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="_i_macro_command_8h_source.html#l00005">5</a> of file <a class="el" href="_i_macro_command_8h_source.html">IMacroCommand.h</a>.</p>
+<div class="textblock"><p>Represents a <a class="el" href="struct_macro_command.html">MacroCommand</a> in the PureMVC framework. </p>
+<p>This structure extends <a class="el" href="struct_i_command.html">ICommand</a> and allows sequencing of multiple sub-commands. It provides hooks to initialize the macro command and to add sub-commands dynamically. </p>
+
+<p class="definition">Definition at line <a class="el" href="_i_macro_command_8h_source.html#l00019">19</a> of file <a class="el" href="_i_macro_command_8h_source.html">IMacroCommand.h</a>.</p>
 </div><a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Field Documentation</h2>
-<a id="a3b7ffdbe405ff167b0b31a97fccc16bb" name="a3b7ffdbe405ff167b0b31a97fccc16bb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3b7ffdbe405ff167b0b31a97fccc16bb">&#9670;&#160;</a></span>addSubCommand</h2>
+<a id="a63a8cf6a4bca18c46e8139fe933d747f" name="a63a8cf6a4bca18c46e8139fe933d747f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a63a8cf6a4bca18c46e8139fe933d747f">&#9670;&#160;</a></span>addSubCommand</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void(* addSubCommand) (const struct <a class="el" href="struct_i_macro_command.html">IMacroCommand</a> *self, struct <a class="el" href="struct_i_command.html">ICommand</a> *(*factory)(void))</td>
+          <td class="memname">void(* addSubCommand) (const struct <a class="el" href="struct_i_macro_command.html">IMacroCommand</a> *self, struct <a class="el" href="struct_i_command.html">ICommand</a> *(*factory)())</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_i_macro_command_8h_source.html#l00009">9</a> of file <a class="el" href="_i_macro_command_8h_source.html">IMacroCommand.h</a>.</p>
+<p>Adds a sub-command to this macro command. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">self</td><td>Pointer to this macro command instance. </td></tr>
+    <tr><td class="paramname">factory</td><td>Function pointer returning a new <a class="el" href="struct_i_command.html">ICommand</a> instance. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_i_macro_command_8h_source.html#l00037">37</a> of file <a class="el" href="_i_macro_command_8h_source.html">IMacroCommand.h</a>.</p>
 
 </div>
 </div>
@@ -132,7 +148,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_i_macro_command_8h_source.html#l00006">6</a> of file <a class="el" href="_i_macro_command_8h_source.html">IMacroCommand.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_macro_command_8h_source.html#l00020">20</a> of file <a class="el" href="_i_macro_command_8h_source.html">IMacroCommand.h</a>.</p>
 
 </div>
 </div>
@@ -148,7 +164,16 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_i_macro_command_8h_source.html#l00008">8</a> of file <a class="el" href="_i_macro_command_8h_source.html">IMacroCommand.h</a>.</p>
+<p>Initializes the macro command. </p>
+<p>Typically, overridden to add the sub-commands to execute.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">self</td><td>Pointer to this macro command instance. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_i_macro_command_8h_source.html#l00029">29</a> of file <a class="el" href="_i_macro_command_8h_source.html">IMacroCommand.h</a>.</p>
 
 </div>
 </div>

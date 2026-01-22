@@ -1,3 +1,10 @@
+/**
+* @file INotifier.h
+* @ingroup PureMVC
+*
+* @author Saad Shams <saad.shams@puremvc.org>
+* @copyright BSD 3-Clause License
+*/
 #pragma once
 
 struct IFacade; // Forward-declare IFacade to avoid including it and break reference cycle

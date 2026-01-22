@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['registercommand_0',['registerCommand',['../struct_i_controller.html#ae290b9c471ed2939c4dcc5ed6591db19',1,'IController::registerCommand'],['../struct_i_facade.html#ad08852550e9307be6d1d285d7d57a7e9',1,'IFacade::registerCommand']]],
+  ['registercommand_0',['registerCommand',['../struct_i_controller.html#af58bb647486510a47649be6e562bb003',1,'IController::registerCommand'],['../struct_i_facade.html#a2f41f6aea8d5defc0a076c23dda94b19',1,'IFacade::registerCommand']]],
   ['registermediator_1',['registerMediator',['../struct_i_facade.html#aa44c3e1b7ef5c34f28e05736b7ab91fc',1,'IFacade::registerMediator'],['../struct_i_view.html#a13f6ed17ade45f77999104cd9303619b',1,'IView::registerMediator']]],
   ['registerobserver_2',['registerObserver',['../struct_i_view.html#ae906d3b6185f8c1fd65d211e83713f6e',1,'IView']]],
   ['registerproxy_3',['registerProxy',['../struct_i_facade.html#a353002589da23057d5aea0b94b8ef051',1,'IFacade::registerProxy'],['../struct_i_model.html#a954dd792271c70139b327e7f2799916b',1,'IModel::registerProxy']]],

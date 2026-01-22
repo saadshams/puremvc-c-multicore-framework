@@ -25,6 +25,7 @@
 var NAVTREE =
 [
   [ "PureMVC", "index.html", [
+    [ "Topics", "topics.html", "topics" ],
     [ "Data Structures", "annotated.html", [
       [ "Data Structures", "annotated.html", "annotated_dup" ],
       [ "Data Structure Index", "classes.html", null ],
@@ -32,13 +33,18 @@ var NAVTREE =
         [ "All", "functions.html", null ],
         [ "Variables", "functions_vars.html", null ]
       ] ]
+    ] ],
+    [ "Globals", "globals.html", [
+      [ "All", "globals.html", null ],
+      [ "Functions", "globals_func.html", null ],
+      [ "Macros", "globals_defs.html", null ]
     ] ]
   ] ]
 ];
 
 var NAVTREEINDEX =
 [
-"annotated.html"
+"_i_command_8h.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

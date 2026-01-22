@@ -8,7 +8,7 @@ var struct_i_facade =
     [ "initializeModel", "struct_i_facade.html#a5bff0d2b4174afdeaa46ae5738988c13", null ],
     [ "initializeView", "struct_i_facade.html#a933db2a8e00399b33be798b8de652737", null ],
     [ "notifyObservers", "struct_i_facade.html#a45258ce669a2d4f2b311be5cb549c90f", null ],
-    [ "registerCommand", "struct_i_facade.html#ad08852550e9307be6d1d285d7d57a7e9", null ],
+    [ "registerCommand", "struct_i_facade.html#a2f41f6aea8d5defc0a076c23dda94b19", null ],
     [ "registerMediator", "struct_i_facade.html#aa44c3e1b7ef5c34f28e05736b7ab91fc", null ],
     [ "registerProxy", "struct_i_facade.html#a353002589da23057d5aea0b94b8ef051", null ],
     [ "removeCommand", "struct_i_facade.html#a72427e1c78b3a595d8ae6f6d53c6a4d7", null ],

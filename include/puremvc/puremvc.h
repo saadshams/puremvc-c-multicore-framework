@@ -1,3 +1,7 @@
+/**
+* @defgroup PureMVC Public Interface
+* @brief PureMVC Multicore framework for C.
+*/
 #pragma once
 
 #include "IController.h"
