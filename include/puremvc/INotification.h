@@ -1,10 +1,10 @@
 /**
-* @file INotification.h
-* @ingroup PureMVC
-*
-* @author Saad Shams <saad.shams@puremvc.org>
-* @copyright BSD 3-Clause License
-*/
+ * @file INotification.h
+ * @ingroup PureMVC
+ *
+ * @author Saad Shams <saad.shams@puremvc.org>
+ * @copyright BSD 3-Clause License
+ */
 #pragma once
 
 /**

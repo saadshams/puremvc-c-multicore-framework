@@ -1,15 +1,22 @@
 /**
-* @file ICommand.h
-* @ingroup PureMVC
-*
-* @author Saad Shams <saad.shams@puremvc.org>
-* @copyright BSD 3-Clause License
-*/
+ * @file ICommand.h
+ * @ingroup PureMVC
+ *
+ * @author Saad Shams <saad.shams@puremvc.org>
+ * @copyright BSD 3-Clause License
+ */
 #pragma once
 
 #include "INotification.h"
 #include "INotifier.h"
 
+/**
+ * @struct ICommand
+ * @brief Represents a command in the PureMVC C framework.
+ *
+ * A Command encapsulates the logic to be executed in response
+ * to a notification. It uses an INotifier to send further notifications.
+ */
 struct ICommand {
     struct INotifier *notifier;
 
