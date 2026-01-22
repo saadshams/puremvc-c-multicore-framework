@@ -1,11 +1,11 @@
 /**
 * @file IModel.h
- * @brief PureMVC Model interface (C implementation).
- *
- * The Model manages application data objects (Proxies).
- * It provides registration, lookup, and removal of Proxies
- * identified by unique names.
- */
+* @brief PureMVC Model interface (C implementation).
+*
+* The Model manages application data objects (Proxies).
+* It provides registration, lookup, and removal of Proxies
+* identified by unique names.
+*/
 
 #pragma once
 
