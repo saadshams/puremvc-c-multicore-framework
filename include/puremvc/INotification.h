@@ -55,16 +55,18 @@ struct INotification {
      *
      * @param self Pointer to this notification instance.
      * @param type Pointer to the type string to assign.
+     * @param error Out-param for a static error string on failure (NULL on success).
      */
-    void (*setType)(struct INotification *self, const char *type);
+    void (*setType)(struct INotification *self, const char *type, const char **error);
 
     /**
      * @brief Returns a string representation of the notification.
      *
      * @param self Pointer to this notification instance.
+     * @param error Out-param for a static error string on failure (NULL on success).
      * @return Static string describing the notification.
      */
-    const char *(*toString)(const struct INotification *self);
+    const char *(*toString)(const struct INotification *self, const char **error);
 };
 
 /**

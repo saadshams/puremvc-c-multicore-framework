@@ -55,8 +55,11 @@ static void registerCommand(const struct IController *self, const char *notifica
         const struct IObserver *observer = puremvc_observer_new((const void (*)(const void *, struct INotification *))executeCommand, this, error);
         if (*error != NULL) return mutex_unlock(&this->commandMapMutex), (void)0;
 
-        this->view->registerObserver(this->view, notificationName, observer);
-        this->commandMap->put(this->commandMap, notificationName, factory);
+        this->view->registerObserver(this->view, notificationName, observer, error);
+        if (*error != NULL) return mutex_unlock(&this->commandMapMutex), (void)0;
+
+        this->commandMap->put(this->commandMap, notificationName, factory, error);
+        if (*error != NULL) return mutex_unlock(&this->commandMapMutex), (void)0;
     } else {
         this->commandMap->replace(this->commandMap, notificationName, factory);
     }
@@ -93,23 +96,19 @@ static struct Controller *init(struct Controller *controller) {
 }
 
 static struct Controller *alloc(const char *key, const char **error) {
-    if (instanceMap->containsKey(instanceMap, key)) {
-        fprintf(stderr, "[PureMVC::Controller::alloc] Controller instance with key '%s' already exists!\n", key);
-        exit(EXIT_FAILURE);
-    }
-
     struct Controller *controller = malloc(sizeof(struct Controller));
-    if (controller == NULL)
-        return *error = "[PureMVC::Controller::alloc] Error: Failed to allocate Controller", NULL;
+    if (controller == NULL) return *error = "[PureMVC::Controller::alloc] Error: Failed to allocate Controller", NULL;
 
     memset(controller, 0, sizeof(struct Controller));
 
     controller->multitonKey = strdup(key);
-    if (controller->multitonKey == NULL)
-        return *error = "[PureMVC::Facade::alloc] Error: Failed to allocate Controller key (strdup).", free(controller), NULL;
+    if (controller->multitonKey == NULL) return *error = "[PureMVC::Facade::alloc] Error: Failed to allocate Controller key (strdup)", free(controller), NULL;
 
     mutex_init(&controller->commandMapMutex);
-    controller->commandMap = collection_dictionary_new();
+
+    controller->commandMap = collection_dictionary_new(error);
+    if (*error != NULL) return mutex_destroy(&controller->commandMapMutex), free((void *)controller->multitonKey), free(controller), NULL;
+
     return controller;
 }
 
@@ -125,6 +124,7 @@ void puremvc_controller_free(struct IController **controller) {
     free((void *) this->multitonKey);
     this->commandMap->clear(this->commandMap, free);
     collection_dictionary_free(&this->commandMap);
+
     mutex_destroy(&this->commandMapMutex);
 
     free(this);
@@ -136,21 +136,25 @@ static void dispatchOnce() {
 }
 
 struct IController *puremvc_controller_getInstance(const char *key, struct IController *(*factory)(const char *key, const char **error), const char **error) {
-    if (key == NULL) return *error = "[PureMVC::Controller::getInstance] Error: key or factory must not be NULL.", NULL;
+    if (key == NULL || factory == NULL) return *error = "[PureMVC::Controller::getInstance] Error: key or factory must not be NULL.", NULL;
     mutex_once(&token, dispatchOnce);
     mutex_lock(&mutex);
 
-    if (instanceMap == NULL) instanceMap = collection_dictionary_new();
+    if (instanceMap == NULL) {
+        instanceMap = collection_dictionary_new(error);
+        if (*error != NULL) return NULL;
+    }
 
     struct IController *instance = (struct IController *) instanceMap->get(instanceMap, key);
     if (instance == NULL) {
         instance = factory(key, error);
-        if (instance == NULL) return NULL;
+        if (*error != NULL) return mutex_unlock(&mutex), NULL;
 
         instance->initializeController(instance, error);
-        if (*error != NULL) return NULL;
+        if (*error != NULL) return puremvc_controller_free(&instance), mutex_unlock(&mutex), NULL;
 
-        instanceMap->put(instanceMap, key, instance);
+        instanceMap->put(instanceMap, key, instance, error);
+        if (*error != NULL) return puremvc_controller_free(&instance), mutex_unlock(&mutex), NULL;
     }
 
     mutex_unlock(&mutex);

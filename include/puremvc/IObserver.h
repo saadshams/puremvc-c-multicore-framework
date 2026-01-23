@@ -43,7 +43,7 @@ struct IObserver {
      * @param self Pointer to this observer instance.
      * @return Function pointer to the notification callback.
      */
-    void (*(*getNotify)(const struct IObserver *self))(const void *context, struct INotification *notification);
+    void (*(*getNotify)(const struct IObserver *self))(const void *context, struct INotification *notification, const char **error);
 
     /**
      * @brief Sets the notify function.
@@ -51,7 +51,7 @@ struct IObserver {
      * @param observer Pointer to this observer instance.
      * @param notify Function pointer to set as the notification callback.
      */
-    void (*setNotify)(struct IObserver *observer, void (*notify)(const void *context, struct INotification *notification));
+    void (*setNotify)(struct IObserver *observer, void (*notify)(const void *context, struct INotification *notification, const char **error));
 
     /**
      * @brief Notifies the observer.
@@ -60,8 +60,9 @@ struct IObserver {
      *
      * @param observer Pointer to this observer instance.
      * @param notification Pointer to the notification to send.
+     * @param error Out-param for a static error string on failure (NULL on success).
      */
-    void (*notifyObserver)(const struct IObserver *observer, struct INotification *notification);
+    void (*notifyObserver)(const struct IObserver *observer, struct INotification *notification, const char **error);
 
     /**
      * @brief Compares the observer's context with a given context.

@@ -58,7 +58,8 @@ static struct Proxy *alloc(const char *name, void *data, const char **error) {
     if (proxy->base.notifier == NULL) return free(proxy), NULL;
 
     proxy->name = strdup(name ? name : PROXY_NAME);
-    if (!proxy->name) return *error = "[PureMVC::Proxy::alloc] Error: Failed to allocate proxy name (strdup).", free(proxy), NULL;
+    if (proxy->name == NULL) return *error = "[PureMVC::Proxy::alloc] Error: Failed to allocate proxy name (strdup)",
+            puremvc_notifier_free(&proxy->base.notifier), free(proxy), NULL;
 
     proxy->data = data;
     return proxy;

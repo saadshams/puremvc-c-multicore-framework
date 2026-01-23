@@ -54,7 +54,7 @@ struct IFacade {
      * @param factory Factory function that creates a command instance.
      * @param error Out-param for a static error string on failure (NULL on success).
      */
-    void (*registerCommand)(const struct IFacade *self, const char *notificationName, struct ICommand *(*factory)(), const char **error);
+    void (*registerCommand)(const struct IFacade *self, const char *notificationName, struct ICommand *(*factory)(const char **error), const char **error);
 
     /** @brief Checks if a command is registered for a notification.
      * @param self Pointer to the Facade instance.
@@ -94,14 +94,28 @@ struct IFacade {
     /** @brief Checks if a mediator is registered. */
     bool (*hasMediator)(const struct IFacade *self, const char *mediatorName);
 
-    /** @brief Removes and returns a mediator by name. */
-    struct IMediator *(*removeMediator)(const struct IFacade *self, const char *mediatorName);
+    /** @brief Removes and returns a mediator by name.
+     * @param self Pointer to the Facade instance.
+     * @param mediatorName name of the mediator to be removed
+     * @param error Out-param for a static error string on failure (NULL on success).
+     */
+    struct IMediator *(*removeMediator)(const struct IFacade *self, const char *mediatorName, const char **error);
 
-    /** @brief Notifies observers of a notification. */
-    void (*notifyObservers)(const struct IFacade *self, const struct INotification *notification);
+    /** @brief Notifies observers of a notification.
+     * @param self Pointer to the Facade instance.
+     * @param notification Pointer to the notification
+     * @param error Out-param for a static error string on failure (NULL on success).
+     */
+    void (*notifyObservers)(const struct IFacade *self, const struct INotification *notification, const char **error);
 
-    /** @brief Sends a notification. */
-    void (*sendNotification)(const struct IFacade *self, const char *notificationName, void *body, const char *type);
+    /** @brief Sends a notification.
+     * @param self Pointer to the Facade instance.
+     * @param notificationName Pointer to the notification name
+     * @param body Pointer to notification body
+     * @param type Pointer to notification type
+     * @param error Out-param for static error string on failure (NULL on success).
+     */
+    void (*sendNotification)(const struct IFacade *self, const char *notificationName, void *body, const char *type, const char **error);
 };
 
 /**

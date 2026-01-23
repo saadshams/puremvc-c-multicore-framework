@@ -74,7 +74,7 @@ void testTypeAccessors() {
 
     // test assertions
     assert(strcmp(notification->getType(notification), "TestNoteType") == 0);
-    notification->setType(notification, "TestNoteType2");
+    notification->setType(notification, "TestNoteType2", &error);
     assert(strcmp(notification->getType(notification), "TestNoteType2") == 0);
 
     puremvc_notification_free(&notification);
@@ -89,7 +89,7 @@ void testToString() {
     const char *error = NULL;
     struct INotification *notification = puremvc_notification_new("TestNote", test, "TestNoteType", &error);
 
-    const char *str = notification->toString(notification);
+    const char *str = notification->toString(notification, &error);
     const char *prefix = "TestNote : TestNoteType [body=";
     assert(strncmp(str, prefix, strlen(prefix)) == 0);
 

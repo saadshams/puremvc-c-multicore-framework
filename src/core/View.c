@@ -25,27 +25,34 @@ static void initializeView(struct IView *self, const char **error) {
 
 }
 
-static void registerObserver(const struct IView *self, const char *notificationName, const struct IObserver *observer) {
+static void registerObserver(const struct IView *self, const char *notificationName, const struct IObserver *observer, const char **error) {
     struct View *this = (struct View *) self;
 
     mutex_lock(&this->observerMapMutex);
     if (this->observerMap->containsKey(this->observerMap, notificationName)) {
         struct IArray *observers = (struct IArray *) this->observerMap->get(this->observerMap, notificationName);
-        observers->push(observers, observer);
+        observers->push(observers, observer, error);
+        if (*error != NULL) return mutex_unlock(&this->observerMapMutex), (void)0;
     } else {
-        struct IArray *observers = collection_array_new();
-        observers->push(observers, observer);
-        this->observerMap->put(this->observerMap, notificationName, observers);
+        struct IArray *observers = collection_array_new(error);
+        if (*error != NULL) return mutex_unlock(&this->observerMapMutex), (void)0;
+
+        observers->push(observers, observer, error);
+        if (*error != NULL) return collection_array_free(&observers), mutex_unlock(&this->observerMapMutex), (void)0;
+
+        this->observerMap->put(this->observerMap, notificationName, observers, error);
+        if (*error != NULL) return observers->removeItem(observers, observer), collection_array_free(&observers),
+            mutex_unlock(&this->observerMapMutex), (void)0;
     }
     mutex_unlock(&this->observerMapMutex);
 }
 
-static void notifyObserver(const void *element, int index, const void *notification) {
+static void notifyObserver(const void *element, const void *notification, const char **error) {
     const struct IObserver *observer = element;
-    observer->notifyObserver(observer, (void *)notification);
+    observer->notifyObserver(observer, (void *)notification, error);
 }
 
-static void notifyObservers(const struct IView *self, const struct INotification *notification) {
+static void notifyObservers(const struct IView *self, const struct INotification *notification, const char **error) {
     struct View *this = (struct View *) self;
     struct IArray *copy = NULL;
 
@@ -56,15 +63,15 @@ static void notifyObservers(const struct IView *self, const struct INotification
 
         // Copy observers from reference array to working array,
         // since the reference array may change during the notification loop
-        copy = observers->clone(observers);
+        copy = observers->clone(observers, error);
+        if (*error != NULL) return mutex_unlock(&this->observerMapMutex), (void)0;
     }
     mutex_unlock(&this->observerMapMutex);
 
-    if (copy != NULL) {
-        copy->forEach(copy, notifyObserver, notification);
-        copy->clear(copy, NULL);
-        collection_array_free(&copy);
-    }
+    if (copy == NULL) return;
+    copy->forEach(copy, notifyObserver, notification, error);
+    copy->clear(copy, NULL);
+    collection_array_free(&copy);
 }
 
 static bool compareNotifyContext(const void *element, const void *notifyContext) {
@@ -92,19 +99,38 @@ static void registerMediator(const struct IView *self, struct IMediator *mediato
     struct View *this = (struct View *) self;
 
     mutex_lock(&this->mediatorMapMutex);
-    if (this->mediatorMap->containsKey(this->mediatorMap, mediator->getName(mediator))) {
-        mutex_unlock(&this->mediatorMapMutex);
-        return;
-    }
+    if (this->mediatorMap->containsKey(this->mediatorMap, mediator->getName(mediator)))
+        return mutex_unlock(&this->mediatorMapMutex), (void)0;
 
     mediator->notifier->initializeNotifier(mediator->notifier, this->multitonKey, error);
-    this->mediatorMap->put(this->mediatorMap, mediator->getName(mediator), mediator);
+    if (*error != NULL) return mutex_unlock(&this->mediatorMapMutex), (void)0;
+
+    this->mediatorMap->put(this->mediatorMap, mediator->getName(mediator), mediator, error);
+    if (*error != NULL) return mutex_unlock(&this->mediatorMapMutex), (void)0;
     mutex_unlock(&this->mediatorMapMutex);
 
-    char **interests = mediator->listNotificationInterests(mediator);
-    for(char **cursor = interests; *cursor; cursor++) {
-        const struct IObserver *observer = puremvc_observer_new((const void (*)(const void *, struct INotification *)) mediator->handleNotification, mediator, &error);
-        self->registerObserver(self, *cursor, observer);
+    char **interests = mediator->listNotificationInterests(mediator, error);
+    if (*error != NULL)
+        return mutex_lock(&this->mediatorMapMutex), this->mediatorMap->removeItem(this->mediatorMap, mediator->getName(mediator)),
+            mutex_unlock(&this->mediatorMapMutex), (void)0;
+
+    for(char **interest = interests; *interest; interest++) {
+        const struct IObserver *observer = puremvc_observer_new((const void (*)(const void *, struct INotification *)) mediator->handleNotification, mediator, error);
+        if (*error != NULL) { // rollback
+            for (char **cursor = interests; cursor < interest; cursor++)
+                self->removeObserver(self, *cursor, mediator);
+            return mutex_lock(&this->mediatorMapMutex), this->mediatorMap->removeItem(this->mediatorMap, mediator->getName(mediator)),
+                mutex_unlock(&this->mediatorMapMutex), mediator->freeNotificationInterests(mediator, interests), (void)0;
+        }
+
+        self->registerObserver(self, *interest, observer, error);
+        if (*error != NULL) { // rollback
+            puremvc_observer_free((struct IObserver **)&observer);
+            for (char **cursor = interests; cursor < interest; cursor++)
+                self->removeObserver(self, *cursor, mediator);
+            return mutex_lock(&this->mediatorMapMutex), this->mediatorMap->removeItem(this->mediatorMap, mediator->getName(mediator)),
+                mutex_unlock(&this->mediatorMapMutex), mediator->freeNotificationInterests(mediator, interests), (void)0;
+        }
     }
     mediator->freeNotificationInterests(mediator, interests);
     mediator->onRegister(mediator);
@@ -126,7 +152,7 @@ static bool hasMediator(const struct IView *self, const char *mediatorName) {
     return exists;
 }
 
-static struct IMediator *removeMediator(const struct IView *self, const char *mediatorName) {
+static struct IMediator *removeMediator(const struct IView *self, const char *mediatorName, const char **error) {
     struct View *this = (struct View *) self;
 
     mutex_lock(&this->mediatorMapMutex);
@@ -134,7 +160,7 @@ static struct IMediator *removeMediator(const struct IView *self, const char *me
     mutex_unlock(&this->mediatorMapMutex);
 
     if (mediator != NULL) {
-        char **interests = mediator->listNotificationInterests(mediator);
+        char **interests = mediator->listNotificationInterests(mediator, error);
         for (char **cursor = interests; *cursor; cursor++) {
             self->removeObserver(self, *cursor, mediator);
         }
@@ -159,25 +185,25 @@ static struct View *init(struct View *view) {
 }
 
 static struct View *alloc(const char *key, const char **error) {
-    if (instanceMap->containsKey(instanceMap, key)) {
-        fprintf(stderr, "[PureMVC::View::alloc] View instance with key '%s' already exists!\n", key);
-        exit(EXIT_FAILURE);
-    }
-
     struct View *view = malloc(sizeof(struct View));
-    if (view == NULL)
-        return *error = "[PureMVC::View::alloc] Error: Failed to allocate View", NULL;
+    if (view == NULL) return *error = "[PureMVC::View::alloc] Error: Failed to allocate View", NULL;
 
     memset(view, 0, sizeof(struct View));
 
     view->multitonKey = strdup(key);
-    if (view->multitonKey == NULL)
-        return *error = "[PureMVC::View::alloc] Error: Failed to allocate View key (strdup).", free(view), NULL;
+    if (view->multitonKey == NULL) return *error = "[PureMVC::View::alloc] Error: Failed to allocate View key (strdup)", free(view), NULL;
 
     mutex_init(&view->mediatorMapMutex);
-    view->mediatorMap = collection_dictionary_new();
+
+    view->mediatorMap = collection_dictionary_new(error);
+    if (*error != NULL) return mutex_destroy(&view->mediatorMapMutex), free((void *)view->multitonKey), free(view), NULL;
+
     mutex_init(&view->observerMapMutex);
-    view->observerMap = collection_dictionary_new();
+
+    view->observerMap = collection_dictionary_new(error);
+    if (*error != NULL) return mutex_destroy(&view->observerMapMutex), collection_dictionary_free(&view->mediatorMap),
+        mutex_destroy(&view->mediatorMapMutex), free((void *)view->multitonKey), free(view), NULL;
+
     return view;
 }
 
@@ -195,6 +221,7 @@ void puremvc_view_free(struct IView **view) {
     collection_dictionary_free(&this->mediatorMap);
     this->observerMap->clear(this->observerMap, free);
     collection_dictionary_free(&this->observerMap);
+
     mutex_destroy(&this->mediatorMapMutex);
     mutex_destroy(&this->observerMapMutex);
 
@@ -207,21 +234,25 @@ static void dispatchOnce() {
 }
 
 struct IView *puremvc_view_getInstance(const char *key, struct IView *(*factory)(const char *key, const char **error), const char **error) {
-    if (key == NULL) return *error = "[PureMVC::View::getInstance] Error: key or factory must not be NULL.", NULL;
+    if (key == NULL || factory == NULL) return *error = "[PureMVC::View::getInstance] Error: key or factory must not be NULL.", NULL;
     mutex_once(&token, dispatchOnce);
     mutex_lock(&mutex);
 
-    if (instanceMap == NULL) instanceMap = collection_dictionary_new();
+    if (instanceMap == NULL) {
+        instanceMap = collection_dictionary_new(error);
+        if (*error != NULL) return NULL;
+    }
 
     struct IView *instance = (struct IView *) instanceMap->get(instanceMap, key);
     if (instance == NULL) {
         instance = factory(key, error);
-        if (instance == NULL) return NULL;
+        if (*error != NULL) return mutex_unlock(&mutex), NULL;
 
         instance->initializeView(instance, error);
-        if (*error != NULL) return NULL;
+        if (*error != NULL) return puremvc_view_free(&instance), mutex_unlock(&mutex), NULL;
 
-        instanceMap->put(instanceMap, key, instance);
+        instanceMap->put(instanceMap, key, instance, error);
+        if (*error != NULL) return puremvc_view_free(&instance), mutex_unlock(&mutex), NULL;
     }
 
     mutex_unlock(&mutex);

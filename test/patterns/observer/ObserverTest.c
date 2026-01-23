@@ -21,7 +21,7 @@ static struct ObserverTestVar observerTestVar = {0};
  * A function that is used as the observer notification
  * method.
  */
-static void handleNotification(const void *context, struct INotification *notification) {
+static void handleNotification(const void *context, struct INotification *notification, const char **error) {
     observerTestVar = *(struct ObserverTestVar *) notification->getBody(notification);
 }
 
@@ -37,7 +37,7 @@ void testObserverConstructor() {
     struct ObserverTestVar *var = malloc(sizeof(struct ObserverTestVar));
     if (var) *var = (struct ObserverTestVar){ .value = 5 };
     struct INotification *notification = puremvc_notification_new("ObserverTestNote", var, NULL, &error);
-    observer->notifyObserver(observer, notification);
+    observer->notifyObserver(observer, notification, &error);
 
     // test assertions
     assert(observerTestVar.value == 5);
@@ -72,7 +72,7 @@ void testObserverAccessors() {
     struct ObserverTestVar *vo = malloc(sizeof(struct ObserverTestVar));
     if (vo) *vo = (struct ObserverTestVar){ .value = 10 };
     struct INotification *notification = puremvc_notification_new("ObserverTestNote", vo, NULL, &error);
-    observer->notifyObserver(observer, notification);
+    observer->notifyObserver(observer, notification, &error);
 
     puremvc_notification_free(&notification);
     assert(notification == NULL);

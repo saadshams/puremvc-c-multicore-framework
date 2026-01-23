@@ -45,7 +45,7 @@ static void initializeView(struct IFacade *self, const char **error) {
     this->view = puremvc_view_getInstance(this->multitonKey, puremvc_view_new, error);
 }
 
-static void registerCommand(const struct IFacade *self, const char *notificationName, struct ICommand *(*factory)(), const char **error) {
+static void registerCommand(const struct IFacade *self, const char *notificationName, struct ICommand *(*factory)(const char **error), const char **error) {
     const struct Facade *this = (struct Facade *) self;
     this->controller->registerCommand(this->controller, notificationName, factory, error);
 }
@@ -90,9 +90,9 @@ static struct IMediator *retrieveMediator(const struct IFacade *self, const char
     return this->view->retrieveMediator(this->view, mediatorName);
 }
 
-static struct IMediator *removeMediator(const struct IFacade *self, const char *mediatorName) {
+static struct IMediator *removeMediator(const struct IFacade *self, const char *mediatorName, const char **error) {
     const struct Facade *this = (struct Facade *) self;
-    return this->view->removeMediator(this->view, mediatorName);
+    return this->view->removeMediator(this->view, mediatorName, error);
 }
 
 static bool hasMediator(const struct IFacade *self, const char *mediatorName) {
@@ -100,15 +100,14 @@ static bool hasMediator(const struct IFacade *self, const char *mediatorName) {
     return this->view->hasMediator(this->view, mediatorName);
 }
 
-static void notifyObservers(const struct IFacade *self, const struct INotification *notification) {
+static void notifyObservers(const struct IFacade *self, const struct INotification *notification, const char **error) {
     const struct Facade *this = (struct Facade *) self;
-    this->view->notifyObservers(this->view, notification);
+    this->view->notifyObservers(this->view, notification, error);
 }
 
-static void sendNotification(const struct IFacade *self, const char *notificationName, void *body, const char *type) {
-    const char *error = NULL;
-    struct INotification *notification = puremvc_notification_new(notificationName, body, type, &error);
-    self->notifyObservers(self, notification);
+static void sendNotification(const struct IFacade *self, const char *notificationName, void *body, const char *type, const char **error) {
+    struct INotification *notification = puremvc_notification_new(notificationName, body, type, error);
+    self->notifyObservers(self, notification, error);
     puremvc_notification_free(&notification);
 }
 
@@ -135,20 +134,13 @@ static struct Facade *init(struct Facade *facade) {
 }
 
 static struct Facade *alloc(const char *key, const char **error) {
-    if (instanceMap->containsKey(instanceMap, key)) {
-        fprintf(stderr, "[PureMVC::Facade::alloc] Facade instance with key '%s' already exists!\n", key);
-        exit(EXIT_FAILURE);
-    }
-
     struct Facade *facade = malloc(sizeof(struct Facade));
-    if (facade == NULL)
-        return *error = "[PureMVC::Facade::alloc] Error: Failed to allocate Facade", NULL;
+    if (facade == NULL) return *error = "[PureMVC::Facade::alloc] Error: Failed to allocate Facade", NULL;
 
     memset(facade, 0, sizeof(*facade));
 
     facade->multitonKey = strdup(key);
-    if (facade->multitonKey == NULL)
-        return *error = "[PureMVC::Facade::alloc] Error: Failed to allocate Facade key (strdup).", free(facade), NULL;
+    if (facade->multitonKey == NULL) return *error = "[PureMVC::Facade::alloc] Error: Failed to allocate Facade key (strdup)", free(facade), NULL;
 
     return facade;
 }
@@ -173,21 +165,25 @@ static void dispatchOnce() {
 }
 
 struct IFacade *puremvc_facade_getInstance(const char *key, struct IFacade *(*factory)(const char *, const char **error), const char **error) {
-    if (key == NULL || factory == NULL) return NULL;
+    if (key == NULL || factory == NULL) return *error = "[PureMVC::Facade::getInstance] Error: key or factory must not be NULL.", NULL;
     mutex_once(&token, dispatchOnce);
     mutex_lock(&mutex);
 
-    if (instanceMap == NULL) instanceMap = collection_dictionary_new();
+    if (instanceMap == NULL) {
+        instanceMap = collection_dictionary_new(error);
+        if (*error != NULL) return NULL;
+    }
 
     struct IFacade *instance = (struct IFacade *) instanceMap->get(instanceMap, key);
     if (instance == NULL) {
         instance = factory(key, error);
-        if (instance == NULL) return NULL;
+        if (*error != NULL) return mutex_unlock(&mutex), NULL;
 
         instance->initializeFacade(instance, error);
-        if (*error != NULL) return NULL;
+        if (*error != NULL) return puremvc_facade_free(&instance), mutex_unlock(&mutex), NULL;
 
-        instanceMap->put(instanceMap, key, instance);
+        instanceMap->put(instanceMap, key, instance, error);
+        if (*error != NULL) return puremvc_facade_free(&instance), mutex_unlock(&mutex), NULL;
     }
 
     mutex_unlock(&mutex);

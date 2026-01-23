@@ -18,7 +18,7 @@
  * It provides hooks to initialize the macro command and to add sub-commands dynamically.
  */
 struct IMacroCommand {
-    struct ICommand command;
+    struct ICommand base;
 
     /**
      * @brief Initializes the macro command.
@@ -26,16 +26,18 @@ struct IMacroCommand {
      * Typically, overridden to add the sub-commands to execute.
      *
      * @param self Pointer to this macro command instance.
+     * @param error Out-param for a static error string on failure (NULL on success).
      */
-    void (*initializeMacroCommand)(const struct IMacroCommand *self);
+    void (*initializeMacroCommand)(const struct IMacroCommand *self, const char **error);
 
     /**
      * @brief Adds a sub-command to this macro command.
      *
      * @param self Pointer to this macro command instance.
      * @param factory Function pointer returning a new ICommand instance.
+     * @param error Out-param for a static error string on failure (NULL on success).
      */
-    void (*addSubCommand)(const struct IMacroCommand *self, struct ICommand *(*factory)());
+    void (*addSubCommand)(const struct IMacroCommand *self, struct ICommand *(*factory)(const char **error), const char **error);
 };
 
 /**

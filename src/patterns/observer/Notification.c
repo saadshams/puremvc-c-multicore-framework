@@ -33,15 +33,13 @@ static const char *getType(const struct INotification *self) {
     return this->type;
 }
 
-static void setType(struct INotification *self, const char *type) {
+static void setType(struct INotification *self, const char *type, const char **error) {
+    if (type == NULL) return *error = "[PureMVC::Notification::setType] Error: type must not be NULL.", (void)0;
+
     struct Notification *this = (struct Notification *) self;
 
-    char *copy = type ? strdup(type) : NULL;
-    if (type != NULL && copy == NULL) {
-        fprintf(stderr, "[PureMVC::Notification::%s] Error: Failed to duplicate type string (name='%s'), (type='%s').\n",
-            __func__, this->name, this->type ? this->type : "NULL");
-        return;
-    }
+    char *copy = strdup(type);
+    if (copy == NULL) return *error = "[PureMVC::Notification::setType] Error: Failed to allocate type (strdup)", (void)0;
 
     free(this->type);
     this->type = copy;
@@ -50,18 +48,17 @@ static void setType(struct INotification *self, const char *type) {
 /**
  * Returns a newly allocated string. Caller must free the result.
  */
-static const char *toString(const struct INotification *self) {
+static const char *toString(const struct INotification *self, const char **error) {
     const struct Notification *this = (struct Notification *) self;
 
-    const size_t len = strlen(this->name) + (this->type ? strlen(this->type) : 0) + 32; // 32 or 64 bit pointer + extra
+    size_t ptr_len = 2 + sizeof(void*) * 2; // "0x" + 2 hex digits per byte
+    const size_t len = strlen(this->name) + (this->type ? strlen(this->type) : 0) + ptr_len; // name + type + body ptr
     char *msg = malloc(len * sizeof(char));
-    if (msg == NULL) {
-        fprintf(stderr, "[PureMVC::Notification::%s] Error: Failed to allocate string for Notification (name='%s', type='%s').\n",
-              __func__, this->name, this->type ? this->type : "NULL");
-        return NULL;
-    }
 
-    snprintf(msg, len, "%s : %s [body=%p]", this->name, this->type, this->body);
+    if (msg == NULL) return *error = "[PureMVC::Notification::toString] Error: Failed to allocate string for name or type", NULL;
+
+    snprintf(msg, len, "%s : %s [body=%p]", this->name, this->type ? this->type : "", this->body);
+
     return msg;
 }
 
@@ -78,21 +75,20 @@ static struct Notification *init(struct Notification *notification) {
 
 static struct Notification *alloc(const char *name, void *body, const char *type, const char **error) {
     struct Notification *notification = malloc(sizeof(struct Notification));
-    if (notification == NULL)
-        return *error = "[PureMVC::Notification::alloc] Error: Failed to allocate Notification", NULL;
+    if (notification == NULL) return *error = "[PureMVC::Notification::alloc] Error: Failed to allocate Notification", NULL;
 
     memset(notification, 0, sizeof(struct Notification));
 
     notification->name = strdup(name);
-    if (notification->name == NULL)
-        return *error = "[PureMVC::Notification::alloc] Error: Failed to allocate Notification name", free(notification), NULL;
+    if (notification->name == NULL) return *error = "[PureMVC::Notification::alloc] Error: Failed to allocate name (strdup)",
+        free(notification), NULL;
 
     notification->body = body;
 
     if (type != NULL) {
         notification->type = strdup(type);
-        if (notification->type == NULL)
-            return *error = "[PureMVC::Notification::alloc] Error: Failed to allocate Notification type", free((void *) notification->name), free(notification), NULL;
+        if (notification->type == NULL) return *error = "[PureMVC::Notification::alloc] Error: Failed to allocate type (strdup)",
+            free((void *) notification->name), free(notification), NULL;
     }
 
     return notification;

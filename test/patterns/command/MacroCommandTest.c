@@ -20,15 +20,14 @@ void testMacroCommandExecute() {
     const char *error = NULL;
     struct INotification *notification = puremvc_notification_new("MacroCommandTest", vo, NULL, &error);
 
-    struct IMacroCommand *macroCommand = macro_command_test_command_new();
+    struct IMacroCommand *macroCommand = macro_command_test_command_new(&error);
     assert(macroCommand != NULL);
-    assert(macroCommand->command.notifier != NULL);
+    assert(macroCommand->base.notifier != NULL);
 
-    macroCommand->command.notifier->initializeNotifier(macroCommand->command.notifier, "MacroCommandTestkey1", &error);
-    macroCommand->command.execute(&macroCommand->command, notification, &error);
+    macroCommand->base.notifier->initializeNotifier(macroCommand->base.notifier, "MacroCommandTestkey1", &error);
+    macroCommand->base.execute(&macroCommand->base, notification, &error);
 
     assert(vo->result1 == 10);
-
     assert(vo->result2 == 25);
 
     puremvc_macro_command_free(&macroCommand);
@@ -37,15 +36,20 @@ void testMacroCommandExecute() {
 void testRegisterAndExecuteCommand() {
     const char *error = NULL;
     const struct IController *controller = puremvc_controller_getInstance("ControllerTestKey1", puremvc_controller_new, &error);
+    assert(error == NULL);
+
     controller->registerCommand(controller, "MacroCommandTest", (struct ICommand *(*)(const char **)) macro_command_test_command_new, &error);
+    assert(error == NULL);
 
     const struct IView *view = puremvc_view_getInstance("ControllerTestKey1", puremvc_view_new, &error);
+    assert(error == NULL);
 
     struct MacroCommandTestVO *vo = malloc(sizeof(struct MacroCommandTestVO));
     vo->input = 5;
     struct INotification *notification = puremvc_notification_new("MacroCommandTest", vo, NULL, &error);
+    assert(error == NULL);
 
-    view->notifyObservers(view, notification);
+    view->notifyObservers(view, notification, &error);
 
     // test assertions
     assert(vo->result1 == 10);

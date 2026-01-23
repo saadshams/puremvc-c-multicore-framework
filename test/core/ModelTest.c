@@ -27,7 +27,7 @@ void testGetInstance() {
     assert(model != NULL);
 
     // test assertions
-    assert(model == puremvc_model_getInstance("ModelTestKey1", puremvc_model_new));
+    assert(model == puremvc_model_getInstance("ModelTestKey1", puremvc_model_new, &error));
     puremvc_model_removeModel("ModelTestKey1");
     model = NULL;
 }

@@ -27,37 +27,37 @@ static void *getComponent(const struct IMediator *self) {
     return this->component;
 }
 
-static char **allocNotificationInterests(const struct IMediator *self, const char **notifications) {
+static char **allocNotificationInterests(const struct IMediator *self, const char **notifications, const char **error) {
+    if (notifications == NULL) return *error = "[PureMVC::Mediator::allocNotificationInterests] Error: notifications must not be NULL", NULL;
+
     size_t count = 0;
     while (notifications[count] != NULL) count++;
 
     char **interests = malloc(sizeof(char*) * (count + 1));
-    if (interests == NULL) {
-        fprintf(stderr, "[PureMVC::Mediator::%s] ERROR: Failed to allocate interests array (count=%zu).\n", __func__, count);
-        return NULL;
-    }
+    if (interests == NULL) return *error = "[PureMVC::Mediator::allocNotificationInterests] ERROR: Failed to allocate interests array", NULL;
+
     interests[count] = NULL;
 
     for (size_t i = 0; i < count; i++) {
         interests[i] = strdup(notifications[i]);
-        if (interests[i] == NULL) {
-            fprintf(stderr, "[PureMVC::Mediator::%s] ERROR: Failed to duplicate string at index %zu: \"%s.\n", __func__, i, notifications[i]);
+        if (interests[i] == NULL) { // rollback
             for (size_t j = 0; j < i; j++) free(interests[j]); // Free previously allocated strings
             free(interests);
-            return NULL;
+            return *error = "[PureMVC::Mediator::allocNotificationInterests] Error: Failed to allocate an interest (strdup)", NULL;
         }
     }
     return interests;
 }
 
 static void freeNotificationInterests(const struct IMediator *self, char **interests) {
-    for (char **cursor = interests; *cursor; cursor++) free(*cursor);
+    for (char **interest = interests; *interest; interest++)
+        free(*interest);
     free(interests);
 }
 
-static char **listNotificationInterests(const struct IMediator *self) {
+static char **listNotificationInterests(const struct IMediator *self, const char **error) {
     static const char *interests[] = { NULL };
-    return self->allocNotificationInterests(self, interests);
+    return self->allocNotificationInterests(self, interests, error);
 }
 
 static void handleNotification(const struct IMediator *self, struct INotification *notification) {
@@ -96,7 +96,8 @@ static struct Mediator *alloc(const char *name, void *component, const char **er
     if (mediator->base.notifier == NULL) return free(mediator), NULL;
 
     mediator->name = strdup(name ? name : MEDIATOR_NAME);
-    if (mediator->name == NULL) return *error = "[PureMVC::Mediator::alloc] Error: Failed to allocate mediator name (strdup)", free(mediator), NULL;
+    if (mediator->name == NULL) return *error = "[PureMVC::Mediator::alloc] Error: Failed to allocate mediator name (strdup)",
+            puremvc_notifier_free(&mediator->base.notifier), free(mediator), NULL;
 
     mediator->component = component;
     return mediator;

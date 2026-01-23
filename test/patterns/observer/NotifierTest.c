@@ -40,7 +40,7 @@ void testInstance() {
     notifier->getFacade(notifier, &error);
 
     assert(notifier != NULL);
-    assert(notifier->getFacade(notifier) != NULL);
+    assert(notifier->getFacade(notifier, &error) != NULL);
 
     puremvc_facade_removeFacade("NotifierTest1");
     puremvc_notifier_free(&notifier);

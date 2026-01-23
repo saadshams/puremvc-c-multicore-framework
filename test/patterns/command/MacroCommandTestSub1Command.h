@@ -2,4 +2,4 @@
 
 #include "puremvc/puremvc.h"
 
-struct ICommand *macro_command_test_sub1command_new();
+struct ICommand *macro_command_test_sub1command_new(const char **error);

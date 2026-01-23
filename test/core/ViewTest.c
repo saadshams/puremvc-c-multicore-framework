@@ -1,5 +1,6 @@
 #include <assert.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "puremvc/puremvc.h"
 
@@ -39,7 +40,7 @@ void testGetInstance() {
 
     // test assertions
     assert(view != NULL);
-    assert(view == puremvc_view_getInstance("ViewTestKey1", puremvc_view_new));
+    assert(view == puremvc_view_getInstance("ViewTestKey1", puremvc_view_new, &error));
 
     puremvc_view_removeView("ViewTestKey1");
     view = NULL;
@@ -55,7 +56,7 @@ void testRegisterAndNotifyObserver() {
     const struct IObserver *observer = puremvc_observer_new((const void (*)(const void *, struct INotification *))viewTestMethod, &viewComponent, &error);
 
     // Register Observer's interest in a particular Notification with the View
-    view->registerObserver(view, "ViewTestNote1", observer);
+    view->registerObserver(view, "ViewTestNote1", observer, &error);
 
     // Create a ViewTestNote, setting
     // a body value, and tell the View to notify
@@ -67,7 +68,7 @@ void testRegisterAndNotifyObserver() {
     struct ViewTestVar *vo = malloc(sizeof(struct ViewTestVar));
     vo->value = 10;
     struct INotification *note = puremvc_notification_new("ViewTestNote1", vo, NULL, &error);
-    view->notifyObservers(view, note);
+    view->notifyObservers(view, note, &error);
 
     // test assertions
     assert(viewTestVar->value == 10);
@@ -75,7 +76,7 @@ void testRegisterAndNotifyObserver() {
     // remove first observer
     viewTestVar->value = 0;
     view->removeObserver(view, "ViewTestNote1", &viewComponent);
-    view->notifyObservers(view, note);
+    view->notifyObservers(view, note, &error);
     assert(viewTestVar->value == 0);
 
     puremvc_notification_free(&note);
@@ -101,7 +102,7 @@ void testRegisterAndRetrieveMediator() {
     assert(strcmp(mediator->getName(mediator), "testing") == 0);
 
     // clean up
-    view->removeMediator(view, "testing");
+    view->removeMediator(view, "testing", &error);
     puremvc_mediator_free(&mediator);
     puremvc_view_removeView("ViewTestKey3");
     view = NULL;
@@ -121,7 +122,7 @@ void testHasMediator() {
     // for that mediator name
     assert(view->hasMediator(view, "hasMediatorTest") == true);
 
-    view->removeMediator(view, "hasMediatorTest");
+    view->removeMediator(view, "hasMediatorTest", &error);
 
     // assert that the view.hasMediator method returns false
     // for that mediator name
@@ -143,7 +144,7 @@ void testRegisterAndRemoveMediator() {
     view->registerMediator(view, mediator, &error);
 
     // Remove the component
-    const struct IMediator *removedMediator = view->removeMediator(view, "testing");
+    const struct IMediator *removedMediator = view->removeMediator(view, "testing", &error);
 
     // assert that we have removed the appropriate mediator
     assert(strcmp(removedMediator->getName(removedMediator), "testing") == 0);
@@ -170,7 +171,7 @@ void testOnRegisterAndOnRemove() {
     assert(viewTest.onRegisterCalled);
 
     // Remove the component
-    view->removeMediator(view, ViewTestMediator4_NAME);
+    view->removeMediator(view, ViewTestMediator4_NAME, &error);
 
     // assert that the mediator is no longer retrievable
     assert(view->retrieveMediator(view, ViewTestMediator4_NAME) == NULL);
@@ -200,13 +201,13 @@ void testSuccessiveRegisterAndRemoveMediator() {
     assert(view->retrieveMediator(view, ViewTestMediator_NAME) == mediator);
 
     // Remove the Mediator
-    view->removeMediator(view, ViewTestMediator_NAME);
+    view->removeMediator(view, ViewTestMediator_NAME, &error);
 
     // test that retrieving it now returns null
-    assert(view->removeMediator(view, ViewTestMediator_NAME) == NULL);
+    assert(view->removeMediator(view, ViewTestMediator_NAME, &error) == NULL);
 
     // test that removing the mediator again once its gone doesn't cause crash
-    assert(view->removeMediator(view, ViewTestMediator_NAME) == NULL);
+    assert(view->removeMediator(view, ViewTestMediator_NAME, &error) == NULL);
 
     // Create and register another instance of the test mediator,
     struct IMediator *mediator2 = puremvc_mediator_new(ViewTestMediator_NAME, &viewComponent, &error);
@@ -215,7 +216,7 @@ void testSuccessiveRegisterAndRemoveMediator() {
     assert(view->retrieveMediator(view, ViewTestMediator_NAME) == mediator2);
 
     // Remove the Mediator
-    view->removeMediator(view, ViewTestMediator_NAME);
+    view->removeMediator(view, ViewTestMediator_NAME, &error);
 
     // test that retrieving it now returns null
     assert(view->retrieveMediator(view, ViewTestMediator_NAME) == NULL);
@@ -238,23 +239,23 @@ void testRemoveMediatorAndSubsequentNotify() {
 
     // test that notifications work
     struct INotification *notification1 = puremvc_notification_new(NOTE1, NULL, NULL, &error);
-    view->notifyObservers(view, notification1);
+    view->notifyObservers(view, notification1, &error);
     assert(strcmp(viewTest.lastNotification, NOTE1) == 0);
 
     struct INotification *notification2 = puremvc_notification_new(NOTE2, NULL, NULL, &error);
-    view->notifyObservers(view, notification2);
+    view->notifyObservers(view, notification2, &error);
     assert(strcmp(viewTest.lastNotification, NOTE2) == 0);
 
-    view->removeMediator(view, ViewTestMediator2_NAME);
+    view->removeMediator(view, ViewTestMediator2_NAME, &error);
 
     assert(view->retrieveMediator(view, ViewTestMediator2_NAME) == NULL);
 
     viewTest.lastNotification = "";
 
-    view->notifyObservers(view, notification1);
+    view->notifyObservers(view, notification1, &error);
     assert(strcmp(viewTest.lastNotification, NOTE1) != 0);
 
-    view->notifyObservers(view, notification2);
+    view->notifyObservers(view, notification2, &error);
     assert(strcmp(viewTest.lastNotification, NOTE2) != 0);
 
     puremvc_notification_free(&notification1);
@@ -280,19 +281,19 @@ void testRemoveOneOfTwoMediatorsAndSubsequentNotify() {
 
     // test that all notifications work
     struct INotification *notification1 = puremvc_notification_new(NOTE1, NULL, NULL, &error);
-    view->notifyObservers(view, notification1);
+    view->notifyObservers(view, notification1, &error);
     assert(strcmp(viewTest.lastNotification, NOTE1) == 0);
 
     struct INotification *notification2 = puremvc_notification_new(NOTE2, NULL, NULL, &error);
-    view->notifyObservers(view, notification2);
+    view->notifyObservers(view, notification2, &error);
     assert(strcmp(viewTest.lastNotification, NOTE2) == 0);
 
     struct INotification *notification3 = puremvc_notification_new(NOTE3, NULL, NULL, &error);
-    view->notifyObservers(view, notification3);
+    view->notifyObservers(view, notification3, &error);
     assert(strcmp(viewTest.lastNotification, NOTE3) == 0);
 
     // Remove the Mediator that responds to 1 and 2
-    view->removeMediator(view, ViewTestMediator2_NAME);
+    view->removeMediator(view, ViewTestMediator2_NAME, &error);
 
     // test that retrieving it now returns null
     assert(view->retrieveMediator(view, ViewTestMediator2_NAME) == NULL);
@@ -301,16 +302,16 @@ void testRemoveOneOfTwoMediatorsAndSubsequentNotify() {
     // for notifications 1 and 2, but still work for 3
     viewTest.lastNotification = "";
 
-    view->notifyObservers(view, notification1);
+    view->notifyObservers(view, notification1, &error);
     assert(strcmp(viewTest.lastNotification, NOTE1) != 0);
 
-    view->notifyObservers(view, notification2);
+    view->notifyObservers(view, notification2, &error);
     assert(strcmp(viewTest.lastNotification, NOTE2) != 0);
 
-    view->notifyObservers(view, notification3);
+    view->notifyObservers(view, notification3, &error);
     assert(strcmp(viewTest.lastNotification, NOTE3) == 0);
 
-    view->removeMediator(view, ViewTestMediator3_NAME);
+    view->removeMediator(view, ViewTestMediator3_NAME, &error);
 
     puremvc_mediator_free(&mediator2);
     puremvc_mediator_free(&mediator3);
@@ -337,11 +338,11 @@ void testMediatorReregistration() {
     // test that the counter is only incremented once (mediator 5's response)
     viewTest.counter = 0;
     struct INotification *notification = puremvc_notification_new(NOTE5, NULL, NULL, &error);
-    view->notifyObservers(view, notification);
+    view->notifyObservers(view, notification, &error);
     assert(viewTest.counter == 1);
 
     // Remove the Mediator
-    struct IMediator *removed = view->removeMediator(view, ViewTestMediator5_NAME);
+    struct IMediator *removed = view->removeMediator(view, ViewTestMediator5_NAME, &error);
     puremvc_mediator_free(&removed);
 
     // test that retrieving it now returns null
@@ -349,7 +350,7 @@ void testMediatorReregistration() {
 
     // test that the counter is no longer incremented
     viewTest.counter = 0;
-    view->notifyObservers(view, notification);
+    view->notifyObservers(view, notification, &error);
     assert(viewTest.counter == 0);
 
     puremvc_notification_free(&notification);
@@ -380,14 +381,14 @@ void testModifyObserverListDuringNotification() {
     // themselves and incrementing the counter by 1. This should leave us with a
     // count of 8, since 8 mediators will respond.
     struct INotification *notification = puremvc_notification_new(NOTE6, NULL, NULL, &error);
-    view->notifyObservers(view, notification);
+    view->notifyObservers(view, notification, &error);
 
     // verify the count is correct
     assert(viewTest.counter == 8);
 
     // clear the counter
     viewTest.counter = 0;
-    view->notifyObservers(view, notification);
+    view->notifyObservers(view, notification, &error);
 
     // verify the count is 0
     assert(viewTest.counter == 0);

@@ -45,7 +45,7 @@ void testRegisterCommandAndSendNotification() {
     // the vo.input value by 2 and set the result on vo.result
     struct FacadeTestVO *vo = malloc(sizeof(struct FacadeTestVO));
     vo->input = 32;
-    facade->sendNotification(facade, "FacadeTestNote", vo, NULL);
+    facade->sendNotification(facade, "FacadeTestNote", vo, NULL, &error);
 
     // test assertions
     assert(vo->result == 64);
@@ -66,7 +66,7 @@ void testRegisterAndRemoveCommandAndSendNotification() {
     // the vo.input value by 2
     struct FacadeTestVO *vo = malloc(sizeof(struct FacadeTestVO));
     *vo = (struct FacadeTestVO) {32};
-    facade->sendNotification(facade, "FacadeTestNote", vo, NULL);
+    facade->sendNotification(facade, "FacadeTestNote", vo, NULL, &error);
 
     // test assertions
     assert(vo->result == 0);
@@ -143,7 +143,7 @@ void testRegisterRetrieveAndRemoveMediator() {
     assert(facade->retrieveMediator(facade, MEDIATOR_NAME) != NULL);
 
     // remove the mediator
-    struct IMediator *removedMediator = facade->removeMediator(facade, MEDIATOR_NAME);
+    struct IMediator *removedMediator = facade->removeMediator(facade, MEDIATOR_NAME, &error);
 
     // assert that we have removed the appropriate mediator
     assert(strcmp(removedMediator->getName(removedMediator), MEDIATOR_NAME) == 0);
@@ -187,7 +187,7 @@ void testHasMediator() {
     // for that mediator name
     assert(facade->hasMediator(facade, "facadeHasMediatorTest") == true);
 
-    struct IMediator *removedMediator = facade->removeMediator(facade, "facadeHasMediatorTest");
+    struct IMediator *removedMediator = facade->removeMediator(facade, "facadeHasMediatorTest", &error);
     puremvc_mediator_free(&removedMediator);
 
     // assert that the facade.hasMediator method returns false

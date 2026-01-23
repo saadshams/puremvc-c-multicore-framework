@@ -22,31 +22,28 @@ static void setContext(struct IObserver *self, void *notifyContext) {
     this->context = notifyContext;
 }
 
-static void (*getNotify(const struct IObserver *self))(const void *context, struct INotification *notification) {
+static void (*getNotify(const struct IObserver *self))(const void *context, struct INotification *notification, const char **error) {
     const struct Observer *this = (struct Observer *) self;
     return this->notify;
 }
 
-static void setNotify(struct IObserver *self, void (*notify)(const void *context, struct INotification *notification)) {
+static void setNotify(struct IObserver *self, void (*notify)(const void *context, struct INotification *notification, const char **error)) {
     struct Observer *this = (struct Observer *) self;
     this->notify = notify;
 }
 
-static void notifyObserver(const struct IObserver *self, struct INotification *notification) {
+static void notifyObserver(const struct IObserver *self, struct INotification *notification, const char **error) {
     const struct Observer *this = (struct Observer *) self;
-    if (this->notify == NULL && this->context == NULL) {
-        fprintf(stderr, "[PureMVC::Observer::%s] Error: Notify and Context are NULL.\n", __func__);
-        return;
-    }
-    this->notify(this->context, notification);
+    if (this->notify == NULL && this->context == NULL)
+        return *error = "[PureMVC::Observer::notifyObserver] Error: Notify and Context must not be NULL", (void)0;
+
+    this->notify(this->context, notification, error);
 }
 
 static bool compareNotifyContext(const struct IObserver *self, const void *context) {
     const struct Observer *this = (struct Observer *) self;
-    if (this->context == NULL || context == NULL) {
-        fprintf(stderr, "[PureMVC::Observer::%s] Error: Notify and Context are NULL.\n", __func__);
-        return false;
-    }
+    if (this->context == NULL || context == NULL) return false;
+
     return this->context == context;
 }
 

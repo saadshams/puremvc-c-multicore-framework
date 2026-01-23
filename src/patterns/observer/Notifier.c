@@ -29,13 +29,12 @@ static void initializeNotifier(struct INotifier *self, const char *key, const ch
     struct Notifier *this = (struct Notifier *) self;
 
     this->key = strdup(key);
-    if (this->key == NULL)
-        return *error = "[PureMVC::Notifier::initializeNotifier] Error: Failed to allocate Model key (strdup).", (void)0;
+    if (this->key == NULL) return *error = "[PureMVC::Notifier::initializeNotifier] Error: Failed to allocate Model key (strdup)", (void)0;
 }
 
 static void sendNotification(const struct INotifier *self, const char *notificationName, void *body, const char *type, const char **error) {
     const struct IFacade *facade = self->getFacade(self, error);
-    facade->sendNotification(facade, notificationName, body, type);
+    facade->sendNotification(facade, notificationName, body, type, error);
 }
 
 static struct Notifier *init(struct Notifier *notifier) {

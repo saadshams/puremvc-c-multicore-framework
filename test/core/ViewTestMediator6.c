@@ -2,15 +2,15 @@
 
 #include "ViewTestMediator6.h"
 
-static char **listNotificationInterests(const struct IMediator *self) {
+static char **listNotificationInterests(const struct IMediator *self, const char **error) {
     static const char *interests[] = { NOTE6, NULL };
-    return self->allocNotificationInterests(self, interests);
+    return self->allocNotificationInterests(self, interests, error);
 }
 
 static void handleNotification(const struct IMediator *self, struct INotification *notification) {
     const char *error = NULL;
     const struct IFacade *facade = self->notifier->getFacade(self->notifier, &error);
-    struct IMediator *mediator = facade->removeMediator(facade, self->getName(self));
+    struct IMediator *mediator = facade->removeMediator(facade, self->getName(self), &error);
     puremvc_mediator_free(&mediator);
 }
 

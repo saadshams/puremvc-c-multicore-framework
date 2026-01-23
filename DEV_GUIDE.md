@@ -77,10 +77,29 @@ cmake --version
 ## 🛠️ Build
 ### Debug
 ```shell
-mkdir -p build && cd build
-cmake -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTS=ON -DCMAKE_TOOLCHAIN_FILE=/path/to/vcpkg/scripts/buildsystems/vcpkg.cmake
-cmake --build .
-ctest -C Debug
+mkdir -p build-debug
+cmake -B build-debug -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTS=ON -DCMAKE_TOOLCHAIN_FILE=~/Documents/microsoft/vcpkg/scripts/buildsystems/vcpkg.cmake
+cmake --build build-debug --parallel
+ctest --test-dir build-debug --output-on-failure --parallel
+```
+
+### Debug + Sanitizer
+```shell
+mkdir -p build-debug
+cmake -B build-debug \
+ -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTS=ON -DCMAKE_TOOLCHAIN_FILE=~/Documents/microsoft/vcpkg/scripts/buildsystems/vcpkg.cmake \
+ -DCMAKE_C_FLAGS="-Wall -Werror -fsanitize=address,undefined -fno-sanitize-recover=all -fno-omit-frame-pointer" \
+ -DCMAKE_EXE_LINKER_FLAGS="-fsanitize=address,undefined" 
+cmake --build build-debug
+ctest --test-dir build-debug --output-on-failure
+```
+
+### Release
+```shell
+mkdir -p build-release
+cmake -B build-release -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=ON -DCMAKE_TOOLCHAIN_FILE=~/Documents/microsoft/vcpkg/scripts/buildsystems/vcpkg.cmake
+cmake --build build-release --parallel
+ctest --test-dir build-release
 ```
 
 ### Debug GDB
@@ -89,14 +108,14 @@ ctest -C Debug
 mkdir -p build && cd build
 
 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=gcc -DCMAKE_TOOLCHAIN_FILE=/path/to/vcpkg/scripts/buildsystems/vcpkg.cmake ..
-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=gcc -DCMAKE_TOOLCHAIN_FILE=/Users/sshams/Documents/microsoft/vcpkg/scripts/buildsystems/vcpkg.cmake
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=gcc -DCMAKE_TOOLCHAIN_FILE=~/Documents/microsoft/vcpkg/scripts/buildsystems/vcpkg.cmake
 cmake --build . --parallel
 ctest --test-dir build --output-on-failure --verbose
 
 rm -rf build
 
 cmake -S . -B build-gcc \
--DCMAKE_TOOLCHAIN_FILE=/Users/sshams/Documents/microsoft/vcpkg/scripts/buildsystems/vcpkg.cmake \
+-DCMAKE_TOOLCHAIN_FILE=~/Documents/microsoft/vcpkg/scripts/buildsystems/vcpkg.cmake \
 -DCMAKE_C_COMPILER=gcc \
 -DCMAKE_CXX_COMPILER=g++-14 \
 -DCMAKE_BUILD_TYPE=Release \
@@ -106,7 +125,7 @@ cmake -S . -B build-gcc \
 && ctest --test-dir build-gcc --output-on-failure --verbose
 
 cmake -S . -B build-gcc \
--DCMAKE_TOOLCHAIN_FILE=/Users/sshams/Documents/microsoft/vcpkg/scripts/buildsystems/vcpkg.cmake \
+-DCMAKE_TOOLCHAIN_FILE=~/microsoft/vcpkg/scripts/buildsystems/vcpkg.cmake \
 -DCMAKE_C_COMPILER=gcc \
 -DCMAKE_CXX_COMPILER=g++ \
 -DCMAKE_BUILD_TYPE=Release \
@@ -118,25 +137,6 @@ cmake -S . -B build-gcc \
 
 cd build-gcc/test
 gdb ./ControllerTest
-```
-
-### Debug + Sanitizer
-```shell
-cmake -B build \
- -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTS=ON -DCMAKE_TOOLCHAIN_FILE=/path/to/vcpkg/scripts/buildsystems/vcpkg.cmake \
- -DCMAKE_C_FLAGS="-Wall -Werror -fsanitize=address,undefined -fno-sanitize-recover=all -fno-omit-frame-pointer" \
- -DCMAKE_EXE_LINKER_FLAGS="-fsanitize=address,undefined" 
-
-cmake --build build
-ctest --test-dir build --output-on-failure
-```
-
-### Release
-```shell
-mkdir -p build-release && cd build-release
-cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=ON -DCMAKE_TOOLCHAIN_FILE=/path/to/vcpkg/scripts/buildsystems/vcpkg.cmake
-cmake --build .
-ctest -C Release
 ```
 
 ### Debug (Windows)
@@ -152,7 +152,12 @@ cmake -B build \
   -DCMAKE_SHARED_LINKER_FLAGS=""
 ```
 
-
+```cmd
+mkdir build
+cd build
+cmake -G "Visual Studio 17 2022" -A x64 -S .. -B . -DBUILD_TESTS=ON
+cmake --build . --config Debug
+```
 
 ### Documentation
 ```shell

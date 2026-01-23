@@ -13,19 +13,21 @@
 
 #include "MacroCommand.h"
 
-static void initializeMacroCommand(const struct IMacroCommand *self) {
+static void initializeMacroCommand(const struct IMacroCommand *self, const char **error) {
 
 }
 
-static void addSubCommand(const struct IMacroCommand *self, struct ICommand *(*factory)(const char **error)) {
+static void addSubCommand(const struct IMacroCommand *self, struct ICommand *(*factory)(const char **error), const char **error) {
     const struct MacroCommand *this = (struct MacroCommand *) self;
-    this->subCommands->push(this->subCommands, factory);
+    this->subCommands->push(this->subCommands, factory, error);
 }
 
 static void execute(const struct ICommand *self, struct INotification *notification, const char **error) {
     struct MacroCommand *this = (struct MacroCommand *) self;
 
-    this->base.initializeMacroCommand((struct IMacroCommand *) this);
+    this->base.initializeMacroCommand((struct IMacroCommand *) this, error);
+    if (*error != NULL) return;
+
     while (this->subCommands->size(this->subCommands) > 0) {
         struct ICommand *(*factory)(const char **error) = (struct ICommand *(*)(const char **)) this->subCommands->shift(this->subCommands);
         struct ICommand *command = factory(error);
@@ -47,7 +49,7 @@ static struct MacroCommand *init(struct MacroCommand *command) {
     if (command == NULL) return NULL;
     command->base.initializeMacroCommand = initializeMacroCommand;
     command->base.addSubCommand = addSubCommand;
-    command->base.command.execute = execute;
+    command->base.base.execute = execute;
     return command;
 }
 
@@ -57,10 +59,12 @@ static struct MacroCommand *alloc(const char **error) {
 
     memset(command, 0, sizeof(struct MacroCommand));
 
-    command->base.command.notifier = puremvc_notifier_new(error);
-    if (command->base.command.notifier == NULL) return free(command), NULL;
+    command->base.base.notifier = puremvc_notifier_new(error);
+    if (*error != NULL) return free(command), NULL;
 
-    command->subCommands = collection_array_new();
+    command->subCommands = collection_array_new(error);
+    if (*error != NULL) return puremvc_notifier_free(&command->base.base.notifier), free(command), NULL;
+
     return command;
 }
 
@@ -72,7 +76,7 @@ void puremvc_macro_command_free(struct IMacroCommand **command) {
     if (command == NULL || *command == NULL) return;
     struct MacroCommand *this = (struct MacroCommand *) *command;
 
-    puremvc_notifier_free(&this->base.command.notifier);
+    puremvc_notifier_free(&this->base.base.notifier);
     collection_array_free(&this->subCommands);
 
     free(this);

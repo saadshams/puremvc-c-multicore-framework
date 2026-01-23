@@ -29,11 +29,14 @@ static void registerProxy(const struct IModel *self, struct IProxy *proxy, const
 
     mutex_lock(&this->proxyMapMutex);
     proxy->notifier->initializeNotifier(proxy->notifier, this->multitonKey, error);
+    if (*error != NULL) return mutex_unlock(&this->proxyMapMutex), (void)0;
+
     if (this->proxyMap->containsKey(this->proxyMap, proxy->getName(proxy))) {
         struct IProxy *previous = this->proxyMap->replace(this->proxyMap, proxy->getName(proxy), proxy);
         puremvc_proxy_free(&previous);
     } else {
-        this->proxyMap->put(this->proxyMap, proxy->getName(proxy), proxy);
+        this->proxyMap->put(this->proxyMap, proxy->getName(proxy), proxy, error);
+        if (*error != NULL) return mutex_unlock(&this->proxyMapMutex), (void)0;
     }
     mutex_unlock(&this->proxyMapMutex);
 
@@ -80,23 +83,19 @@ static struct Model *init(struct Model *model) {
 }
 
 static struct Model *alloc(const char *key, const char **error) {
-    if (instanceMap->containsKey(instanceMap, key)) {
-        fprintf(stderr, "[PureMVC::Model::alloc] Model instance with key '%s' already exists!\n", key);
-        exit(EXIT_FAILURE);
-    }
-
     struct Model *model = malloc(sizeof(struct Model));
-    if (model == NULL)
-        return *error = "[PureMVC::Model::alloc] Error: Failed to allocate Model", NULL;
+    if (model == NULL) return *error = "[PureMVC::Model::alloc] Error: Failed to allocate Model", NULL;
 
     memset(model, 0, sizeof(struct Model));
 
     model->multitonKey = strdup(key);
-    if (model->multitonKey == NULL)
-        return *error = "[PureMVC::Model::alloc] Error: Failed to allocate Model key (strdup).", free(model), NULL;
+    if (model->multitonKey == NULL) return *error = "[PureMVC::Model::alloc] Error: Failed to allocate Model key (strdup)", free(model), NULL;
 
     mutex_init(&model->proxyMapMutex);
-    model->proxyMap = collection_dictionary_new();
+
+    model->proxyMap = collection_dictionary_new(error);
+    if (*error != NULL) return mutex_destroy(&model->proxyMapMutex), free((void *)model->multitonKey), free(model), NULL;
+
     return model;
 }
 
@@ -112,6 +111,7 @@ void puremvc_model_free(struct IModel **model) {
     free((void *) this->multitonKey);
     this->proxyMap->clear(this->proxyMap, free);
     collection_dictionary_free(&this->proxyMap);
+
     mutex_destroy(&this->proxyMapMutex);
 
     free(this);
@@ -123,21 +123,25 @@ static void dispatchOnce() {
 }
 
 struct IModel *puremvc_model_getInstance(const char *key, struct IModel *(*factory)(const char *key, const char **error), const char **error) {
-    if (key == NULL) return *error = "[PureMVC::Model::getInstance] Error: key or factory must not be NULL.", NULL;
+    if (key == NULL || factory == NULL) return *error = "[PureMVC::Model::getInstance] Error: key or factory must not be NULL.", NULL;
     mutex_once(&token, dispatchOnce);
     mutex_lock(&mutex);
 
-    if (instanceMap == NULL) instanceMap = collection_dictionary_new();
+    if (instanceMap == NULL) {
+        instanceMap = collection_dictionary_new(error);
+        if (*error != NULL) return NULL;
+    }
 
     struct IModel *instance = (struct IModel *) instanceMap->get(instanceMap, key);
     if (instance == NULL) {
         instance = factory(key, error);
-        if (instance == NULL) return NULL;
+        if (*error != NULL) return mutex_unlock(&mutex), NULL;
 
         instance->initializeModel(instance, error);
-        if (*error != NULL) return NULL;
+        if (*error != NULL) return puremvc_model_free(&instance), mutex_unlock(&mutex), NULL;
 
-        instanceMap->put(instanceMap, key, instance);
+        instanceMap->put(instanceMap, key, instance, error);
+        if (*error != NULL) return puremvc_model_free(&instance), mutex_unlock(&mutex), NULL;
     }
 
     mutex_unlock(&mutex);

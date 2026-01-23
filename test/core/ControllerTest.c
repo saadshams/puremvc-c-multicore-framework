@@ -27,7 +27,7 @@ void testGetInstance() {
 
     // test assertions
     assert(controller != NULL);
-    assert(controller == puremvc_controller_getInstance("ControllerTestKey1", puremvc_controller_new));
+    assert(controller == puremvc_controller_getInstance("ControllerTestKey1", puremvc_controller_new, &error));
     puremvc_controller_removeController("ControllerTestKey1");
     controller = NULL;
 }
@@ -132,14 +132,14 @@ void testReregisterAndExecuteCommand() {
 
     // retrieve a reference to the View from the same core.
     struct IView *view = puremvc_view_getInstance("ControllerTestKey5", puremvc_view_new, &error);
-    view->notifyObservers(view, notification);
+    view->notifyObservers(view, notification, &error);
 
     // test assertions
     // if the command is executed once the value will be 24
     assert(vo->result == 24);
 
     // Prove that accumulation works in the VO by sending the notification again
-    view->notifyObservers(view, notification);
+    view->notifyObservers(view, notification, &error);
 
     // if the command is executed twice the value will be 48
     assert(vo->result == 48);

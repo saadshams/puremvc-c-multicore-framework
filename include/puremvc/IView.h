@@ -28,11 +28,20 @@ struct IView {
      */
     void (*initializeView)(struct IView *self, const char **error);
 
-    /** @brief Registers an observer for a notification name. */
-    void (*registerObserver)(const struct IView *self, const char *notificationName, const struct IObserver *observer);
+    /** @brief Registers an observer for a notification name.
+     * @param self Pointer to the View instance.
+     * @param notificationName Pointer to the notification name
+     * @param observer Pointer to this observer instance.
+     * @param error Out-param for a static error string on failure (NULL on success).
+     */
+    void (*registerObserver)(const struct IView *self, const char *notificationName, const struct IObserver *observer, const char **error);
 
-    /** @brief Notifies all observers of a notification. */
-    void (*notifyObservers)(const struct IView *self, const struct INotification *notification);
+    /** @brief Notifies all observers of a notification.
+     * @param self Pointer to the View instance.
+     * @param notification Pointer to the notification
+     * @param error Out-param for a static error string on failure (NULL on success).
+     */
+    void (*notifyObservers)(const struct IView *self, const struct INotification *notification, const char **error);
 
     /** @brief Removes an observer by notification name and context. */
     void (*removeObserver)(const struct IView *self, const char *notificationName, const void *notifyContext);
@@ -50,8 +59,12 @@ struct IView {
     /** @brief Checks if a mediator is registered. */
     bool (*hasMediator)(const struct IView *self, const char *mediatorName);
 
-    /** @brief Removes and returns a mediator by name. */
-    struct IMediator *(*removeMediator)(const struct IView *self, const char *mediatorName);
+    /** @brief Removes and returns a mediator by name.
+     * @param self Pointer to the View instance.
+     * @param mediatorName name of the mediator to be removed
+     * @param error Out-param for a static error string on failure (NULL on success).
+     */
+    struct IMediator *(*removeMediator)(const struct IView *self, const char *mediatorName, const char **error);
 };
 
 /**
