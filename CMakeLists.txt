@@ -13,8 +13,8 @@ add_library(puremvc STATIC
         src/core/Controller.c
         src/core/Model.c
         src/core/View.c
-        src/patterns/command/SimpleCommand.c
         src/patterns/command/MacroCommand.c
+        src/patterns/command/SimpleCommand.c
         src/patterns/facade/Facade.c
         src/patterns/mediator/Mediator.c
         src/patterns/observer/Notification.c
@@ -52,22 +52,20 @@ install(EXPORT puremvc-targets
 # 7️⃣Package config
 include(CMakePackageConfigHelpers)
 
-configure_file(
-        ${CMAKE_CURRENT_SOURCE_DIR}/cmake/puremvc-config.cmake.in
-        ${CMAKE_CURRENT_BINARY_DIR}/puremvc-config.cmake
-        @ONLY
-)
-
-#configure_package_config_file(
-#        ${CMAKE_CURRENT_LIST_DIR}/cmake/puremvc-config.cmake.in
+#configure_file(
+#        ${CMAKE_CURRENT_SOURCE_DIR}/cmake/puremvc-config.cmake.in
 #        ${CMAKE_CURRENT_BINARY_DIR}/puremvc-config.cmake
-#        INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/puremvc
+#        @ONLY
 #)
+
+configure_package_config_file(
+        ${CMAKE_CURRENT_LIST_DIR}/cmake/puremvc-config.cmake.in
+        ${CMAKE_CURRENT_BINARY_DIR}/puremvc-config.cmake
+        INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/puremvc)
 
 install(FILES
         ${CMAKE_CURRENT_BINARY_DIR}/puremvc-config.cmake
-        DESTINATION share/puremvc
-)
+        DESTINATION cmake/puremvc)
 
 # 7️⃣ Tests
 option(BUILD_TESTS "Build Tests" OFF)
