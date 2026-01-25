@@ -1,5 +1,5 @@
 # 1️⃣ Project setup
-cmake_minimum_required(VERSION 3.22)
+cmake_minimum_required(VERSION 3.23)
 project(puremvc VERSION 1.0.0 LANGUAGES C)
 
 set(CMAKE_C_STANDARD 11)
@@ -8,7 +8,7 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 # 2️⃣ Find dependencies
 find_package(collection REQUIRED CONFIG)
 
-# 3️⃣ Define targets
+# 3️⃣ Define library target
 add_library(puremvc STATIC
         src/core/Controller.c
         src/core/Model.c
@@ -24,7 +24,7 @@ add_library(puremvc STATIC
 
 add_library(puremvc::puremvc ALIAS puremvc)
 
-# 4️⃣ Target properties
+# 4️⃣ Target include paths
 target_include_directories(puremvc
         PUBLIC
             $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -36,39 +36,37 @@ target_link_libraries(puremvc PUBLIC collection::collection)
 include(GNUInstallDirs)
 
 install(TARGETS puremvc
-        EXPORT puremvc-targets
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT PureMVCRunTime
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT PureMVCRunTime NAMELINK_COMPONENT PureMVCDevelopment
+        EXPORT puremvcTargets
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT PureMVCDevelopment)
 
-install(DIRECTORY ${CMAKE_SOURCE_DIR}/include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
-# 6️⃣ Export targets
-install(EXPORT puremvc-targets
-        FILE puremvc-targets.cmake
+# 6️⃣ Export targets for find_package()
+install(EXPORT puremvcTargets
+        FILE puremvcTargets.cmake
         NAMESPACE puremvc::
         DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/puremvc)
 
-# 7️⃣Package config
+# 7️⃣ Package configuration files
 include(CMakePackageConfigHelpers)
 
-#configure_file(
-#        ${CMAKE_CURRENT_SOURCE_DIR}/cmake/puremvc-config.cmake.in
-#        ${CMAKE_CURRENT_BINARY_DIR}/puremvc-config.cmake
-#        @ONLY
-#)
-
-configure_package_config_file(
-        ${CMAKE_CURRENT_LIST_DIR}/cmake/puremvc-config.cmake.in
-        ${CMAKE_CURRENT_BINARY_DIR}/puremvc-config.cmake
+configure_package_config_file(${CMAKE_CURRENT_LIST_DIR}/cmake/puremvcConfig.cmake.in
+        ${CMAKE_CURRENT_BINARY_DIR}/puremvcConfig.cmake
         INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/puremvc)
 
-install(FILES
-        ${CMAKE_CURRENT_BINARY_DIR}/puremvc-config.cmake
-        DESTINATION cmake/puremvc)
+# 8️⃣ Package version file
+write_basic_package_version_file(${CMAKE_CURRENT_BINARY_DIR}/puremvcConfigVersion.cmake
+        VERSION ${PROJECT_VERSION}
+        COMPATIBILITY SameMajorVersion)
 
-# 7️⃣ Tests
-option(BUILD_TESTS "Build Tests" OFF)
+install(FILES
+        ${CMAKE_CURRENT_BINARY_DIR}/puremvcConfig.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/puremvcConfigVersion.cmake
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/puremvc)
+
+# 9️⃣ Tests
+option(BUILD_TESTS "Build Tests" ON)
 if(BUILD_TESTS)
     enable_testing()
     add_subdirectory(test)
