@@ -27,37 +27,8 @@ static void *getComponent(const struct IMediator *self) {
     return this->component;
 }
 
-static char **allocNotificationInterests(const struct IMediator *self, const char **notifications, const char **error) {
-    if (notifications == NULL) return *error = "[PureMVC::Mediator::allocNotificationInterests] Error: notifications must not be NULL", NULL;
-
-    size_t count = 0;
-    while (notifications[count] != NULL) count++;
-
-    char **interests = malloc(sizeof(char*) * (count + 1));
-    if (interests == NULL) return *error = "[PureMVC::Mediator::allocNotificationInterests] ERROR: Failed to allocate interests array", NULL;
-
-    interests[count] = NULL;
-
-    for (size_t i = 0; i < count; i++) {
-        interests[i] = strdup(notifications[i]);
-        if (interests[i] == NULL) { // rollback
-            for (size_t j = 0; j < i; j++) free(interests[j]); // Free previously allocated strings
-            free(interests);
-            return *error = "[PureMVC::Mediator::allocNotificationInterests] Error: Failed to allocate an interest (strdup)", NULL;
-        }
-    }
-    return interests;
-}
-
-static void freeNotificationInterests(const struct IMediator *self, char **interests) {
-    for (char **interest = interests; *interest; interest++)
-        free(*interest);
-    free(interests);
-}
-
 static const char **listNotificationInterests(const struct IMediator *self, const char **error) {
     static const char *interests[] = { NULL };
-    // return self->allocNotificationInterests(self, interests, error);
     return interests;
 }
 
