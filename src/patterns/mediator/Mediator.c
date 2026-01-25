@@ -55,9 +55,10 @@ static void freeNotificationInterests(const struct IMediator *self, char **inter
     free(interests);
 }
 
-static char **listNotificationInterests(const struct IMediator *self, const char **error) {
+static const char **listNotificationInterests(const struct IMediator *self, const char **error) {
     static const char *interests[] = { NULL };
-    return self->allocNotificationInterests(self, interests, error);
+    // return self->allocNotificationInterests(self, interests, error);
+    return interests;
 }
 
 static void handleNotification(const struct IMediator *self, struct INotification *notification) {
@@ -77,8 +78,6 @@ static struct Mediator *init(struct Mediator *mediator) {
     mediator->base.getName = getName;
     mediator->base.setComponent = setComponent;
     mediator->base.getComponent = getComponent;
-    mediator->base.allocNotificationInterests = allocNotificationInterests;
-    mediator->base.freeNotificationInterests = freeNotificationInterests;
     mediator->base.listNotificationInterests = listNotificationInterests;
     mediator->base.handleNotification = handleNotification;
     mediator->base.onRegister = onRegister;

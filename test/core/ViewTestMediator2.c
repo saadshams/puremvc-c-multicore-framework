@@ -2,9 +2,9 @@
 
 #include "ViewTestMediator2.h"
 
-static char **listNotificationInterests(const struct IMediator *self, const char **error) {
+static const char **listNotificationInterests(const struct IMediator *self, const char **error) {
     static const char* interests[] = {NOTE1, NOTE2, NULL};
-    return self->allocNotificationInterests(self, interests, error);
+    return interests;
 }
 
 static void handleNotification(const struct IMediator *self, struct INotification *notification) {

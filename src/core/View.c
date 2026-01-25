@@ -109,30 +109,29 @@ static void registerMediator(const struct IView *self, struct IMediator *mediato
     if (*error != NULL) return mutex_unlock(&this->mediatorMapMutex), (void)0;
     mutex_unlock(&this->mediatorMapMutex);
 
-    char **interests = mediator->listNotificationInterests(mediator, error);
+    const char **interests = mediator->listNotificationInterests(mediator, error);
     if (*error != NULL)
         return mutex_lock(&this->mediatorMapMutex), this->mediatorMap->removeItem(this->mediatorMap, mediator->getName(mediator)),
             mutex_unlock(&this->mediatorMapMutex), (void)0;
 
-    for(char **interest = interests; *interest; interest++) {
+    for(const char **interest = interests; *interest; interest++) {
         const struct IObserver *observer = puremvc_observer_new((const void (*)(const void *, struct INotification *)) mediator->handleNotification, mediator, error);
         if (*error != NULL) { // rollback
-            for (char **cursor = interests; cursor < interest; cursor++)
+            for (const char **cursor = interests; cursor < interest; cursor++)
                 self->removeObserver(self, *cursor, mediator);
             return mutex_lock(&this->mediatorMapMutex), this->mediatorMap->removeItem(this->mediatorMap, mediator->getName(mediator)),
-                mutex_unlock(&this->mediatorMapMutex), mediator->freeNotificationInterests(mediator, interests), (void)0;
+                mutex_unlock(&this->mediatorMapMutex), (void)0;
         }
 
         self->registerObserver(self, *interest, observer, error);
         if (*error != NULL) { // rollback
             puremvc_observer_free((struct IObserver **)&observer);
-            for (char **cursor = interests; cursor < interest; cursor++)
+            for (const char **cursor = interests; cursor < interest; cursor++)
                 self->removeObserver(self, *cursor, mediator);
             return mutex_lock(&this->mediatorMapMutex), this->mediatorMap->removeItem(this->mediatorMap, mediator->getName(mediator)),
-                mutex_unlock(&this->mediatorMapMutex), mediator->freeNotificationInterests(mediator, interests), (void)0;
+                mutex_unlock(&this->mediatorMapMutex), (void)0;
         }
     }
-    mediator->freeNotificationInterests(mediator, interests);
     mediator->onRegister(mediator);
 }
 
@@ -160,11 +159,10 @@ static struct IMediator *removeMediator(const struct IView *self, const char *me
     mutex_unlock(&this->mediatorMapMutex);
 
     if (mediator != NULL) {
-        char **interests = mediator->listNotificationInterests(mediator, error);
-        for (char **cursor = interests; *cursor; cursor++) {
+        const char **interests = mediator->listNotificationInterests(mediator, error);
+        for (const char **cursor = interests; *cursor; cursor++) {
             self->removeObserver(self, *cursor, mediator);
         }
-        mediator->freeNotificationInterests(mediator, interests);
         mediator->onRemove(mediator);
     }
 

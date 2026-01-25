@@ -28,10 +28,7 @@ struct IMediator {
     void (*setComponent)(struct IMediator *self, void *component);
     void *(*getComponent)(const struct IMediator *self);
 
-    char **(*allocNotificationInterests)(const struct IMediator *self, const char **interests, const char **error);
-    void (*freeNotificationInterests)(const struct IMediator *self, char **interests);
-
-    char **(*listNotificationInterests)(const struct IMediator *self, const char **error);
+    const char **(*listNotificationInterests)(const struct IMediator *self, const char **error);
     void (*handleNotification)(const struct IMediator *self, struct INotification *notification);
 
     void (*onRegister)(struct IMediator *self);
