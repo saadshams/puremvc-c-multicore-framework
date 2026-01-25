@@ -51,15 +51,9 @@ static void setType(struct INotification *self, const char *type, const char **e
 static const char *toString(const struct INotification *self, const char **error) {
     const struct Notification *this = (struct Notification *) self;
 
-    size_t ptr_len = 2 + sizeof(void*) * 2; // "0x" + 2 hex digits per byte
-    const size_t len = strlen(this->name) + (this->type ? strlen(this->type) : 0) + ptr_len; // name + type + body ptr
-    char *msg = malloc(len * sizeof(char));
-
-    if (msg == NULL) return *error = "[PureMVC::Notification::toString] Error: Failed to allocate string for name or type", NULL;
-
-    snprintf(msg, len, "%s : %s [body=%p]", this->name, this->type ? this->type : "", this->body);
-
-    return msg;
+    static char description[256];
+    snprintf(description, sizeof(description), "%s : %s [body=%p]", this->name, this->type ? this->type : "", this->body);
+    return description;
 }
 
 static struct Notification *init(struct Notification *notification) {
