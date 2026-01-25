@@ -99,29 +99,29 @@ $(function(){initNavTree('struct_i_notifier.html','',''); });
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:ab05dbbfffc64fb1e64bb5d4c0d001ba2" id="r_ab05dbbfffc64fb1e64bb5d4c0d001ba2"><td class="memItemLeft">struct <a class="el" href="struct_i_facade.html">IFacade</a> *(*&#160;</td><td class="memItemRight"><a class="el" href="#ab05dbbfffc64fb1e64bb5d4c0d001ba2">getFacade</a> )(const struct <a class="el" href="struct_i_notifier.html">INotifier</a> *self)</td></tr>
-<tr class="memdesc:ab05dbbfffc64fb1e64bb5d4c0d001ba2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the facade instance associated with this notifier.  <br /></td></tr>
+<tr class="memitem:a4d7586e7fe39978da79d6287cbce04be" id="r_a4d7586e7fe39978da79d6287cbce04be"><td class="memItemLeft">struct <a class="el" href="struct_i_facade.html">IFacade</a> *(*&#160;</td><td class="memItemRight"><a class="el" href="#a4d7586e7fe39978da79d6287cbce04be">getFacade</a> )(const struct <a class="el" href="struct_i_notifier.html">INotifier</a> *self, const char **error)</td></tr>
+<tr class="memdesc:a4d7586e7fe39978da79d6287cbce04be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the facade instance associated with this notifier.  <br /></td></tr>
 <tr class="memitem:acbdb46e58461b5def9409a4373b3c4d6" id="r_acbdb46e58461b5def9409a4373b3c4d6"><td class="memItemLeft">const char *(*&#160;</td><td class="memItemRight"><a class="el" href="#acbdb46e58461b5def9409a4373b3c4d6">getKey</a> )(const struct <a class="el" href="struct_i_notifier.html">INotifier</a> *self)</td></tr>
 <tr class="memdesc:acbdb46e58461b5def9409a4373b3c4d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the multiton key for this notifier.  <br /></td></tr>
-<tr class="memitem:af639631e64bb6ecfeee3f7dfa638b394" id="r_af639631e64bb6ecfeee3f7dfa638b394"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#af639631e64bb6ecfeee3f7dfa638b394">initializeNotifier</a> )(struct <a class="el" href="struct_i_notifier.html">INotifier</a> *self, const char *key)</td></tr>
-<tr class="memdesc:af639631e64bb6ecfeee3f7dfa638b394"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the notifier with a multiton key.  <br /></td></tr>
-<tr class="memitem:a15cce2d9be13f915725000800ea7cb5b" id="r_a15cce2d9be13f915725000800ea7cb5b"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#a15cce2d9be13f915725000800ea7cb5b">sendNotification</a> )(const struct <a class="el" href="struct_i_notifier.html">INotifier</a> *self, const char *notificationName, void *body, const char *type)</td></tr>
-<tr class="memdesc:a15cce2d9be13f915725000800ea7cb5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends a notification through the PureMVC framework.  <br /></td></tr>
+<tr class="memitem:a4877aa74c17ad772b7d078c857b1ba44" id="r_a4877aa74c17ad772b7d078c857b1ba44"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#a4877aa74c17ad772b7d078c857b1ba44">initializeNotifier</a> )(struct <a class="el" href="struct_i_notifier.html">INotifier</a> *self, const char *key, const char **error)</td></tr>
+<tr class="memdesc:a4877aa74c17ad772b7d078c857b1ba44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the notifier with a multiton key.  <br /></td></tr>
+<tr class="memitem:ad2d5a97f954e4e7eb20dd69339c6088e" id="r_ad2d5a97f954e4e7eb20dd69339c6088e"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#ad2d5a97f954e4e7eb20dd69339c6088e">sendNotification</a> )(const struct <a class="el" href="struct_i_notifier.html">INotifier</a> *self, const char *notificationName, void *body, const char *type, const char **error)</td></tr>
+<tr class="memdesc:ad2d5a97f954e4e7eb20dd69339c6088e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends a notification through the PureMVC framework.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents a notifier in the PureMVC framework. </p>
 <p>This structure provides an interface for sending notifications to the framework. It holds function pointers for accessing the facade, retrieving the multiton key, initializing the notifier, and sending notifications. </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_notifier_8h_source.html#l00020">20</a> of file <a class="el" href="_i_notifier_8h_source.html">INotifier.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_notifier_8h_source.html#l00021">21</a> of file <a class="el" href="_i_notifier_8h_source.html">INotifier.h</a>.</p>
 </div><a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Field Documentation</h2>
-<a id="ab05dbbfffc64fb1e64bb5d4c0d001ba2" name="ab05dbbfffc64fb1e64bb5d4c0d001ba2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab05dbbfffc64fb1e64bb5d4c0d001ba2">&#9670;&#160;</a></span>getFacade</h2>
+<a id="a4d7586e7fe39978da79d6287cbce04be" name="a4d7586e7fe39978da79d6287cbce04be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d7586e7fe39978da79d6287cbce04be">&#9670;&#160;</a></span>getFacade</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct <a class="el" href="struct_i_facade.html">IFacade</a> *(* getFacade) (const struct <a class="el" href="struct_i_notifier.html">INotifier</a> *self)</td>
+          <td class="memname">struct <a class="el" href="struct_i_facade.html">IFacade</a> *(* getFacade) (const struct <a class="el" href="struct_i_notifier.html">INotifier</a> *self, const char **error)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -130,12 +130,13 @@ Data Fields</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">self</td><td>Pointer to this notifier instance. </td></tr>
+    <tr><td class="paramname">error</td><td>Out-param for a static error string on failure (NULL on success). </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Pointer to the <a class="el" href="struct_i_facade.html" title="Represents the Facade in the PureMVC framework.">IFacade</a> instance. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_notifier_8h_source.html#l00075">75</a> of file <a class="el" href="_i_notifier_8h_source.html">INotifier.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_notifier_8h_source.html#l00079">79</a> of file <a class="el" href="_i_notifier_8h_source.html">INotifier.h</a>.</p>
 
 </div>
 </div>
@@ -160,18 +161,18 @@ Data Fields</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Static string representing the key. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_notifier_8h_source.html#l00035">35</a> of file <a class="el" href="_i_notifier_8h_source.html">INotifier.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_notifier_8h_source.html#l00037">37</a> of file <a class="el" href="_i_notifier_8h_source.html">INotifier.h</a>.</p>
 
 </div>
 </div>
-<a id="af639631e64bb6ecfeee3f7dfa638b394" name="af639631e64bb6ecfeee3f7dfa638b394"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af639631e64bb6ecfeee3f7dfa638b394">&#9670;&#160;</a></span>initializeNotifier</h2>
+<a id="a4877aa74c17ad772b7d078c857b1ba44" name="a4877aa74c17ad772b7d078c857b1ba44"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4877aa74c17ad772b7d078c857b1ba44">&#9670;&#160;</a></span>initializeNotifier</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void(* initializeNotifier) (struct <a class="el" href="struct_i_notifier.html">INotifier</a> *self, const char *key)</td>
+          <td class="memname">void(* initializeNotifier) (struct <a class="el" href="struct_i_notifier.html">INotifier</a> *self, const char *key, const char **error)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -182,22 +183,23 @@ Data Fields</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">self</td><td>Pointer to this notifier instance. </td></tr>
     <tr><td class="paramname">key</td><td>Multiton key to associate with this notifier. </td></tr>
+    <tr><td class="paramname">error</td><td>Out-param for a static error string on failure (NULL on success). </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_notifier_8h_source.html#l00045">45</a> of file <a class="el" href="_i_notifier_8h_source.html">INotifier.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_notifier_8h_source.html#l00048">48</a> of file <a class="el" href="_i_notifier_8h_source.html">INotifier.h</a>.</p>
 
 </div>
 </div>
-<a id="a15cce2d9be13f915725000800ea7cb5b" name="a15cce2d9be13f915725000800ea7cb5b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a15cce2d9be13f915725000800ea7cb5b">&#9670;&#160;</a></span>sendNotification</h2>
+<a id="ad2d5a97f954e4e7eb20dd69339c6088e" name="ad2d5a97f954e4e7eb20dd69339c6088e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad2d5a97f954e4e7eb20dd69339c6088e">&#9670;&#160;</a></span>sendNotification</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void(* sendNotification) (const struct <a class="el" href="struct_i_notifier.html">INotifier</a> *self, const char *notificationName, void *body, const char *type)</td>
+          <td class="memname">void(* sendNotification) (const struct <a class="el" href="struct_i_notifier.html">INotifier</a> *self, const char *notificationName, void *body, const char *type, const char **error)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -209,11 +211,12 @@ Data Fields</h2></td></tr>
     <tr><td class="paramname">notificationName</td><td>Name of the notification. </td></tr>
     <tr><td class="paramname">body</td><td>Optional pointer to the notification body. </td></tr>
     <tr><td class="paramname">type</td><td>Optional type string for the notification. </td></tr>
+    <tr><td class="paramname">error</td><td>Out-param for a static error string on failure (NULL on success). </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_notifier_8h_source.html#l00055">55</a> of file <a class="el" href="_i_notifier_8h_source.html">INotifier.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_notifier_8h_source.html#l00059">59</a> of file <a class="el" href="_i_notifier_8h_source.html">INotifier.h</a>.</p>
 
 </div>
 </div>

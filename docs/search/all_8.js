@@ -12,12 +12,12 @@ var searchData=
   ['imediator_2eh_9',['IMediator.h',['../_i_mediator_8h.html',1,'']]],
   ['imodel_10',['IModel',['../struct_i_model.html',1,'']]],
   ['imodel_2eh_11',['IModel.h',['../_i_model_8h.html',1,'']]],
-  ['initializecontroller_12',['initializeController',['../struct_i_controller.html#a0f8c1fbd96fc5463842866bb8eb814b4',1,'IController::initializeController'],['../struct_i_facade.html#a41724e394355114eae3d207c138a581f',1,'IFacade::initializeController']]],
-  ['initializefacade_13',['initializeFacade',['../struct_i_facade.html#a5611aad21825399a79716fa9b967f936',1,'IFacade']]],
-  ['initializemacrocommand_14',['initializeMacroCommand',['../struct_i_macro_command.html#a1d287d2bc85cc9ec9fda3f8003ec0946',1,'IMacroCommand']]],
-  ['initializemodel_15',['initializeModel',['../struct_i_facade.html#a5bff0d2b4174afdeaa46ae5738988c13',1,'IFacade::initializeModel'],['../struct_i_model.html#a581a5b6e17581405daa39bbb4e3f8091',1,'IModel::initializeModel']]],
-  ['initializenotifier_16',['initializeNotifier',['../struct_i_notifier.html#af639631e64bb6ecfeee3f7dfa638b394',1,'INotifier']]],
-  ['initializeview_17',['initializeView',['../struct_i_facade.html#a933db2a8e00399b33be798b8de652737',1,'IFacade::initializeView'],['../struct_i_view.html#a3ca3496d146b54cdf0d82f63046c640c',1,'IView::initializeView']]],
+  ['initializecontroller_12',['initializeController',['../struct_i_controller.html#ab7ac7fbf539c743b62951650023f31ca',1,'IController::initializeController'],['../struct_i_facade.html#ae6a3b4b39c21c516b1a9f8dc7fb35012',1,'IFacade::initializeController']]],
+  ['initializefacade_13',['initializeFacade',['../struct_i_facade.html#a3277586f21ed07d79ecbea685e82ab89',1,'IFacade']]],
+  ['initializemacrocommand_14',['initializeMacroCommand',['../struct_i_macro_command.html#a6892c10531f1edc25e2e781d26bc4863',1,'IMacroCommand']]],
+  ['initializemodel_15',['initializeModel',['../struct_i_facade.html#ab20622f9928167fa251c7506f151afa2',1,'IFacade::initializeModel'],['../struct_i_model.html#ab770c8caaf0736e24d5244210cbff862',1,'IModel::initializeModel']]],
+  ['initializenotifier_16',['initializeNotifier',['../struct_i_notifier.html#a4877aa74c17ad772b7d078c857b1ba44',1,'INotifier']]],
+  ['initializeview_17',['initializeView',['../struct_i_facade.html#a9b2c6385a7f02b4c13f5b97a754ae5bf',1,'IFacade::initializeView'],['../struct_i_view.html#ad3c36266706231c6aa61bdc8d35c3659',1,'IView::initializeView']]],
   ['inotification_18',['INotification',['../struct_i_notification.html',1,'']]],
   ['inotification_2eh_19',['INotification.h',['../_i_notification_8h.html',1,'']]],
   ['inotifier_20',['INotifier',['../struct_i_notifier.html',1,'']]],
@@ -26,6 +26,7 @@ var searchData=
   ['iobserver_23',['IObserver',['../struct_i_observer.html',1,'']]],
   ['iobserver_2eh_24',['IObserver.h',['../_i_observer_8h.html',1,'']]],
   ['iproxy_25',['IProxy',['../struct_i_proxy.html',1,'']]],
-  ['iview_26',['IView',['../struct_i_view.html',1,'']]],
-  ['iview_2eh_27',['IView.h',['../_i_view_8h.html',1,'']]]
+  ['iproxy_2eh_26',['IProxy.h',['../_i_proxy_8h.html',1,'']]],
+  ['iview_27',['IView',['../struct_i_view.html',1,'']]],
+  ['iview_2eh_28',['IView.h',['../_i_view_8h.html',1,'']]]
 ];

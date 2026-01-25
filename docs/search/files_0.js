@@ -9,5 +9,6 @@ var searchData=
   ['inotification_2eh_6',['INotification.h',['../_i_notification_8h.html',1,'']]],
   ['inotifier_2eh_7',['INotifier.h',['../_i_notifier_8h.html',1,'']]],
   ['iobserver_2eh_8',['IObserver.h',['../_i_observer_8h.html',1,'']]],
-  ['iview_2eh_9',['IView.h',['../_i_view_8h.html',1,'']]]
+  ['iproxy_2eh_9',['IProxy.h',['../_i_proxy_8h.html',1,'']]],
+  ['iview_2eh_10',['IView.h',['../_i_view_8h.html',1,'']]]
 ];

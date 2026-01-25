@@ -103,9 +103,9 @@ Data Fields</h2></td></tr>
 <tr class="memitem:a36629b8a6f987aa17b02060655c7bc18" id="r_a36629b8a6f987aa17b02060655c7bc18"><td class="memItemLeft">const char *(*&#160;</td><td class="memItemRight"><a class="el" href="#a36629b8a6f987aa17b02060655c7bc18">getName</a> )(const struct <a class="el" href="struct_i_mediator.html">IMediator</a> *self)</td></tr>
 <tr class="memitem:a09f7928851e9549a0851796bf00751fa" id="r_a09f7928851e9549a0851796bf00751fa"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#a09f7928851e9549a0851796bf00751fa">setComponent</a> )(struct <a class="el" href="struct_i_mediator.html">IMediator</a> *self, void *component)</td></tr>
 <tr class="memitem:a79f2a69cbbc15d4251f6479924c0e0a1" id="r_a79f2a69cbbc15d4251f6479924c0e0a1"><td class="memItemLeft">void *(*&#160;</td><td class="memItemRight"><a class="el" href="#a79f2a69cbbc15d4251f6479924c0e0a1">getComponent</a> )(const struct <a class="el" href="struct_i_mediator.html">IMediator</a> *self)</td></tr>
-<tr class="memitem:ae9e6ddf99eed30d2c65a25ebce7f406e" id="r_ae9e6ddf99eed30d2c65a25ebce7f406e"><td class="memItemLeft">char **(*&#160;</td><td class="memItemRight"><a class="el" href="#ae9e6ddf99eed30d2c65a25ebce7f406e">allocNotificationInterests</a> )(const struct <a class="el" href="struct_i_mediator.html">IMediator</a> *self, const char **interests)</td></tr>
+<tr class="memitem:a0eb18aa692babe28ecc3ada6d0334ed3" id="r_a0eb18aa692babe28ecc3ada6d0334ed3"><td class="memItemLeft">char **(*&#160;</td><td class="memItemRight"><a class="el" href="#a0eb18aa692babe28ecc3ada6d0334ed3">allocNotificationInterests</a> )(const struct <a class="el" href="struct_i_mediator.html">IMediator</a> *self, const char **interests, const char **error)</td></tr>
 <tr class="memitem:abf76d4a0adce2ad3288b42e14412b957" id="r_abf76d4a0adce2ad3288b42e14412b957"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#abf76d4a0adce2ad3288b42e14412b957">freeNotificationInterests</a> )(const struct <a class="el" href="struct_i_mediator.html">IMediator</a> *self, char **interests)</td></tr>
-<tr class="memitem:a36ccf860c19606f76ac81aa0401ec55c" id="r_a36ccf860c19606f76ac81aa0401ec55c"><td class="memItemLeft">char **(*&#160;</td><td class="memItemRight"><a class="el" href="#a36ccf860c19606f76ac81aa0401ec55c">listNotificationInterests</a> )(const struct <a class="el" href="struct_i_mediator.html">IMediator</a> *self)</td></tr>
+<tr class="memitem:aeb230206bc14fb9b5e0c43a3bf76feeb" id="r_aeb230206bc14fb9b5e0c43a3bf76feeb"><td class="memItemLeft">char **(*&#160;</td><td class="memItemRight"><a class="el" href="#aeb230206bc14fb9b5e0c43a3bf76feeb">listNotificationInterests</a> )(const struct <a class="el" href="struct_i_mediator.html">IMediator</a> *self, const char **error)</td></tr>
 <tr class="memitem:ac7e888e294b250b6c432756e151991e1" id="r_ac7e888e294b250b6c432756e151991e1"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#ac7e888e294b250b6c432756e151991e1">handleNotification</a> )(const struct <a class="el" href="struct_i_mediator.html">IMediator</a> *self, struct <a class="el" href="struct_i_notification.html">INotification</a> *notification)</td></tr>
 <tr class="memitem:a3046770618115e62f171dd7cc54f14bb" id="r_a3046770618115e62f171dd7cc54f14bb"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#a3046770618115e62f171dd7cc54f14bb">onRegister</a> )(struct <a class="el" href="struct_i_mediator.html">IMediator</a> *self)</td></tr>
 <tr class="memitem:a0dfe0cc3cadbc523e3b3893c5a7036fd" id="r_a0dfe0cc3cadbc523e3b3893c5a7036fd"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#a0dfe0cc3cadbc523e3b3893c5a7036fd">onRemove</a> )(struct <a class="el" href="struct_i_mediator.html">IMediator</a> *self)</td></tr>
@@ -114,21 +114,21 @@ Data Fields</h2></td></tr>
 <div class="textblock"><p>Represents a mediator in the PureMVC framework. </p>
 <p>This structure holds references to the mediator's name, its associated component, and provides hooks for handling notifications and lifecycle events. </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_mediator_8h_source.html#l00023">23</a> of file <a class="el" href="_i_mediator_8h_source.html">IMediator.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_mediator_8h_source.html#l00024">24</a> of file <a class="el" href="_i_mediator_8h_source.html">IMediator.h</a>.</p>
 </div><a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Field Documentation</h2>
-<a id="ae9e6ddf99eed30d2c65a25ebce7f406e" name="ae9e6ddf99eed30d2c65a25ebce7f406e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae9e6ddf99eed30d2c65a25ebce7f406e">&#9670;&#160;</a></span>allocNotificationInterests</h2>
+<a id="a0eb18aa692babe28ecc3ada6d0334ed3" name="a0eb18aa692babe28ecc3ada6d0334ed3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0eb18aa692babe28ecc3ada6d0334ed3">&#9670;&#160;</a></span>allocNotificationInterests</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">char **(* allocNotificationInterests) (const struct <a class="el" href="struct_i_mediator.html">IMediator</a> *self, const char **interests)</td>
+          <td class="memname">char **(* allocNotificationInterests) (const struct <a class="el" href="struct_i_mediator.html">IMediator</a> *self, const char **interests, const char **error)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_i_mediator_8h_source.html#l00030">30</a> of file <a class="el" href="_i_mediator_8h_source.html">IMediator.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_mediator_8h_source.html#l00031">31</a> of file <a class="el" href="_i_mediator_8h_source.html">IMediator.h</a>.</p>
 
 </div>
 </div>
@@ -144,7 +144,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_i_mediator_8h_source.html#l00031">31</a> of file <a class="el" href="_i_mediator_8h_source.html">IMediator.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_mediator_8h_source.html#l00032">32</a> of file <a class="el" href="_i_mediator_8h_source.html">IMediator.h</a>.</p>
 
 </div>
 </div>
@@ -160,7 +160,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_i_mediator_8h_source.html#l00028">28</a> of file <a class="el" href="_i_mediator_8h_source.html">IMediator.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_mediator_8h_source.html#l00029">29</a> of file <a class="el" href="_i_mediator_8h_source.html">IMediator.h</a>.</p>
 
 </div>
 </div>
@@ -176,7 +176,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_i_mediator_8h_source.html#l00026">26</a> of file <a class="el" href="_i_mediator_8h_source.html">IMediator.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_mediator_8h_source.html#l00027">27</a> of file <a class="el" href="_i_mediator_8h_source.html">IMediator.h</a>.</p>
 
 </div>
 </div>
@@ -192,23 +192,23 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_i_mediator_8h_source.html#l00034">34</a> of file <a class="el" href="_i_mediator_8h_source.html">IMediator.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_mediator_8h_source.html#l00035">35</a> of file <a class="el" href="_i_mediator_8h_source.html">IMediator.h</a>.</p>
 
 </div>
 </div>
-<a id="a36ccf860c19606f76ac81aa0401ec55c" name="a36ccf860c19606f76ac81aa0401ec55c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a36ccf860c19606f76ac81aa0401ec55c">&#9670;&#160;</a></span>listNotificationInterests</h2>
+<a id="aeb230206bc14fb9b5e0c43a3bf76feeb" name="aeb230206bc14fb9b5e0c43a3bf76feeb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeb230206bc14fb9b5e0c43a3bf76feeb">&#9670;&#160;</a></span>listNotificationInterests</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">char **(* listNotificationInterests) (const struct <a class="el" href="struct_i_mediator.html">IMediator</a> *self)</td>
+          <td class="memname">char **(* listNotificationInterests) (const struct <a class="el" href="struct_i_mediator.html">IMediator</a> *self, const char **error)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_i_mediator_8h_source.html#l00033">33</a> of file <a class="el" href="_i_mediator_8h_source.html">IMediator.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_mediator_8h_source.html#l00034">34</a> of file <a class="el" href="_i_mediator_8h_source.html">IMediator.h</a>.</p>
 
 </div>
 </div>
@@ -224,7 +224,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_i_mediator_8h_source.html#l00024">24</a> of file <a class="el" href="_i_mediator_8h_source.html">IMediator.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_mediator_8h_source.html#l00025">25</a> of file <a class="el" href="_i_mediator_8h_source.html">IMediator.h</a>.</p>
 
 </div>
 </div>
@@ -240,7 +240,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_i_mediator_8h_source.html#l00036">36</a> of file <a class="el" href="_i_mediator_8h_source.html">IMediator.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_mediator_8h_source.html#l00037">37</a> of file <a class="el" href="_i_mediator_8h_source.html">IMediator.h</a>.</p>
 
 </div>
 </div>
@@ -256,7 +256,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_i_mediator_8h_source.html#l00037">37</a> of file <a class="el" href="_i_mediator_8h_source.html">IMediator.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_mediator_8h_source.html#l00038">38</a> of file <a class="el" href="_i_mediator_8h_source.html">IMediator.h</a>.</p>
 
 </div>
 </div>
@@ -272,7 +272,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_i_mediator_8h_source.html#l00027">27</a> of file <a class="el" href="_i_mediator_8h_source.html">IMediator.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_mediator_8h_source.html#l00028">28</a> of file <a class="el" href="_i_mediator_8h_source.html">IMediator.h</a>.</p>
 
 </div>
 </div>

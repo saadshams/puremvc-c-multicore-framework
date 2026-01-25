@@ -99,7 +99,7 @@ $(function(){initNavTree('_i_controller_8h.html','',''); });
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Data Structures</h2></td></tr>
 <tr class="memitem:IController" id="r_IController"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="struct_i_controller.html">IController</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents the <a class="el" href="struct_controller.html">Controller</a> in the PureMVC framework.  <a href="struct_i_controller.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="struct_i_controller.html" title="IController Interface.">IController</a> Interface.  <a href="struct_i_controller.html#details">More...</a><br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -107,8 +107,8 @@ Functions</h2></td></tr>
 <tr class="memdesc:ad96bf714d9430d3449ef00927114a037"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new controller instance for a multiton key.  <br /></td></tr>
 <tr class="memitem:a526c0b43157352336d064a62cdbb433b" id="r_a526c0b43157352336d064a62cdbb433b"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a526c0b43157352336d064a62cdbb433b">puremvc_controller_free</a> (struct <a class="el" href="struct_i_controller.html">IController</a> **controller)</td></tr>
 <tr class="memdesc:a526c0b43157352336d064a62cdbb433b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Frees a controller instance.  <br /></td></tr>
-<tr class="memitem:abaf9719e4860799be41fc4fb9c807940" id="r_abaf9719e4860799be41fc4fb9c807940"><td class="memItemLeft">struct <a class="el" href="struct_i_controller.html">IController</a> *&#160;</td><td class="memItemRight"><a class="el" href="#abaf9719e4860799be41fc4fb9c807940">puremvc_controller_getInstance</a> (const char *key, struct <a class="el" href="struct_i_controller.html">IController</a> *(*factory)(const char *key, const char **error))</td></tr>
-<tr class="memdesc:abaf9719e4860799be41fc4fb9c807940"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves or creates a controller instance for a multiton key.  <br /></td></tr>
+<tr class="memitem:a677611664136bd543a2c5d80e533a201" id="r_a677611664136bd543a2c5d80e533a201"><td class="memItemLeft">struct <a class="el" href="struct_i_controller.html">IController</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a677611664136bd543a2c5d80e533a201">puremvc_controller_getInstance</a> (const char *key, struct <a class="el" href="struct_i_controller.html">IController</a> *(*factory)(const char *key, const char **error), const char **error)</td></tr>
+<tr class="memdesc:a677611664136bd543a2c5d80e533a201"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves or creates a controller instance for a multiton key.  <br /></td></tr>
 <tr class="memitem:a9f4efaa48719e72b07fb687691bfed52" id="r_a9f4efaa48719e72b07fb687691bfed52"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a9f4efaa48719e72b07fb687691bfed52">puremvc_controller_removeController</a> (const char *key)</td></tr>
 <tr class="memdesc:a9f4efaa48719e72b07fb687691bfed52"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes the controller instance for a multiton key.  <br /></td></tr>
 </table>
@@ -141,12 +141,12 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_controller_8c_source.html#l00114">114</a> of file <a class="el" href="_controller_8c_source.html">Controller.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_controller_8c_source.html#l00120">120</a> of file <a class="el" href="_controller_8c_source.html">Controller.c</a>.</p>
 
 </div>
 </div>
-<a id="abaf9719e4860799be41fc4fb9c807940" name="abaf9719e4860799be41fc4fb9c807940"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abaf9719e4860799be41fc4fb9c807940">&#9670;&#160;</a></span>puremvc_controller_getInstance()</h2>
+<a id="a677611664136bd543a2c5d80e533a201" name="a677611664136bd543a2c5d80e533a201"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a677611664136bd543a2c5d80e533a201">&#9670;&#160;</a></span>puremvc_controller_getInstance()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -159,7 +159,12 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">struct <a class="el" href="struct_i_controller.html">IController</a> *(*</td>          <td class="paramname"><span class="paramname"><em>factory&#160;</em></span>)(const char *key, const char **error)&#160;)</td>
+          <td class="paramtype">struct <a class="el" href="struct_i_controller.html">IController</a> *(*</td>          <td class="paramname"><span class="paramname"><em>factory&#160;</em></span>)(const char *key, const char **error), </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char **</td>          <td class="paramname"><span class="paramname"><em>error</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -169,12 +174,13 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">key</td><td>Multiton key. </td></tr>
     <tr><td class="paramname">factory</td><td>Factory function used to create the controller if it does not exist. </td></tr>
+    <tr><td class="paramname">error</td><td>Out-param for a static error string on failure (NULL on success). </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Pointer to the <a class="el" href="struct_i_controller.html" title="Represents the Controller in the PureMVC framework.">IController</a> instance, or NULL on failure. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Pointer to the <a class="el" href="struct_i_controller.html" title="IController Interface.">IController</a> instance, or NULL on failure. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_controller_8c_source.html#l00131">131</a> of file <a class="el" href="_controller_8c_source.html">Controller.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_controller_8c_source.html#l00138">138</a> of file <a class="el" href="_controller_8c_source.html">Controller.c</a>.</p>
 
 </div>
 </div>
@@ -205,9 +211,9 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Pointer to the initialized <a class="el" href="struct_i_controller.html" title="Represents the Controller in the PureMVC framework.">IController</a>, or NULL on failure. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Pointer to the initialized <a class="el" href="struct_i_controller.html" title="IController Interface.">IController</a>, or NULL on failure. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_controller_8c_source.html#l00109">109</a> of file <a class="el" href="_controller_8c_source.html">Controller.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_controller_8c_source.html#l00115">115</a> of file <a class="el" href="_controller_8c_source.html">Controller.c</a>.</p>
 
 </div>
 </div>
@@ -234,7 +240,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_controller_8c_source.html#l00150">150</a> of file <a class="el" href="_controller_8c_source.html">Controller.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_controller_8c_source.html#l00164">164</a> of file <a class="el" href="_controller_8c_source.html">Controller.c</a>.</p>
 
 </div>
 </div>

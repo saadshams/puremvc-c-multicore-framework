@@ -91,6 +91,9 @@ $(function(){initNavTree('_i_view_8h.html','',''); });
   <div class="headertitle"><div class="title">IView.h File Reference<div class="ingroups"><a class="el" href="group___pure_m_v_c.html">Public Interface</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p><a class="el" href="struct_i_view.html" title="Represents the View in the PureMVC framework.">IView</a> Interface.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;stdbool.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="_i_mediator_8h_source.html">IMediator.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_i_notification_8h_source.html">INotification.h</a>&quot;</code><br />
@@ -109,13 +112,14 @@ Functions</h2></td></tr>
 <tr class="memdesc:a74d53350f3689e25c6c66ffabf238975"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new view instance for a multiton key.  <br /></td></tr>
 <tr class="memitem:ac2d88e6dcbfc84f6a30ea87766707520" id="r_ac2d88e6dcbfc84f6a30ea87766707520"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ac2d88e6dcbfc84f6a30ea87766707520">puremvc_view_free</a> (struct <a class="el" href="struct_i_view.html">IView</a> **view)</td></tr>
 <tr class="memdesc:ac2d88e6dcbfc84f6a30ea87766707520"><td class="mdescLeft">&#160;</td><td class="mdescRight">Frees a view instance.  <br /></td></tr>
-<tr class="memitem:aee990a273cab43f6070cd7970bcec145" id="r_aee990a273cab43f6070cd7970bcec145"><td class="memItemLeft">struct <a class="el" href="struct_i_view.html">IView</a> *&#160;</td><td class="memItemRight"><a class="el" href="#aee990a273cab43f6070cd7970bcec145">puremvc_view_getInstance</a> (const char *key, struct <a class="el" href="struct_i_view.html">IView</a> *(*factory)(const char *key, const char **error))</td></tr>
-<tr class="memdesc:aee990a273cab43f6070cd7970bcec145"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves or creates a view instance for a multiton key.  <br /></td></tr>
+<tr class="memitem:af0e673a21a350904b1053b583159644e" id="r_af0e673a21a350904b1053b583159644e"><td class="memItemLeft">struct <a class="el" href="struct_i_view.html">IView</a> *&#160;</td><td class="memItemRight"><a class="el" href="#af0e673a21a350904b1053b583159644e">puremvc_view_getInstance</a> (const char *key, struct <a class="el" href="struct_i_view.html">IView</a> *(*factory)(const char *key, const char **error), const char **error)</td></tr>
+<tr class="memdesc:af0e673a21a350904b1053b583159644e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves or creates a view instance for a multiton key.  <br /></td></tr>
 <tr class="memitem:a5df258897b0698ff320ec30972ace2ec" id="r_a5df258897b0698ff320ec30972ace2ec"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a5df258897b0698ff320ec30972ace2ec">puremvc_view_removeView</a> (const char *key)</td></tr>
 <tr class="memdesc:a5df258897b0698ff320ec30972ace2ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes the view instance for a multiton key.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><dl class="section author"><dt>Author</dt><dd>Saad Shams <a href="#" onclick="location.href='mai'+'lto:'+'saa'+'d.'+'sha'+'ms'+'@pu'+'re'+'mvc'+'.o'+'rg'; return false;">saad.<span class="obfuscator">.nosp@m.</span>sham<span class="obfuscator">.nosp@m.</span>s@pur<span class="obfuscator">.nosp@m.</span>emvc<span class="obfuscator">.nosp@m.</span>.org</a> </dd></dl>
+<div class="textblock"><p><a class="el" href="struct_i_view.html" title="Represents the View in the PureMVC framework.">IView</a> Interface. </p>
+<dl class="section author"><dt>Author</dt><dd>Saad Shams <a href="#" onclick="location.href='mai'+'lto:'+'saa'+'d.'+'sha'+'ms'+'@pu'+'re'+'mvc'+'.o'+'rg'; return false;">saad.<span class="obfuscator">.nosp@m.</span>sham<span class="obfuscator">.nosp@m.</span>s@pur<span class="obfuscator">.nosp@m.</span>emvc<span class="obfuscator">.nosp@m.</span>.org</a> </dd></dl>
 <dl class="section copyright"><dt>Copyright</dt><dd>BSD 3-Clause License </dd></dl>
 
 <p class="definition">Definition in file <a class="el" href="_i_view_8h_source.html">IView.h</a>.</p>
@@ -143,12 +147,12 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_view_8c_source.html#l00190">190</a> of file <a class="el" href="_view_8c_source.html">View.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_view_8c_source.html#l00215">215</a> of file <a class="el" href="_view_8c_source.html">View.c</a>.</p>
 
 </div>
 </div>
-<a id="aee990a273cab43f6070cd7970bcec145" name="aee990a273cab43f6070cd7970bcec145"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aee990a273cab43f6070cd7970bcec145">&#9670;&#160;</a></span>puremvc_view_getInstance()</h2>
+<a id="af0e673a21a350904b1053b583159644e" name="af0e673a21a350904b1053b583159644e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af0e673a21a350904b1053b583159644e">&#9670;&#160;</a></span>puremvc_view_getInstance()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -161,7 +165,12 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">struct <a class="el" href="struct_i_view.html">IView</a> *(*</td>          <td class="paramname"><span class="paramname"><em>factory&#160;</em></span>)(const char *key, const char **error)&#160;)</td>
+          <td class="paramtype">struct <a class="el" href="struct_i_view.html">IView</a> *(*</td>          <td class="paramname"><span class="paramname"><em>factory&#160;</em></span>)(const char *key, const char **error), </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char **</td>          <td class="paramname"><span class="paramname"><em>error</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -171,12 +180,13 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">key</td><td>Multiton key. </td></tr>
     <tr><td class="paramname">factory</td><td>Factory function used to create the view if it does not exist. </td></tr>
+    <tr><td class="paramname">error</td><td>Out-param for a static error string on failure (NULL on success). </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Pointer to the <a class="el" href="struct_i_view.html" title="Represents the View in the PureMVC framework.">IView</a> instance. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_view_8c_source.html#l00210">210</a> of file <a class="el" href="_view_8c_source.html">View.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_view_8c_source.html#l00236">236</a> of file <a class="el" href="_view_8c_source.html">View.c</a>.</p>
 
 </div>
 </div>
@@ -209,7 +219,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Pointer to the initialized <a class="el" href="struct_i_view.html" title="Represents the View in the PureMVC framework.">IView</a>, or NULL on failure. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_view_8c_source.html#l00185">185</a> of file <a class="el" href="_view_8c_source.html">View.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_view_8c_source.html#l00210">210</a> of file <a class="el" href="_view_8c_source.html">View.c</a>.</p>
 
 </div>
 </div>
@@ -236,7 +246,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_view_8c_source.html#l00229">229</a> of file <a class="el" href="_view_8c_source.html">View.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_view_8c_source.html#l00262">262</a> of file <a class="el" href="_view_8c_source.html">View.c</a>.</p>
 
 </div>
 </div>

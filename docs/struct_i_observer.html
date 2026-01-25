@@ -106,10 +106,11 @@ Data Fields</h2></td></tr>
 <tr class="memitem:ade8231ad5477f5c527e09fd8e1586451" id="r_ade8231ad5477f5c527e09fd8e1586451"><td class="memItemLeft">void(*(*&#160;</td><td class="memItemRight"><a class="el" href="#ade8231ad5477f5c527e09fd8e1586451">getNotify</a> )(const struct <a class="el" href="struct_i_observer.html">IObserver</a> *self))(const void *context</td></tr>
 <tr class="memdesc:ade8231ad5477f5c527e09fd8e1586451"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the notify function.  <br /></td></tr>
 <tr class="memitem:a444e986e7a7ba6eebb5dd151c0408ba7" id="r_a444e986e7a7ba6eebb5dd151c0408ba7"><td class="memItemLeft">void(*struct <a class="el" href="struct_i_notification.html">INotification</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a444e986e7a7ba6eebb5dd151c0408ba7">notification</a></td></tr>
-<tr class="memitem:a7c3cbc22ad779a198e71a72b0202f009" id="r_a7c3cbc22ad779a198e71a72b0202f009"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#a7c3cbc22ad779a198e71a72b0202f009">setNotify</a> )(struct <a class="el" href="struct_i_observer.html">IObserver</a> *observer, void(*notify)(const void *context, struct <a class="el" href="struct_i_notification.html">INotification</a> *<a class="el" href="#a444e986e7a7ba6eebb5dd151c0408ba7">notification</a>))</td></tr>
-<tr class="memdesc:a7c3cbc22ad779a198e71a72b0202f009"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the notify function.  <br /></td></tr>
-<tr class="memitem:a5ef25dfa2709cae415e491271aba2938" id="r_a5ef25dfa2709cae415e491271aba2938"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#a5ef25dfa2709cae415e491271aba2938">notifyObserver</a> )(const struct <a class="el" href="struct_i_observer.html">IObserver</a> *observer, struct <a class="el" href="struct_i_notification.html">INotification</a> *<a class="el" href="#a444e986e7a7ba6eebb5dd151c0408ba7">notification</a>)</td></tr>
-<tr class="memdesc:a5ef25dfa2709cae415e491271aba2938"><td class="mdescLeft">&#160;</td><td class="mdescRight">Notifies the observer.  <br /></td></tr>
+<tr class="memitem:ad610d21d80d5136313591f391879e970" id="r_ad610d21d80d5136313591f391879e970"><td class="memItemLeft">void(*struct <a class="el" href="struct_i_notification.html">INotification</a> const char **&#160;</td><td class="memItemRight"><a class="el" href="#ad610d21d80d5136313591f391879e970">error</a></td></tr>
+<tr class="memitem:a5019a887250826dd027509b16ae7f6ea" id="r_a5019a887250826dd027509b16ae7f6ea"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#a5019a887250826dd027509b16ae7f6ea">setNotify</a> )(struct <a class="el" href="struct_i_observer.html">IObserver</a> *observer, void(*notify)(const void *context, struct <a class="el" href="struct_i_notification.html">INotification</a> *<a class="el" href="#a444e986e7a7ba6eebb5dd151c0408ba7">notification</a>, const char **<a class="el" href="#ad610d21d80d5136313591f391879e970">error</a>))</td></tr>
+<tr class="memdesc:a5019a887250826dd027509b16ae7f6ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the notify function.  <br /></td></tr>
+<tr class="memitem:af0668d49ae6f8d583374a937ed7921aa" id="r_af0668d49ae6f8d583374a937ed7921aa"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#af0668d49ae6f8d583374a937ed7921aa">notifyObserver</a> )(const struct <a class="el" href="struct_i_observer.html">IObserver</a> *observer, struct <a class="el" href="struct_i_notification.html">INotification</a> *<a class="el" href="#a444e986e7a7ba6eebb5dd151c0408ba7">notification</a>, const char **<a class="el" href="#ad610d21d80d5136313591f391879e970">error</a>)</td></tr>
+<tr class="memdesc:af0668d49ae6f8d583374a937ed7921aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Notifies the observer.  <br /></td></tr>
 <tr class="memitem:af4b25b94b90de0a6fb0cbb8b1e69f58c" id="r_af4b25b94b90de0a6fb0cbb8b1e69f58c"><td class="memItemLeft">bool(*&#160;</td><td class="memItemRight"><a class="el" href="#af4b25b94b90de0a6fb0cbb8b1e69f58c">compareNotifyContext</a> )(const struct <a class="el" href="struct_i_observer.html">IObserver</a> *observer, const void *context)</td></tr>
 <tr class="memdesc:af4b25b94b90de0a6fb0cbb8b1e69f58c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compares the observer's context with a given context.  <br /></td></tr>
 </table>
@@ -117,7 +118,7 @@ Data Fields</h2></td></tr>
 <div class="textblock"><p>Represents an observer in the PureMVC framework. </p>
 <p>This structure holds a notification callback and a context. It provides methods to get/set the context, get/set the notify function, notify the observer, and compare the notify context. </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_observer_8h_source.html#l00022">22</a> of file <a class="el" href="_i_observer_8h_source.html">IObserver.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_observer_8h_source.html#l00023">23</a> of file <a class="el" href="_i_observer_8h_source.html">IObserver.h</a>.</p>
 </div><a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Field Documentation</h2>
 <a id="af4b25b94b90de0a6fb0cbb8b1e69f58c" name="af4b25b94b90de0a6fb0cbb8b1e69f58c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af4b25b94b90de0a6fb0cbb8b1e69f58c">&#9670;&#160;</a></span>compareNotifyContext</h2>
@@ -141,7 +142,23 @@ Data Fields</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if the contexts match, false otherwise. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_observer_8h_source.html#l00072">72</a> of file <a class="el" href="_i_observer_8h_source.html">IObserver.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_observer_8h_source.html#l00074">74</a> of file <a class="el" href="_i_observer_8h_source.html">IObserver.h</a>.</p>
+
+</div>
+</div>
+<a id="ad610d21d80d5136313591f391879e970" name="ad610d21d80d5136313591f391879e970"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad610d21d80d5136313591f391879e970">&#9670;&#160;</a></span>error</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void(* struct <a class="el" href="struct_i_notification.html">INotification</a> const char** error</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_i_observer_8h_source.html#l00046">46</a> of file <a class="el" href="_i_observer_8h_source.html">IObserver.h</a>.</p>
 
 </div>
 </div>
@@ -166,7 +183,7 @@ Data Fields</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Pointer to the context associated with the observer. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_observer_8h_source.html#l00029">29</a> of file <a class="el" href="_i_observer_8h_source.html">IObserver.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_observer_8h_source.html#l00030">30</a> of file <a class="el" href="_i_observer_8h_source.html">IObserver.h</a>.</p>
 
 </div>
 </div>
@@ -191,7 +208,7 @@ Data Fields</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Function pointer to the notification callback. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_observer_8h_source.html#l00045">45</a> of file <a class="el" href="_i_observer_8h_source.html">IObserver.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_observer_8h_source.html#l00046">46</a> of file <a class="el" href="_i_observer_8h_source.html">IObserver.h</a>.</p>
 
 </div>
 </div>
@@ -207,18 +224,18 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_i_observer_8h_source.html#l00045">45</a> of file <a class="el" href="_i_observer_8h_source.html">IObserver.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_observer_8h_source.html#l00046">46</a> of file <a class="el" href="_i_observer_8h_source.html">IObserver.h</a>.</p>
 
 </div>
 </div>
-<a id="a5ef25dfa2709cae415e491271aba2938" name="a5ef25dfa2709cae415e491271aba2938"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5ef25dfa2709cae415e491271aba2938">&#9670;&#160;</a></span>notifyObserver</h2>
+<a id="af0668d49ae6f8d583374a937ed7921aa" name="af0668d49ae6f8d583374a937ed7921aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af0668d49ae6f8d583374a937ed7921aa">&#9670;&#160;</a></span>notifyObserver</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void(* notifyObserver) (const struct <a class="el" href="struct_i_observer.html">IObserver</a> *observer, struct <a class="el" href="struct_i_notification.html">INotification</a> *<a class="el" href="#a444e986e7a7ba6eebb5dd151c0408ba7">notification</a>)</td>
+          <td class="memname">void(* notifyObserver) (const struct <a class="el" href="struct_i_observer.html">IObserver</a> *observer, struct <a class="el" href="struct_i_notification.html">INotification</a> *<a class="el" href="#a444e986e7a7ba6eebb5dd151c0408ba7">notification</a>, const char **<a class="el" href="#ad610d21d80d5136313591f391879e970">error</a>)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -229,11 +246,12 @@ Data Fields</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">observer</td><td>Pointer to this observer instance. </td></tr>
     <tr><td class="paramname"><a class="el" href="#a444e986e7a7ba6eebb5dd151c0408ba7">notification</a></td><td>Pointer to the notification to send. </td></tr>
+    <tr><td class="paramname"><a class="el" href="#ad610d21d80d5136313591f391879e970">error</a></td><td>Out-param for a static error string on failure (NULL on success). </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_observer_8h_source.html#l00063">63</a> of file <a class="el" href="_i_observer_8h_source.html">IObserver.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_observer_8h_source.html#l00065">65</a> of file <a class="el" href="_i_observer_8h_source.html">IObserver.h</a>.</p>
 
 </div>
 </div>
@@ -258,18 +276,18 @@ Data Fields</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_observer_8h_source.html#l00037">37</a> of file <a class="el" href="_i_observer_8h_source.html">IObserver.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_observer_8h_source.html#l00038">38</a> of file <a class="el" href="_i_observer_8h_source.html">IObserver.h</a>.</p>
 
 </div>
 </div>
-<a id="a7c3cbc22ad779a198e71a72b0202f009" name="a7c3cbc22ad779a198e71a72b0202f009"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7c3cbc22ad779a198e71a72b0202f009">&#9670;&#160;</a></span>setNotify</h2>
+<a id="a5019a887250826dd027509b16ae7f6ea" name="a5019a887250826dd027509b16ae7f6ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5019a887250826dd027509b16ae7f6ea">&#9670;&#160;</a></span>setNotify</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void(* setNotify) (struct <a class="el" href="struct_i_observer.html">IObserver</a> *observer, void(*notify)(const void *context, struct <a class="el" href="struct_i_notification.html">INotification</a> *<a class="el" href="#a444e986e7a7ba6eebb5dd151c0408ba7">notification</a>))</td>
+          <td class="memname">void(* setNotify) (struct <a class="el" href="struct_i_observer.html">IObserver</a> *observer, void(*notify)(const void *context, struct <a class="el" href="struct_i_notification.html">INotification</a> *<a class="el" href="#a444e986e7a7ba6eebb5dd151c0408ba7">notification</a>, const char **<a class="el" href="#ad610d21d80d5136313591f391879e970">error</a>))</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -283,7 +301,7 @@ Data Fields</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_observer_8h_source.html#l00053">53</a> of file <a class="el" href="_i_observer_8h_source.html">IObserver.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_observer_8h_source.html#l00054">54</a> of file <a class="el" href="_i_observer_8h_source.html">IObserver.h</a>.</p>
 
 </div>
 </div>

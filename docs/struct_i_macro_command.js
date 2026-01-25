@@ -1,6 +1,6 @@
 var struct_i_macro_command =
 [
-    [ "addSubCommand", "struct_i_macro_command.html#a63a8cf6a4bca18c46e8139fe933d747f", null ],
-    [ "command", "struct_i_macro_command.html#a60657991148f4a534c33a23e22925fee", null ],
-    [ "initializeMacroCommand", "struct_i_macro_command.html#a1d287d2bc85cc9ec9fda3f8003ec0946", null ]
+    [ "addSubCommand", "struct_i_macro_command.html#aec67a8b41d3e66d2b8d09f503beb281b", null ],
+    [ "base", "struct_i_macro_command.html#a4ec59b262ab4220f1590881e30e48ef7", null ],
+    [ "initializeMacroCommand", "struct_i_macro_command.html#a6892c10531f1edc25e2e781d26bc4863", null ]
 ];

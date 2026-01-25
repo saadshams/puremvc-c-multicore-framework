@@ -99,26 +99,26 @@ $(function(){initNavTree('struct_i_macro_command.html','',''); });
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:a60657991148f4a534c33a23e22925fee" id="r_a60657991148f4a534c33a23e22925fee"><td class="memItemLeft">struct <a class="el" href="struct_i_command.html">ICommand</a>&#160;</td><td class="memItemRight"><a class="el" href="#a60657991148f4a534c33a23e22925fee">command</a></td></tr>
-<tr class="memitem:a1d287d2bc85cc9ec9fda3f8003ec0946" id="r_a1d287d2bc85cc9ec9fda3f8003ec0946"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#a1d287d2bc85cc9ec9fda3f8003ec0946">initializeMacroCommand</a> )(const struct <a class="el" href="struct_i_macro_command.html">IMacroCommand</a> *self)</td></tr>
-<tr class="memdesc:a1d287d2bc85cc9ec9fda3f8003ec0946"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the macro command.  <br /></td></tr>
-<tr class="memitem:a63a8cf6a4bca18c46e8139fe933d747f" id="r_a63a8cf6a4bca18c46e8139fe933d747f"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#a63a8cf6a4bca18c46e8139fe933d747f">addSubCommand</a> )(const struct <a class="el" href="struct_i_macro_command.html">IMacroCommand</a> *self, struct <a class="el" href="struct_i_command.html">ICommand</a> *(*factory)())</td></tr>
-<tr class="memdesc:a63a8cf6a4bca18c46e8139fe933d747f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a sub-command to this macro command.  <br /></td></tr>
+<tr class="memitem:a4ec59b262ab4220f1590881e30e48ef7" id="r_a4ec59b262ab4220f1590881e30e48ef7"><td class="memItemLeft">struct <a class="el" href="struct_i_command.html">ICommand</a>&#160;</td><td class="memItemRight"><a class="el" href="#a4ec59b262ab4220f1590881e30e48ef7">base</a></td></tr>
+<tr class="memitem:a6892c10531f1edc25e2e781d26bc4863" id="r_a6892c10531f1edc25e2e781d26bc4863"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#a6892c10531f1edc25e2e781d26bc4863">initializeMacroCommand</a> )(const struct <a class="el" href="struct_i_macro_command.html">IMacroCommand</a> *self, const char **error)</td></tr>
+<tr class="memdesc:a6892c10531f1edc25e2e781d26bc4863"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the macro command.  <br /></td></tr>
+<tr class="memitem:aec67a8b41d3e66d2b8d09f503beb281b" id="r_aec67a8b41d3e66d2b8d09f503beb281b"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#aec67a8b41d3e66d2b8d09f503beb281b">addSubCommand</a> )(const struct <a class="el" href="struct_i_macro_command.html">IMacroCommand</a> *self, struct <a class="el" href="struct_i_command.html">ICommand</a> *(*factory)(const char **error), const char **error)</td></tr>
+<tr class="memdesc:aec67a8b41d3e66d2b8d09f503beb281b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a sub-command to this macro command.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents a <a class="el" href="struct_macro_command.html">MacroCommand</a> in the PureMVC framework. </p>
-<p>This structure extends <a class="el" href="struct_i_command.html">ICommand</a> and allows sequencing of multiple sub-commands. It provides hooks to initialize the macro command and to add sub-commands dynamically. </p>
+<p>This structure extends <a class="el" href="struct_i_command.html" title="Represents a command in the PureMVC C framework.">ICommand</a> and allows sequencing of multiple sub-commands. It provides hooks to initialize the macro command and to add sub-commands dynamically. </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_macro_command_8h_source.html#l00019">19</a> of file <a class="el" href="_i_macro_command_8h_source.html">IMacroCommand.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_macro_command_8h_source.html#l00020">20</a> of file <a class="el" href="_i_macro_command_8h_source.html">IMacroCommand.h</a>.</p>
 </div><a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Field Documentation</h2>
-<a id="a63a8cf6a4bca18c46e8139fe933d747f" name="a63a8cf6a4bca18c46e8139fe933d747f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a63a8cf6a4bca18c46e8139fe933d747f">&#9670;&#160;</a></span>addSubCommand</h2>
+<a id="aec67a8b41d3e66d2b8d09f503beb281b" name="aec67a8b41d3e66d2b8d09f503beb281b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec67a8b41d3e66d2b8d09f503beb281b">&#9670;&#160;</a></span>addSubCommand</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void(* addSubCommand) (const struct <a class="el" href="struct_i_macro_command.html">IMacroCommand</a> *self, struct <a class="el" href="struct_i_command.html">ICommand</a> *(*factory)())</td>
+          <td class="memname">void(* addSubCommand) (const struct <a class="el" href="struct_i_macro_command.html">IMacroCommand</a> *self, struct <a class="el" href="struct_i_command.html">ICommand</a> *(*factory)(const char **error), const char **error)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -127,39 +127,40 @@ Data Fields</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">self</td><td>Pointer to this macro command instance. </td></tr>
-    <tr><td class="paramname">factory</td><td>Function pointer returning a new <a class="el" href="struct_i_command.html">ICommand</a> instance. </td></tr>
+    <tr><td class="paramname">factory</td><td>Function pointer returning a new <a class="el" href="struct_i_command.html" title="Represents a command in the PureMVC C framework.">ICommand</a> instance. </td></tr>
+    <tr><td class="paramname">error</td><td>Out-param for a static error string on failure (NULL on success). </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_macro_command_8h_source.html#l00037">37</a> of file <a class="el" href="_i_macro_command_8h_source.html">IMacroCommand.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_macro_command_8h_source.html#l00040">40</a> of file <a class="el" href="_i_macro_command_8h_source.html">IMacroCommand.h</a>.</p>
 
 </div>
 </div>
-<a id="a60657991148f4a534c33a23e22925fee" name="a60657991148f4a534c33a23e22925fee"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a60657991148f4a534c33a23e22925fee">&#9670;&#160;</a></span>command</h2>
+<a id="a4ec59b262ab4220f1590881e30e48ef7" name="a4ec59b262ab4220f1590881e30e48ef7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ec59b262ab4220f1590881e30e48ef7">&#9670;&#160;</a></span>base</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct <a class="el" href="struct_i_command.html">ICommand</a> command</td>
+          <td class="memname">struct <a class="el" href="struct_i_command.html">ICommand</a> base</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_i_macro_command_8h_source.html#l00020">20</a> of file <a class="el" href="_i_macro_command_8h_source.html">IMacroCommand.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_macro_command_8h_source.html#l00021">21</a> of file <a class="el" href="_i_macro_command_8h_source.html">IMacroCommand.h</a>.</p>
 
 </div>
 </div>
-<a id="a1d287d2bc85cc9ec9fda3f8003ec0946" name="a1d287d2bc85cc9ec9fda3f8003ec0946"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1d287d2bc85cc9ec9fda3f8003ec0946">&#9670;&#160;</a></span>initializeMacroCommand</h2>
+<a id="a6892c10531f1edc25e2e781d26bc4863" name="a6892c10531f1edc25e2e781d26bc4863"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6892c10531f1edc25e2e781d26bc4863">&#9670;&#160;</a></span>initializeMacroCommand</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void(* initializeMacroCommand) (const struct <a class="el" href="struct_i_macro_command.html">IMacroCommand</a> *self)</td>
+          <td class="memname">void(* initializeMacroCommand) (const struct <a class="el" href="struct_i_macro_command.html">IMacroCommand</a> *self, const char **error)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -169,11 +170,12 @@ Data Fields</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">self</td><td>Pointer to this macro command instance. </td></tr>
+    <tr><td class="paramname">error</td><td>Out-param for a static error string on failure (NULL on success). </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_macro_command_8h_source.html#l00029">29</a> of file <a class="el" href="_i_macro_command_8h_source.html">IMacroCommand.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_macro_command_8h_source.html#l00031">31</a> of file <a class="el" href="_i_macro_command_8h_source.html">IMacroCommand.h</a>.</p>
 
 </div>
 </div>

@@ -99,46 +99,46 @@ $(function(){initNavTree('struct_i_facade.html','',''); });
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:a5611aad21825399a79716fa9b967f936" id="r_a5611aad21825399a79716fa9b967f936"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#a5611aad21825399a79716fa9b967f936">initializeFacade</a> )(struct <a class="el" href="struct_i_facade.html">IFacade</a> *self)</td></tr>
-<tr class="memdesc:a5611aad21825399a79716fa9b967f936"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the facade and its internal components.  <br /></td></tr>
-<tr class="memitem:a41724e394355114eae3d207c138a581f" id="r_a41724e394355114eae3d207c138a581f"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#a41724e394355114eae3d207c138a581f">initializeController</a> )(struct <a class="el" href="struct_i_facade.html">IFacade</a> *self)</td></tr>
-<tr class="memdesc:a41724e394355114eae3d207c138a581f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the controller.  <br /></td></tr>
-<tr class="memitem:a5bff0d2b4174afdeaa46ae5738988c13" id="r_a5bff0d2b4174afdeaa46ae5738988c13"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#a5bff0d2b4174afdeaa46ae5738988c13">initializeModel</a> )(struct <a class="el" href="struct_i_facade.html">IFacade</a> *self)</td></tr>
-<tr class="memdesc:a5bff0d2b4174afdeaa46ae5738988c13"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the model.  <br /></td></tr>
-<tr class="memitem:a933db2a8e00399b33be798b8de652737" id="r_a933db2a8e00399b33be798b8de652737"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#a933db2a8e00399b33be798b8de652737">initializeView</a> )(struct <a class="el" href="struct_i_facade.html">IFacade</a> *self)</td></tr>
-<tr class="memdesc:a933db2a8e00399b33be798b8de652737"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the view.  <br /></td></tr>
-<tr class="memitem:a2f41f6aea8d5defc0a076c23dda94b19" id="r_a2f41f6aea8d5defc0a076c23dda94b19"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#a2f41f6aea8d5defc0a076c23dda94b19">registerCommand</a> )(const struct <a class="el" href="struct_i_facade.html">IFacade</a> *self, const char *notificationName, struct <a class="el" href="struct_i_command.html">ICommand</a> *(*factory)())</td></tr>
-<tr class="memdesc:a2f41f6aea8d5defc0a076c23dda94b19"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a command factory for a notification name.  <br /></td></tr>
+<tr class="memitem:a3277586f21ed07d79ecbea685e82ab89" id="r_a3277586f21ed07d79ecbea685e82ab89"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#a3277586f21ed07d79ecbea685e82ab89">initializeFacade</a> )(struct <a class="el" href="struct_i_facade.html">IFacade</a> *self, const char **error)</td></tr>
+<tr class="memdesc:a3277586f21ed07d79ecbea685e82ab89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the facade and its internal components.  <br /></td></tr>
+<tr class="memitem:ae6a3b4b39c21c516b1a9f8dc7fb35012" id="r_ae6a3b4b39c21c516b1a9f8dc7fb35012"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#ae6a3b4b39c21c516b1a9f8dc7fb35012">initializeController</a> )(struct <a class="el" href="struct_i_facade.html">IFacade</a> *self, const char **error)</td></tr>
+<tr class="memdesc:ae6a3b4b39c21c516b1a9f8dc7fb35012"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the controller.  <br /></td></tr>
+<tr class="memitem:ab20622f9928167fa251c7506f151afa2" id="r_ab20622f9928167fa251c7506f151afa2"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#ab20622f9928167fa251c7506f151afa2">initializeModel</a> )(struct <a class="el" href="struct_i_facade.html">IFacade</a> *self, const char **error)</td></tr>
+<tr class="memdesc:ab20622f9928167fa251c7506f151afa2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the model.  <br /></td></tr>
+<tr class="memitem:a9b2c6385a7f02b4c13f5b97a754ae5bf" id="r_a9b2c6385a7f02b4c13f5b97a754ae5bf"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#a9b2c6385a7f02b4c13f5b97a754ae5bf">initializeView</a> )(struct <a class="el" href="struct_i_facade.html">IFacade</a> *self, const char **error)</td></tr>
+<tr class="memdesc:a9b2c6385a7f02b4c13f5b97a754ae5bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the view.  <br /></td></tr>
+<tr class="memitem:aa6436b5dbf10f1f6f9a2f3c7315f4aea" id="r_aa6436b5dbf10f1f6f9a2f3c7315f4aea"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#aa6436b5dbf10f1f6f9a2f3c7315f4aea">registerCommand</a> )(const struct <a class="el" href="struct_i_facade.html">IFacade</a> *self, const char *notificationName, struct <a class="el" href="struct_i_command.html">ICommand</a> *(*factory)(const char **error), const char **error)</td></tr>
+<tr class="memdesc:aa6436b5dbf10f1f6f9a2f3c7315f4aea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a command factory for a notification name.  <br /></td></tr>
 <tr class="memitem:a92a4f50d9f0057bb18b8e5a8fdb330d5" id="r_a92a4f50d9f0057bb18b8e5a8fdb330d5"><td class="memItemLeft">bool(*&#160;</td><td class="memItemRight"><a class="el" href="#a92a4f50d9f0057bb18b8e5a8fdb330d5">hasCommand</a> )(const struct <a class="el" href="struct_i_facade.html">IFacade</a> *self, const char *notificationName)</td></tr>
 <tr class="memdesc:a92a4f50d9f0057bb18b8e5a8fdb330d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if a command is registered for a notification.  <br /></td></tr>
 <tr class="memitem:a72427e1c78b3a595d8ae6f6d53c6a4d7" id="r_a72427e1c78b3a595d8ae6f6d53c6a4d7"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#a72427e1c78b3a595d8ae6f6d53c6a4d7">removeCommand</a> )(const struct <a class="el" href="struct_i_facade.html">IFacade</a> *self, const char *notificationName)</td></tr>
 <tr class="memdesc:a72427e1c78b3a595d8ae6f6d53c6a4d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a command mapping for a notification.  <br /></td></tr>
-<tr class="memitem:a353002589da23057d5aea0b94b8ef051" id="r_a353002589da23057d5aea0b94b8ef051"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#a353002589da23057d5aea0b94b8ef051">registerProxy</a> )(const struct <a class="el" href="struct_i_facade.html">IFacade</a> *self, struct <a class="el" href="struct_i_proxy.html">IProxy</a> *proxy)</td></tr>
-<tr class="memdesc:a353002589da23057d5aea0b94b8ef051"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a proxy with the facade.  <br /></td></tr>
+<tr class="memitem:ab59bc987fb456306c1cdda57e55fb25a" id="r_ab59bc987fb456306c1cdda57e55fb25a"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#ab59bc987fb456306c1cdda57e55fb25a">registerProxy</a> )(const struct <a class="el" href="struct_i_facade.html">IFacade</a> *self, struct <a class="el" href="struct_i_proxy.html">IProxy</a> *proxy, const char **error)</td></tr>
+<tr class="memdesc:ab59bc987fb456306c1cdda57e55fb25a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a proxy with the facade.  <br /></td></tr>
 <tr class="memitem:a94af53e8b121344c5a8db8c2fdc32ff5" id="r_a94af53e8b121344c5a8db8c2fdc32ff5"><td class="memItemLeft">struct <a class="el" href="struct_i_proxy.html">IProxy</a> *(*&#160;</td><td class="memItemRight"><a class="el" href="#a94af53e8b121344c5a8db8c2fdc32ff5">retrieveProxy</a> )(const struct <a class="el" href="struct_i_facade.html">IFacade</a> *self, const char *proxyName)</td></tr>
 <tr class="memdesc:a94af53e8b121344c5a8db8c2fdc32ff5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves a proxy by name.  <br /></td></tr>
 <tr class="memitem:a6f8881d63df6424903913ce5edc38c5b" id="r_a6f8881d63df6424903913ce5edc38c5b"><td class="memItemLeft">bool(*&#160;</td><td class="memItemRight"><a class="el" href="#a6f8881d63df6424903913ce5edc38c5b">hasProxy</a> )(const struct <a class="el" href="struct_i_facade.html">IFacade</a> *self, const char *proxyName)</td></tr>
 <tr class="memdesc:a6f8881d63df6424903913ce5edc38c5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if a proxy is registered.  <br /></td></tr>
 <tr class="memitem:a1d453e002e5054413135c49025af6b3b" id="r_a1d453e002e5054413135c49025af6b3b"><td class="memItemLeft">struct <a class="el" href="struct_i_proxy.html">IProxy</a> *(*&#160;</td><td class="memItemRight"><a class="el" href="#a1d453e002e5054413135c49025af6b3b">removeProxy</a> )(const struct <a class="el" href="struct_i_facade.html">IFacade</a> *self, const char *proxyName)</td></tr>
 <tr class="memdesc:a1d453e002e5054413135c49025af6b3b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes and returns a proxy by name.  <br /></td></tr>
-<tr class="memitem:aa44c3e1b7ef5c34f28e05736b7ab91fc" id="r_aa44c3e1b7ef5c34f28e05736b7ab91fc"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#aa44c3e1b7ef5c34f28e05736b7ab91fc">registerMediator</a> )(const struct <a class="el" href="struct_i_facade.html">IFacade</a> *self, struct <a class="el" href="struct_i_mediator.html">IMediator</a> *mediator)</td></tr>
-<tr class="memdesc:aa44c3e1b7ef5c34f28e05736b7ab91fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a mediator with the facade.  <br /></td></tr>
+<tr class="memitem:add2c8d3f3fe54c659b3ec386be251d5c" id="r_add2c8d3f3fe54c659b3ec386be251d5c"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#add2c8d3f3fe54c659b3ec386be251d5c">registerMediator</a> )(const struct <a class="el" href="struct_i_facade.html">IFacade</a> *self, struct <a class="el" href="struct_i_mediator.html">IMediator</a> *mediator, const char **error)</td></tr>
+<tr class="memdesc:add2c8d3f3fe54c659b3ec386be251d5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a mediator with the facade.  <br /></td></tr>
 <tr class="memitem:adc9ffb27ac6124ca67e31a637d085623" id="r_adc9ffb27ac6124ca67e31a637d085623"><td class="memItemLeft">struct <a class="el" href="struct_i_mediator.html">IMediator</a> *(*&#160;</td><td class="memItemRight"><a class="el" href="#adc9ffb27ac6124ca67e31a637d085623">retrieveMediator</a> )(const struct <a class="el" href="struct_i_facade.html">IFacade</a> *self, const char *mediatorName)</td></tr>
 <tr class="memdesc:adc9ffb27ac6124ca67e31a637d085623"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves a mediator by name.  <br /></td></tr>
 <tr class="memitem:acb41396daf5a33060e4bfc33ece4403c" id="r_acb41396daf5a33060e4bfc33ece4403c"><td class="memItemLeft">bool(*&#160;</td><td class="memItemRight"><a class="el" href="#acb41396daf5a33060e4bfc33ece4403c">hasMediator</a> )(const struct <a class="el" href="struct_i_facade.html">IFacade</a> *self, const char *mediatorName)</td></tr>
 <tr class="memdesc:acb41396daf5a33060e4bfc33ece4403c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if a mediator is registered.  <br /></td></tr>
-<tr class="memitem:ac5a2c2882f278888fcbee334b4996e37" id="r_ac5a2c2882f278888fcbee334b4996e37"><td class="memItemLeft">struct <a class="el" href="struct_i_mediator.html">IMediator</a> *(*&#160;</td><td class="memItemRight"><a class="el" href="#ac5a2c2882f278888fcbee334b4996e37">removeMediator</a> )(const struct <a class="el" href="struct_i_facade.html">IFacade</a> *self, const char *mediatorName)</td></tr>
-<tr class="memdesc:ac5a2c2882f278888fcbee334b4996e37"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes and returns a mediator by name.  <br /></td></tr>
-<tr class="memitem:a45258ce669a2d4f2b311be5cb549c90f" id="r_a45258ce669a2d4f2b311be5cb549c90f"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#a45258ce669a2d4f2b311be5cb549c90f">notifyObservers</a> )(const struct <a class="el" href="struct_i_facade.html">IFacade</a> *self, const struct <a class="el" href="struct_i_notification.html">INotification</a> *notification)</td></tr>
-<tr class="memdesc:a45258ce669a2d4f2b311be5cb549c90f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Notifies observers of a notification.  <br /></td></tr>
-<tr class="memitem:a62c02989a83f6c48114ca8cb83f8b5f6" id="r_a62c02989a83f6c48114ca8cb83f8b5f6"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#a62c02989a83f6c48114ca8cb83f8b5f6">sendNotification</a> )(const struct <a class="el" href="struct_i_facade.html">IFacade</a> *self, const char *notificationName, void *body, const char *type)</td></tr>
-<tr class="memdesc:a62c02989a83f6c48114ca8cb83f8b5f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends a notification.  <br /></td></tr>
+<tr class="memitem:a3b6f45e0f51711e2043973f8271d6e75" id="r_a3b6f45e0f51711e2043973f8271d6e75"><td class="memItemLeft">struct <a class="el" href="struct_i_mediator.html">IMediator</a> *(*&#160;</td><td class="memItemRight"><a class="el" href="#a3b6f45e0f51711e2043973f8271d6e75">removeMediator</a> )(const struct <a class="el" href="struct_i_facade.html">IFacade</a> *self, const char *mediatorName, const char **error)</td></tr>
+<tr class="memdesc:a3b6f45e0f51711e2043973f8271d6e75"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes and returns a mediator by name.  <br /></td></tr>
+<tr class="memitem:ac65138a9c43ae5bcfbe3a1af7df4111c" id="r_ac65138a9c43ae5bcfbe3a1af7df4111c"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#ac65138a9c43ae5bcfbe3a1af7df4111c">notifyObservers</a> )(const struct <a class="el" href="struct_i_facade.html">IFacade</a> *self, const struct <a class="el" href="struct_i_notification.html">INotification</a> *notification, const char **error)</td></tr>
+<tr class="memdesc:ac65138a9c43ae5bcfbe3a1af7df4111c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Notifies observers of a notification.  <br /></td></tr>
+<tr class="memitem:adaa30048b4e44dbe727334ed48ed3e8c" id="r_adaa30048b4e44dbe727334ed48ed3e8c"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#adaa30048b4e44dbe727334ed48ed3e8c">sendNotification</a> )(const struct <a class="el" href="struct_i_facade.html">IFacade</a> *self, const char *notificationName, void *body, const char *type, const char **error)</td></tr>
+<tr class="memdesc:adaa30048b4e44dbe727334ed48ed3e8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends a notification.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents the <a class="el" href="struct_facade.html">Facade</a> in the PureMVC framework. </p>
 <p>The <a class="el" href="struct_facade.html">Facade</a> provides a unified interface to the <a class="el" href="struct_model.html">Model</a>, <a class="el" href="struct_view.html">View</a>, and <a class="el" href="struct_controller.html">Controller</a> layers. It manages commands, proxies, mediators, and notification dispatching for a given multiton key. </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_facade_8h_source.html#l00025">25</a> of file <a class="el" href="_i_facade_8h_source.html">IFacade.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_facade_8h_source.html#l00026">26</a> of file <a class="el" href="_i_facade_8h_source.html">IFacade.h</a>.</p>
 </div><a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Field Documentation</h2>
 <a id="a92a4f50d9f0057bb18b8e5a8fdb330d5" name="a92a4f50d9f0057bb18b8e5a8fdb330d5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a92a4f50d9f0057bb18b8e5a8fdb330d5">&#9670;&#160;</a></span>hasCommand</h2>
@@ -153,8 +153,15 @@ Data Fields</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Checks if a command is registered for a notification. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">self</td><td>Pointer to the <a class="el" href="struct_facade.html">Facade</a> instance. </td></tr>
+    <tr><td class="paramname">notificationName</td><td>Pointer to the notification triggering this command. </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_facade_8h_source.html#l00042">42</a> of file <a class="el" href="_i_facade_8h_source.html">IFacade.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_facade_8h_source.html#l00063">63</a> of file <a class="el" href="_i_facade_8h_source.html">IFacade.h</a>.</p>
 
 </div>
 </div>
@@ -172,7 +179,7 @@ Data Fields</h2></td></tr>
 
 <p>Checks if a mediator is registered. </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_facade_8h_source.html#l00066">66</a> of file <a class="el" href="_i_facade_8h_source.html">IFacade.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_facade_8h_source.html#l00095">95</a> of file <a class="el" href="_i_facade_8h_source.html">IFacade.h</a>.</p>
 
 </div>
 </div>
@@ -190,151 +197,212 @@ Data Fields</h2></td></tr>
 
 <p>Checks if a proxy is registered. </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_facade_8h_source.html#l00054">54</a> of file <a class="el" href="_i_facade_8h_source.html">IFacade.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_facade_8h_source.html#l00079">79</a> of file <a class="el" href="_i_facade_8h_source.html">IFacade.h</a>.</p>
 
 </div>
 </div>
-<a id="a41724e394355114eae3d207c138a581f" name="a41724e394355114eae3d207c138a581f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a41724e394355114eae3d207c138a581f">&#9670;&#160;</a></span>initializeController</h2>
+<a id="ae6a3b4b39c21c516b1a9f8dc7fb35012" name="ae6a3b4b39c21c516b1a9f8dc7fb35012"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6a3b4b39c21c516b1a9f8dc7fb35012">&#9670;&#160;</a></span>initializeController</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void(* initializeController) (struct <a class="el" href="struct_i_facade.html">IFacade</a> *self)</td>
+          <td class="memname">void(* initializeController) (struct <a class="el" href="struct_i_facade.html">IFacade</a> *self, const char **error)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Initializes the controller. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">self</td><td>Pointer to the <a class="el" href="struct_facade.html">Facade</a> instance. </td></tr>
+    <tr><td class="paramname">error</td><td>Out-param for a static error string on failure (NULL on success). </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_facade_8h_source.html#l00030">30</a> of file <a class="el" href="_i_facade_8h_source.html">IFacade.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_facade_8h_source.html#l00037">37</a> of file <a class="el" href="_i_facade_8h_source.html">IFacade.h</a>.</p>
 
 </div>
 </div>
-<a id="a5611aad21825399a79716fa9b967f936" name="a5611aad21825399a79716fa9b967f936"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5611aad21825399a79716fa9b967f936">&#9670;&#160;</a></span>initializeFacade</h2>
+<a id="a3277586f21ed07d79ecbea685e82ab89" name="a3277586f21ed07d79ecbea685e82ab89"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3277586f21ed07d79ecbea685e82ab89">&#9670;&#160;</a></span>initializeFacade</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void(* initializeFacade) (struct <a class="el" href="struct_i_facade.html">IFacade</a> *self)</td>
+          <td class="memname">void(* initializeFacade) (struct <a class="el" href="struct_i_facade.html">IFacade</a> *self, const char **error)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Initializes the facade and its internal components. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">self</td><td>Pointer to the <a class="el" href="struct_facade.html">Facade</a> instance. </td></tr>
+    <tr><td class="paramname">error</td><td>Out-param for a static error string on failure (NULL on success). </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_facade_8h_source.html#l00027">27</a> of file <a class="el" href="_i_facade_8h_source.html">IFacade.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_facade_8h_source.html#l00031">31</a> of file <a class="el" href="_i_facade_8h_source.html">IFacade.h</a>.</p>
 
 </div>
 </div>
-<a id="a5bff0d2b4174afdeaa46ae5738988c13" name="a5bff0d2b4174afdeaa46ae5738988c13"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5bff0d2b4174afdeaa46ae5738988c13">&#9670;&#160;</a></span>initializeModel</h2>
+<a id="ab20622f9928167fa251c7506f151afa2" name="ab20622f9928167fa251c7506f151afa2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab20622f9928167fa251c7506f151afa2">&#9670;&#160;</a></span>initializeModel</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void(* initializeModel) (struct <a class="el" href="struct_i_facade.html">IFacade</a> *self)</td>
+          <td class="memname">void(* initializeModel) (struct <a class="el" href="struct_i_facade.html">IFacade</a> *self, const char **error)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Initializes the model. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">self</td><td>Pointer to the <a class="el" href="struct_facade.html">Facade</a> instance. </td></tr>
+    <tr><td class="paramname">error</td><td>Out-param for a static error string on failure (NULL on success). </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_facade_8h_source.html#l00033">33</a> of file <a class="el" href="_i_facade_8h_source.html">IFacade.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_facade_8h_source.html#l00043">43</a> of file <a class="el" href="_i_facade_8h_source.html">IFacade.h</a>.</p>
 
 </div>
 </div>
-<a id="a933db2a8e00399b33be798b8de652737" name="a933db2a8e00399b33be798b8de652737"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a933db2a8e00399b33be798b8de652737">&#9670;&#160;</a></span>initializeView</h2>
+<a id="a9b2c6385a7f02b4c13f5b97a754ae5bf" name="a9b2c6385a7f02b4c13f5b97a754ae5bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b2c6385a7f02b4c13f5b97a754ae5bf">&#9670;&#160;</a></span>initializeView</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void(* initializeView) (struct <a class="el" href="struct_i_facade.html">IFacade</a> *self)</td>
+          <td class="memname">void(* initializeView) (struct <a class="el" href="struct_i_facade.html">IFacade</a> *self, const char **error)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Initializes the view. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">self</td><td>Pointer to the <a class="el" href="struct_facade.html">Facade</a> instance. </td></tr>
+    <tr><td class="paramname">error</td><td>Out-param for a static error string on failure (NULL on success). </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_facade_8h_source.html#l00036">36</a> of file <a class="el" href="_i_facade_8h_source.html">IFacade.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_facade_8h_source.html#l00049">49</a> of file <a class="el" href="_i_facade_8h_source.html">IFacade.h</a>.</p>
 
 </div>
 </div>
-<a id="a45258ce669a2d4f2b311be5cb549c90f" name="a45258ce669a2d4f2b311be5cb549c90f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a45258ce669a2d4f2b311be5cb549c90f">&#9670;&#160;</a></span>notifyObservers</h2>
+<a id="ac65138a9c43ae5bcfbe3a1af7df4111c" name="ac65138a9c43ae5bcfbe3a1af7df4111c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac65138a9c43ae5bcfbe3a1af7df4111c">&#9670;&#160;</a></span>notifyObservers</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void(* notifyObservers) (const struct <a class="el" href="struct_i_facade.html">IFacade</a> *self, const struct <a class="el" href="struct_i_notification.html">INotification</a> *notification)</td>
+          <td class="memname">void(* notifyObservers) (const struct <a class="el" href="struct_i_facade.html">IFacade</a> *self, const struct <a class="el" href="struct_i_notification.html">INotification</a> *notification, const char **error)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Notifies observers of a notification. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">self</td><td>Pointer to the <a class="el" href="struct_facade.html">Facade</a> instance. </td></tr>
+    <tr><td class="paramname">notification</td><td>Pointer to the notification </td></tr>
+    <tr><td class="paramname">error</td><td>Out-param for a static error string on failure (NULL on success). </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_facade_8h_source.html#l00072">72</a> of file <a class="el" href="_i_facade_8h_source.html">IFacade.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_facade_8h_source.html#l00109">109</a> of file <a class="el" href="_i_facade_8h_source.html">IFacade.h</a>.</p>
 
 </div>
 </div>
-<a id="a2f41f6aea8d5defc0a076c23dda94b19" name="a2f41f6aea8d5defc0a076c23dda94b19"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2f41f6aea8d5defc0a076c23dda94b19">&#9670;&#160;</a></span>registerCommand</h2>
+<a id="aa6436b5dbf10f1f6f9a2f3c7315f4aea" name="aa6436b5dbf10f1f6f9a2f3c7315f4aea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6436b5dbf10f1f6f9a2f3c7315f4aea">&#9670;&#160;</a></span>registerCommand</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void(* registerCommand) (const struct <a class="el" href="struct_i_facade.html">IFacade</a> *self, const char *notificationName, struct <a class="el" href="struct_i_command.html">ICommand</a> *(*factory)())</td>
+          <td class="memname">void(* registerCommand) (const struct <a class="el" href="struct_i_facade.html">IFacade</a> *self, const char *notificationName, struct <a class="el" href="struct_i_command.html">ICommand</a> *(*factory)(const char **error), const char **error)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Registers a command factory for a notification name. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">self</td><td>Pointer to the <a class="el" href="struct_facade.html">Facade</a> instance. </td></tr>
+    <tr><td class="paramname">notificationName</td><td>Pointer to the notification triggering this command. </td></tr>
+    <tr><td class="paramname">factory</td><td>Factory function that creates a command instance. </td></tr>
+    <tr><td class="paramname">error</td><td>Out-param for a static error string on failure (NULL on success). </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_facade_8h_source.html#l00039">39</a> of file <a class="el" href="_i_facade_8h_source.html">IFacade.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_facade_8h_source.html#l00057">57</a> of file <a class="el" href="_i_facade_8h_source.html">IFacade.h</a>.</p>
 
 </div>
 </div>
-<a id="aa44c3e1b7ef5c34f28e05736b7ab91fc" name="aa44c3e1b7ef5c34f28e05736b7ab91fc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa44c3e1b7ef5c34f28e05736b7ab91fc">&#9670;&#160;</a></span>registerMediator</h2>
+<a id="add2c8d3f3fe54c659b3ec386be251d5c" name="add2c8d3f3fe54c659b3ec386be251d5c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add2c8d3f3fe54c659b3ec386be251d5c">&#9670;&#160;</a></span>registerMediator</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void(* registerMediator) (const struct <a class="el" href="struct_i_facade.html">IFacade</a> *self, struct <a class="el" href="struct_i_mediator.html">IMediator</a> *mediator)</td>
+          <td class="memname">void(* registerMediator) (const struct <a class="el" href="struct_i_facade.html">IFacade</a> *self, struct <a class="el" href="struct_i_mediator.html">IMediator</a> *mediator, const char **error)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Registers a mediator with the facade. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">self</td><td>Pointer to the <a class="el" href="struct_facade.html">Facade</a> instance. </td></tr>
+    <tr><td class="paramname">mediator</td><td>Pointer to the <a class="el" href="struct_mediator.html">Mediator</a> to register. </td></tr>
+    <tr><td class="paramname">error</td><td>Out-param for a static error string on failure (NULL on success). </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_facade_8h_source.html#l00060">60</a> of file <a class="el" href="_i_facade_8h_source.html">IFacade.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_facade_8h_source.html#l00089">89</a> of file <a class="el" href="_i_facade_8h_source.html">IFacade.h</a>.</p>
 
 </div>
 </div>
-<a id="a353002589da23057d5aea0b94b8ef051" name="a353002589da23057d5aea0b94b8ef051"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a353002589da23057d5aea0b94b8ef051">&#9670;&#160;</a></span>registerProxy</h2>
+<a id="ab59bc987fb456306c1cdda57e55fb25a" name="ab59bc987fb456306c1cdda57e55fb25a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab59bc987fb456306c1cdda57e55fb25a">&#9670;&#160;</a></span>registerProxy</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void(* registerProxy) (const struct <a class="el" href="struct_i_facade.html">IFacade</a> *self, struct <a class="el" href="struct_i_proxy.html">IProxy</a> *proxy)</td>
+          <td class="memname">void(* registerProxy) (const struct <a class="el" href="struct_i_facade.html">IFacade</a> *self, struct <a class="el" href="struct_i_proxy.html">IProxy</a> *proxy, const char **error)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Registers a proxy with the facade. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">self</td><td>Pointer to the <a class="el" href="struct_facade.html">Facade</a> instance. </td></tr>
+    <tr><td class="paramname">proxy</td><td>Pointer to the <a class="el" href="struct_proxy.html">Proxy</a> to register. </td></tr>
+    <tr><td class="paramname">error</td><td>Out-param for a static error string on failure (NULL on success). </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_facade_8h_source.html#l00048">48</a> of file <a class="el" href="_i_facade_8h_source.html">IFacade.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_facade_8h_source.html#l00073">73</a> of file <a class="el" href="_i_facade_8h_source.html">IFacade.h</a>.</p>
 
 </div>
 </div>
@@ -352,25 +420,33 @@ Data Fields</h2></td></tr>
 
 <p>Removes a command mapping for a notification. </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_facade_8h_source.html#l00045">45</a> of file <a class="el" href="_i_facade_8h_source.html">IFacade.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_facade_8h_source.html#l00066">66</a> of file <a class="el" href="_i_facade_8h_source.html">IFacade.h</a>.</p>
 
 </div>
 </div>
-<a id="ac5a2c2882f278888fcbee334b4996e37" name="ac5a2c2882f278888fcbee334b4996e37"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac5a2c2882f278888fcbee334b4996e37">&#9670;&#160;</a></span>removeMediator</h2>
+<a id="a3b6f45e0f51711e2043973f8271d6e75" name="a3b6f45e0f51711e2043973f8271d6e75"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3b6f45e0f51711e2043973f8271d6e75">&#9670;&#160;</a></span>removeMediator</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct <a class="el" href="struct_i_mediator.html">IMediator</a> *(* removeMediator) (const struct <a class="el" href="struct_i_facade.html">IFacade</a> *self, const char *mediatorName)</td>
+          <td class="memname">struct <a class="el" href="struct_i_mediator.html">IMediator</a> *(* removeMediator) (const struct <a class="el" href="struct_i_facade.html">IFacade</a> *self, const char *mediatorName, const char **error)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Removes and returns a mediator by name. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">self</td><td>Pointer to the <a class="el" href="struct_facade.html">Facade</a> instance. </td></tr>
+    <tr><td class="paramname">mediatorName</td><td>name of the mediator to be removed </td></tr>
+    <tr><td class="paramname">error</td><td>Out-param for a static error string on failure (NULL on success). </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_facade_8h_source.html#l00066">66</a> of file <a class="el" href="_i_facade_8h_source.html">IFacade.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_facade_8h_source.html#l00095">95</a> of file <a class="el" href="_i_facade_8h_source.html">IFacade.h</a>.</p>
 
 </div>
 </div>
@@ -388,7 +464,7 @@ Data Fields</h2></td></tr>
 
 <p>Removes and returns a proxy by name. </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_facade_8h_source.html#l00054">54</a> of file <a class="el" href="_i_facade_8h_source.html">IFacade.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_facade_8h_source.html#l00079">79</a> of file <a class="el" href="_i_facade_8h_source.html">IFacade.h</a>.</p>
 
 </div>
 </div>
@@ -406,7 +482,7 @@ Data Fields</h2></td></tr>
 
 <p>Retrieves a mediator by name. </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_facade_8h_source.html#l00060">60</a> of file <a class="el" href="_i_facade_8h_source.html">IFacade.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_facade_8h_source.html#l00089">89</a> of file <a class="el" href="_i_facade_8h_source.html">IFacade.h</a>.</p>
 
 </div>
 </div>
@@ -424,25 +500,35 @@ Data Fields</h2></td></tr>
 
 <p>Retrieves a proxy by name. </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_facade_8h_source.html#l00048">48</a> of file <a class="el" href="_i_facade_8h_source.html">IFacade.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_facade_8h_source.html#l00073">73</a> of file <a class="el" href="_i_facade_8h_source.html">IFacade.h</a>.</p>
 
 </div>
 </div>
-<a id="a62c02989a83f6c48114ca8cb83f8b5f6" name="a62c02989a83f6c48114ca8cb83f8b5f6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a62c02989a83f6c48114ca8cb83f8b5f6">&#9670;&#160;</a></span>sendNotification</h2>
+<a id="adaa30048b4e44dbe727334ed48ed3e8c" name="adaa30048b4e44dbe727334ed48ed3e8c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adaa30048b4e44dbe727334ed48ed3e8c">&#9670;&#160;</a></span>sendNotification</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void(* sendNotification) (const struct <a class="el" href="struct_i_facade.html">IFacade</a> *self, const char *notificationName, void *body, const char *type)</td>
+          <td class="memname">void(* sendNotification) (const struct <a class="el" href="struct_i_facade.html">IFacade</a> *self, const char *notificationName, void *body, const char *type, const char **error)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Sends a notification. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">self</td><td>Pointer to the <a class="el" href="struct_facade.html">Facade</a> instance. </td></tr>
+    <tr><td class="paramname">notificationName</td><td>Pointer to the notification name </td></tr>
+    <tr><td class="paramname">body</td><td>Pointer to notification body </td></tr>
+    <tr><td class="paramname">type</td><td>Pointer to notification type </td></tr>
+    <tr><td class="paramname">error</td><td>Out-param for static error string on failure (NULL on success). </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_facade_8h_source.html#l00075">75</a> of file <a class="el" href="_i_facade_8h_source.html">IFacade.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_facade_8h_source.html#l00118">118</a> of file <a class="el" href="_i_facade_8h_source.html">IFacade.h</a>.</p>
 
 </div>
 </div>

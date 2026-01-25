@@ -18,10 +18,8 @@ PureMVC is a lightweight framework for creating applications based upon the clas
   }
   ```
               
-2. Configure CMake to use the vcpkg toolchain by passing this:
-   `-DCMAKE_TOOLCHAIN_FILE=/path/to/vcpkg/scripts/buildsystems/vcpkg.cmake`
-
-3. Run: `vcpkg install` to install the dependency
+2. Configure CMake to use the vcpkg toolchain:
+   `-DCMAKE_TOOLCHAIN_FILE=/Users/username/Documents/microsoft/vcpkg/scripts/buildsystems/vcpkg.cmake`
 
 ## Platforms / Technologies
 * [C](https://en.wikipedia.org/wiki/C_(programming_language))

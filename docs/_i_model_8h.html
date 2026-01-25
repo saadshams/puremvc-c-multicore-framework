@@ -91,8 +91,11 @@ $(function(){initNavTree('_i_model_8h.html','',''); });
   <div class="headertitle"><div class="title">IModel.h File Reference<div class="ingroups"><a class="el" href="group___pure_m_v_c.html">Public Interface</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p><a class="el" href="struct_i_model.html" title="Interface for the PureMVC Model component.">IModel</a> Interface.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;stdbool.h&gt;</code><br />
-<code>#include &quot;IProxy.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="_i_proxy_8h_source.html">IProxy.h</a>&quot;</code><br />
 </div>
 <p><a href="_i_model_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -107,13 +110,14 @@ Functions</h2></td></tr>
 <tr class="memdesc:a63a994a6f7af8b310b4cbe096bebc7cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new <a class="el" href="struct_model.html">Model</a> instance.  <br /></td></tr>
 <tr class="memitem:a5ae7a4ad1be1d4808e5033f494fcaa8f" id="r_a5ae7a4ad1be1d4808e5033f494fcaa8f"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a5ae7a4ad1be1d4808e5033f494fcaa8f">puremvc_model_free</a> (struct <a class="el" href="struct_i_model.html">IModel</a> **model)</td></tr>
 <tr class="memdesc:a5ae7a4ad1be1d4808e5033f494fcaa8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys a <a class="el" href="struct_model.html">Model</a> instance.  <br /></td></tr>
-<tr class="memitem:a23b90f9be90147074a7c9bb68d636776" id="r_a23b90f9be90147074a7c9bb68d636776"><td class="memItemLeft">struct <a class="el" href="struct_i_model.html">IModel</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a23b90f9be90147074a7c9bb68d636776">puremvc_model_getInstance</a> (const char *key, struct <a class="el" href="struct_i_model.html">IModel</a> *(*factory)(const char *key, const char **error))</td></tr>
-<tr class="memdesc:a23b90f9be90147074a7c9bb68d636776"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves or creates a <a class="el" href="struct_model.html">Model</a> singleton instance.  <br /></td></tr>
+<tr class="memitem:af624d2451b890692020bb8d3f464fd87" id="r_af624d2451b890692020bb8d3f464fd87"><td class="memItemLeft">struct <a class="el" href="struct_i_model.html">IModel</a> *&#160;</td><td class="memItemRight"><a class="el" href="#af624d2451b890692020bb8d3f464fd87">puremvc_model_getInstance</a> (const char *key, struct <a class="el" href="struct_i_model.html">IModel</a> *(*factory)(const char *key, const char **error), const char **error)</td></tr>
+<tr class="memdesc:af624d2451b890692020bb8d3f464fd87"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves or creates a <a class="el" href="struct_model.html">Model</a> singleton instance.  <br /></td></tr>
 <tr class="memitem:ad33a5a31f046d46f80d4f238d8224e5c" id="r_ad33a5a31f046d46f80d4f238d8224e5c"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ad33a5a31f046d46f80d4f238d8224e5c">puremvc_model_removeModel</a> (const char *key)</td></tr>
 <tr class="memdesc:ad33a5a31f046d46f80d4f238d8224e5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a <a class="el" href="struct_model.html">Model</a> instance associated with a key.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><dl class="section author"><dt>Author</dt><dd>Saad Shams <a href="#" onclick="location.href='mai'+'lto:'+'saa'+'d.'+'sha'+'ms'+'@pu'+'re'+'mvc'+'.o'+'rg'; return false;">saad.<span class="obfuscator">.nosp@m.</span>sham<span class="obfuscator">.nosp@m.</span>s@pur<span class="obfuscator">.nosp@m.</span>emvc<span class="obfuscator">.nosp@m.</span>.org</a> </dd></dl>
+<div class="textblock"><p><a class="el" href="struct_i_model.html" title="Interface for the PureMVC Model component.">IModel</a> Interface. </p>
+<dl class="section author"><dt>Author</dt><dd>Saad Shams <a href="#" onclick="location.href='mai'+'lto:'+'saa'+'d.'+'sha'+'ms'+'@pu'+'re'+'mvc'+'.o'+'rg'; return false;">saad.<span class="obfuscator">.nosp@m.</span>sham<span class="obfuscator">.nosp@m.</span>s@pur<span class="obfuscator">.nosp@m.</span>emvc<span class="obfuscator">.nosp@m.</span>.org</a> </dd></dl>
 <dl class="section copyright"><dt>Copyright</dt><dd>BSD 3-Clause License </dd></dl>
 
 <p class="definition">Definition in file <a class="el" href="_i_model_8h_source.html">IModel.h</a>.</p>
@@ -142,12 +146,12 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_model_8c_source.html#l00108">108</a> of file <a class="el" href="_model_8c_source.html">Model.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_model_8c_source.html#l00107">107</a> of file <a class="el" href="_model_8c_source.html">Model.c</a>.</p>
 
 </div>
 </div>
-<a id="a23b90f9be90147074a7c9bb68d636776" name="a23b90f9be90147074a7c9bb68d636776"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a23b90f9be90147074a7c9bb68d636776">&#9670;&#160;</a></span>puremvc_model_getInstance()</h2>
+<a id="af624d2451b890692020bb8d3f464fd87" name="af624d2451b890692020bb8d3f464fd87"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af624d2451b890692020bb8d3f464fd87">&#9670;&#160;</a></span>puremvc_model_getInstance()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -160,7 +164,12 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">struct <a class="el" href="struct_i_model.html">IModel</a> *(*</td>          <td class="paramname"><span class="paramname"><em>factory&#160;</em></span>)(const char *key, const char **error)&#160;)</td>
+          <td class="paramtype">struct <a class="el" href="struct_i_model.html">IModel</a> *(*</td>          <td class="paramname"><span class="paramname"><em>factory&#160;</em></span>)(const char *key, const char **error), </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char **</td>          <td class="paramname"><span class="paramname"><em>error</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -170,7 +179,8 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">key</td><td>Unique identifier for the <a class="el" href="struct_model.html">Model</a> instance. </td></tr>
-    <tr><td class="paramname">factory</td><td>Factory function used to create the <a class="el" href="struct_model.html">Model</a> if it does not already exist.</td></tr>
+    <tr><td class="paramname">factory</td><td>Factory function used to create the <a class="el" href="struct_model.html">Model</a> if it does not exist. </td></tr>
+    <tr><td class="paramname">error</td><td>Out-param for a static error string on failure (NULL on success).</td></tr>
   </table>
   </dd>
 </dl>
@@ -210,7 +220,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Pointer to a new <a class="el" href="struct_model.html">Model</a> instance, or NULL on failure. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_model_8c_source.html#l00103">103</a> of file <a class="el" href="_model_8c_source.html">Model.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_model_8c_source.html#l00102">102</a> of file <a class="el" href="_model_8c_source.html">Model.c</a>.</p>
 
 </div>
 </div>
@@ -238,7 +248,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_model_8c_source.html#l00144">144</a> of file <a class="el" href="_model_8c_source.html">Model.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_model_8c_source.html#l00151">151</a> of file <a class="el" href="_model_8c_source.html">Model.c</a>.</p>
 
 </div>
 </div>

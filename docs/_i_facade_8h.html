@@ -91,10 +91,13 @@ $(function(){initNavTree('_i_facade_8h.html','',''); });
   <div class="headertitle"><div class="title">IFacade.h File Reference<div class="ingroups"><a class="el" href="group___pure_m_v_c.html">Public Interface</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p><a class="el" href="struct_i_facade.html" title="Represents the Facade in the PureMVC framework.">IFacade</a> Interface.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;stdbool.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="_i_command_8h_source.html">ICommand.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_i_mediator_8h_source.html">IMediator.h</a>&quot;</code><br />
-<code>#include &quot;IProxy.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="_i_proxy_8h_source.html">IProxy.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_i_notification_8h_source.html">INotification.h</a>&quot;</code><br />
 </div>
 <p><a href="_i_facade_8h_source.html">Go to the source code of this file.</a></p>
@@ -110,15 +113,16 @@ Functions</h2></td></tr>
 <tr class="memdesc:a815e99132a263de818a334c2a8801229"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new facade instance for a multiton key.  <br /></td></tr>
 <tr class="memitem:a5ce869c3514dd16eb5109c50563f990e" id="r_a5ce869c3514dd16eb5109c50563f990e"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a5ce869c3514dd16eb5109c50563f990e">puremvc_facade_free</a> (struct <a class="el" href="struct_i_facade.html">IFacade</a> **facade)</td></tr>
 <tr class="memdesc:a5ce869c3514dd16eb5109c50563f990e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Frees a facade instance.  <br /></td></tr>
-<tr class="memitem:acd3b4f28327898b57b61d6cf1b8bd680" id="r_acd3b4f28327898b57b61d6cf1b8bd680"><td class="memItemLeft">struct <a class="el" href="struct_i_facade.html">IFacade</a> *&#160;</td><td class="memItemRight"><a class="el" href="#acd3b4f28327898b57b61d6cf1b8bd680">puremvc_facade_getInstance</a> (const char *key, struct <a class="el" href="struct_i_facade.html">IFacade</a> *(*factory)(const char *key, const char **error))</td></tr>
-<tr class="memdesc:acd3b4f28327898b57b61d6cf1b8bd680"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves or creates a facade instance for a multiton key.  <br /></td></tr>
+<tr class="memitem:a1c77e056dc67d6245ee00864ff1a54b4" id="r_a1c77e056dc67d6245ee00864ff1a54b4"><td class="memItemLeft">struct <a class="el" href="struct_i_facade.html">IFacade</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a1c77e056dc67d6245ee00864ff1a54b4">puremvc_facade_getInstance</a> (const char *key, struct <a class="el" href="struct_i_facade.html">IFacade</a> *(*factory)(const char *key, const char **error), const char **error)</td></tr>
+<tr class="memdesc:a1c77e056dc67d6245ee00864ff1a54b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves or creates a facade instance for a multiton key.  <br /></td></tr>
 <tr class="memitem:a039f94bad63c994f0d6ee09e56e1f429" id="r_a039f94bad63c994f0d6ee09e56e1f429"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a039f94bad63c994f0d6ee09e56e1f429">puremvc_facade_hasCore</a> (const char *key)</td></tr>
 <tr class="memdesc:a039f94bad63c994f0d6ee09e56e1f429"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks whether a facade core exists for a multiton key.  <br /></td></tr>
 <tr class="memitem:af2422c78cf5d6fbe59e1877f5ec299cf" id="r_af2422c78cf5d6fbe59e1877f5ec299cf"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#af2422c78cf5d6fbe59e1877f5ec299cf">puremvc_facade_removeFacade</a> (const char *key)</td></tr>
 <tr class="memdesc:af2422c78cf5d6fbe59e1877f5ec299cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a facade instance for a multiton key.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><dl class="section author"><dt>Author</dt><dd>Saad Shams <a href="#" onclick="location.href='mai'+'lto:'+'saa'+'d.'+'sha'+'ms'+'@pu'+'re'+'mvc'+'.o'+'rg'; return false;">saad.<span class="obfuscator">.nosp@m.</span>sham<span class="obfuscator">.nosp@m.</span>s@pur<span class="obfuscator">.nosp@m.</span>emvc<span class="obfuscator">.nosp@m.</span>.org</a> </dd></dl>
+<div class="textblock"><p><a class="el" href="struct_i_facade.html" title="Represents the Facade in the PureMVC framework.">IFacade</a> Interface. </p>
+<dl class="section author"><dt>Author</dt><dd>Saad Shams <a href="#" onclick="location.href='mai'+'lto:'+'saa'+'d.'+'sha'+'ms'+'@pu'+'re'+'mvc'+'.o'+'rg'; return false;">saad.<span class="obfuscator">.nosp@m.</span>sham<span class="obfuscator">.nosp@m.</span>s@pur<span class="obfuscator">.nosp@m.</span>emvc<span class="obfuscator">.nosp@m.</span>.org</a> </dd></dl>
 <dl class="section copyright"><dt>Copyright</dt><dd>BSD 3-Clause License </dd></dl>
 
 <p class="definition">Definition in file <a class="el" href="_i_facade_8h_source.html">IFacade.h</a>.</p>
@@ -146,12 +150,12 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_facade_8c_source.html#l00161">161</a> of file <a class="el" href="_facade_8c_source.html">Facade.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_facade_8c_source.html#l00153">153</a> of file <a class="el" href="_facade_8c_source.html">Facade.c</a>.</p>
 
 </div>
 </div>
-<a id="acd3b4f28327898b57b61d6cf1b8bd680" name="acd3b4f28327898b57b61d6cf1b8bd680"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acd3b4f28327898b57b61d6cf1b8bd680">&#9670;&#160;</a></span>puremvc_facade_getInstance()</h2>
+<a id="a1c77e056dc67d6245ee00864ff1a54b4" name="a1c77e056dc67d6245ee00864ff1a54b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c77e056dc67d6245ee00864ff1a54b4">&#9670;&#160;</a></span>puremvc_facade_getInstance()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -164,7 +168,12 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">struct <a class="el" href="struct_i_facade.html">IFacade</a> *(*</td>          <td class="paramname"><span class="paramname"><em>factory&#160;</em></span>)(const char *key, const char **error)&#160;)</td>
+          <td class="paramtype">struct <a class="el" href="struct_i_facade.html">IFacade</a> *(*</td>          <td class="paramname"><span class="paramname"><em>factory&#160;</em></span>)(const char *key, const char **error), </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char **</td>          <td class="paramname"><span class="paramname"><em>error</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -174,12 +183,13 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">key</td><td>Multiton key. </td></tr>
     <tr><td class="paramname">factory</td><td>Factory function used to create the facade if it does not exist. </td></tr>
+    <tr><td class="paramname">error</td><td>Out-param for a static error string on failure (NULL on success). </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Pointer to the <a class="el" href="struct_i_facade.html" title="Represents the Facade in the PureMVC framework.">IFacade</a> instance. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_facade_8c_source.html#l00175">175</a> of file <a class="el" href="_facade_8c_source.html">Facade.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_facade_8c_source.html#l00167">167</a> of file <a class="el" href="_facade_8c_source.html">Facade.c</a>.</p>
 
 </div>
 </div>
@@ -207,7 +217,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if a core exists, false otherwise. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_facade_8c_source.html#l00194">194</a> of file <a class="el" href="_facade_8c_source.html">Facade.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_facade_8c_source.html#l00193">193</a> of file <a class="el" href="_facade_8c_source.html">Facade.c</a>.</p>
 
 </div>
 </div>
@@ -240,7 +250,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Pointer to the initialized <a class="el" href="struct_i_facade.html" title="Represents the Facade in the PureMVC framework.">IFacade</a>, or NULL on failure. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_facade_8c_source.html#l00156">156</a> of file <a class="el" href="_facade_8c_source.html">Facade.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_facade_8c_source.html#l00148">148</a> of file <a class="el" href="_facade_8c_source.html">Facade.c</a>.</p>
 
 </div>
 </div>
@@ -267,7 +277,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_facade_8c_source.html#l00202">202</a> of file <a class="el" href="_facade_8c_source.html">Facade.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_facade_8c_source.html#l00201">201</a> of file <a class="el" href="_facade_8c_source.html">Facade.c</a>.</p>
 
 </div>
 </div>

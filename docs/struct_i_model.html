@@ -99,10 +99,10 @@ $(function(){initNavTree('struct_i_model.html','',''); });
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:a581a5b6e17581405daa39bbb4e3f8091" id="r_a581a5b6e17581405daa39bbb4e3f8091"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#a581a5b6e17581405daa39bbb4e3f8091">initializeModel</a> )(struct <a class="el" href="struct_i_model.html">IModel</a> *self)</td></tr>
-<tr class="memdesc:a581a5b6e17581405daa39bbb4e3f8091"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the <a class="el" href="struct_model.html">Model</a> instance.  <br /></td></tr>
-<tr class="memitem:a954dd792271c70139b327e7f2799916b" id="r_a954dd792271c70139b327e7f2799916b"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#a954dd792271c70139b327e7f2799916b">registerProxy</a> )(const struct <a class="el" href="struct_i_model.html">IModel</a> *self, struct <a class="el" href="struct_i_proxy.html">IProxy</a> *proxy)</td></tr>
-<tr class="memdesc:a954dd792271c70139b327e7f2799916b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a <a class="el" href="struct_proxy.html">Proxy</a> with the <a class="el" href="struct_model.html">Model</a>.  <br /></td></tr>
+<tr class="memitem:ab770c8caaf0736e24d5244210cbff862" id="r_ab770c8caaf0736e24d5244210cbff862"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#ab770c8caaf0736e24d5244210cbff862">initializeModel</a> )(struct <a class="el" href="struct_i_model.html">IModel</a> *self, const char **error)</td></tr>
+<tr class="memdesc:ab770c8caaf0736e24d5244210cbff862"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the <a class="el" href="struct_model.html">Model</a> instance.  <br /></td></tr>
+<tr class="memitem:a1a5cf3fc98a6b4eb8237cba06176d764" id="r_a1a5cf3fc98a6b4eb8237cba06176d764"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#a1a5cf3fc98a6b4eb8237cba06176d764">registerProxy</a> )(const struct <a class="el" href="struct_i_model.html">IModel</a> *self, struct <a class="el" href="struct_i_proxy.html">IProxy</a> *proxy, const char **error)</td></tr>
+<tr class="memdesc:a1a5cf3fc98a6b4eb8237cba06176d764"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a <a class="el" href="struct_proxy.html">Proxy</a> with the <a class="el" href="struct_model.html">Model</a>.  <br /></td></tr>
 <tr class="memitem:aee220fde3e70e6c346e6ab2f55f20375" id="r_aee220fde3e70e6c346e6ab2f55f20375"><td class="memItemLeft">struct <a class="el" href="struct_i_proxy.html">IProxy</a> *(*&#160;</td><td class="memItemRight"><a class="el" href="#aee220fde3e70e6c346e6ab2f55f20375">retrieveProxy</a> )(const struct <a class="el" href="struct_i_model.html">IModel</a> *self, const char *proxyName)</td></tr>
 <tr class="memdesc:aee220fde3e70e6c346e6ab2f55f20375"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves a registered <a class="el" href="struct_proxy.html">Proxy</a> by name.  <br /></td></tr>
 <tr class="memitem:a2439573c4aba6fdee6b6ceeda6ba8460" id="r_a2439573c4aba6fdee6b6ceeda6ba8460"><td class="memItemLeft">bool(*&#160;</td><td class="memItemRight"><a class="el" href="#a2439573c4aba6fdee6b6ceeda6ba8460">hasProxy</a> )(const struct <a class="el" href="struct_i_model.html">IModel</a> *self, const char *proxyName)</td></tr>
@@ -115,7 +115,7 @@ Data Fields</h2></td></tr>
 <p>The <a class="el" href="struct_model.html">Model</a> is responsible for maintaining a collection of <a class="el" href="struct_proxy.html">Proxy</a> instances. Each <a class="el" href="struct_proxy.html">Proxy</a> is registered and accessed by a unique name.</p>
 <p>Implementations must ensure thread-safety if used in concurrent environments. </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_model_8h_source.html#l00025">25</a> of file <a class="el" href="_i_model_8h_source.html">IModel.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_model_8h_source.html#l00026">26</a> of file <a class="el" href="_i_model_8h_source.html">IModel.h</a>.</p>
 </div><a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Field Documentation</h2>
 <a id="a2439573c4aba6fdee6b6ceeda6ba8460" name="a2439573c4aba6fdee6b6ceeda6ba8460"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2439573c4aba6fdee6b6ceeda6ba8460">&#9670;&#160;</a></span>hasProxy</h2>
@@ -139,18 +139,18 @@ Data Fields</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if the <a class="el" href="struct_proxy.html">Proxy</a> exists, false otherwise. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_model_8h_source.html#l00065">65</a> of file <a class="el" href="_i_model_8h_source.html">IModel.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_model_8h_source.html#l00068">68</a> of file <a class="el" href="_i_model_8h_source.html">IModel.h</a>.</p>
 
 </div>
 </div>
-<a id="a581a5b6e17581405daa39bbb4e3f8091" name="a581a5b6e17581405daa39bbb4e3f8091"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a581a5b6e17581405daa39bbb4e3f8091">&#9670;&#160;</a></span>initializeModel</h2>
+<a id="ab770c8caaf0736e24d5244210cbff862" name="ab770c8caaf0736e24d5244210cbff862"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab770c8caaf0736e24d5244210cbff862">&#9670;&#160;</a></span>initializeModel</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void(* initializeModel) (struct <a class="el" href="struct_i_model.html">IModel</a> *self)</td>
+          <td class="memname">void(* initializeModel) (struct <a class="el" href="struct_i_model.html">IModel</a> *self, const char **error)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -160,22 +160,23 @@ Data Fields</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">self</td><td>Pointer to the <a class="el" href="struct_model.html">Model</a> instance. </td></tr>
+    <tr><td class="paramname">error</td><td>Out-param for a static error string on failure (NULL on success). </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_model_8h_source.html#l00034">34</a> of file <a class="el" href="_i_model_8h_source.html">IModel.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_model_8h_source.html#l00036">36</a> of file <a class="el" href="_i_model_8h_source.html">IModel.h</a>.</p>
 
 </div>
 </div>
-<a id="a954dd792271c70139b327e7f2799916b" name="a954dd792271c70139b327e7f2799916b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a954dd792271c70139b327e7f2799916b">&#9670;&#160;</a></span>registerProxy</h2>
+<a id="a1a5cf3fc98a6b4eb8237cba06176d764" name="a1a5cf3fc98a6b4eb8237cba06176d764"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a5cf3fc98a6b4eb8237cba06176d764">&#9670;&#160;</a></span>registerProxy</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void(* registerProxy) (const struct <a class="el" href="struct_i_model.html">IModel</a> *self, struct <a class="el" href="struct_i_proxy.html">IProxy</a> *proxy)</td>
+          <td class="memname">void(* registerProxy) (const struct <a class="el" href="struct_i_model.html">IModel</a> *self, struct <a class="el" href="struct_i_proxy.html">IProxy</a> *proxy, const char **error)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -186,11 +187,12 @@ Data Fields</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">self</td><td>Pointer to the <a class="el" href="struct_model.html">Model</a> instance. </td></tr>
     <tr><td class="paramname">proxy</td><td>Pointer to the <a class="el" href="struct_proxy.html">Proxy</a> to register. </td></tr>
+    <tr><td class="paramname">error</td><td>Out-param for a static error string on failure (NULL on success). </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_model_8h_source.html#l00045">45</a> of file <a class="el" href="_i_model_8h_source.html">IModel.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_model_8h_source.html#l00048">48</a> of file <a class="el" href="_i_model_8h_source.html">IModel.h</a>.</p>
 
 </div>
 </div>
@@ -217,7 +219,7 @@ Data Fields</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Pointer to the removed <a class="el" href="struct_proxy.html">Proxy</a>, or NULL if not found. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_model_8h_source.html#l00065">65</a> of file <a class="el" href="_i_model_8h_source.html">IModel.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_model_8h_source.html#l00068">68</a> of file <a class="el" href="_i_model_8h_source.html">IModel.h</a>.</p>
 
 </div>
 </div>
@@ -243,7 +245,7 @@ Data Fields</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Pointer to the <a class="el" href="struct_proxy.html">Proxy</a> if found, or NULL if not found. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_model_8h_source.html#l00045">45</a> of file <a class="el" href="_i_model_8h_source.html">IModel.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_model_8h_source.html#l00048">48</a> of file <a class="el" href="_i_model_8h_source.html">IModel.h</a>.</p>
 
 </div>
 </div>

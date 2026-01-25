@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.16.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>PureMVC: include/puremvc/IMediator.h File Reference</title>
+<title>PureMVC: include/puremvc/IProxy.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,7 +62,7 @@ $(function() {
   </div>
 </div>
 <script type="text/javascript">
-$(function(){initNavTree('_i_mediator_8h.html','',''); });
+$(function(){initNavTree('_i_proxy_8h.html','',''); });
 </script>
 <div id="container">
 <div id="doc-content">
@@ -88,100 +88,100 @@ $(function(){initNavTree('_i_mediator_8h.html','',''); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">IMediator.h File Reference<div class="ingroups"><a class="el" href="group___pure_m_v_c.html">Public Interface</a></div></div></div>
+  <div class="headertitle"><div class="title">IProxy.h File Reference<div class="ingroups"><a class="el" href="group___pure_m_v_c.html">Public Interface</a></div></div></div>
 </div><!--header-->
 <div class="contents">
 
-<p><a class="el" href="struct_i_mediator.html" title="Represents a mediator in the PureMVC framework.">IMediator</a> Interface.  
+<p><a class="el" href="struct_i_proxy.html" title="Represents the state of a data processor.">IProxy</a> Interface.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="_i_notification_8h_source.html">INotification.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="_i_notifier_8h_source.html">INotifier.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="_i_notifier_8h_source.html">INotifier.h</a>&quot;</code><br />
 </div>
-<p><a href="_i_mediator_8h_source.html">Go to the source code of this file.</a></p>
+<p><a href="_i_proxy_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Data Structures</h2></td></tr>
-<tr class="memitem:IMediator" id="r_IMediator"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="struct_i_mediator.html">IMediator</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a mediator in the PureMVC framework.  <a href="struct_i_mediator.html#details">More...</a><br /></td></tr>
+<tr class="memitem:IProxy" id="r_IProxy"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="struct_i_proxy.html">IProxy</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents the state of a data processor.  <a href="struct_i_proxy.html#details">More...</a><br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-define-members" class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a2ac50537b735eac5d090a1e458f7d7c6" id="r_a2ac50537b735eac5d090a1e458f7d7c6"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#a2ac50537b735eac5d090a1e458f7d7c6">MEDIATOR_NAME</a>&#160;&#160;&#160;&quot;mediator&quot;</td></tr>
+<tr class="memitem:aab716ed1e531f2bff5689da68c840cb9" id="r_aab716ed1e531f2bff5689da68c840cb9"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#aab716ed1e531f2bff5689da68c840cb9">PROXY_NAME</a>&#160;&#160;&#160;&quot;Proxy&quot;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aa84689cf648171a62dcd6582dd5ceb49" id="r_aa84689cf648171a62dcd6582dd5ceb49"><td class="memItemLeft">struct <a class="el" href="struct_i_mediator.html">IMediator</a> *&#160;</td><td class="memItemRight"><a class="el" href="#aa84689cf648171a62dcd6582dd5ceb49">puremvc_mediator_new</a> (const char *name, void *component, const char **error)</td></tr>
-<tr class="memdesc:aa84689cf648171a62dcd6582dd5ceb49"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new mediator.  <br /></td></tr>
-<tr class="memitem:af22ea805c596145300e7455fa0b2cf61" id="r_af22ea805c596145300e7455fa0b2cf61"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#af22ea805c596145300e7455fa0b2cf61">puremvc_mediator_free</a> (struct <a class="el" href="struct_i_mediator.html">IMediator</a> **mediator)</td></tr>
-<tr class="memdesc:af22ea805c596145300e7455fa0b2cf61"><td class="mdescLeft">&#160;</td><td class="mdescRight">Frees a mediator instance.  <br /></td></tr>
+<tr class="memitem:ad7768dcef5075d01edc3db741dbc0157" id="r_ad7768dcef5075d01edc3db741dbc0157"><td class="memItemLeft">struct <a class="el" href="struct_i_proxy.html">IProxy</a> *&#160;</td><td class="memItemRight"><a class="el" href="#ad7768dcef5075d01edc3db741dbc0157">puremvc_proxy_new</a> (const char *name, void *data, const char **error)</td></tr>
+<tr class="memdesc:ad7768dcef5075d01edc3db741dbc0157"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the data processor.  <br /></td></tr>
+<tr class="memitem:af056937b348ab88854d8d1a20056c9b1" id="r_af056937b348ab88854d8d1a20056c9b1"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#af056937b348ab88854d8d1a20056c9b1">puremvc_proxy_free</a> (struct <a class="el" href="struct_i_proxy.html">IProxy</a> **proxy)</td></tr>
+<tr class="memdesc:af056937b348ab88854d8d1a20056c9b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the data processor.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><a class="el" href="struct_i_mediator.html" title="Represents a mediator in the PureMVC framework.">IMediator</a> Interface. </p>
+<div class="textblock"><p><a class="el" href="struct_i_proxy.html" title="Represents the state of a data processor.">IProxy</a> Interface. </p>
 <dl class="section author"><dt>Author</dt><dd>Saad Shams <a href="#" onclick="location.href='mai'+'lto:'+'saa'+'d.'+'sha'+'ms'+'@pu'+'re'+'mvc'+'.o'+'rg'; return false;">saad.<span class="obfuscator">.nosp@m.</span>sham<span class="obfuscator">.nosp@m.</span>s@pur<span class="obfuscator">.nosp@m.</span>emvc<span class="obfuscator">.nosp@m.</span>.org</a> </dd></dl>
 <dl class="section copyright"><dt>Copyright</dt><dd>BSD 3-Clause License </dd></dl>
 
-<p class="definition">Definition in file <a class="el" href="_i_mediator_8h_source.html">IMediator.h</a>.</p>
+<p class="definition">Definition in file <a class="el" href="_i_proxy_8h_source.html">IProxy.h</a>.</p>
 </div><a name="doc-define-members" id="doc-define-members"></a><h2 id="header-doc-define-members" class="groupheader">Macro Definition Documentation</h2>
-<a id="a2ac50537b735eac5d090a1e458f7d7c6" name="a2ac50537b735eac5d090a1e458f7d7c6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2ac50537b735eac5d090a1e458f7d7c6">&#9670;&#160;</a></span>MEDIATOR_NAME</h2>
+<a id="aab716ed1e531f2bff5689da68c840cb9" name="aab716ed1e531f2bff5689da68c840cb9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab716ed1e531f2bff5689da68c840cb9">&#9670;&#160;</a></span>PROXY_NAME</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define MEDIATOR_NAME&#160;&#160;&#160;&quot;mediator&quot;</td>
+          <td class="memname">#define PROXY_NAME&#160;&#160;&#160;&quot;Proxy&quot;</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_i_mediator_8h_source.html#l00014">14</a> of file <a class="el" href="_i_mediator_8h_source.html">IMediator.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_proxy_8h_source.html#l00013">13</a> of file <a class="el" href="_i_proxy_8h_source.html">IProxy.h</a>.</p>
 
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
-<a id="af22ea805c596145300e7455fa0b2cf61" name="af22ea805c596145300e7455fa0b2cf61"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af22ea805c596145300e7455fa0b2cf61">&#9670;&#160;</a></span>puremvc_mediator_free()</h2>
+<a id="af056937b348ab88854d8d1a20056c9b1" name="af056937b348ab88854d8d1a20056c9b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af056937b348ab88854d8d1a20056c9b1">&#9670;&#160;</a></span>puremvc_proxy_free()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void puremvc_mediator_free </td>
+          <td class="memname">void puremvc_proxy_free </td>
           <td>(</td>
-          <td class="paramtype">struct <a class="el" href="struct_i_mediator.html">IMediator</a> **</td>          <td class="paramname"><span class="paramname"><em>mediator</em></span></td><td>)</td>
+          <td class="paramtype">struct <a class="el" href="struct_i_proxy.html">IProxy</a> **</td>          <td class="paramname"><span class="paramname"><em>proxy</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Frees a mediator instance. </p>
-<p>Releases memory and cleans up internal state for a mediator.</p>
+<p>Initializes the data processor. </p>
+<p>Allocates memory and sets up internal state needed for data processing.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">mediator</td><td>Pointer to the mediator pointer to free. After the call, *mediator is set to NULL. </td></tr>
+    <tr><td class="paramname">proxy</td><td></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>A pointer to the initialized processor, or NULL on failure. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_mediator_8c_source.html#l00110">110</a> of file <a class="el" href="_mediator_8c_source.html">Mediator.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_proxy_8c_source.html#l00072">72</a> of file <a class="el" href="_proxy_8c_source.html">Proxy.c</a>.</p>
 
 </div>
 </div>
-<a id="aa84689cf648171a62dcd6582dd5ceb49" name="aa84689cf648171a62dcd6582dd5ceb49"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa84689cf648171a62dcd6582dd5ceb49">&#9670;&#160;</a></span>puremvc_mediator_new()</h2>
+<a id="ad7768dcef5075d01edc3db741dbc0157" name="ad7768dcef5075d01edc3db741dbc0157"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7768dcef5075d01edc3db741dbc0157">&#9670;&#160;</a></span>puremvc_proxy_new()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct <a class="el" href="struct_i_mediator.html">IMediator</a> * puremvc_mediator_new </td>
+          <td class="memname">struct <a class="el" href="struct_i_proxy.html">IProxy</a> * puremvc_proxy_new </td>
           <td>(</td>
           <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>name</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>component</em></span>, </td>
+          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>data</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -191,19 +191,19 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Creates a new mediator. </p>
-<p>Allocates memory and sets up internal state for a mediator instance.</p>
+<p>Initializes the data processor. </p>
+<p>Allocates memory and sets up internal state needed for data processing.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">name</td><td>The name of the mediator. </td></tr>
-    <tr><td class="paramname">component</td><td>Pointer to the associated component. </td></tr>
+    <tr><td class="paramname">name</td><td>The number of elements to allocate. </td></tr>
+    <tr><td class="paramname">data</td><td>Initial data pointer. </td></tr>
     <tr><td class="paramname">error</td><td>Out-param for static error string on failure (NULL on success). </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A pointer to the initialized mediator, or NULL on failure. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A pointer to the initialized processor, or NULL on failure. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_mediator_8c_source.html#l00106">106</a> of file <a class="el" href="_mediator_8c_source.html">Mediator.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_proxy_8c_source.html#l00068">68</a> of file <a class="el" href="_proxy_8c_source.html">Proxy.c</a>.</p>
 
 </div>
 </div>
@@ -220,7 +220,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a href="dir_d7baf4dddc3773aa2ee929d60fbaac6f.html">puremvc</a></li><li class="navelem"><a href="_i_mediator_8h.html">IMediator.h</a></li>
+    <li class="navelem"><a href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a href="dir_d7baf4dddc3773aa2ee929d60fbaac6f.html">puremvc</a></li><li class="navelem"><a href="_i_proxy_8h.html">IProxy.h</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
   </ul>
 </div>

@@ -107,16 +107,16 @@ Data Fields</h2></td></tr>
 <tr class="memdesc:a98358eb855d213f43e99f16ea79ad227"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the body of the notification.  <br /></td></tr>
 <tr class="memitem:ab18292295c12725792cea7b088c3372b" id="r_ab18292295c12725792cea7b088c3372b"><td class="memItemLeft">const char *(*&#160;</td><td class="memItemRight"><a class="el" href="#ab18292295c12725792cea7b088c3372b">getType</a> )(const struct <a class="el" href="struct_i_notification.html">INotification</a> *self)</td></tr>
 <tr class="memdesc:ab18292295c12725792cea7b088c3372b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the type of the notification.  <br /></td></tr>
-<tr class="memitem:a9324b9e485230c6d11b68b2fb2d0e555" id="r_a9324b9e485230c6d11b68b2fb2d0e555"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#a9324b9e485230c6d11b68b2fb2d0e555">setType</a> )(struct <a class="el" href="struct_i_notification.html">INotification</a> *self, const char *type)</td></tr>
-<tr class="memdesc:a9324b9e485230c6d11b68b2fb2d0e555"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the type of the notification.  <br /></td></tr>
-<tr class="memitem:ae478fb70c06a759db480c401b6d73407" id="r_ae478fb70c06a759db480c401b6d73407"><td class="memItemLeft">const char *(*&#160;</td><td class="memItemRight"><a class="el" href="#ae478fb70c06a759db480c401b6d73407">toString</a> )(const struct <a class="el" href="struct_i_notification.html">INotification</a> *self)</td></tr>
-<tr class="memdesc:ae478fb70c06a759db480c401b6d73407"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a string representation of the notification.  <br /></td></tr>
+<tr class="memitem:afc1bba0c264b656da5523f1c31749e98" id="r_afc1bba0c264b656da5523f1c31749e98"><td class="memItemLeft">void(*&#160;</td><td class="memItemRight"><a class="el" href="#afc1bba0c264b656da5523f1c31749e98">setType</a> )(struct <a class="el" href="struct_i_notification.html">INotification</a> *self, const char *type, const char **error)</td></tr>
+<tr class="memdesc:afc1bba0c264b656da5523f1c31749e98"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the type of the notification.  <br /></td></tr>
+<tr class="memitem:a56acabbaaf4f2cfe4a57a795258f8362" id="r_a56acabbaaf4f2cfe4a57a795258f8362"><td class="memItemLeft">const char *(*&#160;</td><td class="memItemRight"><a class="el" href="#a56acabbaaf4f2cfe4a57a795258f8362">toString</a> )(const struct <a class="el" href="struct_i_notification.html">INotification</a> *self, const char **error)</td></tr>
+<tr class="memdesc:a56acabbaaf4f2cfe4a57a795258f8362"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a string representation of the notification.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents a notification in the PureMVC framework. </p>
 <p>This structure encapsulates the information for a notification, including its name, optional body, and optional type. It provides methods to access and modify these fields, and to generate a string representation of the notification. </p>
 
-<p class="definition">Definition at line <a class="el" href="_i_notification_8h_source.html#l00019">19</a> of file <a class="el" href="_i_notification_8h_source.html">INotification.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_notification_8h_source.html#l00020">20</a> of file <a class="el" href="_i_notification_8h_source.html">INotification.h</a>.</p>
 </div><a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Field Documentation</h2>
 <a id="a590ce9b1b5af32e6c6117daa55564448" name="a590ce9b1b5af32e6c6117daa55564448"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a590ce9b1b5af32e6c6117daa55564448">&#9670;&#160;</a></span>getBody</h2>
@@ -139,7 +139,7 @@ Data Fields</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Pointer to the notification body (can be NULL). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_notification_8h_source.html#l00034">34</a> of file <a class="el" href="_i_notification_8h_source.html">INotification.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_notification_8h_source.html#l00035">35</a> of file <a class="el" href="_i_notification_8h_source.html">INotification.h</a>.</p>
 
 </div>
 </div>
@@ -164,7 +164,7 @@ Data Fields</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Static string representing the notification name. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_notification_8h_source.html#l00026">26</a> of file <a class="el" href="_i_notification_8h_source.html">INotification.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_notification_8h_source.html#l00027">27</a> of file <a class="el" href="_i_notification_8h_source.html">INotification.h</a>.</p>
 
 </div>
 </div>
@@ -189,7 +189,7 @@ Data Fields</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Static string representing the type (can be NULL). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_notification_8h_source.html#l00050">50</a> of file <a class="el" href="_i_notification_8h_source.html">INotification.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_notification_8h_source.html#l00051">51</a> of file <a class="el" href="_i_notification_8h_source.html">INotification.h</a>.</p>
 
 </div>
 </div>
@@ -214,18 +214,18 @@ Data Fields</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_notification_8h_source.html#l00042">42</a> of file <a class="el" href="_i_notification_8h_source.html">INotification.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_notification_8h_source.html#l00043">43</a> of file <a class="el" href="_i_notification_8h_source.html">INotification.h</a>.</p>
 
 </div>
 </div>
-<a id="a9324b9e485230c6d11b68b2fb2d0e555" name="a9324b9e485230c6d11b68b2fb2d0e555"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9324b9e485230c6d11b68b2fb2d0e555">&#9670;&#160;</a></span>setType</h2>
+<a id="afc1bba0c264b656da5523f1c31749e98" name="afc1bba0c264b656da5523f1c31749e98"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc1bba0c264b656da5523f1c31749e98">&#9670;&#160;</a></span>setType</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void(* setType) (struct <a class="el" href="struct_i_notification.html">INotification</a> *self, const char *type)</td>
+          <td class="memname">void(* setType) (struct <a class="el" href="struct_i_notification.html">INotification</a> *self, const char *type, const char **error)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -235,22 +235,23 @@ Data Fields</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">self</td><td>Pointer to this notification instance. </td></tr>
     <tr><td class="paramname">type</td><td>Pointer to the type string to assign. </td></tr>
+    <tr><td class="paramname">error</td><td>Out-param for a static error string on failure (NULL on success). </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_notification_8h_source.html#l00058">58</a> of file <a class="el" href="_i_notification_8h_source.html">INotification.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_notification_8h_source.html#l00060">60</a> of file <a class="el" href="_i_notification_8h_source.html">INotification.h</a>.</p>
 
 </div>
 </div>
-<a id="ae478fb70c06a759db480c401b6d73407" name="ae478fb70c06a759db480c401b6d73407"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae478fb70c06a759db480c401b6d73407">&#9670;&#160;</a></span>toString</h2>
+<a id="a56acabbaaf4f2cfe4a57a795258f8362" name="a56acabbaaf4f2cfe4a57a795258f8362"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a56acabbaaf4f2cfe4a57a795258f8362">&#9670;&#160;</a></span>toString</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const char *(* toString) (const struct <a class="el" href="struct_i_notification.html">INotification</a> *self)</td>
+          <td class="memname">const char *(* toString) (const struct <a class="el" href="struct_i_notification.html">INotification</a> *self, const char **error)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -259,12 +260,13 @@ Data Fields</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">self</td><td>Pointer to this notification instance. </td></tr>
+    <tr><td class="paramname">error</td><td>Out-param for a static error string on failure (NULL on success). </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Static string describing the notification. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_notification_8h_source.html#l00066">66</a> of file <a class="el" href="_i_notification_8h_source.html">INotification.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_notification_8h_source.html#l00069">69</a> of file <a class="el" href="_i_notification_8h_source.html">INotification.h</a>.</p>
 
 </div>
 </div>

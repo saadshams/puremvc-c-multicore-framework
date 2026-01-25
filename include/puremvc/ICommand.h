@@ -17,6 +17,7 @@
  *
  * A Command encapsulates the logic to be executed in response
  * to a notification. It uses an INotifier to send further notifications.
+ * @see INotification
  */
 struct ICommand {
     struct INotifier *notifier;
@@ -25,7 +26,7 @@ struct ICommand {
      * @brief Executes the command.
      *
      * @param self Pointer to this command instance.
-     * @param notification Pointer to the notification triggering this command.
+     * @param notification note an <code>INotification</code> to handle.
      * @param error Out-param for a static error string on failure (NULL on success).
      */
     void (*execute)(const struct ICommand *self, struct INotification *notification, const char **error);
