@@ -5,6 +5,8 @@
 #include "puremvc/puremvc.h"
 #include "NotificationTest.h"
 
+#include <stdio.h>
+
 int main() {
     testConstructor();
     testNameAccessors();
@@ -89,9 +91,12 @@ void testToString() {
     const char *error = NULL;
     struct INotification *notification = puremvc_notification_new("TestNote", test, "TestNoteType", &error);
 
-    const char *str = notification->toString(notification, &error);
+    char buffer[256];
+    notification->toString(notification, buffer, sizeof(buffer));
+    printf("%s\n", buffer);
+
     const char *prefix = "TestNote : TestNoteType [body=";
-    assert(strncmp(str, prefix, strlen(prefix)) == 0);
+    assert(strncmp(buffer, prefix, strlen(prefix)) == 0);
 
     puremvc_notification_free(&notification);
     assert(notification == NULL);

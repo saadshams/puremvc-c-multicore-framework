@@ -8,6 +8,8 @@
  */
 #pragma once
 
+#include <stddef.h>
+
 /**
  * @struct INotification
  * @brief Represents a notification in the PureMVC framework.
@@ -60,13 +62,13 @@ struct INotification {
     void (*setType)(struct INotification *self, const char *type, const char **error);
 
     /**
-     * @brief Returns a string representation of the notification.
+     * @brief Writes a string representation of the notification into a user-provided buffer.
      *
      * @param self Pointer to this notification instance.
-     * @param error Out-param for a static error string on failure (NULL on success).
-     * @return Static string describing the notification.
+     * @param buffer Buffer provided by the caller where the string will be written.
+     * @param buffer_size Size of the caller-provided buffer.
      */
-    const char *(*toString)(const struct INotification *self, const char **error);
+    void (*toString)(const struct INotification *self, char *buffer, size_t buffer_size);
 };
 
 /**

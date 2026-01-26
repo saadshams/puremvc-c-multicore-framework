@@ -34,6 +34,7 @@ static void initializeNotifier(struct INotifier *self, const char *key, const ch
 
 static void sendNotification(const struct INotifier *self, const char *notificationName, void *body, const char *type, const char **error) {
     const struct IFacade *facade = self->getFacade(self, error);
+    if (*error != NULL) return;
     facade->sendNotification(facade, notificationName, body, type, error);
 }
 

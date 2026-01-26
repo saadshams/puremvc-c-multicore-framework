@@ -48,12 +48,9 @@ static void setType(struct INotification *self, const char *type, const char **e
 /**
  * Returns a newly allocated string. Caller must free the result.
  */
-static const char *toString(const struct INotification *self, const char **error) {
+void toString(const struct INotification *self, char *buffer, size_t buffer_size) {
     const struct Notification *this = (struct Notification *) self;
-
-    static char description[256];
-    snprintf(description, sizeof(description), "%s : %s [body=%p]", this->name, this->type ? this->type : "", this->body);
-    return description;
+    snprintf(buffer, buffer_size, "%s : %s [body=%p]", this->name, this->type ? this->type : "", this->body);
 }
 
 static struct Notification *init(struct Notification *notification) {

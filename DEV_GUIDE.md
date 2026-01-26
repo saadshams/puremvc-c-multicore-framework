@@ -290,6 +290,13 @@ Violating these rules will result in:
 
 ---
 
+## Error Handling
+
+Most functions return errors via a const char **error. For thread safety:
+
+* Each thread must use its own error variable.
+* Do not share a single error pointer across threads.
+
 ## Development Guidelines
 
 * Prefer clarity over convenience when transferring ownership

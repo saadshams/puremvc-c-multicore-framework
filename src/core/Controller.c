@@ -6,7 +6,6 @@
 * @author Saad Shams <saad.shams@puremvc.org>
 * @copyright BSD 3-Clause License
 */
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <collection/IDictionary.h>
@@ -15,7 +14,7 @@
 #include "View.h"
 
 // The Multiton Controller instanceMap.
-static struct IDictionary *instanceMap;
+static struct IDictionary *instanceMap = NULL;
 
 // mutex for controller instanceMap
 static MutexOnce token = MUTEX_ONCE_INIT;
@@ -59,7 +58,7 @@ static void registerCommand(const struct IController *self, const char *notifica
         if (*error != NULL) return mutex_unlock(&this->commandMapMutex), (void)0;
 
         this->commandMap->put(this->commandMap, notificationName, factory, error);
-        if (*error != NULL) return mutex_unlock(&this->commandMapMutex), (void)0;
+        if (*error != NULL) return this->view->removeObserver(this->view, notificationName, this), mutex_unlock(&this->commandMapMutex), (void)0;
     } else {
         this->commandMap->replace(this->commandMap, notificationName, factory);
     }
@@ -102,7 +101,7 @@ static struct Controller *alloc(const char *key, const char **error) {
     memset(controller, 0, sizeof(struct Controller));
 
     controller->multitonKey = strdup(key);
-    if (controller->multitonKey == NULL) return *error = "[PureMVC::Facade::alloc] Error: Failed to allocate Controller key (strdup)", free(controller), NULL;
+    if (controller->multitonKey == NULL) return *error = "[PureMVC::Controller::alloc] Error: Failed to allocate Controller key (strdup)", free(controller), NULL;
 
     mutex_init(&controller->commandMapMutex);
 
@@ -117,12 +116,17 @@ struct IController *puremvc_controller_new(const char *key, const char **error) 
     return (struct IController *) init(alloc(key, error));
 }
 
+static void command_free(void *value) {
+    struct ICommand *command = value;
+    puremvc_simple_command_free(&command);
+}
+
 void puremvc_controller_free(struct IController **controller) {
     if (controller == NULL || *controller == NULL) return;
     struct Controller *this = (struct Controller *) *controller;
 
     free((void *) this->multitonKey);
-    this->commandMap->clear(this->commandMap, free);
+    this->commandMap->clear(this->commandMap, command_free);
     collection_dictionary_free(&this->commandMap);
 
     mutex_destroy(&this->commandMapMutex);
@@ -142,7 +146,7 @@ struct IController *puremvc_controller_getInstance(const char *key, struct ICont
 
     if (instanceMap == NULL) {
         instanceMap = collection_dictionary_new(error);
-        if (*error != NULL) return NULL;
+        if (*error != NULL) return mutex_unlock(&mutex), NULL;
     }
 
     struct IController *instance = (struct IController *) instanceMap->get(instanceMap, key);

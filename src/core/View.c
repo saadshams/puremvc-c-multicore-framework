@@ -15,7 +15,7 @@
 #include "View.h"
 
 // The Multiton View instanceMap.
-static struct IDictionary *instanceMap;
+static struct IDictionary *instanceMap = NULL;
 
 // mutex for instanceMap
 static MutexOnce token = MUTEX_ONCE_INIT;
@@ -210,14 +210,24 @@ struct IView *puremvc_view_new(const char *key, const char **error) {
     return (struct IView *) init(alloc(key, error));
 }
 
+static void mediator_free(void *value) {
+    struct IMediator *mediator = value;
+    puremvc_mediator_free(&mediator);
+}
+
+static void observer_free(void *value) {
+    struct IObserver *observer = value;
+    puremvc_observer_free(&observer);
+}
+
 void puremvc_view_free(struct IView **view) {
     if (view == NULL || *view == NULL) return;
     struct View *this = (struct View *) *view;
 
     free((void *) this->multitonKey);
-    this->mediatorMap->clear(this->mediatorMap, free);
+    this->mediatorMap->clear(this->mediatorMap, mediator_free);
     collection_dictionary_free(&this->mediatorMap);
-    this->observerMap->clear(this->observerMap, free);
+    this->observerMap->clear(this->observerMap, observer_free);
     collection_dictionary_free(&this->observerMap);
 
     mutex_destroy(&this->mediatorMapMutex);
@@ -238,7 +248,7 @@ struct IView *puremvc_view_getInstance(const char *key, struct IView *(*factory)
 
     if (instanceMap == NULL) {
         instanceMap = collection_dictionary_new(error);
-        if (*error != NULL) return NULL;
+        if (*error != NULL) return mutex_unlock(&mutex), NULL;
     }
 
     struct IView *instance = (struct IView *) instanceMap->get(instanceMap, key);

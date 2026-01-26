@@ -18,7 +18,7 @@
 #include "puremvc/IView.h"
 
 // The Multiton Facade instanceMap.
-static struct IDictionary *instanceMap;
+static struct IDictionary *instanceMap = NULL;
 
 // mutex for instanceMap
 static Mutex mutex;
@@ -107,6 +107,7 @@ static void notifyObservers(const struct IFacade *self, const struct INotificati
 
 static void sendNotification(const struct IFacade *self, const char *notificationName, void *body, const char *type, const char **error) {
     struct INotification *notification = puremvc_notification_new(notificationName, body, type, error);
+    if (*error != NULL) return;
     self->notifyObservers(self, notification, error);
     puremvc_notification_free(&notification);
 }
@@ -171,7 +172,7 @@ struct IFacade *puremvc_facade_getInstance(const char *key, struct IFacade *(*fa
 
     if (instanceMap == NULL) {
         instanceMap = collection_dictionary_new(error);
-        if (*error != NULL) return NULL;
+        if (*error != NULL) return mutex_unlock(&mutex), NULL;
     }
 
     struct IFacade *instance = (struct IFacade *) instanceMap->get(instanceMap, key);

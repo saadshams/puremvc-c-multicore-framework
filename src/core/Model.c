@@ -6,7 +6,6 @@
 * @author Saad Shams <saad.shams@puremvc.org>
 * @copyright BSD 3-Clause License
 */
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <collection/IDictionary.h>
@@ -14,7 +13,7 @@
 #include "Model.h"
 
 // The Multiton Model instanceMap.
-static struct IDictionary *instanceMap;
+static struct IDictionary *instanceMap = NULL;
 
 // mutex for instanceMap
 static MutexOnce token = MUTEX_ONCE_INIT;
@@ -104,12 +103,17 @@ struct IModel *puremvc_model_new(const char *key, const char **error) {
     return (struct IModel *) init(alloc(key, error));
 }
 
+static void proxy_free(void *value) {
+    struct IProxy *proxy = value;
+    puremvc_proxy_free(&proxy);
+}
+
 void puremvc_model_free(struct IModel **model) {
     if (model == NULL || *model == NULL) return;
     struct Model *this = (struct Model *) *model;
 
     free((void *) this->multitonKey);
-    this->proxyMap->clear(this->proxyMap, free);
+    this->proxyMap->clear(this->proxyMap, proxy_free);
     collection_dictionary_free(&this->proxyMap);
 
     mutex_destroy(&this->proxyMapMutex);
@@ -129,7 +133,7 @@ struct IModel *puremvc_model_getInstance(const char *key, struct IModel *(*facto
 
     if (instanceMap == NULL) {
         instanceMap = collection_dictionary_new(error);
-        if (*error != NULL) return NULL;
+        if (*error != NULL) return mutex_unlock(&mutex), NULL;
     }
 
     struct IModel *instance = (struct IModel *) instanceMap->get(instanceMap, key);
@@ -150,6 +154,7 @@ struct IModel *puremvc_model_getInstance(const char *key, struct IModel *(*facto
 
 void puremvc_model_removeModel(const char *key) {
     if (key == NULL) return;
+    mutex_once(&token, dispatchOnce);
     mutex_lock(&mutex);
 
     struct IModel *model = instanceMap->removeItem(instanceMap, key);
