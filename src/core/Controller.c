@@ -112,7 +112,7 @@ static struct Controller *alloc(const char *key, const char **error) {
 }
 
 struct IController *puremvc_controller_new(const char *key, const char **error) {
-    if (key == NULL) return *error = "[PureMVC::Controller::new] Error: key must not be NULL.", NULL;
+    if (key == NULL) return *error = "[PureMVC::Controller::new] Error: key must not be NULL", NULL;
     return (struct IController *) init(alloc(key, error));
 }
 
@@ -135,7 +135,7 @@ static void dispatchOnce() {
 }
 
 struct IController *puremvc_controller_getInstance(const char *key, struct IController *(*factory)(const char *key, const char **error), const char **error) {
-    if (key == NULL || factory == NULL) return *error = "[PureMVC::Controller::getInstance] Error: key or factory must not be NULL.", NULL;
+    if (key == NULL || factory == NULL) return *error = "[PureMVC::Controller::getInstance] Error: key or factory must not be NULL", NULL;
     mutex_once(&token, dispatchOnce);
     mutex_lock(&mutex);
 

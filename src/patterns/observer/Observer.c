@@ -60,7 +60,7 @@ static struct Observer *init(struct Observer *observer) {
 
 static struct Observer *alloc(const void (*notify)(const void *context, struct INotification *notification), const void *context, const char **error) {
     struct Observer *observer = malloc(sizeof(struct Observer));
-    if (observer == NULL) return *error = "[PureMVC::Observer::alloc] Error: Failed to allocate Observer.", NULL;
+    if (observer == NULL) return *error = "[PureMVC::Observer::alloc] Error: Failed to allocate Observer", NULL;
 
     memset(observer, 0, sizeof(struct Observer));
 

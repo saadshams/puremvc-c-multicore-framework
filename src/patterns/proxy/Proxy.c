@@ -50,7 +50,7 @@ static struct Proxy *init(struct Proxy *proxy) {
 
 static struct Proxy *alloc(const char *name, void *data, const char **error) {
     struct Proxy *proxy = malloc(sizeof(struct Proxy));
-    if (proxy == NULL) return *error = "[PureMVC::Proxy::alloc] Error: Failed to allocate Proxy.", NULL;
+    if (proxy == NULL) return *error = "[PureMVC::Proxy::alloc] Error: Failed to allocate Proxy", NULL;
 
     memset(proxy, 0, sizeof(struct Proxy));
 

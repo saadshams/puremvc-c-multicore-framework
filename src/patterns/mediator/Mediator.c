@@ -58,7 +58,7 @@ static struct Mediator *init(struct Mediator *mediator) {
 
 static struct Mediator *alloc(const char *name, void *component, const char **error) {
     struct Mediator *mediator = malloc(sizeof(struct Mediator));
-    if (mediator == NULL) return *error = "[PureMVC::Mediator::alloc] Error: Failed to allocate Mediator.", NULL;
+    if (mediator == NULL) return *error = "[PureMVC::Mediator::alloc] Error: Failed to allocate Mediator", NULL;
 
     memset(mediator, 0, sizeof(struct Mediator));
 

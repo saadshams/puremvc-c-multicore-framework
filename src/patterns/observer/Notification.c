@@ -34,7 +34,7 @@ static const char *getType(const struct INotification *self) {
 }
 
 static void setType(struct INotification *self, const char *type, const char **error) {
-    if (type == NULL) return *error = "[PureMVC::Notification::setType] Error: type must not be NULL.", (void)0;
+    if (type == NULL) return *error = "[PureMVC::Notification::setType] Error: type must not be NULL", (void)0;
 
     struct Notification *this = (struct Notification *) self;
 
@@ -86,7 +86,7 @@ static struct Notification *alloc(const char *name, void *body, const char *type
 }
 
 struct INotification *puremvc_notification_new(const char *name, void *body, const char *type, const char **error) {
-    if (name == NULL) return *error = "[PureMVC::Notification::new] Error: name must not be NULL.", NULL;
+    if (name == NULL) return *error = "[PureMVC::Notification::new] Error: name must not be NULL", NULL;
     return (struct INotification *) init(alloc(name, body, type, error));
 }
 

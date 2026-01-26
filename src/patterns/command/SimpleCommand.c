@@ -24,7 +24,7 @@ static struct SimpleCommand *init(struct SimpleCommand *command) {
 
 static struct SimpleCommand *alloc(const char **error) {
     struct SimpleCommand *command = malloc(sizeof(struct SimpleCommand));
-    if (command == NULL) return *error = "[PureMVC::SimpleCommand::alloc] Error: Failed to allocate SimpleCommand.", NULL;
+    if (command == NULL) return *error = "[PureMVC::SimpleCommand::alloc] Error: Failed to allocate SimpleCommand", NULL;
 
     memset(command, 0, sizeof(struct SimpleCommand));
 

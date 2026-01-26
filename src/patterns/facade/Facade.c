@@ -147,7 +147,7 @@ static struct Facade *alloc(const char *key, const char **error) {
 }
 
 struct IFacade *puremvc_facade_new(const char *key, const char **error) {
-    if (key == NULL) return *error = "[PureMVC::Facade::new] Error: key must not be NULL.", NULL;
+    if (key == NULL) return *error = "[PureMVC::Facade::new] Error: key must not be NULL", NULL;
     return (struct IFacade *) init(alloc(key, error));
 }
 
@@ -166,7 +166,7 @@ static void dispatchOnce() {
 }
 
 struct IFacade *puremvc_facade_getInstance(const char *key, struct IFacade *(*factory)(const char *, const char **error), const char **error) {
-    if (key == NULL || factory == NULL) return *error = "[PureMVC::Facade::getInstance] Error: key or factory must not be NULL.", NULL;
+    if (key == NULL || factory == NULL) return *error = "[PureMVC::Facade::getInstance] Error: key or factory must not be NULL", NULL;
     mutex_once(&token, dispatchOnce);
     mutex_lock(&mutex);
 

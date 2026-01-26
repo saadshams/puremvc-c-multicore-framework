@@ -99,7 +99,7 @@ static struct Model *alloc(const char *key, const char **error) {
 }
 
 struct IModel *puremvc_model_new(const char *key, const char **error) {
-    if (key == NULL) return *error = "[PureMVC::Model::new] Error: key must not be NULL.", NULL;
+    if (key == NULL) return *error = "[PureMVC::Model::new] Error: key must not be NULL", NULL;
     return (struct IModel *) init(alloc(key, error));
 }
 
@@ -127,7 +127,7 @@ static void dispatchOnce() {
 }
 
 struct IModel *puremvc_model_getInstance(const char *key, struct IModel *(*factory)(const char *key, const char **error), const char **error) {
-    if (key == NULL || factory == NULL) return *error = "[PureMVC::Model::getInstance] Error: key or factory must not be NULL.", NULL;
+    if (key == NULL || factory == NULL) return *error = "[PureMVC::Model::getInstance] Error: key or factory must not be NULL", NULL;
     mutex_once(&token, dispatchOnce);
     mutex_lock(&mutex);
 

@@ -206,7 +206,7 @@ static struct View *alloc(const char *key, const char **error) {
 }
 
 struct IView *puremvc_view_new(const char *key, const char **error) {
-    if (key == NULL) return *error = "[PureMVC::View::new] Error: key must not be NULL.", NULL;
+    if (key == NULL) return *error = "[PureMVC::View::new] Error: key must not be NULL", NULL;
     return (struct IView *) init(alloc(key, error));
 }
 
@@ -242,7 +242,7 @@ static void dispatchOnce() {
 }
 
 struct IView *puremvc_view_getInstance(const char *key, struct IView *(*factory)(const char *key, const char **error), const char **error) {
-    if (key == NULL || factory == NULL) return *error = "[PureMVC::View::getInstance] Error: key or factory must not be NULL.", NULL;
+    if (key == NULL || factory == NULL) return *error = "[PureMVC::View::getInstance] Error: key or factory must not be NULL", NULL;
     mutex_once(&token, dispatchOnce);
     mutex_lock(&mutex);
 

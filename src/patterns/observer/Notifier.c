@@ -24,7 +24,7 @@ const char *getMultitonKey(const struct INotifier *self) {
 }
 
 static void initializeNotifier(struct INotifier *self, const char *key, const char **error) {
-    if (key == NULL) return *error = "[PureMVC::Notifier::initializeNotifier] Error: key must not be NULL.", (void)0;
+    if (key == NULL) return *error = "[PureMVC::Notifier::initializeNotifier] Error: key must not be NULL", (void)0;
 
     struct Notifier *this = (struct Notifier *) self;
 
@@ -49,7 +49,7 @@ static struct Notifier *init(struct Notifier *notifier) {
 
 static struct Notifier *alloc(const char **error) {
     struct Notifier *notifier = malloc(sizeof(struct Notifier));
-    if (notifier == NULL) return *error = "[PureMVC::Notifier::alloc] Error: Failed to allocate Notifier.", NULL;
+    if (notifier == NULL) return *error = "[PureMVC::Notifier::alloc] Error: Failed to allocate Notifier", NULL;
 
     memset(notifier, 0, sizeof(*notifier));
 
