@@ -114,7 +114,7 @@ static void registerMediator(const struct IView *self, struct IMediator *mediato
         return mutex_lock(&this->mediatorMapMutex), this->mediatorMap->removeItem(this->mediatorMap, mediator->getName(mediator)),
             mutex_unlock(&this->mediatorMapMutex), (void)0;
 
-    for(const char **interest = interests; *interest; interest++) {
+    for (const char **interest = interests; *interest; interest++) {
         const struct IObserver *observer = puremvc_observer_new((const void (*)(const void *, struct INotification *)) mediator->handleNotification, mediator, error);
         if (*error != NULL) { // rollback
             for (const char **cursor = interests; cursor < interest; cursor++)
