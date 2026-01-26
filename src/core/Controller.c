@@ -116,17 +116,12 @@ struct IController *puremvc_controller_new(const char *key, const char **error) 
     return (struct IController *) init(alloc(key, error));
 }
 
-static void command_free(void *value) {
-    struct ICommand *command = value;
-    puremvc_simple_command_free(&command);
-}
-
 void puremvc_controller_free(struct IController **controller) {
     if (controller == NULL || *controller == NULL) return;
     struct Controller *this = (struct Controller *) *controller;
 
     free((void *) this->multitonKey);
-    this->commandMap->clear(this->commandMap, command_free);
+    this->commandMap->clear(this->commandMap, NULL);
     collection_dictionary_free(&this->commandMap);
 
     mutex_destroy(&this->commandMapMutex);
