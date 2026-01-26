@@ -29,6 +29,7 @@ void testMacroCommandExecute() {
 
     assert(vo->result1 == 10);
     assert(vo->result2 == 25);
+    assert(vo->result3 == 125);
 
     puremvc_macro_command_free(&macroCommand);
 }
@@ -54,6 +55,7 @@ void testRegisterAndExecuteCommand() {
     // test assertions
     assert(vo->result1 == 10);
     assert(vo->result2 == 25);
+    assert(vo->result3 == 125);
 
     controller->removeCommand(controller, "MacroCommandTest");
     puremvc_notification_free(&notification);

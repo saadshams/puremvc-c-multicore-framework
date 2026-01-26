@@ -24,7 +24,9 @@ add_test(NAME PureMVC.SimpleCommandTest COMMAND SimpleCommandTest)
 add_executable(MacroCommandTest patterns/command/MacroCommandTest.c
         patterns/command/MacroCommandTestCommand.c
         patterns/command/MacroCommandTestSub1Command.c
-        patterns/command/MacroCommandTestSub2Command.c)
+        patterns/command/MacroCommandTestSub2Command.c
+        patterns/command/MacroCommandTestCommand2.c
+        patterns/command/MacroCommandTestSub3Command.c)
 target_link_libraries(MacroCommandTest PRIVATE puremvc)
 add_test(NAME PureMVC.MacroCommandTest COMMAND MacroCommandTest)
 
