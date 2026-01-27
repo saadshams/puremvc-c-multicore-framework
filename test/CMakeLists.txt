@@ -4,7 +4,7 @@ add_executable(ControllerTest core/ControllerTest.c
 target_link_libraries(ControllerTest PRIVATE puremvc)
 add_test(NAME PureMVC.ControllerTest COMMAND ControllerTest)
 
-add_executable(ModelTest core/ModelTest.c core/ModelTestProxy.c)
+add_executable(ModelTest core/ModelTest.c core/ModelTestProxy.c core/ModelTestProxy2.c)
 target_link_libraries(ModelTest PRIVATE puremvc)
 add_test(NAME PureMVC.ModelTest COMMAND ModelTest)
 

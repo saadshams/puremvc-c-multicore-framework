@@ -6,6 +6,7 @@
 
 #include "ModelTest.h"
 #include "ModelTestProxy.h"
+#include "ModelTestProxy2.h"
 
 int main() {
     testGetInstance();
@@ -14,9 +15,9 @@ int main() {
     testRegisterAndReplaceProxy();
     testHasProxy();
     testOnRegisterAndOnRemove();
-
     testRemoveModel();
     testMultipleModels();
+    testEmbeddedProxy();
     return 0;
 }
 
@@ -239,4 +240,25 @@ void testRegisterAndReplaceProxy() {
     assert(model->retrieveProxy(model, "sizes") == NULL);
     puremvc_model_removeModel("ModelTestKey8");
     model = NULL;
+}
+
+void testEmbeddedProxy() {
+    const char *error = NULL;
+    struct IModel *model = puremvc_model_getInstance("ModelTestKey8", puremvc_model_new, &error);
+    model->initializeModel(model, &error);
+
+    struct ModelTestProxy2 *proxy = model_test_proxy2_new("ModelTestProxy2", NULL, &error);
+    model->registerProxy(model, (struct IProxy *)proxy, &error);
+
+    // assert(strcmp(proxy->base.getData(&proxy->base), ON_REGISTER_CALLED2) != 0);
+
+    // clean up
+    // free((void *)p->name);
+    // free(p->data);
+    // model->removeProxy(model, "ModelTestProxy2");
+
+    puremvc_notifier_free(&proxy->base.notifier);
+
+    free(proxy);
+    proxy = NULL;
 }
