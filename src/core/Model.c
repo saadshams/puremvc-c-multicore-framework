@@ -141,9 +141,6 @@ struct IModel *puremvc_model_getInstance(const char *key, struct IModel *(*facto
         instance = factory(key, error);
         if (*error != NULL) return mutex_unlock(&mutex), NULL;
 
-        instance->initializeModel(instance, error);
-        if (*error != NULL) return puremvc_model_free(&instance), mutex_unlock(&mutex), NULL;
-
         instanceMap->put(instanceMap, key, instance, error);
         if (*error != NULL) return puremvc_model_free(&instance), mutex_unlock(&mutex), NULL;
     }

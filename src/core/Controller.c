@@ -149,9 +149,6 @@ struct IController *puremvc_controller_getInstance(const char *key, struct ICont
         instance = factory(key, error);
         if (*error != NULL) return mutex_unlock(&mutex), NULL;
 
-        instance->initializeController(instance, error);
-        if (*error != NULL) return puremvc_controller_free(&instance), mutex_unlock(&mutex), NULL;
-
         instanceMap->put(instanceMap, key, instance, error);
         if (*error != NULL) return puremvc_controller_free(&instance), mutex_unlock(&mutex), NULL;
     }

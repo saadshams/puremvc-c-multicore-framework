@@ -23,8 +23,9 @@ int main() {
 void testGetInstance() {
     // Test Factory Method
     const char *error = NULL;
-    const struct IModel *model = puremvc_model_getInstance("ModelTestKey1", puremvc_model_new, &error);
+    struct IModel *model = puremvc_model_getInstance("ModelTestKey1", puremvc_model_new, &error);
     assert(model != NULL);
+    model->initializeModel(model, &error);
 
     // test assertions
     assert(model == puremvc_model_getInstance("ModelTestKey1", puremvc_model_new, &error));
@@ -35,7 +36,8 @@ void testGetInstance() {
 void testRegisterAndRetrieveProxy() {
     // register a new and retrieve it.
     const char *error = NULL;
-    const struct IModel *model = puremvc_model_getInstance("ModelTestKey2", puremvc_model_new, &error);
+    struct IModel *model = puremvc_model_getInstance("ModelTestKey2", puremvc_model_new, &error);
+    model->initializeModel(model, &error);
 
     const char **colors = malloc(sizeof(char*) * 4);
     memset(colors, 0, sizeof(char*) * 4);
@@ -66,7 +68,8 @@ void testRegisterAndRetrieveProxy() {
 void testRegisterAndRemoveProxy() {
     // register a new, remove it, then try to retrieve it
     const char *error = NULL;
-    const struct IModel *model = puremvc_model_getInstance("ModelTestKey4", puremvc_model_new, &error);
+    struct IModel *model = puremvc_model_getInstance("ModelTestKey4", puremvc_model_new, &error);
+    model->initializeModel(model, &error);
 
     int *sizes = malloc(sizeof(int) * 4), *cursor = sizes;
     memset(sizes, 0, sizeof(int) * 4);
@@ -92,7 +95,8 @@ void testRegisterAndRemoveProxy() {
 void testHasProxy() {
     // register a new
     const char *error = NULL;
-    const struct IModel *model = puremvc_model_getInstance("ModelTestKey5", puremvc_model_new, &error);
+    struct IModel *model = puremvc_model_getInstance("ModelTestKey5", puremvc_model_new, &error);
+    model->initializeModel(model, &error);
 
     const char **aces = malloc(sizeof(char*) * 5), **cursor = aces;
     memset(aces, 0, sizeof(char*) * 5);
@@ -123,7 +127,8 @@ void testHasProxy() {
 void testOnRegisterAndOnRemove() {
     // Get a Multiton Model instance
     const char *error = NULL;
-    const struct IModel *model = puremvc_model_getInstance("ModelTestKey6", puremvc_model_new, &error);
+    struct IModel *model = puremvc_model_getInstance("ModelTestKey6", puremvc_model_new, &error);
+    model->initializeModel(model, &error);
 
     // Create and register the test mediator
     struct IProxy *modelTestProxy = model_test_proxy_new("ModelTestProxy", NULL);
@@ -146,7 +151,8 @@ void testOnRegisterAndOnRemove() {
 void testRemoveModel() {
     // Get a Multiton Model instance
     const char *error = NULL;
-    puremvc_model_getInstance("ModelTestKey6", puremvc_model_new, &error);
+    struct IModel *model = puremvc_model_getInstance("ModelTestKey6", puremvc_model_new, &error);
+    model->initializeModel(model, &error);
 
     // remove the model
     puremvc_model_removeModel("ModelTestKey6");
@@ -161,8 +167,10 @@ void testRemoveModel() {
 void testMultipleModels() {
     // Get a Multiton Model instance
     const char *error = NULL;
-    const struct IModel *model1 = puremvc_model_getInstance("ModelTestKey7", puremvc_model_new, &error);
-    const struct IModel *model2 = puremvc_model_getInstance("ModelTestKey8", puremvc_model_new, &error);
+    struct IModel *model1 = puremvc_model_getInstance("ModelTestKey7", puremvc_model_new, &error);
+    model1->initializeModel(model1, &error);
+    struct IModel *model2 = puremvc_model_getInstance("ModelTestKey8", puremvc_model_new, &error);
+    model2->initializeModel(model2, &error);
 
     const char **colors = malloc(sizeof(char*) * 4);
     memset(colors, 0, sizeof(char*) * 4);
@@ -196,7 +204,8 @@ void testMultipleModels() {
 
 void testRegisterAndReplaceProxy() {
     const char *error = NULL;
-    const struct IModel *model = puremvc_model_getInstance("ModelTestKey8", puremvc_model_new, &error);
+    struct IModel *model = puremvc_model_getInstance("ModelTestKey8", puremvc_model_new, &error);
+    model->initializeModel(model, &error);
 
     int *sizes = malloc(sizeof(int) * 2);
     memset(sizes, 0, sizeof(int) * 2);

@@ -57,7 +57,7 @@ void testRegisterCommandAndSendNotification() {
     struct Object temp = {4};
 
     // get facade instance
-    const struct IFacade *facade = notifier->getFacade(notifier, &error);
+    struct IFacade *facade = notifier->getFacade(notifier, &error);
 
     // register a command and send notification
     facade->registerCommand(facade, "TestNote", command_new, &error);

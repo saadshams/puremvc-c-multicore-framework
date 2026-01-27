@@ -23,7 +23,8 @@ int main() {
 void testGetInstance() {
     // Test Factory Method
     const char *error = NULL;
-    const struct IController *controller = puremvc_controller_getInstance("ControllerTestKey1", puremvc_controller_new, &error);
+    struct IController *controller = puremvc_controller_getInstance("ControllerTestKey1", puremvc_controller_new, &error);
+    controller->initializeController(controller, &error);
 
     // test assertions
     assert(controller != NULL);
@@ -35,7 +36,8 @@ void testGetInstance() {
 void testRegisterAndExecuteCommand() {
     // Create the controller, register the ControllerTestCommand to handle 'ControllerTest' notes
     const char *error = NULL;
-    const struct IController *controller = puremvc_controller_getInstance("ControllerTestKey2", puremvc_controller_new, &error);
+    struct IController *controller = puremvc_controller_getInstance("ControllerTestKey2", puremvc_controller_new, &error);
+    controller->initializeController(controller, &error);
     controller->registerCommand(controller, "ControllerTest1", test_controller_command_new, &error);
 
     // Create a 'ControllerTest' note
@@ -60,7 +62,8 @@ void testRegisterAndExecuteCommand() {
 void testRegisterAndRemoveCommand() {
     // Create the controller, register the ControllerTestCommand to handle 'ControllerTest' notes
     const char *error = NULL;
-    const struct IController *controller = puremvc_controller_getInstance("ControllerTestKey3", puremvc_controller_new, &error);
+    struct IController *controller = puremvc_controller_getInstance("ControllerTestKey3", puremvc_controller_new, &error);
+    controller->initializeController(controller, &error);
     controller->registerCommand(controller, "ControllerRemoveTest", test_controller_command_new, &error);
 
     // Create a 'ControllerTest' note
@@ -97,7 +100,8 @@ void testRegisterAndRemoveCommand() {
 void testHasCommand() {
     // register the ControllerTestCommand to handle 'hasCommandTest' notes
     const char *error = NULL;
-    const struct IController *controller = puremvc_controller_getInstance("ControllerTestKey4", puremvc_controller_new, &error);
+    struct IController *controller = puremvc_controller_getInstance("ControllerTestKey4", puremvc_controller_new, &error);
+    controller->initializeController(controller, &error);
 
     // test that hasCommand returns true for hasCommandTest notifications
     controller->registerCommand(controller, "hasCommandTest", test_controller_command_new, &error);
@@ -116,7 +120,8 @@ void testHasCommand() {
 void testReregisterAndExecuteCommand() {
     // Fetch the controller, register the ControllerTestCommand2 to handle 'ControllerTest2' notes
     const char *error = NULL;
-    const struct IController *controller = puremvc_controller_getInstance("ControllerTestKey5", puremvc_controller_new, &error);
+    struct IController *controller = puremvc_controller_getInstance("ControllerTestKey5", puremvc_controller_new, &error);
+    controller->initializeController(controller, &error);
     controller->registerCommand(controller, "ControllerTest2", test_controller_command2_new, &error);
 
     // Remove the Command from the Controller
@@ -153,7 +158,8 @@ void testReregisterAndExecuteCommand() {
 
 void testRegisterAndUpdateCommand() {
     const char *error = NULL;
-    const struct IController *controller = puremvc_controller_getInstance("ControllerTestKey3_2", puremvc_controller_new, &error);
+    struct IController *controller = puremvc_controller_getInstance("ControllerTestKey3_2", puremvc_controller_new, &error);
+    controller->initializeController(controller, &error);
 
     // first registration
     controller->registerCommand(controller, "ControllerTest2", test_controller_command_new, &error);
@@ -178,7 +184,8 @@ void testRegisterAndUpdateCommand() {
 void testRemoveController() {
     // Get a Multiton Controller instance
     const char *error = NULL;
-    puremvc_controller_getInstance("ControllerTestKey4", puremvc_controller_new, &error);
+    struct IController *controller = puremvc_controller_getInstance("ControllerTestKey4", puremvc_controller_new, &error);
+    controller->initializeController(controller, &error);
 
     // remove the controller
     puremvc_controller_removeController("ControllerTestKey4");

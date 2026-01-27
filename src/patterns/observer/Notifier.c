@@ -15,7 +15,13 @@
 
 static struct IFacade *getFacade(const struct INotifier *self, const char **error) {
     const struct Notifier *this = (struct Notifier *) self;
-    return puremvc_facade_getInstance(this->key, puremvc_facade_new, error);
+    struct IFacade *facade = puremvc_facade_getInstance(this->key, puremvc_facade_new, error);
+    if (*error != NULL) return NULL;
+
+    facade->initializeFacade(facade, error);
+    if (*error != NULL) return NULL;
+
+    return facade;
 }
 
 const char *getMultitonKey(const struct INotifier *self) {

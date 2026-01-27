@@ -256,9 +256,6 @@ struct IView *puremvc_view_getInstance(const char *key, struct IView *(*factory)
         instance = factory(key, error);
         if (*error != NULL) return mutex_unlock(&mutex), NULL;
 
-        instance->initializeView(instance, error);
-        if (*error != NULL) return puremvc_view_free(&instance), mutex_unlock(&mutex), NULL;
-
         instanceMap->put(instanceMap, key, instance, error);
         if (*error != NULL) return puremvc_view_free(&instance), mutex_unlock(&mutex), NULL;
     }

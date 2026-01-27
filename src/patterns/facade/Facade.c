@@ -33,16 +33,22 @@ static void initializeFacade(struct IFacade *self, const char **error) {
 static void initializeController(struct IFacade *self, const char **error) {
     struct Facade *this = (struct Facade *) self;
     this->controller = puremvc_controller_getInstance(this->multitonKey, puremvc_controller_new, error);
+    if (*error != NULL) return;
+    this->controller->initializeController(this->controller, error);
 }
 
 static void initializeModel(struct IFacade *self, const char **error) {
     struct Facade *this = (struct Facade *) self;
     this->model = puremvc_model_getInstance(this->multitonKey, puremvc_model_new, error);
+    if (*error != NULL) return;
+    this->model->initializeModel(this->model, error);
 }
 
 static void initializeView(struct IFacade *self, const char **error) {
     struct Facade *this = (struct Facade *) self;
     this->view = puremvc_view_getInstance(this->multitonKey, puremvc_view_new, error);
+    if (*error != NULL) return;
+    this->view->initializeView(this->view, error);
 }
 
 static void registerCommand(const struct IFacade *self, const char *notificationName, struct ICommand *(*factory)(const char **error), const char **error) {
@@ -179,9 +185,6 @@ struct IFacade *puremvc_facade_getInstance(const char *key, struct IFacade *(*fa
     if (instance == NULL) {
         instance = factory(key, error);
         if (*error != NULL) return mutex_unlock(&mutex), NULL;
-
-        instance->initializeFacade(instance, error);
-        if (*error != NULL) return puremvc_facade_free(&instance), mutex_unlock(&mutex), NULL;
 
         instanceMap->put(instanceMap, key, instance, error);
         if (*error != NULL) return puremvc_facade_free(&instance), mutex_unlock(&mutex), NULL;

@@ -36,7 +36,8 @@ void testMacroCommandExecute() {
 
 void testRegisterAndExecuteCommand() {
     const char *error = NULL;
-    const struct IController *controller = puremvc_controller_getInstance("ControllerTestKey1", puremvc_controller_new, &error);
+    struct IController *controller = puremvc_controller_getInstance("ControllerTestKey1", puremvc_controller_new, &error);
+    controller->initializeController(controller, &error);
     assert(error == NULL);
 
     controller->registerCommand(controller, "MacroCommandTest", (struct ICommand *(*)(const char **)) macro_command_test_command_new, &error);
