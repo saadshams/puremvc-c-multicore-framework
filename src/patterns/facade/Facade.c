@@ -32,6 +32,7 @@ static void initializeFacade(struct IFacade *self, const char **error) {
 
 static void initializeController(struct IFacade *self, const char **error) {
     struct Facade *this = (struct Facade *) self;
+    if (this->controller != NULL) return;
     this->controller = puremvc_controller_getInstance(this->multitonKey, puremvc_controller_new, error);
     if (*error != NULL) return;
     this->controller->initializeController(this->controller, error);
@@ -39,6 +40,7 @@ static void initializeController(struct IFacade *self, const char **error) {
 
 static void initializeModel(struct IFacade *self, const char **error) {
     struct Facade *this = (struct Facade *) self;
+    if (this->model != NULL) return;
     this->model = puremvc_model_getInstance(this->multitonKey, puremvc_model_new, error);
     if (*error != NULL) return;
     this->model->initializeModel(this->model, error);
@@ -46,6 +48,7 @@ static void initializeModel(struct IFacade *self, const char **error) {
 
 static void initializeView(struct IFacade *self, const char **error) {
     struct Facade *this = (struct Facade *) self;
+    if (this->view != NULL) return;
     this->view = puremvc_view_getInstance(this->multitonKey, puremvc_view_new, error);
     if (*error != NULL) return;
     this->view->initializeView(this->view, error);

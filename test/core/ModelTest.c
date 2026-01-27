@@ -131,7 +131,7 @@ void testOnRegisterAndOnRemove() {
     model->initializeModel(model, &error);
 
     // Create and register the test mediator
-    struct IProxy *modelTestProxy = model_test_proxy_new("ModelTestProxy", NULL);
+    struct IProxy *modelTestProxy = model_test_proxy_new("ModelTestProxy", NULL, &error);
     model->registerProxy(model, modelTestProxy, &error);
 
     // assert that onRegister was called, and the new responded by setting its data accordingly

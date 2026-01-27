@@ -22,6 +22,7 @@ static Mutex mutex;
 
 static void initializeController(struct IController *self, const char **error) {
     struct Controller *this = (struct Controller *) self;
+    if (this->view != NULL) return;
     this->view = puremvc_view_getInstance(this->multitonKey, puremvc_view_new, error);
 }
 
