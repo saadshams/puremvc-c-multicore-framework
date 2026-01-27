@@ -8,4 +8,3 @@ void testHasProxy();
 void testOnRegisterAndOnRemove();
 void testRemoveModel();
 void testMultipleModels();
-void testEmbeddedProxy();

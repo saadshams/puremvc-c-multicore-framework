@@ -65,10 +65,6 @@ static struct Proxy *alloc(const char *name, void *data, const char **error) {
     return proxy;
 }
 
-struct Proxy *puremvc_proxy_init(struct IProxy *proxy) {
-    return init((struct Proxy *)proxy);
-}
-
 struct IProxy *puremvc_proxy_new(const char *name, void *data, const char **error) {
     return (struct IProxy *) init(alloc(name, data, error));
 }
