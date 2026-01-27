@@ -5,4 +5,4 @@
 
 #define ViewTestMediator3_NAME "Mediator3"
 
-struct IMediator *test_mediator3_new(struct ViewTest *component);
+struct IMediator *test_mediator3_new(struct ViewTest *component, const char **error);
