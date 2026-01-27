@@ -4,11 +4,11 @@
 #include <stdlib.h>
 
 static void onRegister(struct IProxy *self) {
-    // self->setData(self, strdup(ON_REGISTER_CALLED2));
+    self->setData(self, strdup(ON_REGISTER_CALLED2));
 }
 
 static void onRemove(struct IProxy *self) {
-    // self->setData(self, strdup(ON_REMOVE_CALLED2));
+    self->setData(self, strdup(ON_REMOVE_CALLED2));
 }
 
 struct ModelTestProxy2 *model_test_proxy2_new(const char *name, void *data, const char **error) {
@@ -16,10 +16,12 @@ struct ModelTestProxy2 *model_test_proxy2_new(const char *name, void *data, cons
 
     memset(proxy, 0, sizeof(struct ModelTestProxy2));
 
-    struct IProxy *temp = puremvc_proxy_new(name, data, error);
-    proxy->base = *temp;
-    // free(temp);
+    proxy->base.notifier = puremvc_notifier_new(error);
 
+    proxy->name = strdup(name);
+    proxy->data = NULL;
+
+    puremvc_proxy_init(&proxy->base);
     proxy->base.onRegister = onRegister;
     proxy->base.onRemove = onRemove;
     return proxy;

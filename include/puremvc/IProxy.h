@@ -30,6 +30,8 @@ struct IProxy {
     void (*onRemove)(struct IProxy* self);
 };
 
+struct Proxy *puremvc_proxy_init(struct IProxy *proxy);
+
 /**
  * @brief Initializes the data processor.
  *

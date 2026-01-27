@@ -7,6 +7,9 @@
 
 struct ModelTestProxy2 {
     struct IProxy base;
+
+    const char* name;
+    void* data;
 };
 
 struct ModelTestProxy2 *model_test_proxy2_new(const char *name, void *data, const char **error);

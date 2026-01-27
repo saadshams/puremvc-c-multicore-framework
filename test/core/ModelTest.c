@@ -248,9 +248,9 @@ void testEmbeddedProxy() {
     model->initializeModel(model, &error);
 
     struct ModelTestProxy2 *proxy = model_test_proxy2_new("ModelTestProxy2", NULL, &error);
-    model->registerProxy(model, (struct IProxy *)proxy, &error);
+    model->registerProxy(model, (struct IProxy *)proxy, &error); // breaks on release
 
-    // assert(strcmp(proxy->base.getData(&proxy->base), ON_REGISTER_CALLED2) != 0);
+    assert(strcmp(proxy->base.getData(&proxy->base), ON_REGISTER_CALLED2) == 0);
 
     // clean up
     // free((void *)p->name);
