@@ -12,4 +12,4 @@ struct ModelTestProxy2 {
     void* data;
 };
 
-struct ModelTestProxy2 *model_test_proxy2_new(const char *name, void *data, const char **error);
+struct IProxy *model_test_proxy2_new(const char *name, void *data, const char **error);

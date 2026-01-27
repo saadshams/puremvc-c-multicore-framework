@@ -11,7 +11,7 @@ static void onRemove(struct IProxy *self) {
     self->setData(self, strdup(ON_REMOVE_CALLED2));
 }
 
-struct ModelTestProxy2 *model_test_proxy2_new(const char *name, void *data, const char **error) {
+struct IProxy *model_test_proxy2_new(const char *name, void *data, const char **error) {
     struct ModelTestProxy2 *proxy = malloc(sizeof(struct ModelTestProxy2));
 
     memset(proxy, 0, sizeof(struct ModelTestProxy2));

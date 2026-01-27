@@ -131,19 +131,19 @@ void testOnRegisterAndOnRemove() {
     struct IModel *model = puremvc_model_getInstance("ModelTestKey6", puremvc_model_new, &error);
     model->initializeModel(model, &error);
 
-    // Create and register the test mediator
-    struct IProxy *modelTestProxy = model_test_proxy_new("ModelTestProxy", NULL, &error);
-    model->registerProxy(model, modelTestProxy, &error);
+    // Create and register the test proxy
+    struct IProxy *proxy = model_test_proxy_new("ModelTestProxy", NULL, &error);
+    model->registerProxy(model, proxy, &error);
 
     // assert that onRegister was called, and the new responded by setting its data accordingly
-    assert(strcmp(modelTestProxy->getData(modelTestProxy), ON_REGISTER_CALLED) == 0);
+    assert(strcmp(proxy->getData(proxy), ON_REGISTER_CALLED) == 0);
 
-    // Remove the component
+    // Remove the proxy
     model->removeProxy(model, "ModelTestProxy");
 
     // assert that onRemove was called, and the new responded by setting its data accordingly
-    assert(strcmp(modelTestProxy->getData(modelTestProxy), ON_REMOVE_CALLED) == 0);
-    puremvc_proxy_free(&modelTestProxy);
+    assert(strcmp(proxy->getData(proxy), ON_REMOVE_CALLED) == 0);
+    puremvc_proxy_free(&proxy);
 
     puremvc_model_removeModel("ModelTestKey6");
     model = NULL;
@@ -243,21 +243,25 @@ void testRegisterAndReplaceProxy() {
 }
 
 void testEmbeddedProxy() {
+    // Get a Multiton Model instance
     const char *error = NULL;
     struct IModel *model = puremvc_model_getInstance("ModelTestKey8", puremvc_model_new, &error);
     model->initializeModel(model, &error);
 
-    struct ModelTestProxy2 *proxy = model_test_proxy2_new("ModelTestProxy2", NULL, &error);
+    // Create and register the test proxy
+    struct IProxy *proxy = model_test_proxy2_new("ModelTestProxy2", NULL, &error);
     model->registerProxy(model, (struct IProxy *)proxy, &error); // breaks on release
 
-    assert(strcmp(proxy->base.getData(&proxy->base), ON_REGISTER_CALLED2) == 0);
+    // assert that onRegister was called, and the new responded by setting its data accordingly
+    assert(strcmp(proxy->getData(proxy), ON_REGISTER_CALLED2) == 0);
 
-    // clean up
-    // free((void *)p->name);
-    // free(p->data);
-    // model->removeProxy(model, "ModelTestProxy2");
+    // Remove the proxy
+    model->removeProxy(model, "ModelTestProxy2");
 
-    puremvc_notifier_free(&proxy->base.notifier);
+    // assert that onRemove was called, and the new responded by setting its data accordingly
+    assert(strcmp(proxy->getData(proxy), ON_REMOVE_CALLED2) == 0);
+
+    puremvc_proxy_free(&proxy);
 
     free(proxy);
     proxy = NULL;
